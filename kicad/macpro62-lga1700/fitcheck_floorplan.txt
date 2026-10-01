@@ -1,0 +1,64 @@
+outline symmetric-difference above shoulder: 0.000 mm2
+  land group VCCIN_AUX    n=  28  board x 82.0..85.2  y 61.2..65.2
+  land group VCCCORE      n= 280  board x 57.2..93.2  y 56.5..82.9
+  land group VCCGT        n=  51  board x 57.2..63.6  y 71.7..76.5
+  land group VDD2         n=  20  board x 69.2..86.8  y 81.3..89.3
+  land group PCIe x16+x4  n=  80  board x 77.2..98.8  y 56.4..70.8
+  land group DMI x8       n=  32  board x 94.8..99.6  y 71.6..78.0
+  land group DDI A-E      n=  50  board x 68.4..76.4  y 55.6..62.0
+  land group DDR1         n= 134  board x 61.2..95.6  y 78.1..90.9
+  land group DDR0         n= 134  board x 57.2..99.6  y 79.6..90.9
+U1    F x   53.6.. 103.2 y   51.5..  95.0 in-board  UNDER PLATE U1 LGA1700 socket PE17007-11NK0-1H
+H1    F x   38.2..  48.3 y   41.0..  51.0 in-board  UNDER PLATE CORE D5 69.5x55 FIXED
+H2    F x  107.7.. 117.8 y   41.0..  51.0 in-board  UNDER PLATE CORE D5 69.5x55 FIXED
+H3    F x   38.2..  48.3 y   96.0.. 106.0 in-board  UNDER PLATE CORE D5 69.5x55 FIXED
+H4    F x  107.7.. 117.8 y   96.0.. 106.0 in-board  UNDER PLATE CORE D5 69.5x55 FIXED
+H5    F x   47.5..  53.4 y   49.3..  55.2 in-board  UNDER PLATE FRAME SEAT M3 -> PEM in backplate
+H6    F x  103.5.. 109.4 y   49.3..  55.2 in-board  UNDER PLATE FRAME SEAT M3 -> PEM in backplate
+H7    F x   47.5..  53.4 y   91.3..  97.2 in-board  UNDER PLATE FRAME SEAT M3 -> PEM in backplate
+H8    F x  103.5.. 109.4 y   91.3..  97.2 in-board  UNDER PLATE FRAME SEAT M3 -> PEM in backplate
+Q1    F x    9.2..  14.8 y   39.2..  44.8 in-board              PS C1 SiC654
+L1    F x   18.9..  30.1 y   38.3..  45.7 in-board  UNDER PLATE L C1 FP4-150-R
+Q2    F x    9.2..  14.8 y   48.2..  53.8 in-board              PS C2 SiC654
+L2    F x   18.9..  30.1 y   47.3..  54.7 in-board  UNDER PLATE L C2 FP4-150-R
+Q3    F x    9.2..  14.8 y   57.2..  62.8 in-board              PS C3 SiC654
+L3    F x   18.9..  30.1 y   56.3..  63.7 in-board  UNDER PLATE L C3 FP4-150-R
+Q4    F x    9.2..  14.8 y   66.2..  71.8 in-board              PS C4 SiC654
+L4    F x   18.9..  30.1 y   65.3..  72.7 in-board  UNDER PLATE L C4 FP4-150-R
+Q5    F x    9.2..  14.8 y   75.2..  80.8 in-board              PS C5 SiC654
+L5    F x   18.9..  30.1 y   74.3..  81.7 in-board  UNDER PLATE L C5 FP4-150-R
+Q6    F x    9.2..  14.8 y   84.2..  89.8 in-board              PS C6 SiC654
+L6    F x   18.9..  30.1 y   83.3..  90.7 in-board  UNDER PLATE L C6 FP4-150-R
+Q7    F x    9.2..  14.8 y   93.2..  98.8 in-board              PS GT SiC654
+L7    F x   18.9..  30.1 y   92.3..  99.7 in-board  UNDER PLATE L GT FP4-150-R
+CIN1  F x    2.7..   8.3 y   35.7.. 102.3 in-board              12V in caps
+COUT1 F x   30.7..  36.3 y   35.7.. 102.3 in-board  UNDER PLATE VCCCORE/GT out caps
+U3    F x    9.7..  18.3 y  103.7.. 112.3 in-board  UNDER PLATE U3 RT3628AE (C3249940)
+U4    F x  119.7.. 148.3 y   33.7..  56.3 in-board  UNDER PLATE VCCIN_AUX 2ph
+U5    F x  119.7.. 148.3 y   58.7..  73.3 in-board  UNDER PLATE VCC1P05/1P8_PROC
+U6    F x  119.7.. 148.3 y   76.7..  95.3 in-board  UNDER PLATE PCH rails
+U7    F x  119.7.. 134.3 y   99.7.. 108.3 in-board  UNDER PLATE 5V VIN_BULK
+U8    F x   54.7..  69.3 y  105.7.. 114.3 in-board  UNDER PLATE VDD2 1.1V
+U2    F x   95.5.. 124.5 y  120.0.. 146.0 in-board  UNDER PLATE U2 PCH Z790 FH82Z790
+Y1    F x   83.7..  94.3 y  136.7.. 143.3 in-board  UNDER PLATE Y1/Y2 38.4M + 32k
+U9    F x   58.7..  73.3 y  133.7.. 146.3 in-board  UNDER PLATE U9 EC RP2350
+U10   F x   76.7..  87.3 y  122.7.. 131.3 in-board  UNDER PLATE U10 BIOS SPI 32MB
+J4    F x   61.7..  72.3 y  122.7.. 129.3 in-board  UNDER PLATE J4 SPI TPM
+J5    F x   59.7..  72.3 y  151.2.. 156.8 in-board  UNDER PLATE J5 debug UART/SWD
+U11   F x   28.7..  43.3 y  139.7.. 152.3 in-board  UNDER PLATE eFuse L (VCCCORE VR)
+U12   F x  126.7.. 141.3 y  139.7.. 152.3 in-board  UNDER PLATE eFuse R (rest)
+LUG1  F x   26.2..  34.8 y  156.5.. 163.1 in-board  UNDER PLATE LUG1 GND?
+LUG2  F x   37.9..  46.5 y  156.5.. 163.1 in-board  UNDER PLATE LUG2 12V?
+LUG3  F x  111.4.. 120.0 y  156.5.. 163.1 in-board  UNDER PLATE LUG3 12V?
+LUG4  F x  123.9.. 132.5 y  156.5.. 163.1 in-board  UNDER PLATE LUG4 GND?
+J1    F x   38.0.. 118.0 y    1.5..  13.0 in-board              J1 CPU-LINK 224 fingers
+CAC1  F x   44.7.. 115.3 y   14.7..  23.3 in-board  UNDER PLATE PCIe AC caps
+J6    B x    2.5..  34.5 y   36.5.. 114.5 in-board              J6 SO-DIMM CH-A (DDR5)
+J7    B x  121.5.. 153.5 y   36.5.. 114.5 in-board              J7 SO-DIMM CH-B (DDR5)
+J8    B x   37.5.. 126.0 y   13.3..  36.3 in-board              J8 M.2 2280 boot (PCH x4)
+J3    B x   55.7.. 100.3 y  153.7.. 166.3 in-board              J3 IOB-HS MCIO RA
+BT1   B x   58.7..  81.3 y  119.7.. 136.3 in-board              BT1 CR2032
+CB1   B x    3.7..  20.3 y  124.7.. 155.3 in-board              12V bulk L
+CB2   B x  135.7.. 152.3 y  124.7.. 155.3 in-board              12V bulk R
+U13   B x  100.7.. 111.3 y  142.7.. 153.3 in-board              U13 i226-V
+U14   B x   40.7..  51.3 y  114.7.. 125.3 in-board              U14 ALC897 DNP

@@ -1,0 +1,13 @@
+(footprint "MP62_CB_FrameSeatScrew_D3.4_NPTH"
+  (version 20241229)
+  (generator "mp62_lga_make_placeholders")
+  (layer "F.Cu")
+  (descr "MP62 contact-frame seating screw (M3 / #6-32) clearance D3.4 NPTH into a PEM nut in the MP62 backplate. Own pattern (free).")
+  (tags "MP62 LGA1700 PLACEHOLDER")
+  (property "Reference" "REF**" (at 0 -3.6 0) (layer "F.SilkS") (effects (font (size 1.0 1.0) (thickness 0.15))))
+  (property "Value" "MP62_CB_FrameSeatScrew_D3.4_NPTH" (at 0 3.6 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (pad "" np_thru_hole circle (at 0.000 0.000) (size 3.400 3.400) (drill 3.400) (layers "*.Cu" "*.Mask"))
+  (fp_circle (center 0.000 0.000) (end 2.900 0.000) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+  (fp_circle (center 0.000 0.000) (end 2.800 0.000) (stroke (width 0.1) (type solid)) (fill no) (layer "F.Fab"))
+  (fp_circle (center 0.000 0.000) (end 2.800 0.000) (stroke (width 0.1) (type solid)) (fill no) (layer "B.Fab"))
+)

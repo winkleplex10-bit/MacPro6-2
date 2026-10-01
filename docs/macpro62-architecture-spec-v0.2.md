@@ -28,6 +28,7 @@
 14. **CPU carrier revision fp1 (2026-10-01, ~16:30 ET):** new KiCad project `/workspace/kicad/macpro62-cpu-carrier/` (8L JLC, DRC 0). §6 rewritten: Aidan's corrected stock riser outline; **new Mini Cool Edge 224 tab** (79.89 wide at x = 78, key F x = 57.70, slots 78.36 / 98.57, shoulder and chamfers unchanged); **COM-HPC fit result: Size C (ccAS) does not fit inside the 156 mm outline** (C1: CPU −4.2 mm vs the pedestal, 2 mm overhang per side + lower-corner clash); Size A fits exactly, Size B likely; stack-height deficit ≈ 6–12 mm vs the stock pedestal; 4 core holes blocked by any module → core adapter plate. **Tab pinout cross-check found the BP J1 placeholder mirrored → BP fp3a: J1 rotated 180°, A row (host TX) on the PSU side** (§3.5, §3.8, §6.3). New R18–R22, A12–A14, OD-15–20 (OD-13 resolved), M-CC1–10, N69–N77. ccAS vendor corrected to Kontron.
 15. **CPU carrier revision fp2 (2026-10-01, ~17:00 ET): measured core CPU face.** Two new scans (core CPU face; stock board with the Xeon) registered on the 4 heatsink bosses (outer 69.5 × 55 pattern, rms 0.45 / 0.29 mm) [N78][N79]. **Pedestal 40.6 × 41.1 at (78.41, 73.25)**, flush with a flat **124 × 142 black plate**; contact plane **7.5 ± 0.5 mm** above the stock board (Aidan); stock IHS 39.8 × 39.7 at (78.31, 73.38) (aligned within 0.2 mm); ILM screws ≈ 70.6 × 32.5 (informational; inner holes are free). The old outline scan was the board **back** → stock key 69.03 and lugs mirrored to the front view (30.5 / 42.2 / 115.7 / 128.2); the ‘guide posts’ are **core-flange guide pins** (x 28.5 / 126.4, pitch 97.93 ≈ BP Ø4 holes at ±49). Height: every module needs the carrier ≈ 4–8 mm farther from the core plus a Cu spacer (§6.4); a spacer cannot reduce the 6 mm excess. **Recommendation changed to Size A (BGA)**; no LGA1700 Size B module exists [N80]. M-CC1 done, M-CC2 mostly done, new M-CC11–13, R23, N78–N80; carrier floorplan fp2 (DRC 0).
 16. **CPU retention: contact frame (2026-10-01, ~17:35 ET).** Aidan's requirement: retain the CPU with a contact frame (Thermal Grizzly / Thermalright style, like Apple's stock frame, which stands just over 7 mm) instead of the ILM latch. New **§6.8**: the ccAS has a standard LGA1700 socket + lever ILM on an LGA1700 ILM backplate, so an aftermarket frame should fit [Inference, M-CC14]; a frame does **not** lower the IHS (Intel Z-stack 6.529–7.532 [N81]) — it only removes the lever/load plate and flattens the IHS, so the module offset Δ of §6.4 stays (now 6.0–7.0 with one SO-DIMM). For the stretch socket board (P6) the IHS lands on the 7.5 ± 0.5 plane **directly**, with an MP62 contact frame carrying the 4 outer 69.5 × 55 holes. §6.4 table updated to the Intel Z-stack; OD-21, M-CC14, N81–N83; carrier fp2 adds the module ILM/contact-frame screw-tip marks. Inner-screw question (31 vs 32.8) dropped.
+17. **Primary CPU board = own LGA1700 board (Aidan, 2026-10-01 ~17:30 ET; spec rev ~18:00 ET).** The COM-HPC module path is skipped; the former stretch goal P6 (§6.8 c) becomes the **first CPU board (CB)**. The COM-HPC carrier (§6.1–6.7, `/workspace/kicad/macpro62-cpu-carrier/`) is kept as the **archived fallback (CC-F)**, not deleted. New **§6.0** and the feasibility study `/workspace/macpro62-lga1700-board-plan.md`: **Z790** PCH (B760 pin-compatible, W680 only for ECC), lanes CPU x16 → Face P / CPU x4 → Face S / PCH x4 → M.2 boot / PCH x1 → i226-V / PCH x4 reserved for AQC107; firmware **coreboot + Dasharo (msi/ms7d25 template) + public RPL-S FSP + CSME 16.1 (MFIT, HAP) + EDK2 payload, OpenCore from the BP SATA SSD (embedded = stretch)**; **RP2350 GPIO EC** (no SuperIO/eSPI); VRM **RT3628AE 6 + 1 phases, SiC654 + Eaton FP4 5.0 mm, front side** under the plate; **2 × DDR5 SO-DIMM on the back in the stock DIMM strips**; **JLC 10L 1.6 mm POFV**; socket **Foxconn PE17007-11NK0-1H (LCSC C38520273)**; **iGPU UHD 770 enabled** with DDI-B native DP + DDI-C into the IOB USB-C DP-alt mux (Windows/Linux and bring-up only; macOS has no Xe iGPU driver). New KiCad floorplan `/workspace/kicad/macpro62-lga1700/` (10L, LGA1700 and PCH lands from Intel's public ballouts, DRC 0). Cost ≈ $1.5k–2.6k (2 boards) / $2.6k–4.4k (5) [Estimate]. **Go/no-go: GO for de-risk phase P6-0, conditional GO for the rev-A order at gate G-A** (§10). OD-15/16/17/21 superseded (fallback only); new OD-22–OD-30, A15–A17, R24–R29, M-CC15, N84–N116.
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
 **v0.1 (2026-09-30):** first draft (card-edge architecture).
@@ -53,13 +54,13 @@ Every statement is tagged with one of these:
 
 ## 0. Executive summary (all items are [Proposal] unless tagged)
 
-1. **Boards.** A new round **Backplane (BP)** replaces the Apple logic board (Ø122 mm disc, 2 × Ø4 holes at ±49 mm, from Aidan's Fusion model [CAD-v1]). On the thermal core: the **CPU board (CC)** (COM-HPC Client carrier on the stock riser outline, first module Kontron COMh-ccAS Size C + i5-14500T; **Size C overhangs the 156 mm outline by 2 mm per side; with the measured flat core face (fp2) the recommendation is now Size A (BGA), Size C kept as the alternate**, §6.4), **Face P** (primary module face, reference: single GPU) and **Face S** (secondary module face, reference: 4 × M.2 storage behind an ASM2824). Later: a new **I/O board (IOB)** and plate. PSU: stock 450 W for now, replaceable.
+1. **Boards.** A new round **Backplane (BP)** replaces the Apple logic board (Ø122 mm disc, 2 × Ø4 holes at ±49 mm, from Aidan's Fusion model [CAD-v1]). On the thermal core: the **CPU board (CB)** = **our own LGA1700 socket board** on the stock riser outline (Z790 PCH, i5-14500T, 2 × DDR5 SO-DIMM on the back, MP62 contact frame, CPU-LINK 224 tab; §6.0, decided 2026-10-01; the COM-HPC carrier is the archived fallback CC-F, §6.1–6.7), **Face P** (primary module face, reference: single GPU) and **Face S** (secondary module face, reference: 4 × M.2 storage behind an ASM2824). Later: a new **I/O board (IOB)** and plate. PSU: stock 450 W for now, replaceable.
 2. **Topology: HUB (decided).** The CPU board plugs into the BP with **one vertical card edge (CPU-LINK, Mini Cool Edge 224)** carrying x16 + x4 PCIe plus all sideband. The BP routes the lanes (31–70 mm) to **two right-angle MCIO 124 receptacles** whose cables exit radially under the Face P (x16) and Face S (x4) board edges. It generates PERST# per face and is also the power-and-management board (RP2350A MCU, standby rails, PSU enable gate, fan, lid interlock, LEDs, power button, OpenCore SATA M.2). Each face gets one MCIO cable and one small **AUX cable** from the BP.
 3. **Why it fits (§3.2–3.4):** a single 224-position 0.60 mm card edge is 85.56 mm long and fits the **estimated stock CPU riser-slot chord (d ≈ 12.6 mm, 113 mm long inside R58)** with 27 mm to spare, and any chord up to d ≈ 35.9 mm; CEM x16 + x4 (≈ 134 mm) cannot. **No card edge fits at the measured face distance of 55 mm** (36.8 mm chord), so the CPU board must keep the stock inner-chord position (§3.12). Everything fits on the Ø122 disc (DRC 0 violations): 2 × MCIO, MCU, M.2 2242, power, PSU input, fan, AUX, IOB link, LEDs, buttons and 5 optional redriver sites. No disc cutout is needed. **SI (§3.6):** Gen4 needs no redriver. Gen5 is marginal and has an optional build with 5 × TI DS320PR810 on the BP.
 4. **CPU board ↔ BP:** **Amphenol Mini Cool Edge 224 vertical SMT, ME1022410103011** ($6.14 @ 20, 1,620 in stock [N53]), 1.57 mm card 79.89 mm wide. MP62 pinout: 80 lane pins, 2 REFCLK, SATA0, 4 × USB2, 26 sideband, 6 × 5V_SBY, 2 × 3V3_SB, 80 GND, 14 reserved (§3.8).
 5. **Power.** 12.1 V main goes **PSU → CPU board and both faces directly** (stock bus bars, or cable lugs/connectors with a future PSU), **not through CPU-LINK**. The BP takes only a small harness (12 V for fan/local rails ≤ 5 A, 11 V standby, PS_ON#, PWR_OK). The BP makes 3V3_SB, 5V_SBY (module suspend well), 3V3_BP and per-face 3V3_AUX. Sustained S0 budget ≈ 335 W of 450 W (§5.4).
 6. **Faces (open MP62-FACE spec v0.2).** Per face: MCIO 124 receptacle + JST GH 14-pin AUX + 12 V lug input. Class 2 = **≤ 130 W sustained** (D700-class). No module fans. The spec is published for the community (Framework-16-style).
-7. **Firmware.** Module AMI UEFI → default boot entry "MP62 OpenCore" on the **BP M.2 SATA SSD** (`LauncherOption = Full`), SMBIOS MacPro7,1 [LO-22][LO-18]. True OpenCore-in-UEFI stays a research track.
+7. **Firmware.** CB: **coreboot/Dasharo + EDK2** (CC-F fallback: module AMI UEFI) → default boot entry "MP62 OpenCore" on the **BP M.2 SATA SSD** (`LauncherOption = Full`), SMBIOS MacPro7,1 [LO-22][LO-18]. True OpenCore-in-UEFI stays a research track.
 8. **Fab.** All boards JLCPCB turnkey. BP: **JLC06161H-2116, 6 layers, 1.6 mm, controlled impedance** (§4.9).
 
 ---
@@ -71,7 +72,8 @@ Every statement is tagged with one of these:
 | ID | Board | Location | Key contents | Fab/assembly | Status |
 |---|---|---|---|---|---|
 | **BP** | Backplane (PCIe hub) | Round board under the core (stock logic-board position) | CPU-LINK Mini Cool Edge 224; PCIe x16 + x4 routing to 2 × MCIO 124 (Face P / Face S); PERST# generation; optional 5 × DS320PR810 (Gen5 build); RP2350A MCU; standby + aux power; PSU-enable safety gate; fan; interlock/button/LED interface; temperature sensors; M.2 SATA OpenCore SSD; AUX connectors to both faces; IOB low-speed link | JLC 6-layer 1.6 mm JLC06161H-2116, turnkey | [Proposal] |
-| **CC** | CPU board (COM-HPC Client carrier) | CPU face | Samtec COM-HPC connector pair (ASP-214802-01, $42.65 [LO-45b]); 12 V input (bus-bar lugs + optional cable connector); PCIe x16 + x4 to the **CPU-LINK 224 card-edge fingers (1.57 mm)**; host-TX AC caps if the module lacks them; optional M.2 2280 (lanes 8–11, TBD fit) | JLC 8-layer class (TBD), turnkey | [Proposal] |
+| **CB** | **CPU board: own LGA1700 board (primary, §6.0)** | CPU face | LGA1700 socket (Foxconn PE17007) + MP62 contact frame; Z790 PCH; 6 + 1 phase VRM (RT3628AE); 2 × DDR5 SO-DIMM (back); RP2350 EC; 32 MB SPI (coreboot/Dasharo); PCIe x16 + x4 to the **CPU-LINK 224 fingers**; M.2 2280 boot; i226-V; J3 IOB-HS (USB3/USB2/MDI/2 × DDI) | **JLC 10-layer 1.6 mm POFV**, turnkey + consigned PCH | [Proposal] |
+| CC-F | *Archived fallback:* CPU board (COM-HPC Client carrier) | CPU face | Samtec COM-HPC connector pair (ASP-214802-01, $42.65 [LO-45b]); 12 V input (bus-bar lugs + optional cable connector); PCIe x16 + x4 to the **CPU-LINK 224 card-edge fingers (1.57 mm)**; host-TX AC caps if the module lacks them; optional M.2 2280 (lanes 8–11, TBD fit) | JLC 8-layer class (TBD), turnkey | [Proposal] |
 | **FM-P** | Face module, primary | Face P (stock GPU face, which one TBD) | Reference: single GPU module (MXM carrier interim; Navi 23 salvage research) | JLC turnkey (+ BGA rework shop for salvage only) | [Proposal] |
 | **FM-S** | Face module, secondary | Face S | Reference: ASM2824 (x4 up) + 4 × M.2 2280 | JLC turnkey | [Proposal] |
 | **IOB** | New I/O board + plate | Rear, behind the I/O wall | Deferred (§8). Rev-A port defaults below. | JLC turnkey | Later |
@@ -168,16 +170,18 @@ The module provides reference clocks per group (PCIe_REFCLK0_LO/HI, REFCLK1, REF
 | **Kontron (ex-JUMPtec) COMh-ccAS** + i5-14500T | 16× Gen5 (COM-HPC lanes 16–31, Group 1) | 8× Gen4 + 6× Gen3 in total. The block diagram shows Gen4 on lanes 8–11 and 12–15, and Gen3 on lanes 0–5 (+6, +7 as connector options). **Which x4 is CPU vs PCH is not stated.** [Inference]: 12–15 is probably the CPU's x4 Gen4 and 8–11 the PCH. | i5-14500T CPU: "1×16+4, 2×8+4" [LO-33]. **Module BIOS 2×8 support unverified** [LO §3]. | No | 3 × DDI + eDP | Datasheet lists SoundWire/DMIC; **HDA not listed** | [N1] |
 | **Portwell PCOM-B887** (Arrow Lake-S) | Gen5 x16 (lanes 16–31); Gen5 x4 (lanes 12–15, "only x4"); Gen4 x4 (lanes 8–11, "only x4") | Gen4: lanes 32–35 (default 1×4), 36–39 (default 1×4), 40–41 (x2), 0–3 and 4–7 (default 4×x1 each) | PEG 2×8 **[Unverified]** (Arrow Lake CPU capability plus module BIOS TBD) | **1 × USB4** (CPU TCP) | 3 × DDI (HBR3) + eDP | HDA/I2S/SoundWire | [N3] |
 | **congatec conga-HPC/cRX1** (Strix Halo) | Strix Halo SoC: **16 usable PCIe 4.0 lanes in total** [N4] | Block diagram: lanes 0–3, 4, 5, 6 (opt), 7 (opt), 8–11, 12–15 native. Lanes 16–19 and 20–23 are shown behind an **optional on-module PCIe switch** ("up to 24× Gen4, assembly option"). | **No x8/x16 group is shown.** Whether 8–15 can train as one x8 is **TBD** (module manual). | SoC has 2 × USB4 natively [N4], but **the module datasheet lists none** | 3 × DDI + eDP (4 independent displays) | **HDA** | [N2][N4] |
-| **Future own LGA1700 board** (Raptor Lake + Z790-class PCH) | CPU: 16× Gen5 (1×16 or 2×8) + 4× Gen4 | Z790: up to 20× Gen4 + 8× Gen3; DMI 4.0 x8. (B760: 10 + 4; DMI x4.) | CPU per ARK/brief | Needs discrete controller | Per board design | Per board | [N5] |
+| **Own LGA1700 board CB (primary since 2026-10-01)** (Raptor Lake + Z790 PCH) | CPU: 16× Gen5 (1×16 or 2×8) + 4× Gen4 | Z790: up to 20× Gen4 + 8× Gen3; DMI 4.0 x8. (B760: 10 + 4; DMI x4.) | CPU per ARK/brief | Needs discrete controller (not in rev A) | iGPU UHD 770: DDI-B DP + DDI-C USB-C DP-alt → IOB (§6.0) | USB audio on the IOB (HDA codec DNP) | [N5][N84][N85] |
 
 Module caveats:
 - **B887:** the datasheet dated January 2025 shows ordering status "In Development" [N3]. Confirm availability.
 - **cRX1:** the datasheet is "Preliminary Rev 0.3, 2026-07-08" [N2].
-- **Future LGA1700 board:** a stretch goal. PCH parts and PDGs are not available to hobbyists [LO-24].
+- **Own LGA1700 board:** now the **primary** CPU board (§6.0). PCH parts are only available loose from brokers and PDGs are CNDA-only [LO-24]; the feasibility study (`macpro62-lga1700-board-plan.md`) works around both (public datasheets + ballouts, coreboot ms7d25, reference MSI board) and gates the order (§10).
 
 ### 2.4 Allocation per module [Proposal]
 
 #### 2.4.1 COMh-ccAS + i5-14500T (rev A) [Rev-A default]
+
+> **Superseded for rev A (2026-10-01):** the CPU board is now our own LGA1700 board (§6.0). The lane use is the same: **Face P = CPU PEG x16 (CPU-LINK 16–31), Face S = CPU Gen4 x4 (12–15)**; PCH lanes feed the CB M.2 (x4), i226-V (x1) and a reserved AQC107 x4. The ccAS table below is kept for the CC-F fallback.
 
 | COM-HPC lanes | Gen | → Consumer | Width | Notes |
 |---|---|---|---|---|
@@ -786,11 +790,43 @@ Other rules:
 
 ---
 
-## 6. CPU board (CC) — COM-HPC carrier, floorplan fp2
+## 6. CPU board — own LGA1700 board CB (primary) · COM-HPC carrier CC-F (archived fallback)
+
+### 6.0 Primary CPU board: own LGA1700 board "CB" rev A, floorplan fl1 [Proposal; decision Aidan 2026-10-01]
+
+**Decision:** skip the COM-HPC module and build our own LGA1700 socket board first (the former P6 stretch, §6.8 c). §6.1–6.7 below describe the **COM-HPC carrier, now the archived fallback CC-F**; its KiCad project stays untouched. Its outline, tab, hole, lug and contact-frame data are reused by the CB.
+
+- **Feasibility study and plan:** `/workspace/macpro62-lga1700-board-plan.md` (chipset, firmware, VRM, memory, stackup, mechanics, iGPU, floorplan, cost, risks, go/no-go).
+- **KiCad:** `/workspace/kicad/macpro62-lga1700/`:
+  - `macpro62_lga1700.kicad_pcb`: 10 layers, **DRC 0**, `floorplan.png` / `floorplan_notes.png`, `fitcheck_floorplan.txt`, rebuilt by `tools/`.
+  - LGA1700 lands (1700) and PCH balls (1045) are generated from Intel's **public** ballout spreadsheets [N84][N85]; pad sizes are estimates.
+
+| Block | Rev-A choice | Source / status |
+|---|---|---|
+| CPU | i5-14500T (35 W, PL2 92 W, VCCCORE IccMax ≈ 120 A, GT 30 A, VCCIN_AUX 33 A, VDD2 4 A) | [N85] |
+| Socket | **Foxconn PE17007-11NK0-1H**, LCSC C38520273, $5.79, 32 in stock; centred on the pedestal (78.41, 73.25), package X (45) along board x | [N108] |
+| Retention | MP62 contact frame 71 × 54 × ≤ 6.0 + ears on the 4 fixed core holes; 4 own seat screws into PEM nuts in our backplate (81.5 × 67, back); spring clamp to the core (§6.8 c) | [Proposal] |
+| PCH | **Z790 FH82Z790 SRM8P** (RCP $57; loose €45–48, unverified sellers); B760 SRM8V is pin-compatible (RCP $31); W680 only for ECC (OD-23). FCBGA 28 × 25, 1045 balls, **0.50 mm min pitch**. JLC: consigned BGA, ≥ 0.35 mm pitch OK | [N84][N87][N90][N92]–[N94] |
+| Lanes | CPU PEG x16 → Face P (CPU-LINK 16–31), CPU x4 → Face S (12–15), PCH x4 → M.2 2280 boot (back), PCH x1 → i226-V, PCH x4 reserved for AQC107, SATA0 + 4 × USB2 → CPU-LINK, USB3 × 4 + USB2 × 4 → IOB | [Proposal] |
+| VRM | **RT3628AE** (LCSC C3249940, $2.18) 6 core + 1 GT phases, **7 × SiC654 50 A** (C1852094, $1.02), **Eaton FP4-150-R 10.2 × 6.8 × 5.0**; VCCIN_AUX 2 phases (PCH VID); all front-left/right ≤ 6.0 mm, thermal pads to the core plate | [N102]–[N104][N114] |
+| Memory | **2 × DDR5 SO-DIMM**, UMAX 90415-4015SR (C19267513, $2.74, 4.0 mm) on the **back, in the stock DIMM strips** (x 2.5–34.5 / 121.5–153.5, y 36.5–114.5); one per channel; 5 V VIN_BULK for the module PMICs | [N115] |
+| PCB | **JLC 10L 1.6 mm**, ENIG + hard-gold bevel, POFV via-in-pad, impedance ±10 %; L1 S / L2 G / L3 S / L4 G / L5 P / L6 P / L7 G / L8 S / L9 G / L10 S | [N106] |
+| Firmware | coreboot/Dasharo (msi/ms7d25 template), RPL-S FSP (public), CSME 16.1 Consumer via MFIT (HAP; Win-Raid / vendor image, grey), EDK2 payload; OpenCore from the BP SATA SSD (rev A), embedded in the payload FV as the stretch | [N95]–[N100] |
+| EC | **RP2350** on the CB: PCH power sequencing (DSW_PWROK, RSMRST#, PWRBTN#, SLP_Sx#, PCH_PWROK, SYS_PWROK, VR enables/PGOOD), fan/thermal, SMBus, CB ID EEPROM 0x57; no SuperIO, no eSPI device; console on the PCH LPSS UART | [Proposal] |
+| iGPU / display | UHD 770 **enabled**: **DDI-B → IOB native DP**, **DDI-C → IOB 2:1 DP mux with the Face P GPU's DP → USB-C DP-alt**, HBR2 (HBR3 needs a retimer). Firmware: primary display **Auto (PEG first, iGPU fallback)** via ONBOARD_VGA_IS_PRIMARY-style priority + a setup option {Auto, iGPU, iGPU off}; own VBT. **macOS: no Xe iGPU support at all** (no display, no QuickSync) → hide it (`class-code` / `-wegnoigpu`); the iGPU serves bring-up, firmware UI and Windows/Linux | [N85][N110]–[N112] |
+| IOB link J3 | MCIO 124 RA on the **back** (too tall for the front): USB3 × 4 (8 pairs) + USB2 × 4 (4) + i226 MDI (4) + 2 × DDI (10) = **26 of 32 pairs**; HPD × 2 and the mux select on sideband | [Proposal] |
+| Front height | **≤ 6.0 mm (5.5 rec.)** under the plate x 16.2–140.4, y 22.5–164.4; no polymer cans, MCIO or SO-DIMMs on the front | §6.8 |
+
+**Land-group layout (from the public ballout, drawn on Dwgs.User):** DDR0/DDR1 at the top edge (→ J6/J7 left/right), PCIe x16 + x4 bottom-right (→ J1 directly below), DMI right (→ PCH top-right), DDI bottom-left, VCCGT left and VCCCORE left/bottom of the cavity (→ VRM front-left). Orientation assumes a top-view ballout. **Verify** (R28).
+
+**Go/no-go [Proposal]:** GO for **P6-0 de-risk** now (firmware on a used MSI PRO Z690-A DDR5 / Z790-P, PCH sourcing + JLC confirmation, PCH/DDR5 routing study, measurements M-CC3/7/8/15). Rev-A order only after gate G-A (§10.1). Cost ≈ $1.5k–2.6k (5 PCBs, 2 assembled) / $2.6k–4.4k (5 assembled) + CPU/RAM; plan for a rev B [Estimate].
+
+### CC-F (archived fallback): COM-HPC carrier, floorplan fp2
+
 
 KiCad project: `/workspace/kicad/macpro62-cpu-carrier/` (`cpu_carrier.kicad_pro/.kicad_sch/.kicad_pcb`, rebuilt by `tools/`: `make_placeholders.py` → `build_pcb.py` → `postprocess.py` → DRC → `render.sh`; `build_sch.py`). DRC 0 (`drc_report.txt`), floorplan `floorplan.png` (board) and `floorplan_notes.png` (with legend), fit numbers in `fitcheck_floorplan.txt`, finger table in `docs/cc_tab_fingers.csv`. Zip: `/workspace/kicad/macpro62-cpu-carrier.zip`.
 
-**Carrier frame** (used throughout §6): the stock riser CAD frame. Origin bottom-left, x to the right (0–156), y up from the board bottom (tab tip y = 1.722, top edge y = 169.5). **Front = socket/module side = thermal-core side.**
+**Carrier frame** (used throughout §6, CB and CC-F): the stock riser CAD frame. Origin bottom-left, x to the right (0–156), y up from the board bottom (tab tip y = 1.722, top edge y = 169.5). **Front = socket/module side = thermal-core side.**
 
 ### 6.1 Mechanical [Sourced: corrected outline, Aidan 2026-10-01]
 
@@ -1026,9 +1062,9 @@ The pedestal is **flush** with the flat black plate, so the core presents **one 
     - There is no lever, hinge or load-plate tongue near the IHS plane.
     - The IHS stays flat against a rigid, flat, non-compliant pedestal. A concave ILM-loaded IHS would touch only at its edges.
   - Under the flat plate, the frame must stay ≥ 0.5 mm below the lowest IHS: frame height ≤ 6.0 (TG 6.0 is just OK; TR 6.25 leaves 0.28 mm at a minimum-Z CPU → avoid).
-- **On a board in the stock plane (stretch P6):** the IHS top at 6.53–7.53 meets the 7.5 ± 0.5 plane **directly**. This is the Apple case: the stock ILM/frame ‘just over 7’ sits just under the stock IHS. The board-to-plate distance then follows the CPU (see c).
+- **On a board in the stock plane (CB, primary):** the IHS top at 6.53–7.53 meets the 7.5 ± 0.5 plane **directly**. This is the Apple case: the stock ILM/frame ‘just over 7’ sits just under the stock IHS. The board-to-plate distance then follows the CPU (see c).
 
-**(c) Stretch socket board (P6): MP62 contact frame screwed into the core's 4 heatsink holes, like Apple's [Proposal]:**
+**(c) Own socket board CB (primary since 2026-10-01, §6.0): MP62 contact frame screwed into the core's 4 heatsink holes, like Apple's [Proposal]:**
 - **Board:** our own LGA1700 board in the stock CPU-board plane, with the same outline, the CPU-LINK 224 tab (§6.2) and the socket centred under the pedestal at (78.41, 73.25). It uses an Intel-validated LGA1700 socket (vendor TBD) with **no ILM**. The pedestal (40.6 × 41.1) covers any LGA1700 IHS.
 - **MP62 contact frame** (7075-T6, hard-anodised, insulating):
   - Inner contour per the Intel package drawing, bearing on the substrate edges (TG-style), with **no lever**.
@@ -1039,7 +1075,7 @@ The pedestal is **flush** with the flat black plate, so the core presents **one 
 - **Core clamping:** 4 shoulder screws from the back through backplate, board and frame ears into the **core bosses** (thread: M-CC8), with compression springs under the heads. Total static load **≈ 450–600 N**, inside Intel's window (static min 534 N / BOL 356 N, EOL max 1068 N [N81]). Final value per the Intel TMSDG.
   - **No hard stop at 7.5:** the board floats on the springs, so the IHS always lands on the pedestal whatever its Z (6.53–7.53) and **no copper spacer is needed**.
   - A safety sleeve stops the board at ≥ 6.3 mm from the plate so nothing else can bottom out.
-- **Front height rule under the 124 × 142 plate:** every front part ≤ **6.0 mm** (≤ 5.5 recommended). Desktop VRM inductors are usually taller, so use low-profile inductors or put the VRM on the back (PSU side, M-CC3). The DIMM slots stay on the back, as on the stock board.
+- **Front height rule under the 124 × 142 plate:** every front part ≤ **6.0 mm** (≤ 5.5 recommended). Desktop VRM inductors are usually taller, so use low-profile inductors or put the VRM on the back (PSU side, M-CC3). The DIMM slots stay on the back, as on the stock board. **CB fl1:** VRM front with Eaton FP4 (5.0 mm); 2 × DDR5 SO-DIMM on the back strips (§6.0).
 - **Thermal:** IHS → TIM → copper pedestal directly, no spreader. This is the best case of all options.
 
 ## 7. OPEN FACE MODULE SPECIFICATION, v0.2 ("MP62-FACE")
@@ -1271,6 +1307,8 @@ v0.1's 12V_EDGE (card-edge 12 V) is gone: anything above 3 W uses 12V_BUS.
 
 ## 8. I/O board (IOB) and I/O plate: deferred
 
+> **CB update (2026-10-01):** the IOB high-speed link from the CB (J3, MCIO 124 RA, back side) now also carries **2 × CPU DDI** (DDI-B native DP, DDI-C into a 2:1 DP mux with the Face P GPU's DP in front of the USB-C DP-alt path): 26 of 32 pairs used (§6.0). The IOB needs the DP mux (TI HD3SS215 class [Unverified]) and the DP++ receptacle.
+
 ### 8.1 Status [Proposal]
 
 The stock I/O board will not be reused. A new IOB + plate is designed **after** the BP, CPU board and Face P. v0.2 only fixes its interfaces:
@@ -1320,6 +1358,8 @@ Kept from v0.1 with path terms updated ("IOL" and "CE-B" no longer exist; high-s
 ---
 
 ## 9. Firmware and OS integration
+
+> **CB update (2026-10-01):** on the own LGA1700 board the firmware is **coreboot/Dasharo + EDK2** (not module AMI UEFI). Read "AMI" below as "Dasharo EDK2" for the CB; the boot entry "MP62 OpenCore" and the BP SATA SSD location are unchanged for rev A. OpenCore embedded in the payload FV is the stretch goal. iGPU: hidden in macOS (no Xe driver), primary display Auto (PEG first). Details: plan §2, §7.
 
 ### 9.1 Boot chain per OS [Proposal]
 
@@ -1420,12 +1460,13 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | Phase | Scope | Exit criteria |
 |---|---|---|
 | **P0: Measurements** | Measurement list §11.3 (M1–M10; M1/M2 done 2026-10-01) on the Fusion model + donor 6,1 (D700): CPU slot offset (M2b), core/PSU heights (M1b/M7b), CPU shoulder height, cable paths, PSU/fan pinouts, bus-bar lugs. | Floorplan chords and cable lengths frozen; MP62-FACE-MECH rev0 drafted. |
-| **P1: Bench bring-up** | **BP rev A** on the bench with the stock PSU + fan. **CPU board rev A** + COMh-ccAS + i5-14500T. **MCIO ↔ CEM x16 bench adapter** with a retail GPU. Linux first. | Boots Linux from an NVMe on Face S (or the CPU-board M.2). Retail GPU enumerates at Gen4 through CPU-LINK + BP + MCIO cable. Fan loop, fault latch, PS_ON gate proven. |
+| **P1: Bench bring-up** | **BP rev A** on the bench with the stock PSU + fan. **CPU board: own LGA1700 CB rev A** + i5-14500T (after P6-0 and gate G-A; iGPU DP on the IOB/bench for display without a GPU). Fallback: COM-HPC carrier CC-F. **MCIO ↔ CEM x16 bench adapter** with a retail GPU. Linux first. | Boots Linux from an NVMe on Face S (or the CPU-board M.2). Retail GPU enumerates at Gen4 through CPU-LINK + BP + MCIO cable. Fan loop, fault latch, PS_ON gate proven. |
 | **P2: In the enclosure, minimum system** | Storage module (Face S x4), MXM carrier + MXM RX 6600 (Face P), minimal IOB (USB-A, DP/HDMI, 2.5GbE, UAC2 audio). OpenCore on the BP SATA M.2. | macOS Tahoe + Windows 11 + Linux boot. Thermal run with the new fan curve. Power per rail logged. |
 | **P3: Validation** | Thermal test module: confirm **130 W per face** (Class 2) and evaluate Class 3. Gen5 trial on Face P. | Power-class table frozen. **MP62-FACE v1.0 published.** |
 | **P4: Salvage GPU module** | Navi 23 salvage board | Boots with display on all OSes |
 | **P5: Other CPU modules; IOB rev B** | B887, cRX1 on the same CC/BP; USB4/10GbE on IOB rev B | Lane table §2.4 confirmed |
-| **P6: Socket board (stretch)** | Own LGA1700 board with the CPU-LINK 224 edge, **MP62 contact frame on the 4 outer heatsink holes, spring-clamped to the core (§6.8)** | Stretch |
+| **P6-0: LGA1700 de-risk (now, before P1)** | (G1) Dasharo built from source on a used MSI PRO Z690-A DDR5 / Z790-P + our ME/descriptor (MFIT, HAP) + OpenCore → Tahoe, iGPU/PEG primary-display test, RT3628 config dump, sequencing timing measured; (G2) 3–5 loose Z790 from two sellers inspected, JLC consignment + 10L instant quote + DFM on the PCH fan-out; (G3) PCH and DDR5 routing study on the fl1 floorplan; (G4) M-CC3/7/8/15 | **Gate G-A:** all four pass → order CB rev A (5 PCBs, 2 assembled). No-go triggers: no ME/descriptor path, fake/fused PCHs, VR controller not configurable → fall back to CC-F (Size A) |
+| P6 (old stretch) | → now the primary CB (§6.0) | — |
 
 ### 10.2 Top risks
 
@@ -1454,6 +1495,12 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | R21 | **Moving the carrier plane toward the PSU** (now required, Δ ≈ 4–8 mm) shrinks the case half-chord: board half-width 78 needs R ≥ 79.8 / 80.2 / 80.7 at d 16.6 / 18.6 / 20.6; Size C (80) needs R ≥ 81.7–82.6 | Carrier itself stops fitting | M-CC3/M-CC4; prefer Size A (smallest Δ) |
 | R22 | **Module data are from a preliminary user guide photo/figure (±2 mm)** (Kontron ccAS UG rev 0.3) | Connector/hole/CPU positions shift | Get the COM.0 R1.x mechanical drawing and the Kontron 3D model (M-CC9) |
 | R23 | **Core flange rails** (x ≈ −2.3…1.5 / 152…157.9) and **guide pins** (x 28.5 / 126.4, y −1.5…17.6) lie under the Size C module edges and near the Size B / C1 bottom edge (y 13.3–13.5); their height/depth vs the module plane is unknown | Size C or B module hits the flange or pins | M-CC11/M-CC12; Size A clears both |
+| R24 | **CB: no Intel PDG/CRB/IMVP spec (CNDA)** | Sequencing/strap/SI errors, respin | Public datasheets + ballouts, coreboot ms7d25, private boardview reading, MSI reference measurements (plan §10 R-L1) |
+| R25 | **CB: loose PCH sourcing / authenticity / fused parts** | No board or bricked board | New sealed parts from 2 sellers, X-ray, spares, never close manufacturing (R-L2) |
+| R26 | **CB: ME/FIT availability and legality** (CSME 16.1 + MFIT via Win-Raid or the vendor image) | No bootable image | Mirror the Z790-P lane map to reuse its descriptor; HAP; personal use only (R-L3) |
+| R27 | **CB: VR controller configuration** (RT3628AE docs/GUI NDA) | VRM cannot be set up | Richtek FAE; config dump from the MSI board; alternative controller (R-L4) |
+| R28 | **CB: PCH 0.5 mm fan-out on JLC through-via POFV; ballout orientation; socket footprint** | Unroutable / mirrored footprint | JLC DFM + coupon; verify pin-1 against the package drawing; Foxconn drawing (R-L5, R-L11) |
+| R29 | **CB: firmware effort** (new coreboot board, EC, VBT, OpenCore embedding) and BGA rework | Schedule | P6-0 on the reference board; OpenCore from SATA in rev A; spare PCHs + local rework shop (R-L6, R-L9) |
 
 ---
 
@@ -1474,9 +1521,12 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | A9 | CPU-LINK: **Amphenol Mini Cool Edge 224 (ME1022410103011)** | 196-pos (ME1019610101011) or 4C+ + 1C |
 | A11 | BP-G4 build (no redrivers, Gen4) | BP-G5 with 5 × DS320PR810 |
 | A10 | Class 2 = 130 W per face | Class 3 after P3 |
-| A12 | CC: **JLC 8L 1.6 mm** (JLC08161H-2116 class), via-in-pad for the COM-HPC BGA | 6L JLC06161H-2116 if the breakout study allows |
-| A13 | CC: Kontron COMh-ccAS **Size C at option C1** (centred, CPU −4.6 mm vs the measured pedestal) is still the drawn baseline; **fp2 recommends Size A** (OD-15). Samtec **ASP-214802-01 5 mm stack**, no vendor HSP, Cu spacer per §6.4 | Size B/A (OD-15); 10 mm stack ASP-209948-01 |
+| A12 | **CB: JLC 10L 1.6 mm**, POFV via-in-pad, impedance control (CC-F fallback: JLC 8L) | 8L for CB rev B after routing |
+| A13 | **CB: own LGA1700 board** (Z790, i5-14500T, 2 × DDR5 SO-DIMM back, RT3628AE 6 + 1, RP2350 EC, coreboot/Dasharo) — §6.0. *(Old A13, archived for CC-F: CC: Kontron COMh-ccAS **Size C at option C1** (centred, CPU −4.6 mm vs the measured pedestal) is still the drawn baseline; **fp2 recommends Size A** (OD-15). Samtec **ASP-214802-01 5 mm stack**, no vendor HSP, Cu spacer per §6.4)* | CC-F COM-HPC carrier (Size A/C) |
 | A14 | CC 12 V: stock bus-bar lugs → **2 × TPS259851** eFuse → module VCC; standby from the BP | 8-pin EPS input (OD-9) |
+| A15 | CB iGPU **enabled**: DDI-B native DP + DDI-C → IOB USB-C DP-alt mux, HBR2; primary display Auto (PEG first); hidden in macOS | iGPU off |
+| A16 | CB memory: **2 × DDR5 SO-DIMM 1DPC, non-ECC** | memory-down DDR5; W680 + ECC |
+| A17 | CB OpenCore: from the BP SATA SSD | embedded in the EDK2 payload FV |
 
 ### 11.2 Decisions still open (either/or)
 
@@ -1494,13 +1544,22 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 12. **OD-12: Disc cutouts:** none needed for fit. Add an apex air/cable relief **only if** M1 shows the core draws air from below or the MCIO cables need a pass-through.
 14. **OD-14: BP MCIO receptacle style:** **right-angle receptacle** (fp3, ≈ 9–10 mm est., drawing pending) **or** vertical TE 1-2381578-9 + right-angle plug (13.95 mm, ~1 mm margin under the 15 mm edge)?
 13. **OD-13: Host-TX AC caps:** **resolved for COM-HPC:** module TX caps are on the module (CDG rev 2.0 §3.6.2 [N70]); no carrier PCIe caps.
-15. **OD-15: Module size:** **recommended (fp2): Size A** (congatec conga-HPC/cRLP i7-13800HE or Kontron COMh-caRP; exact pedestal fit, Δ ≈ 4) **or** keep **Size C** (ccAS i5-14500T, socketed; Δ 6–8, 2 mm overhang over the flange rails, R ≥ 82) **or** **Size B** (BGA only — no LGA1700 Size B exists; Portwell PCOM-B886 Arrow Lake-H when released)?
-16. **OD-16: Stack-height fix (fp2):** move the carrier plane Δ ≈ 4–8 mm toward the PSU (BP J1 to y ≈ −16.6…−20.6; limited by R21) with a Cu spacer on the CPU **or** remove/pocket the black plate if it is a separate part (M-CC11); machining the pedestal does not help (it is flush). 5 mm stack (10 mm adds 5 mm to Δ).
-17. **OD-17: Core attachment:** MP62 core adapter plate (HSP replacement, bolted to the stock bosses, COM-HPC standoffs) **or** a clamp/leaf-spring frame from the carrier back?
+15. ~~OD-15~~ **superseded 2026-10-01** (own LGA1700 board CB is primary; kept for the CC-F fallback): **OD-15: Module size:** **recommended (fp2): Size A** (congatec conga-HPC/cRLP i7-13800HE or Kontron COMh-caRP; exact pedestal fit, Δ ≈ 4) **or** keep **Size C** (ccAS i5-14500T, socketed; Δ 6–8, 2 mm overhang over the flange rails, R ≥ 82) **or** **Size B** (BGA only — no LGA1700 Size B exists; Portwell PCOM-B886 Arrow Lake-H when released)?
+16. *(CC-F fallback only since 2026-10-01)* **OD-16: Stack-height fix (fp2):** move the carrier plane Δ ≈ 4–8 mm toward the PSU (BP J1 to y ≈ −16.6…−20.6; limited by R21) with a Cu spacer on the CPU **or** remove/pocket the black plate if it is a separate part (M-CC11); machining the pedestal does not help (it is flush). 5 mm stack (10 mm adds 5 mm to Δ).
+17. *(CC-F fallback only since 2026-10-01)* **OD-17: Core attachment:** MP62 core adapter plate (HSP replacement, bolted to the stock bosses, COM-HPC standoffs) **or** a clamp/leaf-spring frame from the carrier back?
 18. **OD-18: IOB-HS connector:** one **MCIO 124 RA** (fp1) **or** 2 × MCIO 74 **or** a flex; cable route over the carrier top edge and around the PSU.
 19. **OD-19: Core guide pins** (fp2: on the core flange, x 28.5 / 126.4, pitch 97.93 ≈ the BP Ø4 holes at ±49): keep the BP holes for them (they locate the core, not the board); confirm their depth vs the carrier/module plane (M-CC12).
 20. **OD-20: CC M.2 2280:** back side (fp1, height vs the PSU) **or** none (NVMe on Face S only).
-21. **OD-21: Module CPU retention (Size C path):** aftermarket contact frame on the ccAS (**Thermal Grizzly 13/14th Gen, 6.0 mm**, preferred over the 6.25 mm Thermalright under the flat plate) **or** keep the stock ILM? Default: contact frame, after M-CC14. (Size A/B BGA modules need none; P6 uses the MP62 frame of §6.8.)
+21. *(CC-F fallback only since 2026-10-01)* **OD-21: Module CPU retention (Size C path):** aftermarket contact frame on the ccAS (**Thermal Grizzly 13/14th Gen, 6.0 mm**, preferred over the 6.25 mm Thermalright under the flat plate) **or** keep the stock ILM? Default: contact frame, after M-CC14. (Size A/B BGA modules need none; P6 uses the MP62 frame of §6.8.)
+22. **OD-22: CB chipset:** **Z790** (recommended; Dasharo/ms7d25 reference parity) **or** B760 (pin-compatible, RCP $31, DMI x4)?
+23. **OD-23: ECC:** none in rev A (recommended) **or** W680 + ECC SO-DIMMs (CSME Corporate, no loose source found)?
+24. **OD-24: CB memory:** 2 × DDR5 SO-DIMM on the back strips (recommended) **or** DDR5 memory-down?
+25. **OD-25: CB VR class:** 6 + 1 phases for 35 W T / 65 W 6P+8E (recommended) **or** 8 + 1 for 65 W 8P+16E?
+26. **OD-26: ME approach:** MFIT build (CSME 16.1 kit via Win-Raid) **or** vendor-image ME region (MSI Z790-P), both with HAP; personal use only — proceed?
+27. **OD-27: P6-0 purchases:** used MSI PRO Z690-A DDR5 / Z790-P + 3–5 loose Z790 now?
+28. **OD-28: CB iGPU ports:** DDI-B DP + DDI-C USB-C DP-alt (proposed) **or** one DDI only; HBR2 vs HBR3 + retimer?
+29. **OD-29: OpenCore location (CB rev A):** BP SATA SSD (recommended) **or** embedded in the EDK2 payload FV now?
+30. **OD-30: CB rev-A budget:** ≈ $1.5k–2.6k (2 boards) / $2.6k–4.4k (5 boards) + likely rev B — accept?
 
 ### 11.3 Measurements needed (prioritised)
 
@@ -1533,6 +1592,7 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | **M-CC12** | **Guide pins**: diameter, head, distance of the pin axis from the stock board front; do they enter the BP Ø4 holes at ±49? | OD-19, Size B/C bottom edge (R23), board-plane position (M2b) | **2** |
 | **M-CC13** | Chosen module's top-side heights (SO-DIMM sockets, VRM, die/IHS) from the vendor 3D model (cRLP / caRP / ccAS) | Δ and Cu spacer thickness (§6.4) | **1** |
 | M-CC14 | ccAS contact-frame fit: parts inside the ≈ 54 × 71 frame seat, ILM screw positions/thread and backplate inserts (Kontron 3D model), screw length through the 2 mm module PCB, Kontron warranty stance | OD-21 | 2 |
+| **M-CC15** | **CB back clearance to the PSU** at the SO-DIMM strips (x 2.5–34.5 / 121.5–153.5), at J3 (top centre, MCIO RA ≈ 7–8 mm [Estimate]) and at the M.2 (bottom), with the board in the stock plane | CB back-side parts (§6.0) | **1** |
 
 ### 11.4 Donor/bench TBDs kept from v0.1
 
@@ -1641,6 +1701,39 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 - [N81] Intel LGA1700 mechanical summary (Z-stack IHS-to-board 6.529–7.532 mm, seating plane 2.7 mm, 78 × 78 holes, static load 534 N min / 356 N BOL / 1068 N EOL max): https://www.igorslab.de/en/intel-socket-lga-1700-and-lga-1800-in-detail-exclusive-data-and-drawings-for-the-new-cpus-ab-alder-lake/ ; https://www.xda-developers.com/cpu-coolers-socket-lga-1700/ [secondary sources; confirm against the Intel TMSDG].
 - [N82] Thermal Grizzly CPU Contact Frame Intel 13/14th Gen datasheet (71 × 51 × 6 mm, replaces the ILM, #6-32 3/8" screws): https://www.thermal-grizzly.com/media/43/ea/2a/1708697308/TG_Datasheet_CF1314th_EN_TGU20240223.pdf ; product pages https://www.thermal-grizzly.com/en/cpu-contact-frame/s-tg-cf-i13g , https://www.thermal-grizzly.com/en/cpu-contact-frame/s-tg-cf-i1700-lt ; 12th-gen frame material 7075 / torque 0.3–0.6 N·m: https://www.enostech.com/thermal-grizzly-cpu-contact-contact-frame-for-12th-gen-is-it-worth-it/
 - [N83] Thermalright LGA1700-BCF (54 × 70 × 6 mm listed; 70.2 × 53.4 × 6.25 measured; AL6063-T5; original ILM screws): https://www.thermalright.com/product/lga1700-bcf-black/ ; https://manuals.plus/thermalright/lga1700-bcf-13th-gen-intel-bending-correct-frame-manual ; https://en.overclocking.com/bending-correct-frame-what-impact-on-heatsink-assembly/
+- [N84] Intel 700 Series Chipset Family PCH Datasheet vol 1, 743835-004 (+ attachments 743835_001_Ballout / GPIO / Electr_Therm_Spec xlsx): https://cdrdv2-public.intel.com/743835/743835-004.pdf
+- [N85] Intel 13th/14th Gen Core desktop datasheet vol 1, 743844-015 (+ 743844-001_S_LGA_Ballout.xlsx): https://cdrdv2-public.intel.com/743844/743844-015.pdf
+- [N86] Intel B760 ordering/spec (RCP $31): https://www.intel.com/content/www/us/en/products/sku/229719/intel-b760-chipset/ordering.html
+- [N87] Intel Z790 ordering (FH82Z790, SRM8P, RCP $57): https://www.intel.com/content/www/us/en/products/sku/229721/intel-z790-chipset/ordering.html
+- [N88] Intel W680 ordering (FH82W680, RCP $56): https://www.intel.com/content/www/us/en/products/sku/218834/intel-w680-chipset/ordering.html
+- [N89] ASRock Rack W680 WS (lists the i5-14500T, ECC): https://www.newegg.com/asrock-rack-w680-ws/p/N82E16813140147
+- [N90] Loose Z790 listings: https://www.afromanshop.lt/Value-Extra-182549.html ; https://milpood.ee/Premium_32253-Store ; https://www.taouq.com/id-ANX6YkPjHzt4jGRmWNmSmmYsvtn-VeR99wckn8BGqeJIJ/ [Unverified sellers]
+- [N91] Loose B760 SRM8V listings: https://www.oknabytok.sk/Global-unique-529893.htm ; https://www.itdevices.ca/product-details/654217 [Unverified sellers]
+- [N92] JLCPCB PCB assembly capabilities (BGA ≥ 0.35 mm pitch): https://jlcpcb.com/capabilities/pcb-assembly-capabilities
+- [N93] JLCPCB: how to use my own parts: https://jlcpcb.com/help/article/how-to-use-my-own-parts-for-pcb-assembly-order
+- [N94] JLCPCB: how to consign parts: https://jlcpcb.com/help/article/how-to-consign-parts-to-jlcpcb
+- [N95] coreboot MSI PRO Z690-A (ms7d25) port: https://review.coreboot.org/c/coreboot/+/63463 ; DDR5 variant: https://review.coreboot.org/c/coreboot/+/68448
+- [N96] Dasharo MSI Z690-A / Z790-P releases v1.1.7 / v0.9.5 (2026-08-13): https://docs.dasharo.com/variants/msi_z790/releases/ ; https://blog.3mdeb.com/2026/2026-08-13-msi_z690-a_z790-p_v1.1.7_v0.9.5_release/
+- [N97] Intel FSP (RaptorLakeFspBinPkg/Client/RaptorLakeS): https://github.com/intel/fsp ; ADL-S → RPL-S FSP in coreboot: https://review.coreboot.org/c/coreboot/+/78190
+- [N98] MSI MS-7D25 boardview thread (unauthorised; reference only): https://www.badcaps.net/ (thread 100259 "boardview schematics for msi z690-a pro ms-7d25")
+- [N99] Win-Raid: Intel CSME 16 firmware and tools (MFIT 16.1.25.2091): https://winraid.level1techs.com/t/intel-csme-drivers-firmware-and-tools-for-me-16/89959
+- [N100] me_cleaner on newer platforms (issue 340): https://github.com/corna/me_cleaner/issues/340
+- [N101] macOS Tahoe is the last Intel macOS: https://appleinsider.com/articles/25/06/17/opencore-and-hackintosh-are-sadly-dead-after-apple-ends-intel-mac-support
+- [N102] Richtek RT3628AE: https://www.richtek.com/Products/Vcore/intel-vcore/RT3628AE ; LCSC C3249940: https://www.lcsc.com/product-detail/C3249940.html
+- [N103] MSI PRO Z790-P VRM (RT3628AE, 14 + 1 + 1, 55 A): https://tech4gamers.com/msi-z790-pz-motherboard-review-value-features-and-looks/
+- [N104] Eaton FP4-150-R datasheet (10.2 × 6.8 × 5.0, 0.15 µH, 42 A): https://xonstorage.z8.web.core.windows.net/pdf/eaton_fp4150r_apr22_xonlink.pdf
+- [N105] Coilmaster SEP0603ER15MLF: https://www.coilmaster.com.tw/en/product/SEP0603ER15MLF.html
+- [N106] JLCPCB PCB capabilities (10 layers, impedance, via-in-pad): https://jlcpcb.com/capabilities/
+- [N107] JLC (China) 10-layer promotion 2022: https://www.jlc.com/portal/q7i37597.html
+- [N108] Foxconn PE17007-11NK0-1H, LCSC C38520273: https://www.lcsc.com/product-detail/C38520273.html
+- [N109] Deren LGA1700 socket brochure: https://static.deren.com/ (file 6380741085151012745523273.pdf)
+- [N110] coreboot ADL romstage display UPDs (DdiPortXConfig, DDC/HPD, IGD prealloc option): https://review.coreboot.org/c/coreboot/+/87620/3/src/soc/intel/alderlake/romstage/fsp_params.c ; https://review.coreboot.org/c/coreboot/+/55273 ; SOC_INTEL_DISABLE_IGD: https://review.coreboot.org/c/coreboot/+/49291
+- [N111] ONBOARD_VGA_IS_PRIMARY = priority only: https://review.coreboot.org/c/coreboot/+/39374
+- [N112] macOS has no Xe iGPU support (ADL/RPL): https://dortania.github.io/GPU-Buyers-Guide/modern-gpus/intel-gpu.html ; https://dortania.github.io/hackintosh/updates/2022/01/09/alder-lake.html ; https://elitemacx86.com/threads/how-to-disable-unsupported-igpu-intel-graphics-on-desktops-and-laptops.1013/
+- [N113] JLCPCB PCB assembly price: https://jlcpcb.com/help/article/pcb-assembly-price
+- [N114] Vishay SiC654CD-T1-GE3, LCSC C1852094: https://www.lcsc.com/product-detail/gate-drivers_vishay-intertech-sic654cd-t1-ge3_C1852094.html
+- [N115] UMAX 90415-4015SR DDR5 SO-DIMM socket, LCSC C19267513: https://www.lcsc.com/product-detail/C19267513.html
+- [N116] i5-14500T tray prices: https://www.aztekcomputers.com/cm8071505092904-core-i5-14500t-up-to-4-80ghz-tray-intel/p ; https://www.shi.com/product/47566241/Intel-Core-i5-i5-14500T ; https://www.neutronusa.com/prod.cfm/5149012
 
 > **URL note:** v0.1's note applies. New in v0.2: N39/N41 are TE DocumentDelivery links (the 1-2381578-9 drawing itself returned 403); N42 was read from the JPC PDF; N43, N46, N49 and N51 are landing/product pages; N44 is superseded by N62; N65/N66 are listings without heights. **Re-check all links before publishing.**
 
