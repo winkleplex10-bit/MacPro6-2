@@ -1,0 +1,21 @@
+J1   rmax= 47.5 (limit 58)  hole-dist= 33.1 (min 6)  OK  CPU-LINK: CEM x8-size 98P vertical (MP62 pinout) - CPU board edge tab
+J2   rmax= 57.0 (limit 58)  hole-dist= 20.1 (min 6)  OK  PSU-IN: Micro-Fit 3.0 2x4 (12V x2, GND x3, 11V_SB, PS_ON#, PWR_OK)
+J3   rmax= 44.6 (limit 58)  hole-dist= 10.7 (min 6)  OK  FACE-P AUX: JST GH 14P (PWR_EN, PWR_GOOD, SMBus, THERM, PRSNT, 3V3_AUX, USB2)
+J4   rmax= 44.6 (limit 58)  hole-dist= 10.7 (min 6)  OK  FACE-S AUX: JST GH 14P (same pinout as J3)
+J5   rmax= 49.5 (limit 58)  hole-dist= 61.5 (min 6)  OK  FAN: GH 4P (12V, GND, PWM, FG) - harness to top interposer, stock pinout TBD
+J6   rmax= 57.4 (limit 58)  hole-dist=  9.6 (min 6)  OK  IOB-LINK: GH 15P (PWRBTN, HALL x2, LED I2C, USB2, 3V3_SB, GND)
+J7   rmax= 30.7 (limit 58)  hole-dist= 23.8 (min 6)  OK  OpenCore boot: M.2 M-key socket, SATA0, 2242 card
+J8   rmax= 39.9 (limit 58)  hole-dist= 45.6 (min 6)  OK  SWD (3V3, SWCLK, SWDIO, GND)
+U1   rmax= 21.3 (limit 58)  hole-dist= 46.7 (min 6)  OK  RP2350A (LCSC C42411118)
+U2   rmax= 23.2 (limit 58)  hole-dist= 39.3 (min 6)  OK  W25Q128 QSPI flash (part TBD)
+Y1   rmax= 20.8 (limit 58)  hole-dist= 42.7 (min 6)  OK  12 MHz crystal
+U3   rmax= 31.8 (limit 58)  hole-dist= 53.8 (min 6)  OK  TMP1075 core-base temp sensor #1
+U4   rmax= 34.9 (limit 58)  hole-dist= 44.1 (min 6)  OK  TMP1075 core-base temp sensor #2
+PS1  rmax= 43.5 (limit 58)  hole-dist= 11.6 (min 6)  OK  Standby power + HW safety gate
+PS2  rmax= 41.7 (limit 58)  hole-dist= 13.3 (min 6)  OK  Main-rail power
+SW1  rmax= 45.3 (limit 58)  hole-dist= 45.8 (min 6)  OK  BOOTSEL
+SW2  rmax= 47.7 (limit 58)  hole-dist= 39.4 (min 6)  OK  Bench power button
+D1   rmax= 41.4 (limit 58)  hole-dist= 57.2 (min 6)  OK  LED 11V_SB
+D2   rmax= 40.9 (limit 58)  hole-dist= 60.1 (min 6)  OK  LED 12V main
+D3   rmax= 40.9 (limit 58)  hole-dist= 60.1 (min 6)  OK  LED S0
+D4   rmax= 41.4 (limit 58)  hole-dist= 57.2 (min 6)  OK  LED FAULT

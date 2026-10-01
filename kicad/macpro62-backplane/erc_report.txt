@@ -1,0 +1,711 @@
+ERC report (2026-10-01T13:01:28-0400, Encoding UTF8)
+
+***** Sheet /
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 55.88 mm): Label 'PS_ON_REQ'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 58.42 mm): Label 'IOB_HALL_A_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 60.96 mm): Label 'IOB_HALL_B_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 63.50 mm): Label 'BENCH_UNLOCK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 68.58 mm): Label 'MOD_THERMTRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 71.12 mm): Label 'FACE_P_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 73.66 mm): Label 'FACE_S_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 40.64 mm): Label '12V_MAIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 43.18 mm): Label '11V_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 45.72 mm): Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 48.26 mm): Label '5V_SBY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 50.80 mm): Label '3V3_BP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 53.34 mm): Label 'PSU_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 66.04 mm): Label 'INTERLOCK_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 76.20 mm): Label 'THERM_LATCH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 78.74 mm): Label 'I2C_SYS_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 81.28 mm): Label 'I2C_SYS_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 40.64 mm): Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 50.80 mm): Label 'PSU_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 53.34 mm): Label 'INTERLOCK_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 55.88 mm): Label 'THERM_LATCH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 60.96 mm): Label 'PWRBTN_IN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 71.12 mm): Label 'MOD_SUS_S3_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 73.66 mm): Label 'MOD_SUS_S5_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 76.20 mm): Label 'MOD_RSMRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 81.28 mm): Label 'MOD_PLTRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 86.36 mm): Label 'MOD_FAN_PWMOUT'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 99.06 mm): Label 'FAN_TACH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 104.14 mm): Label 'FACE_P_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 109.22 mm): Label 'FACE_P_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 119.38 mm): Label 'FACE_P_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 124.46 mm): Label 'FACE_S_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 129.54 mm): Label 'FACE_S_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 203.20 mm): Label 'FACE_P_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 139.70 mm): Label 'FACE_S_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 228.60 mm): Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(27.94 mm, 231.14 mm): Label '3V3_BP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 205.74 mm): Label 'FACE_P_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 208.28 mm): Label 'FACE_P_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 210.82 mm): Label 'FACE_P_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 213.36 mm): Label 'FACE_P_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 43.18 mm): Label 'USB_MCU_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 45.72 mm): Label 'USB_MCU_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 48.26 mm): Label 'PS_ON_REQ'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 215.90 mm): Label 'FACE_P_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 58.42 mm): Label 'BENCH_UNLOCK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 218.44 mm): Label 'FACE_P_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 63.50 mm): Label 'I2C_SYS_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 66.04 mm): Label 'I2C_SYS_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 68.58 mm): Label 'MOD_PWRBTN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 220.98 mm): Label 'FACE_P_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 223.52 mm): Label 'FACE_P_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 78.74 mm): Label 'MOD_VIN_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 83.82 mm): Label 'MOD_CARRIER_HOT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(109.22 mm, 226.06 mm): Label 'FACE_P_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 88.90 mm): Label 'MOD_FAN_TACHIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 91.44 mm): Label 'MOD_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 93.98 mm): Label 'MOD_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 96.52 mm): Label 'FAN_PWM'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 203.20 mm): Label 'FACE_S_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 101.60 mm): Label 'FACE_P_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 106.68 mm): Label 'FACE_P_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 111.76 mm): Label 'FACE_P_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 114.30 mm): Label 'FACE_P_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 116.84 mm): Label 'FACE_P_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 121.92 mm): Label 'FACE_S_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 127.00 mm): Label 'FACE_S_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 132.08 mm): Label 'FACE_S_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 134.62 mm): Label 'FACE_S_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 137.16 mm): Label 'FACE_S_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 228.60 mm): Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(154.94 mm, 231.14 mm): Label '3V3_BP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 40.64 mm): Label '12V_MAIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 43.18 mm): Label 'FAN_PWM'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 205.74 mm): Label 'FACE_S_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 208.28 mm): Label 'FACE_S_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 210.82 mm): Label 'FACE_S_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 213.36 mm): Label 'FACE_S_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 215.90 mm): Label 'FACE_S_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 218.44 mm): Label 'FACE_S_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 220.98 mm): Label 'FACE_S_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 223.52 mm): Label 'FACE_S_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(236.22 mm, 226.06 mm): Label 'FACE_S_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 208.28 mm): Label 'MOD_PWRBTN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 218.44 mm): Label 'MOD_VIN_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 226.06 mm): Label 'MOD_CARRIER_HOT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 231.14 mm): Label 'MOD_FAN_TACHIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 45.72 mm): Label 'FAN_TACH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 238.76 mm): Label 'FACE_P_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 241.30 mm): Label 'FACE_S_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 264.16 mm): Label 'SATA0_RX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(281.94 mm, 266.70 mm): Label 'SATA0_RX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(408.94 mm, 53.34 mm): Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 203.20 mm): Label '5V_SBY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 205.74 mm): Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 210.82 mm): Label 'MOD_SUS_S3_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 213.36 mm): Label 'MOD_SUS_S5_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 215.90 mm): Label 'MOD_RSMRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 220.98 mm): Label 'MOD_PLTRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 223.52 mm): Label 'MOD_THERMTRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 228.60 mm): Label 'MOD_FAN_PWMOUT'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 233.68 mm): Label 'MOD_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 236.22 mm): Label 'MOD_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 243.84 mm): Label 'USB_MCU_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 246.38 mm): Label 'USB_MCU_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 248.92 mm): Label 'FACE_P_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 251.46 mm): Label 'FACE_P_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 254.00 mm): Label 'FACE_S_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 256.54 mm): Label 'FACE_S_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 259.08 mm): Label 'SATA0_TX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(363.22 mm, 261.62 mm): Label 'SATA0_TX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(408.94 mm, 203.20 mm): Label 'SATA0_TX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(408.94 mm, 205.74 mm): Label 'SATA0_TX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(408.94 mm, 213.36 mm): Label '3V3_BP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 40.64 mm): Label 'PWRBTN_IN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 43.18 mm): Label 'IOB_HALL_A_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 45.72 mm): Label 'IOB_HALL_B_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 48.26 mm): Label 'I2C_SYS_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 50.80 mm): Label 'I2C_SYS_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 208.28 mm): Label 'SATA0_RX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(490.22 mm, 210.82 mm): Label 'SATA0_RX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label '12V_MAIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label '11V_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 38.10 mm): Hierarchical Label '5V_SBY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 40.64 mm): Hierarchical Label '3V3_BP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 43.18 mm): Hierarchical Label 'PSU_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 45.72 mm): Hierarchical Label 'PS_ON_REQ'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 48.26 mm): Hierarchical Label 'IOB_HALL_A_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 50.80 mm): Hierarchical Label 'IOB_HALL_B_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 53.34 mm): Hierarchical Label 'BENCH_UNLOCK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 55.88 mm): Hierarchical Label 'INTERLOCK_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 58.42 mm): Hierarchical Label 'MOD_THERMTRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 60.96 mm): Hierarchical Label 'FACE_P_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 63.50 mm): Hierarchical Label 'FACE_S_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 66.04 mm): Hierarchical Label 'THERM_LATCH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 68.58 mm): Hierarchical Label 'I2C_SYS_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 71.12 mm): Hierarchical Label 'I2C_SYS_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label 'USB_MCU_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label 'USB_MCU_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 38.10 mm): Hierarchical Label 'PS_ON_REQ'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 40.64 mm): Hierarchical Label 'PSU_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 43.18 mm): Hierarchical Label 'INTERLOCK_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 45.72 mm): Hierarchical Label 'THERM_LATCH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 48.26 mm): Hierarchical Label 'BENCH_UNLOCK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 50.80 mm): Hierarchical Label 'PWRBTN_IN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 53.34 mm): Hierarchical Label 'I2C_SYS_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 55.88 mm): Hierarchical Label 'I2C_SYS_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 58.42 mm): Hierarchical Label 'MOD_PWRBTN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 60.96 mm): Hierarchical Label 'MOD_SUS_S3_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 63.50 mm): Hierarchical Label 'MOD_SUS_S5_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 66.04 mm): Hierarchical Label 'MOD_RSMRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 68.58 mm): Hierarchical Label 'MOD_VIN_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 71.12 mm): Hierarchical Label 'MOD_PLTRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 73.66 mm): Hierarchical Label 'MOD_CARRIER_HOT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 76.20 mm): Hierarchical Label 'MOD_FAN_PWMOUT'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 78.74 mm): Hierarchical Label 'MOD_FAN_TACHIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 81.28 mm): Hierarchical Label 'MOD_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 83.82 mm): Hierarchical Label 'MOD_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 86.36 mm): Hierarchical Label 'FAN_PWM'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 88.90 mm): Hierarchical Label 'FAN_TACH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 91.44 mm): Hierarchical Label 'FACE_P_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 93.98 mm): Hierarchical Label 'FACE_P_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 96.52 mm): Hierarchical Label 'FACE_P_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 99.06 mm): Hierarchical Label 'FACE_P_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 101.60 mm): Hierarchical Label 'FACE_P_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 104.14 mm): Hierarchical Label 'FACE_P_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 106.68 mm): Hierarchical Label 'FACE_P_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 109.22 mm): Hierarchical Label 'FACE_P_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 111.76 mm): Hierarchical Label 'FACE_S_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 114.30 mm): Hierarchical Label 'FACE_S_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 116.84 mm): Hierarchical Label 'FACE_S_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 119.38 mm): Hierarchical Label 'FACE_S_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 121.92 mm): Hierarchical Label 'FACE_S_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 124.46 mm): Hierarchical Label 'FACE_S_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 127.00 mm): Hierarchical Label 'FACE_S_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 129.54 mm): Hierarchical Label 'FACE_S_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label 'FACE_PWR_EN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label 'FACE_PWR_GOOD'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label 'FACE_PRSNT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 38.10 mm): Hierarchical Label 'FACE_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 40.64 mm): Hierarchical Label 'FACE_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 43.18 mm): Hierarchical Label 'FACE_SMB_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 45.72 mm): Hierarchical Label 'FACE_THERM_ALERT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 48.26 mm): Hierarchical Label 'FACE_THERM_TRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 50.80 mm): Hierarchical Label 'FACE_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 53.34 mm): Hierarchical Label 'FACE_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 55.88 mm): Hierarchical Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 58.42 mm): Hierarchical Label '3V3_BP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label '12V_MAIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label 'FAN_PWM'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label 'FAN_TACH'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label '5V_SBY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label 'MOD_PWRBTN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 38.10 mm): Hierarchical Label 'MOD_SUS_S3_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 40.64 mm): Hierarchical Label 'MOD_SUS_S5_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 43.18 mm): Hierarchical Label 'MOD_RSMRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 45.72 mm): Hierarchical Label 'MOD_VIN_PWR_OK'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 48.26 mm): Hierarchical Label 'MOD_PLTRST_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 50.80 mm): Hierarchical Label 'MOD_THERMTRIP_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 53.34 mm): Hierarchical Label 'MOD_CARRIER_HOT_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 55.88 mm): Hierarchical Label 'MOD_FAN_PWMOUT'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 58.42 mm): Hierarchical Label 'MOD_FAN_TACHIN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 60.96 mm): Hierarchical Label 'MOD_SMB_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 63.50 mm): Hierarchical Label 'MOD_SMB_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 66.04 mm): Hierarchical Label 'FACE_P_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 68.58 mm): Hierarchical Label 'FACE_S_RDY'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 71.12 mm): Hierarchical Label 'USB_MCU_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 73.66 mm): Hierarchical Label 'USB_MCU_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 76.20 mm): Hierarchical Label 'FACE_P_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 78.74 mm): Hierarchical Label 'FACE_P_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 81.28 mm): Hierarchical Label 'FACE_S_USB_DP'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 83.82 mm): Hierarchical Label 'FACE_S_USB_DN'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 86.36 mm): Hierarchical Label 'SATA0_TX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 88.90 mm): Hierarchical Label 'SATA0_TX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 91.44 mm): Hierarchical Label 'SATA0_RX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 93.98 mm): Hierarchical Label 'SATA0_RX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label 'PWRBTN_IN_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label 'IOB_HALL_A_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label 'IOB_HALL_B_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 38.10 mm): Hierarchical Label 'I2C_SYS_SCL'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 40.64 mm): Hierarchical Label 'I2C_SYS_SDA'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 43.18 mm): Hierarchical Label '3V3_SB'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 30.48 mm): Hierarchical Label 'SATA0_TX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 33.02 mm): Hierarchical Label 'SATA0_TX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 35.56 mm): Hierarchical Label 'SATA0_RX_P'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 38.10 mm): Hierarchical Label 'SATA0_RX_N'
+[label_dangling]: Label not connected to anything
+    ; error
+    @(38.10 mm, 40.64 mm): Hierarchical Label '3V3_BP'
+
+***** Sheet /Power input, standby rails, safety gate/
+
+***** Sheet /Management MCU (RP2350A)/
+
+***** Sheet /Fan/
+
+***** Sheet /Face P (primary) AUX link/
+
+***** Sheet /Face S (secondary) AUX link/
+
+***** Sheet /CPU board link (J1 CPU-LINK card edge)/
+
+***** Sheet /I/O board low-speed link/
+
+***** Sheet /OpenCore boot M.2 (SATA)/
+
+ ** ERC messages: 230  Errors 230  Warnings 0
