@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MP62_Storage")(type "KiCad")(uri "${KIPRJMOD}/MP62_Storage.kicad_sym")(options "")(descr "MP62 storage module symbols"))
+)

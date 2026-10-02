@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "MP62_Face")(type "KiCad")(uri "${KIPRJMOD}/MP62_Face.pretty")(options "")(descr "MacPro6,2 Face Module v0.1 template footprints"))
+  (lib (name "MP62_Storage")(type "KiCad")(uri "${KIPRJMOD}/MP62_Storage.pretty")(options "")(descr "MacPro6,2 storage face module footprints (some PLACEHOLDER)"))
+)

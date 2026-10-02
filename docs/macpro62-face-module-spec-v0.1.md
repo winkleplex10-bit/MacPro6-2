@@ -28,6 +28,7 @@
 | `macpro62-face/tools/` | Generators (single geometry source `face_geom.py`), EEPROM encoder/validator `mp62_eeprom.py` |
 | `macpro62-face/eeprom_examples/*.bin` | Example ID EEPROM images (MXM RX 6600 carrier, ASM2824 storage) |
 | `kicad/macpro62-face-template/` | KiCad 9 template: Edge.Cuts, 4 mounting holes, rule-area keep-outs (bracket, both bus-bar tongue zones KO-F2A/B, core tab KO-F5A/B), both lug sites wired in parallel (reference tracks), core contact zones on User.1, connector placeholders, JLC 6-layer stackup, netclasses. `kicad-cli pcb drc`: **0 violations, 0 unconnected** |
+| `kicad/macpro62-storage-face/` + `macpro62-storage-board-plan.md` | Storage reference module SM-1 rev A0 (§11.3): floorplan PCB (DRC 0/0), schematic (ERC 0/0), plan with BOM, cost and RAID analysis |
 | `bracket/core_gpu_face/` | Core GPU-face scan, calibrated and traced: `trace_core_gpu_face.py`, `core_gpu_face.json`, DXF in the module frame and in the scan frame, overlay PNGs (on the scan, and in the module frame) |
 
 ![MP62-FACE v0.1 mechanical drawing](macpro62-face/macpro62-face-v0.1-mech.png)
@@ -43,6 +44,7 @@
 | **MP62-FACE v0.1 (this standalone spec)** | 2026-10-01 | First standalone release. Mechanical frame, outline, holes and keep-outs defined (§3), including core contact zones traced from the core scan and the measured 4.5 mm core gap. MCIO 124 confirmed as **one 16i connector per face**, SFF-9402 sideband positions (§4). AUX moves to **GH15** (adds MOD_LED#; USB2 primary) (§5). Power budget **Face P 150 W / Face S 40 W**, new classes, eFuse and sequencing rules (§6). Binary MP62 descriptor EEPROM (§8). **DISPLAY-LINK = second MCIO (74-pin, 8i) on the module with a twinax cable to the IOB** (§9). KiCad template, DXF and drawings. |
 | MP62-FACE v0.1 update 1 | 2026-10-01 (≈ 17:45 ET) | **Mirrored bus-bar lugs (C-17):** both lug sites (A at X ≈ 97, B at X ≈ 7) on every module, wired in parallel; KO-F2B, KO-F5B and the mirrored rod added (§3.3, §6.4.1). **Rod identified (C-15)** as the base-board standoff screw; core-bottom spacing conflict with M1 logged (C-16). Drawing, DXF, KiCad template (J22/J23, rule areas, reference tracks; DRC 0/0) and power pinout updated. |
 | MP62-FACE v0.1 update 2 | 2026-10-01 (≈ 18:30 ET) | Base-board scan: stock GPU connector axes ±46.6° → face-angle conflict **C-18** and measurement M2c logged (no module geometry change). Standoff screws confirmed at the base-board holes (pitch 98.25). |
+| MP62-FACE v0.1 update 3 | 2026-10-01 (≈ 20:20 ET) | **Storage reference module SM-1** designed (plan `macpro62-storage-board-plan.md`, KiCad `kicad/macpro62-storage-face/`): §11.3 rewritten (ASM2824 on the die pad with a gap pad, 4 × 2280 on the outer side, bracketless). New conflicts **C-19** (bracketless modules / KO-B1), **C-20** (>2 W rule vs outer-side M.2 SSDs), **C-21** (THERM_ALERT# throttle for storage). New measurements MF-13, MF-14. Storage parts added to §15. RAID finding: no driverless bootable hardware RAID is orderable (§11.3). |
 
 ---
 
@@ -159,6 +161,7 @@ Nominal G = 4.5 and p = 0 are used here. Recompute every stack with the measured
 | ID | Zone | Rule | Status |
 |---|---|---|---|
 | **KO-B1** | Stock bracket outline **+1 mm**: polygon from `bracket/gpu_bracket_keepout.dxf` translated to (52, 69.5). Extent X 9.3–94.7, Y 39.25–100.1 | **No components.** Tented vias, tracks and silkscreen are allowed. Template rule area (footprints and pads disallowed on B.Cu). | [Sourced: bracket scan]; bracket height TO MEASURE (MF-4) |
+| KO-B1 release (bracketless modules) | Whole KO-B1 | A module that does **not** fit the stock X-bracket (screws with washers straight into the bosses, no preload needed on its die-pad part, e.g. a gap pad) **may** use KO-B1 for parts within the envelope. It shall keep KO-B2 (the screw head and driver access) and state "bracketless" in its documentation. Anything that passes over a KO-B2 circle (e.g. an M.2 card) shall clear the screw head (MF-13). See C-19 | [Proposal, update 3] |
 | **KO-B1v** | Ring interior Ø23.5 at (52, 69.5) | Parts **≤ 1.0 mm** (decoupling behind the die is allowed) | TBC MF-4: does the ring sit on the board, or above it? |
 | **KO-B2** | Ø12 around each mounting hole | No parts: screw head, spring and driver access | [Proposal] |
 | Lug screw heads | Ø10 around **each** lug site (sites A and B) | No parts | [Proposal] |
@@ -634,10 +637,10 @@ Sideband (AUX ±, HPD, presence):
 | Heat path | All module heat goes into the core through the **die pad** (main source) and the **4 strip pads** (secondary, §3.3). No module fans (§1). | [Sourced: scan]; [Proposal] |
 | Hot spot | Centroid within **R3 of (52.0, 69.5)**. That is the die-pad centre (scan: 51.85, 69.43) and the bracket ring/spring load point. Declared as `hotspot_dx/dy`. | [Proposal] |
 | TIM | Die pad: grease or phase-change, bondline 0.05–0.15 mm, preload from interference δ = 0.05–0.2 mm (§3.3.2). Strip pads: soft thermal pads ≥ 6 W/m·K, compressed thickness 0.5–2.0 mm. | [Proposal] |
-| Dissipation rule | Every part dissipating > 2 W sits under a pad (§3.3.3). | [Proposal] |
+| Dissipation rule | Every part dissipating > 2 W sits under a pad (§3.3.3). **Exception (C-20):** removable, self-throttling devices in standard sockets on the outer side (M.2 NVMe SSDs) may be air-cooled in the board-to-shell gap, optionally with heatsinks within h(x); airflow there is TO MEASURE (MF-14). | [Proposal] |
 | Sensor | TMP1075 at 0x48, at the hot zone. The host reads it every ≤ 1 s and maps it onto the fan curve with the `t_target_c` knee. | [Proposal] |
 | Limits | `t_target_c` (fan knee), `t_warn_c` (module asserts THERM_ALERT#), `t_crit_c` (module asserts THERM_TRIP#, the host drops FACE_PWR_EN within 100 ms). Defaults for a GPU: 70 / 90 / 100 °C. Storage: 55 / 70 / 85 °C. | [Proposal] |
-| Throttle | When THERM_ALERT# is asserted, the module **shall** cut its own power by ≥ 25 % within **100 ms** (GPU power cap, or NVMe power state). The host raises the fan to 100 %. | [Proposal] |
+| Throttle | When THERM_ALERT# is asserted, the module **shall** cut its own power by ≥ 25 % within **100 ms** (GPU power cap, or NVMe power state). The host raises the fan to 100 %. **Storage modules without a management MCU (C-21):** the host OS/firmware applies the NVMe power-state limit (and the SSDs throttle themselves); the module only reports through THERM_ALERT#/THERM_TRIP#. | [Proposal] |
 | Power cap | Face P is capped at **130 W** until the P3 thermal test passes; then **150 W**. Face S: 40 W. | [Proposal] |
 | P3 thermal test module | A module_type 7 board: resistive heaters on the die-pad footprint (≈ 24 × 22 mm) and on the four strip footprints, 0–150 W programmable, with 6 thermistors. Measures the core ΔT/W and the pad stack, and checks the pressure paper. Gate for raising the 130 W cap. | [Proposal] |
 
@@ -658,10 +661,30 @@ Sideband (AUX ±, HPD, presence):
 - 8–10 layers. Inductors either ≤ 3.0 mm on the core side or placed on the outer side within h(x).
 - Lanes x8 Gen4. 5 display links. 130/150 W.
 
-### 11.3 Storage module (Face S or P): ASM2824 + 4 × M.2
+### 11.3 Storage module (Face S or P): SM-1, ASM2824 + 4 × M.2 [update 3]
 
-- ASM2824 (x8 upstream, 4 × x4 downstream) on the die pad with a Cu block, at ≈ 40 W total.
-- 4 × M.2 2280 on the **outer side** within the envelope (M.2 + heatsink ≤ 7–10 mm where needed).
+Full design: `macpro62-storage-board-plan.md` and `kicad/macpro62-storage-face/` (rev A0 floorplan, DRC 0/0; schematic ERC 0/0; routing not started).
+
+- **Why a switch:** Face S is CPU PEG60 Gen4 x4, which cannot bifurcate, so 4 SSDs need a switch. The **ASMedia ASM2824** (Gen3, x8 up / 4 × x4 down, internal downstream clock buffer, SRIS) is the only cheap, JLC-assemblable choice (JLC C9900092023; price TBD, ≈ $15–40 [Unverified]). Gen4 switches (PM40028, PEX88024) cost $164–323, are NDA, and have no stock. The upstream x8 is wired to J_PCIE lanes 0–7, so a future x8 host doubles throughput with no module change. Bandwidth today: Gen3 x4 ≈ 3.5 GB/s shared.
+- **Core side:** the ASM2824 sits centred on the die pad with a **3.0 mm soft gap pad** (≈ 1.1 K/W, ≈ 5 K at 4 W), with no Cu block and no preload. Switch support parts (core buck, crystal, SPI flash, PERST# buffers, TMP1075 0x48) are all ≤ 2 mm tall.
+- **Outer side:**
+  - 3 × 2280 columns at X 26.5 / 52 / 77.5 (sockets at Y 108.5–115, cards toward −Y to Y 28.5) plus 1 × 2280 across the top (Y 115–137).
+  - Sockets are LOTES APCI0107-P001A (H4.2, C841661), with SMT M2 standoffs at 2280 (2230/2242/2260 pads DNP).
+  - Under-card host parts are ≤ 1.6 mm.
+  - Standard M.2 sockets cannot go on the core side (≈ 4.65 mm > 3.5).
+- **Bracketless (C-19):** 4 × 2280 fit only without the X-bracket (screws + washers into the bosses). With the bracket, ≈ 2 × 2280 + 1 × 2260. The outer edges of SSD0/SSD2 pass over KO-B2, so screw head + washer ≤ 1.6 mm, or single-sided SSDs go in those slots (MF-13).
+- **J_AUX** moved to **(16.5, 20.5)**. That is the "should" position minus 6 mm in Y, to clear SSD0.
+- **Power:**
+  - lugs (both sites) → LM74700 + N-FET reverse block → TPS259824 (I_LIM ≈ 5 A, inrush ≤ 1 A) → TPS56C215 12 A buck → 3V3_SSD (4 × 2.5 A)
+  - VDD_CORE from a 3 A buck; voltage per the ASM2824 datasheet (NDA)
+  - Budget: ≈ 35.6 W worst sustained, ≈ 41.5 W 10 ms peak (≤ 52 W); declared **40 W, Class 1**.
+- **Thermal sensors:** TMP1075 0x48 drives THERM_ALERT#. A second TMP1075 at **0x49** drives THERM_TRIP# from its power-on default (80 °C comparator), so it needs no software.
+- **RAID:**
+  - **No driverless, bootable hardware RAID chip is orderable.** The Marvell 88NR2241 presents one inbox-driver NVMe drive (HPE NS204i-p, Dell BOSS-N1, HighPoint SSD6202A), but it is NDA-only, has no distribution, and macOS is unverified.
+  - Broadcom tri-mode and HighPoint parts need drivers that macOS lacks or that cannot boot.
+  - macOS cannot boot AppleRAID/SoftRAID volumes (Big Sur and later).
+  - **Reference configuration:** boot from one SSD; AppleRAID/SoftRAID across the others as data volumes. Each SSD behind the switch is individually bootable (native NVMe; Sonnet M.2 4x4 precedent).
+  - A future 88NR2241 variant (SM-1R) keeps the outline, sockets and power band.
 - J_DISP not fitted. EEPROM example: `example_storage_asm2824.bin`.
 
 ## 12. Compliance checklist [v0.1]
@@ -719,6 +742,9 @@ Sideband (AUX ±, HPD, presence):
 | **C-16** | M1 (Aidan: GPU-board bottom edges ≈ 15 mm above the BP) vs the standoff geometry. If the BP seats on the standoff tips, the scan puts the tip, and so the BP top, at module Y ≈ −23.5, i.e. the board edge ≈ 23.5 mm above the BP. The photo gives ≈ 18.4 ± 1.5 mm from the core end face to the tip. | Normative v0.1 keeps **≥ 15 mm** (worst case for the cable bend). Cable lengths (C-9, OQ-1) shall be checked at both 15 and 23.5 mm. | Calipers: standoff protrusion and the GPU-board edge → BP top on the assembled machine (M1c). |
 | **C-17** | v0.1 draft and v0.2 put the bus-bar lugs at one position (X ≈ 97). Aidan: the stock GPU 2 board is mirrored, so the faces have their lugs on opposite sides. | **Both sites on every module** (site A + mirror site B, in parallel, §6.4.1). KO-F2B, KO-F5B and the mirrored rod added; template J22/J23 and rule areas added. | M5b: which face (P/S) uses which site; polarity per face (M5). |
 | **C-18** | BP J9/J10 assume face normals at 30° / 150° from the hole axis. The stock base board's GPU connector fields run tangentially at ±46.6° (r ≈ 48, polar 42° / 138°; arch spec v0.2 §3.13), which hints that the normals are ≈ 42° / 138°. | No module change: the module frame is face-relative. The J_PCIE cable length window (C-9) shall cover a ±12° rotation of J9/J10. | M2c: GPU-board plane angle per face (arch spec §11.3). |
+| **C-19** | KO-B1 forbids all parts under the stock X-bracket, and §11.3 originally assumed 4 × M.2 on the outer side. With the bracket fitted, only ≈ 2 × 2280 + 1 × 2260 fit (update 3 layout study). | **Bracketless modules may release KO-B1** (§3.4), keeping KO-B2. SM-1 is bracketless: screws + washers; the switch couples through a gap pad (no preload). | MF-13 (screw head/washer ≤ 1.6 mm under the M.2 cards); MF-4 only if the bracket is kept. |
+| **C-20** | §10 "every part > 2 W sits under a pad" vs M.2 SSDs (2–8 W) on the outer side. | Exception for removable, self-throttling socketed devices on the outer side; air-cooled with optional heatsinks within h(x). | MF-14: outer-gap airflow/temperature under load. |
+| **C-21** | §10 throttle: "the module shall cut its power by ≥ 25 % within 100 ms". A storage module without an MCU cannot change NVMe power states itself. | Storage modules without an MCU: the host OS/firmware applies the NVMe power limit on THERM_ALERT#; the SSDs throttle themselves; THERM_TRIP# is hardware (TMP1075 POR comparator). | Host firmware/OS tooling (MCU EC + macOS helper). |
 
 ## 14. Open questions and measurements [v0.1]
 
@@ -752,6 +778,8 @@ Sideband (AUX ±, HPD, presence):
 | **M5** | Lug positions, polarity **per face**, thread, ampacity | §6.4, KO-F2A/B |
 | **M5b** | Which face (P or S, and the scanned one) has its bus bar at site A (X ≈ 97) vs site B (X ≈ 7) | §6.4.1; single-site modules (MECH 0x0002) |
 | **M2c** | Face-normal angle of each GPU board from the base-board hole axis (stock connector fields suggest ≈ 42° / 138°) | C-18; BP J9/J10 placement and cable length |
+| **MF-13** | Stock module screw: thread, head Ø and height; washer/spacer stack for bracketless modules | C-19; SM-1 SSD0/SSD2 clearance (≤ 1.6 mm) |
+| **MF-14** | Air temperature/flow in the board-to-shell gap under load (thermocouple on a dummy SSD, 10 min) | C-20; SSD cooling on SM-1 |
 | **M9** | Display cable path from the module to the IOB | §9 |
 | **MF-4** | Bracket height; does the ring touch the board? | KO-B1v |
 | **MF-5** | Screw thread, length, shoulder; boss OD | §3.2 |
@@ -776,6 +804,15 @@ Sideband (AUX ±, HPD, presence):
 | Lug insert (if needed) | Würth REDCUBE 7466003R | not stocked | — | — |
 | Cable, PCIe | MCIO 16i, custom length | — | ≈ $60–80 | — |
 | Cable, display | MCIO 8i straight 0.5 m | — | ≈ $46–52 | — |
+
+**Storage reference module SM-1 additions** (update 3; full BOM in `macpro62-storage-board-plan.md` §6):
+
+| Function | Part | LCSC | Price | Stock |
+|---|---|---|---|---|
+| PCIe switch | ASMedia ASM2824 LFBGA-492 | JLC C9900092023 (LCSC C20612120: 0) | TBD (≈ $15–40 [Unverified]) | JLC "new arrival" |
+| M.2 M-key socket H4.2 | LOTES APCI0107-P001A (alt. H3.2 APCI0079-P002A C841651) | C841661 | ≈ $0.6 [Estimate] | ≈ 1,592 |
+| M.2 standoff SMT M2 | YIYUAN SMTSO family (SMTSOM225BTR = 2.5 mm) | C5301773 | ≈ $0.15 | — |
+| 3V3_SSD buck 12 A | TI TPS56C215RNNR | C473372 | $1.06 | 360–2,406 |
 
 **Interface kit** (connectors + eFuse + EEPROM + sensor, no cables): ≈ **$24 for a GPU module**, ≈ **$17 for a storage module**.
 

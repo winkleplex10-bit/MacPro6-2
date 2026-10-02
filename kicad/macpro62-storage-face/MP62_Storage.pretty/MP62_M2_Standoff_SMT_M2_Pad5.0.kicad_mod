@@ -1,0 +1,13 @@
+(footprint "MP62_M2_Standoff_SMT_M2_Pad5.0"
+  (version 20241229)
+  (generator "mp62_storage")
+  (layer "F.Cu")
+  (descr "SMT M2 threaded standoff for M.2 card retention (YIYUAN SMTSO-M2 class, e.g. SMTSOM225BTR C5301773 is 2.5 mm tall; height must equal the socket card-bottom height, ~3.5 mm for H4.2 - VERIFY). Round SMD pad D5.0 (blind standoff, no hole).")
+  (tags "M.2 standoff SMT M2")
+  (property "Reference" "REF**" (at 0 -1 0) (layer "F.SilkS") (effects (font (size 1.0 1.0) (thickness 0.15))))
+  (property "Value" "MP62_M2_Standoff_SMT_M2_Pad5.0" (at 0 1 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (attr smd)
+  (pad "1" smd circle (at 0 0) (size 5.000 5.000) (layers "F.Cu" "F.Paste" "F.Mask"))
+  (fp_circle (center 0.000 0.000) (end 2.750 0.000) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+  (fp_circle (center 0.000 0.000) (end 2.500 0.000) (stroke (width 0.1) (type solid)) (fill no) (layer "F.Fab"))
+)
