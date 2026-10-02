@@ -1,4 +1,4 @@
-"""Build the 3 column-riser PCBs (D-IO14, 2026-10-02 ~10:45 ET): riser_c (x2: RC_H, RC_O rotated 180 deg), riser_a (x2), riser_hdmi (x1).
+"""Build the 3 column-riser PCBs (D-IO14, 2026-10-02 ~10:45 ET; rev ~12:00 ET tilt 12.5 deg M-IOT2): riser_c (x2: RC_H, RC_O rotated 180 deg), riser_a (x2), riser_hdmi (x1).
 JLC standard 4-layer 1.6 mm (JLC04161H-7628), ENIG (pogo targets). Placement-level A0: outline, port connectors (F), DF40C link (B), pogo targets (B), M2 holes.
 Geometry from risers.json (computed by ../macpro62-io-board/tools/risers_geom.py from the plate stack)."""
 import json, math, os
@@ -30,8 +30,10 @@ def build(name, r, notches=(), title=""):
     xl, hw = r["pcb_x"]; hl = r["riser_l"] / 2
     # outline (rectangle, optional semicircular notches r=3.0 on the +x' (inboard) edge for the I/O-frame centre standoff H13)
     pts = [(xl, -hl), (hw, -hl)]
+    xn, rn = r.get("h13_notch_x_pcb", hw), r.get("h13_notch_r", 3.0)   # notch circle round the I/O-frame centre standoff H13 (rev 12:00 ET: at its tilted-riser position)
     for dy in sorted(notches):
-        pts.append((hw, dy - 3.0)); pts.append(("arc", (hw - 3.0, dy), (hw, dy + 3.0)))
+        hy = math.sqrt(max(rn * rn - (hw - xn) ** 2, 0.0))
+        pts.append((hw, dy - hy)); pts.append(("arc", (xn - rn, dy), (hw, dy + hy)))
     pts += [(hw, hl), (xl, hl), (xl, -hl)]
     cur = pts[0]
     for p in pts[1:]:
@@ -41,7 +43,8 @@ def build(name, r, notches=(), title=""):
     yc = (r["y_range"][0] + r["y_range"][1]) / 2
     for k, (xc, dy) in enumerate(r["connector_centres_pcb"]):
         place(b, "J%d" % (1 + k), CONN[r["type"]], xc, dy, 0, "F", "%s %s (mouth %.2f above main board top)" % (r["ports"][k], r["conn"], r["mouth_heights"][k]))
-    place(b, "J10", "MP62_Hirose_DF40C-%dDS-0.4V_PLACEHOLDER" % r["btb_pins"], r["btb_at_pcb"][0], r["btb_at_pcb"][1], 90, "B", "%s %s riser side (flex jumper to main JR)" % (r["btb"], r["btb_lcsc"]))
+    place(b, "J10", "MP62_Hirose_DF40C-%dDS-0.4V_PLACEHOLDER" % r["btb_pins"], r["btb_at_pcb"][0], r["btb_at_pcb"][1], 90, r.get("btb_side", "B"),
+          "%s %s riser side (flex jumper to main JR%s)" % (r["btb"], r["btb_lcsc"], ", on the TOP: U-turn round the outboard edge" if r.get("btb_side") == "F" else ""))
     for k, (xp, yp, net) in enumerate(r["pogo_pcb"]):
         place(b, "TP%d" % (1 + k), "MP62_Pogo_Target_D3.0", xp, yp, 0, "B", "pogo target %s" % net)
     for k, (xp, yp) in enumerate(r["screws_pcb"]):

@@ -1,7 +1,125 @@
 {
- "rev": "2026-10-02 ~10:50 ET",
+ "rev": "2026-10-02 ~12:00 ET (tilt 12.5, M-IOT2)",
  "riser_t": 1.6,
  "case_r": 111.171,
+ "tilt": 12.5,
+ "checks": [
+  {
+   "check": "riser inboard-edge gap RC_H/RC_O",
+   "value": 1.29,
+   "ok": true
+  },
+  {
+   "check": "riser inboard-edge gap RA_H/RA_O",
+   "value": 0.67,
+   "ok": true
+  },
+  {
+   "check": "RC_H DF40 C-fold gap",
+   "value": 6.216,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo VBUS_C3 at (39.17, 53.06) working height (class P-S)",
+   "value": 4.787,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo VBUS_C3 at (50.98, 50.87) working height (class P-L)",
+   "value": 7.406,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo VBUS_C2 at (39.17, 67.36) working height (class P-S)",
+   "value": 4.787,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo VBUS_C2 at (50.98, 62.47) working height (class P-L)",
+   "value": 7.406,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo VBUS_C1 at (39.17, 78.67) working height (class P-S)",
+   "value": 4.787,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo VBUS_C1 at (50.98, 80.86) working height (class P-L)",
+   "value": 7.406,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo GND at (39.17, 62.97) working height (class P-S)",
+   "value": 4.787,
+   "ok": true
+  },
+  {
+   "check": "RC_H pogo GND at (50.98, 69.27) working height (class P-L)",
+   "value": 7.406,
+   "ok": true
+  },
+  {
+   "check": "RC_O DF40 C-fold gap",
+   "value": 6.195,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo VBUS_C3 at (67.60, 78.67) working height (class P-S)",
+   "value": 4.766,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo VBUS_C3 at (55.79, 80.86) working height (class P-L)",
+   "value": 7.385,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo VBUS_C2 at (67.60, 64.36) working height (class P-S)",
+   "value": 4.766,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo VBUS_C2 at (55.79, 69.27) working height (class P-L)",
+   "value": 7.385,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo VBUS_C1 at (67.60, 53.06) working height (class P-S)",
+   "value": 4.766,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo VBUS_C1 at (55.79, 50.87) working height (class P-L)",
+   "value": 7.385,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo GND at (67.60, 68.77) working height (class P-S)",
+   "value": 4.766,
+   "ok": true
+  },
+  {
+   "check": "RC_O pogo GND at (55.79, 62.47) working height (class P-L)",
+   "value": 7.385,
+   "ok": true
+  },
+  {
+   "check": "RA_H DF40 on riser top, U-turn jumper; main JR at [28.957, 31.586]",
+   "value": 2.674,
+   "ok": true
+  },
+  {
+   "check": "RA_O DF40 on riser top, U-turn jumper; main JR at [77.929, 31.586]",
+   "value": 2.655,
+   "ok": true
+  },
+  {
+   "check": "RH DF40 C-fold gap",
+   "value": 5.651,
+   "ok": true
+  }
+ ],
  "risers": [
   {
    "id": "RC_H",
@@ -12,24 +130,24 @@
     "C3"
    ],
    "rot180": false,
-   "tilt_deg": -5.27,
+   "tilt_deg": -12.5,
    "pcb_x": [
     -8.4,
-    8.4
+    7.3
    ],
-   "riser_w": 16.8,
+   "riser_w": 15.7,
    "riser_l": 34.19,
    "y_range": [
     48.77,
     82.96
    ],
    "plan_x_range": [
-    35.6,
-    52.47
+    37.07,
+    52.74
    ],
    "underside_gap_range": [
-    5.77,
-    7.31
+    4.4,
+    7.8
    ],
    "connector_centres_pcb": [
     [
@@ -47,22 +165,22 @@
    ],
    "connector_centres_plan": [
     [
-     43.961,
+     45.269,
      75.757
     ],
     [
-     43.961,
+     45.269,
      65.84
     ],
     [
-     43.961,
+     45.269,
      55.972
     ]
    ],
    "mouth_heights": [
-    18.59,
-    18.59,
-    18.59
+    18.03,
+    18.03,
+    18.03
    ],
    "conn": "SHOU HAN TYPE-C 24PLT-H10.5 (C3151750)",
    "btb": "DF40C-80DS-0.4V(51)",
@@ -73,15 +191,18 @@
     0.0
    ],
    "btb_riser_plan": [
-    44.108,
+    45.615,
     65.865,
-    6.543
+    6.216
    ],
    "btb_main_plan": [
-    44.108,
+    45.615,
     65.865
    ],
-   "btb_gap": 6.543,
+   "btb_gap": 6.216,
+   "btb_side": "B",
+   "h13_notch_x_pcb": 8.131,
+   "h13_notch_r": 3.0,
    "screws_pcb": [
     [
      0.0,
@@ -94,23 +215,23 @@
    ],
    "screws_riser_to_cradle": [
     [
-     44.108,
+     45.615,
      50.265,
-     6.543
+     6.216
     ],
     [
-     44.108,
+     45.615,
      81.465,
-     6.543
+     6.216
     ]
    ],
    "screws_cradle_to_main": [
     [
-     43.961,
+     45.269,
      50.772
     ],
     [
-     43.961,
+     45.269,
      80.957
     ]
    ],
@@ -121,8 +242,8 @@
      "VBUS_C3"
     ],
     [
-     6.6,
-     -12.8,
+     5.5,
+     -15.0,
      "VBUS_C3"
     ],
     [
@@ -131,8 +252,8 @@
      "VBUS_C2"
     ],
     [
-     6.6,
-     -1.5,
+     5.5,
+     -3.4,
      "VBUS_C2"
     ],
     [
@@ -141,8 +262,8 @@
      "VBUS_C1"
     ],
     [
-     6.6,
-     12.8,
+     5.5,
+     15.0,
      "VBUS_C1"
     ],
     [
@@ -151,59 +272,67 @@
      "GND"
     ],
     [
-     6.6,
-     2.9,
+     5.5,
+     3.4,
      "GND"
     ]
    ],
    "pogo": [
     [
-     37.536,
+     39.172,
      53.065,
-     5.937,
-     "VBUS_C3"
+     4.787,
+     "VBUS_C3",
+     "P-S"
     ],
     [
-     50.68,
-     53.065,
-     7.149,
-     "VBUS_C3"
+     50.985,
+     50.865,
+     7.406,
+     "VBUS_C3",
+     "P-L"
     ],
     [
-     37.536,
+     39.172,
      67.365,
-     5.937,
-     "VBUS_C2"
+     4.787,
+     "VBUS_C2",
+     "P-S"
     ],
     [
-     50.68,
-     64.365,
-     7.149,
-     "VBUS_C2"
+     50.985,
+     62.465,
+     7.406,
+     "VBUS_C2",
+     "P-L"
     ],
     [
-     37.536,
+     39.172,
      78.665,
-     5.937,
-     "VBUS_C1"
+     4.787,
+     "VBUS_C1",
+     "P-S"
     ],
     [
-     50.68,
-     78.665,
-     7.149,
-     "VBUS_C1"
+     50.985,
+     80.865,
+     7.406,
+     "VBUS_C1",
+     "P-L"
     ],
     [
-     37.536,
+     39.172,
      62.965,
-     5.937,
-     "GND"
+     4.787,
+     "GND",
+     "P-S"
     ],
     [
-     50.68,
-     68.765,
-     7.149,
-     "GND"
+     50.985,
+     69.265,
+     7.406,
+     "GND",
+     "P-L"
     ]
    ]
   },
@@ -216,24 +345,24 @@
     "C6"
    ],
    "rot180": true,
-   "tilt_deg": 5.47,
+   "tilt_deg": 12.5,
    "pcb_x": [
     -8.4,
-    8.4
+    7.3
    ],
-   "riser_w": 16.8,
+   "riser_w": 15.7,
    "riser_l": 34.19,
    "y_range": [
     48.77,
     82.96
    ],
    "plan_x_range": [
-    54.26,
-    71.14
+    54.03,
+    69.71
    ],
    "underside_gap_range": [
-    5.71,
-    7.31
+    4.38,
+    7.77
    ],
    "connector_centres_pcb": [
     [
@@ -251,22 +380,22 @@
    ],
    "connector_centres_plan": [
     [
-     62.777,
+     61.506,
      75.757
     ],
     [
-     62.777,
+     61.506,
      65.84
     ],
     [
-     62.777,
+     61.506,
      55.972
     ]
    ],
    "mouth_heights": [
-    18.55,
-    18.55,
-    18.55
+    18.01,
+    18.01,
+    18.01
    ],
    "conn": "SHOU HAN TYPE-C 24PLT-H10.5 (C3151750)",
    "btb": "DF40C-80DS-0.4V(51)",
@@ -277,15 +406,18 @@
     0.0
    ],
    "btb_riser_plan": [
-    62.624,
+    61.16,
     65.865,
-    6.509
+    6.195
    ],
    "btb_main_plan": [
-    62.624,
+    61.16,
     65.865
    ],
-   "btb_gap": 6.509,
+   "btb_gap": 6.195,
+   "btb_side": "B",
+   "h13_notch_x_pcb": 8.146,
+   "h13_notch_r": 3.0,
    "screws_pcb": [
     [
      0.0,
@@ -298,23 +430,23 @@
    ],
    "screws_riser_to_cradle": [
     [
-     62.624,
+     61.16,
      81.465,
-     6.509
+     6.195
     ],
     [
-     62.624,
+     61.16,
      50.265,
-     6.509
+     6.195
     ]
    ],
    "screws_cradle_to_main": [
     [
-     62.777,
+     61.506,
      50.772
     ],
     [
-     62.777,
+     61.506,
      80.957
     ]
    ],
@@ -325,8 +457,8 @@
      "VBUS_C3"
     ],
     [
-     6.6,
-     -12.8,
+     5.5,
+     -15.0,
      "VBUS_C3"
     ],
     [
@@ -335,8 +467,8 @@
      "VBUS_C2"
     ],
     [
-     6.6,
-     -1.5,
+     5.5,
+     -3.4,
      "VBUS_C2"
     ],
     [
@@ -345,8 +477,8 @@
      "VBUS_C1"
     ],
     [
-     6.6,
-     12.8,
+     5.5,
+     15.0,
      "VBUS_C1"
     ],
     [
@@ -355,59 +487,67 @@
      "GND"
     ],
     [
-     6.6,
-     2.9,
+     5.5,
+     3.4,
      "GND"
     ]
    ],
    "pogo": [
     [
-     69.194,
+     67.603,
      78.665,
-     5.88,
-     "VBUS_C3"
+     4.766,
+     "VBUS_C3",
+     "P-S"
     ],
     [
-     56.055,
-     78.665,
-     7.138,
-     "VBUS_C3"
+     55.79,
+     80.865,
+     7.385,
+     "VBUS_C3",
+     "P-L"
     ],
     [
-     69.194,
+     67.603,
      64.365,
-     5.88,
-     "VBUS_C2"
+     4.766,
+     "VBUS_C2",
+     "P-S"
     ],
     [
-     56.055,
-     67.365,
-     7.138,
-     "VBUS_C2"
+     55.79,
+     69.265,
+     7.385,
+     "VBUS_C2",
+     "P-L"
     ],
     [
-     69.194,
+     67.603,
      53.065,
-     5.88,
-     "VBUS_C1"
+     4.766,
+     "VBUS_C1",
+     "P-S"
     ],
     [
-     56.055,
-     53.065,
-     7.138,
-     "VBUS_C1"
+     55.79,
+     50.865,
+     7.385,
+     "VBUS_C1",
+     "P-L"
     ],
     [
-     69.194,
+     67.603,
      68.765,
-     5.88,
-     "GND"
+     4.766,
+     "GND",
+     "P-S"
     ],
     [
-     56.055,
-     62.965,
-     7.138,
-     "GND"
+     55.79,
+     62.465,
+     7.385,
+     "GND",
+     "P-L"
     ]
    ]
   },
@@ -419,24 +559,24 @@
     "A2"
    ],
    "rot180": false,
-   "tilt_deg": -5.25,
+   "tilt_deg": -12.5,
    "pcb_x": [
     -13.1,
-    8.3
+    7.7
    ],
-   "riser_w": 21.4,
+   "riser_w": 20.8,
    "riser_l": 21.7,
    "y_range": [
     26.73,
     48.44
    ],
    "plan_x_range": [
-    31.05,
-    52.5
+    32.46,
+    53.11
    ],
    "underside_gap_range": [
-    4.25,
-    6.2
+    2.02,
+    6.53
    ],
    "connector_centres_pcb": [
     [
@@ -450,17 +590,17 @@
    ],
    "connector_centres_plan": [
     [
-     44.092,
+     45.246,
      42.638
     ],
     [
-     44.092,
+     45.246,
      32.535
     ]
    ],
    "mouth_heights": [
-    18.49,
-    18.49
+    17.65,
+    17.65
    ],
    "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037)",
    "btb": "DF40C-50DS-0.4V(51)",
@@ -471,15 +611,18 @@
     0.0
    ],
    "btb_riser_plan": [
-    34.181,
+    35.732,
     37.586,
-    4.52
+    2.674
    ],
    "btb_main_plan": [
-    34.181,
-    37.586
+    28.957,
+    31.586
    ],
-   "btb_gap": 4.52,
+   "btb_gap": 2.674,
+   "btb_side": "F",
+   "h13_notch_x_pcb": 8.154,
+   "h13_notch_r": 3.0,
    "screws_pcb": [
     [
      -10.1,
@@ -492,23 +635,23 @@
    ],
    "screws_riser_to_cradle": [
     [
-     34.181,
+     35.732,
      28.186,
-     4.52
+     2.674
     ],
     [
-     34.181,
+     35.732,
      46.986,
-     4.52
+     2.674
     ]
    ],
    "screws_cradle_to_main": [
     [
-     44.092,
+     45.246,
      29.335
     ],
     [
-     44.092,
+     45.246,
      45.838
     ]
    ],
@@ -523,24 +666,24 @@
     "A4"
    ],
    "rot180": true,
-   "tilt_deg": 5.51,
+   "tilt_deg": 12.5,
    "pcb_x": [
     -13.1,
-    8.3
+    7.7
    ],
-   "riser_w": 21.4,
+   "riser_w": 20.8,
    "riser_l": 21.7,
    "y_range": [
     26.73,
     48.44
    ],
    "plan_x_range": [
-    54.32,
-    75.78
+    53.78,
+    74.43
    ],
    "underside_gap_range": [
-    4.14,
-    6.2
+    2.01,
+    6.51
    ],
    "connector_centres_pcb": [
     [
@@ -554,17 +697,17 @@
    ],
    "connector_centres_plan": [
     [
-     62.739,
+     61.64,
      42.638
     ],
     [
-     62.739,
+     61.64,
      32.535
     ]
    ],
    "mouth_heights": [
-    18.44,
-    18.44
+    17.63,
+    17.63
    ],
    "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037)",
    "btb": "DF40C-50DS-0.4V(51)",
@@ -575,15 +718,18 @@
     0.0
    ],
    "btb_riser_plan": [
-    72.639,
+    71.154,
     37.586,
-    4.432
+    2.655
    ],
    "btb_main_plan": [
-    72.639,
-    37.586
+    77.929,
+    31.586
    ],
-   "btb_gap": 4.432,
+   "btb_gap": 2.655,
+   "btb_side": "F",
+   "h13_notch_x_pcb": 8.283,
+   "h13_notch_r": 3.0,
    "screws_pcb": [
     [
      -10.1,
@@ -596,23 +742,23 @@
    ],
    "screws_riser_to_cradle": [
     [
-     72.639,
+     71.154,
      46.986,
-     4.432
+     2.655
     ],
     [
-     72.639,
+     71.154,
      28.186,
-     4.432
+     2.655
     ]
    ],
    "screws_cradle_to_main": [
     [
-     62.739,
+     61.64,
      29.335
     ],
     [
-     62.739,
+     61.64,
      45.838
     ]
    ],
@@ -626,7 +772,7 @@
     "HDMI"
    ],
    "rot180": false,
-   "tilt_deg": -5.33,
+   "tilt_deg": -12.5,
    "pcb_x": [
     -12.4,
     12.4
@@ -638,12 +784,12 @@
     114.27
    ],
    "plan_x_range": [
-    31.51,
-    56.36
+    32.93,
+    57.49
    ],
    "underside_gap_range": [
-    5.21,
-    7.51
+    2.97,
+    8.33
    ],
    "connector_centres_pcb": [
     [
@@ -653,12 +799,12 @@
    ],
    "connector_centres_plan": [
     [
-     43.86,
+     45.038,
      107.069
     ]
    ],
    "mouth_heights": [
-    18.41
+    17.46
    ],
    "conn": "HOAUC HYC79-HDMIA19-105 (C711353)",
    "btb": "DF40C-40DS-0.4V(51)",
@@ -669,15 +815,18 @@
     0.0
    ],
    "btb_riser_plan": [
-    44.009,
+    45.384,
     107.069,
-    6.363
+    5.651
    ],
    "btb_main_plan": [
-    44.009,
+    45.384,
     107.069
    ],
-   "btb_gap": 6.363,
+   "btb_gap": 5.651,
+   "btb_side": "B",
+   "h13_notch_x_pcb": 8.367,
+   "h13_notch_r": 3.0,
    "screws_pcb": [
     [
      -11.0,
@@ -690,23 +839,23 @@
    ],
    "screws_riser_to_cradle": [
     [
-     33.056,
+     34.645,
      104.069,
-     5.341
+     3.27
     ],
     [
-     54.961,
+     56.124,
      110.069,
-     7.385
+     8.032
     ]
    ],
    "screws_cradle_to_main": [
     [
-     36.36,
+     37.538,
      111.369
     ],
     [
-     51.36,
+     52.538,
      111.369
     ]
    ],

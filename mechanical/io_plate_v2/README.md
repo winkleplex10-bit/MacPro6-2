@@ -1,3 +1,10 @@
+> **Rev 2026-10-02 ≈ 12:00 ET (measured stock tilt, M-IOT2: 12.5° outward, mirrored):**
+> - `TILT_OVERRIDE_DEG = 12.5` (None = radial 5.3–5.5°). The ports are **7.0–7.25° off the plate normal** at R 110, so the axis/mouth code no longer assumes radial axes: exact axis–surface intersection, mouth with no point proud (`MOUTH_CLR` 0.05), per-layer clearance of the tilted shell (flex, foam +0.3, frame slot) in `features.json → tilt.check`.
+> - `AXIS_BALANCE` (HDMI −0.22 mm to clear the frame slot) and `AXIS_SHIFT_OUT = {"USBA": 0.35}` (USB-A riser edge clearance).
+> - New `TILT_SEAT`: flat plug seats perpendicular to each axis on the OUTER face (overmold + 2 × 0.25, floor keeps ≥ 0.6 skin). Overmold stand-off USB-C 1.3 → 0.7, USB-A 1.7 → 1.1–1.2, HDMI 2.0 → 1.4 mm (open risk, M-IOT3 / M-IOC2).
+> - Mouth centres 17.46–18.03 above the board (were 18.41–18.59). Flex margins ≥ 0.17 (HDMI Y, unchanged), X ≥ 0.19; frame slots ≥ 0.19. Inner face unchanged (smooth, flex flat).
+> - Previews: `io_plate_v2_A0_section.png` (seat floors in violet), `io_plate_v2_A0_outer.png` (seats), `io_plate_v2_A0_preview.png` (flex check + outer + section).
+
 > **Rev 2026-10-02 ≈ 11:30 ET (stock cover phone scan check, no geometry change):**
 > - Scan (`../io_cover_scan/`, Gaussian-splat PLY) registered to the plate at **0.49 mm RMS** over 13 openings after a 0.931 rescale. Outline width ≈ 52.4 vs 51.9 (blur ≈ 0.5), centre and corners agree: **outline kept**.
 > - Inner radius from the scan ≈ 101.7 (bootstrap 99.7–103.7, band spread 77–123) vs **109.97 from D0**: consistent, D0 kept. New switch `R_INNER_OVERRIDE = None` (set 101.7 to use the scan fit); `params.cover_scan` in the features JSON records the check.

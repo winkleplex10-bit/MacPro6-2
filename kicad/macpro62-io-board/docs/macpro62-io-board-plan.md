@@ -17,6 +17,8 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 
 ## 1. Summary and recommendation
 
+> **Update 2026-10-02 ≈ 12:00 ET (M-IOT2 measured: stock ports lean outward 12.5°, mirrored):** USB-C / USB-A / HDMI risers now tilt **±12.5°** (`TILT_OVERRIDE_DEG = 12.5`), which is **7.0–7.25° off the plate normal** at R 110. Mouths 17.46–18.03 above the board, flat plug seats on the outer face, risers re-shaped (§4.7.5, "Rev 12:00 ET"). Main stake: plug overmold stand-off 0.7 (USB-C) / 1.1–1.2 (USB-A) / 1.4 (HDMI) mm (M-IOT3, M-IOC2).
+>
 > **Update 2026-10-02 ≈ 10:50 ET:**
 > - Ports on 5 tilted column risers (§4.7.5): R 111.2 from D0, tilt ±5.3–5.5°, mouths 18.4–18.6 above the board.
 > - Non-magnetic RJ45 + V24P05S (§4.7.6).
@@ -69,7 +71,7 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO10** | Port illumination | **Revised 2026-10-02: the flex on J31 only.** D21–D26 DNP, plate light pipes removed, light windows over the flex pads. TLC59116 stays (D20, diag LEDs, and the A1 flex below). | Board light pipes: need Ø2.5 holes drilled in the frame centre bar (5 of 6 positions blocked). |
 | **D-IO12** | Which flex on the plate | **Revised 2026-10-02 ≈ 10:15 ET: reuse the stock 821-2222-A; no replacement flex for now.** The plate has no bosses, the ports are centred on the flex cut-outs (USB-C +0.44 per side), and there are pockets for the plate-side LEDs and the button carrier (§4.7.2–4.7.3). *Earlier text:* **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
 | **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
-| **D-IO14** | Connector heights (measured D0 18.0 / 16.5) | **Resolved 2026-10-02 ≈ 10:50 ET: tilted column risers** (§4.7.5): 5 small 4-layer risers (2 × USB-C, 2 × USB-A, 1 × HDMI), each tilted 5.25–5.51° so that every port axis is radial. Link: DF40C receptacles + a C-fold flex jumper. USB-C VBUS runs on pogo pins. The risers sit on printed wedge cradles. | Tilt follows the D0-derived radius (R 111.2). `TILT_OVERRIDE_DEG` gives a one-line 7° stock-photo variant. |
+| **D-IO14** | Connector heights (measured D0 18.0 / 16.5) | **Resolved 2026-10-02 ≈ 10:50 ET: tilted column risers** (§4.7.5): 5 small 4-layer risers (2 × USB-C, 2 × USB-A, 1 × HDMI), each tilted 5.25–5.51° so that every port axis is radial. Link: DF40C receptacles + a C-fold flex jumper. USB-C VBUS runs on pogo pins. The risers sit on printed wedge cradles. | **12:00 ET: tilt = measured stock 12.5° (M-IOT2)**, not the surface normal; `TILT_OVERRIDE_DEG = None` restores the radial 5.3–5.5° build. |
 | **D-IO15** | RJ45 | **Approved 2026-10-02**: non-magnetic vertical SMD RJ45 (Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C, C55547809; height ≤ 13.0 still to be confirmed from its datasheet) + JASN V24P05S 2.5G magnetics (C2827281, $0.63 @10) on the B side + Bob-Smith network. | M-IOR1: jack height and latch side. |
 | **D-IO11** | Plate process | **MJF PA12, dyed black** (JLC3DP or PCBWay) | SLA black resin: nicer surface, but the clips are brittle. CNC: best fit, ≈ 10× the price. |
 
@@ -495,6 +497,33 @@ Source: Aidan's flatbed scan (200 dpi, flex flat on the glass, L-shaped ruler). 
 
 ### 4.7.5 Tilted column risers (D-IO14, rev 2026-10-02 ≈ 10:50 ET)
 
+**Rev 12:00 ET: measured stock tilt 12.5° (M-IOT2, Aidan 11:47 ET).** The stock ports lean **outward 12.5° from vertical** (taken as the board normal), the other column mirrored. `build_plate.py` now uses `TILT_OVERRIDE_DEG = 12.5` for USB-C, USB-A and HDMI; everything downstream (plate holes, seats, stack, `risers.json`, riser PCBs, main-board JR/pogo/cradle holes, section) is regenerated from it.
+
+- **Curvature vs tilt.** At the port columns (|u| ≈ 10.1) the plate normal is 5.3–5.5° for R 110 (6.9° even for the 83.8 case cylinder). A 12.5° normal would need R ≈ 47, which no measurement supports (D0 → 110, phone scan → 102, case → 84). So **the stock ports are not normal to the cover; they sit 7.0–7.25° off-normal** and Apple angled them for another reason [Inference]: splaying the cables / plugs of the two columns apart (overmolds 12–21 mm on a 20.6 mm column pitch), easier plug access from the side, or matching an internal frame/flex geometry. A second possibility is that the stock cover has local flat seats around the openings (the phone-scan residual map shows ≈ +1 mm rings round the C/A/HDMI openings, but it is below the scan's reliability) — **M-IOT3**. Please also confirm the 12.5° was taken against the board, not gravity.
+- **Axis.** Each axis still passes through its flex cut-out centre at the flex mid-plane (the flex must lie flat and is the tightest layer). `AXIS_BALANCE` shifts an axis along X to equalise the worst flex / foam / frame-slot margins (HDMI −0.22). `AXIS_SHIFT_OUT = {"USBA": 0.35}` moves the USB-A axes outboard so the H/O USB-A risers clear each other.
+- **Mouth.** Rule kept: no point of the shell mouth proud of the outer face (`MOUTH_CLR` 0.05). With the face 7° off the surface, one edge is flush and the other deep.
+- **Plug seats.** An off-normal mouth makes the plug overmold land on the skin before it seats. `TILT_SEAT = True` cuts a flat seat perpendicular to the axis (overmold + 2 × 0.25) on the OUTER face only, floor ≥ 0.6 of skin left (the inner face stays smooth). This recovers ≈ 0.6 mm; a full seat would need > 1.2 skin.
+
+| Column | Tilt (off normal) | Mouth centre above board (was) | Mouth recess, flush edge / deep edge | Overmold stand-off, no seat → seat | Flex X margin (untilted) | Foam / frame-slot min margin |
+|---|---|---|---|---|---|---|
+| RC_H C1–C3 | −12.5° (−7.23°) | 18.03 (18.59) | 0.05 / 1.17 | 1.31 → **0.72** | 0.39 (0.45) | 0.48 / 0.69 |
+| RC_O C4–C6 | +12.5° (+7.03°) | 18.01 (18.55) | 0.05 / 1.14 | 1.27 → **0.68** | 0.39 (0.45) | 0.48 / 1.12 |
+| RA_H A1, A2 | −12.5° (−7.25°), axis −0.35 | 17.65 (18.49) | 0.05 / 1.67 | 1.75 → **1.16** | 0.32 (0.73); Y 0.35 | 0.65 / 1.96 |
+| RA_O A3, A4 | +12.5° (+6.99°), axis +0.35 | 17.63 (18.44) | 0.05 / 1.61 | 1.69 → **1.10** | 0.32 (0.73); Y 0.35 | 0.65 / 1.29 |
+| RH HDMI | −12.5° (−7.17°), axis −0.22 | 17.46 (18.41) | 0.05 / 1.92 | 2.02 → **1.43** | 0.19 (0.47); Y 0.17 | 0.52 / **0.19** |
+
+- **Flex / foam / frame.** The tilted shell crosses the flex at 7° so its footprint grows by sw (1/cos 7° − 1) + t tan 7° ≈ 0.06–0.10 and drifts 0.13 mm per mm of depth. **The stock flex still lies flat; every shell clears its cut-out** (min 0.17 on HDMI in Y, unchanged; X ≥ 0.19). The foam die-cut (+0.3) clears by ≥ 0.48. The I/O-frame slots clear by ≥ 0.19 (HDMI inboard edge; without the balance shift it was −0.03 = interference). The frame slot positions come from a photo, so HDMI is the one to check (M-IOF2).
+- **Risers (rev 12:00 ET).** 12.5° pulls each connector base ≈ 1.3 mm further inboard than at 5.4°, so the H and O risers' inboard edges collided (USB-C 0.9 mm, USB-A 1.2 mm overlap):
+  - riser_c: x′ −8.4…**+7.3** (was +8.4), the inboard pogos move to x′ 5.5 (y′ ±15.0, ±3.4), H13 notches r 3.0 re-centred on the standoff at the tilted position. H/O edge gap **1.29**.
+  - riser_a: x′ −13.1…**+7.7** (shell pegs + 0.3) plus the 0.35 outboard axis shift. H/O edge gap **0.67** (tight: one shared printed twin cradle for RA_H + RA_O is suggested).
+  - riser_a DF40: the underside gap at the outboard strip fell to 2.7 (< 4.4 for the C-fold), so the DF40C-50 moves to the **riser top (F)** and the jumper makes a U-turn round the outboard edge to JR3/JR4, now at (28.96, 31.59) / (77.93, 31.59) (H side kept clear of the speaker keep-out).
+  - Underside gaps: riser_c 4.4–7.8 (DF40 6.2 ✓), riser_a 2.0–6.5, riser_hdmi 3.0–8.3 (DF40 5.65 ✓).
+  - Pogo working heights split into two lengths: **P-S 4.8** (outboard row) and **P-L 7.4** (inboard row); 7.4 is above the old 4.6–7.3 class, so a longer pogo is needed for the inboard row.
+  - Main board: JR/PG/cradle holes follow `risers.json`. **D21–D26 (DNP light-pipe LEDs) were removed**: their spots now sit under the riser inboard edges, and the flex lights the icons anyway (TLC59116 OUT9–14 spare). DRC 0, ERC 0, riser DRC 0 ×3.
+  - Neighbours: RH inboard edge now reaches X 57.5 (J30 JST SH under it with ≥ 7.5 gap: cradle window). RH −Y edge stays 0.34 / 0.15 mm in plan from the J26 / J25 RJ45 bodies (unchanged, tight). RC/RA risers 0.33 apart in Y (unchanged). Riser outboard edges at X ≥ 32.5 are far below the frame and plate rim; case-wall clearance is not the limit.
+
+*(Text below this point describes the 10:50 ET radial-tilt build; numbers for tilt, mouth heights, gaps and riser widths are superseded by the table above.)*
+
 **Curvature from D0.** Aidan took the 16.5 mm reading at the outer edge of the outermost port columns. In the scan trace, the outer edges are the HDMI cut-out (X 34.89, |u| 18.30) on the H side and the USB-A cut-out (X 71.09, |u| 17.90) on the O side, so |u| = 18.10 on average. Then R_inner = (u² + 1.5²) / (2 × 1.5) = **109.97**, R_outer **111.17**. That is flatter than the old 82.0 (case-cylinder) assumption, so the I/O cover is not on the case cylinder. The value is parametric in `build_plate.py` (`D0_EDGE_SIDE` = "mean" / "H" / "O" / a number).
 
 **Tilt.** Each port axis is radial through its flex cut-out centre at the flex plane:
@@ -798,6 +827,10 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - Added on B: J7 CONN_C (DF12-40) with standoffs H14/H15 at the stock spots, U90 EMC2101 (44.0, 11.0), U91 ASM1182e (24.0, 130.0), U35 CH334R H3 + Y7.
   - DRC 0/0/0 (`--severity-all`), ERC 0. Riser PCBs DRC 0.
 
+- **2026-10-02 ≈ 12:00 ET (tilt 12.5°)**:
+  - JR1–JR5, PG1–PG16 and cradle holes H21–H30 moved with the re-computed risers; JR3/JR4 (USB-A, U-turn jumper) at (28.96, 31.59) / (77.93, 31.59).
+  - D21–D26 removed (PCB + schematic). DRC 0/0/0, ERC 0; riser_c / riser_a / riser_hdmi DRC 0.
+
 - **2026-10-02 ≈ 11:30 ET**:
   - Added J8 (B, U.FL C88373, fan-assembly antenna cable) and DNP J9 (F, pass-through), net RF_ANT_FAN.
   - T8 bracket keep-out X 38.06–62.92 / Y 0–10.5 on B.Fab + Dwgs.User with a script check; U90 → (65.0, 5.0) rot 90, U70 → (38.0, 24.5).
@@ -855,7 +888,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - The DF40C-50/40 LCSC numbers and the pogo part are TBC.
   - The CONN_C pinout and mating are unconfirmed.
   - The FPC jumper impedance must be TDR-checked.
-  - Riser tilt follows R 111.2 (D0-derived); the stock tilt is unconfirmed.
+  - Riser tilt follows R 111.2 (D0-derived); the stock tilt is unconfirmed. **12:00 ET: superseded, tilt = measured 12.5°.** New risks: plug overmold stand-off 0.7–1.4 mm with seats (M-IOT3/M-IOC2); USB-A riser edge gap 0.67; HDMI frame-slot margin 0.19 (photo-based frame); inboard pogo needs a longer (≈ 7.4 working) part.
   - 11:30 ET: J8 antenna receptacle type/position and the T8 bracket outline are unconfirmed (M-IOA1, M-IOB2); the iMac card's U.FL row must be reachable by the stock leads (M-IOA2); R_inner 110 (D0) vs 101.7 (cover scan) is unresolved within ± 0.2 mm at the port edge.
   - The main schematic still lists the port receptacles J11–J24/J27 logically; they physically sit on the riser PCBs, linked by JR1–JR5. The riser schematics and pin maps are still to be drawn.
 
@@ -865,6 +898,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | Logical pin numbers on the IC symbols | Schematic-to-footprint mismatch | Map every pin from its datasheet. |
 | Stock pinouts (PSU, audio, wall flex) | Wrong function | Probe per §9; 0R matrices and DNP links. |
 | Plate curvature R and D0 | Ports recessed or proud | M-IOT2 and M-IOF2 before ordering; parametric rebuild. |
+| **Measured 12.5° tilt vs R 110 (7° off-normal), 12:00 ET** | Plugs stand 0.7 (USB-C) / 1.1–1.2 (USB-A) / 1.4 (HDMI) mm short of full insertion even with seats; USB 3 SS / HDMI contacts at risk | M-IOT3 (how the stock plugs seat); print a test plate and plug real cables (M-IOC2). Fallbacks: thicker local skin is not possible (flex flat), so either tilt toward the normal (`TILT_OVERRIDE_DEG` 7–9° halves the stand-off) or accept mouths up to ≈ 0.5 proud on the flush edge (`MOUTH_CLR` < 0, only if the case clears). |
 | Clip positions | Plate does not latch | VERIFY on the stock plate; print one test plate. |
 | i226-V availability (now 2 per board) | Ethernet missing | Check JLC/LCSC stock (KTI226V C26159200) for 2 × qty. |
 | **HR913790A not stocked at LCSC** | Assembly delay | JLC global sourcing or consign; fallback Amphenol RJMG2V1SLN12W5R (LCSC C6647577, vertical shielded, 2.5G rating unverified) or a non-magnetic vertical jack + discrete 2.5G transformer. |
@@ -918,7 +952,8 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | M-IOP1 | Port grid with calipers (the face centres in §4.1). |
 | M-IOC1 | CONN_C full pin map on the stock board (§4.7.7 probing list): GND, 12 V, 3.3 V, PWM, TACH, PCIe pairs, REFCLK, USB2, PERST#/CLKREQ#/WAKE#, disables. |
 | M-IOC3 | CONN_C mating: stock cable plug markings, mated height, pin-1 side, bosses; confirm the DF12-40 footprint or find the Apple/Panasonic/JAE part. |
-| M-IOT2 | Stock port tilt on the board (side photo looks upright vs the 6.4–7.3° front-scan estimate): an angle gauge on a stock USB-A shell. |
+| M-IOT2 | *Measured 2026-10-02 11:47 ET: 12.5° outward, mirrored.* Confirm the reference (board normal, not gravity) and whether USB-C / USB-A / HDMI all share it. |
+| **M-IOT3** | Stock mouths vs the cover: recess at the inboard and outboard shell edges of a USB-C, USB-A and the HDMI; with a stock-size cable plugged, the gap between overmold and cover on the high side; are there flat seats / facets round the stock openings? |
 | **M-IOA1** | Fan-assembly antenna cable: connector type on the stock IOB (U.FL / MHF / W.FL), exact position (expected ≈ (38.4, 16.0) B), and where its RF goes on the stock board (PCB antenna? a second connector? which card antenna feeds it). |
 | **M-IOA2** | iMac card in the fan-assembly adapter: do the 4 stock antenna leads reach its U.FL row; which lead is BT; trimmed-section clearance. |
 | **M-IOB2** | T8 fan-cable bracket: outline, thickness, standoff height and thread, ground contact; confirm the B keep-out X 38.06–62.92 / Y 0–10.5. |
@@ -939,6 +974,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - `kicad/macpro62-io-risers/`: `risers.json` (geometry), `MP62_RISER.pretty`, and `riser_c/`, `riser_a/`, `riser_hdmi/` (PCB, project, DRC report, top/bottom renders), built by `tools/build_risers.py`.
   - `kicad/macpro62-io-board/tools/risers_geom.py` (riser geometry from the plate stack) and `tools/make_fps_risers.py` (DF40C-80/50/40, DF12-40, RJ45 no-mag, V24P05S, pogo, cradle holes, ASM1182e).
   - `mechanical/io_plate_v2/io_plate_v2_A0_section.png` (tilted risers + cradles).
+- **2026-10-02 ≈ 12:00 ET (tilt 12.5°)**: `io_plate_v2_A0_features.json` gains `tilt` (per-port flex / foam / frame margins, stand-offs, seats) and per-port `seat_floor`; `risers.json` gains `checks` (edge gaps, DF40 gaps, pogo classes), `btb_side`, `h13_notch_x_pcb`.
 - **2026-10-02 ≈ 11:30 ET additions**:
   - `mechanical/io_cover_scan/`: `scan_overlay.py`, `io_cover_scan_check.json`, `io_cover_scan_overlay.png`, `README.md` (the raw 38 MB PLY and the npy/npz intermediates are kept on the box, not zipped).
   - `kicad/macpro62-io-board/MP62_IO.pretty/MP62_UFL_Hirose_U.FL-R-SMT-1.kicad_mod`.

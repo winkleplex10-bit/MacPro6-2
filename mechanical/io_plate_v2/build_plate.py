@@ -80,7 +80,13 @@ NECK = (76.0, FJ["neck"]["y"][0] - 0.5, 81.5, FJ["neck"]["y"][1] + 0.5)   # rim 
 _cy = [CUT["C%d" % k]["cy"] for k in (1, 2, 3)]
 RELIEF = []   # rev 10:30 ET: tilted ports, mouth tangent to the face -> no overmold spot-faces needed
 TILT_KINDS = ("USBC", "USBA", "HDMI")        # these sit on tilted column risers, axis normal to the plate at the opening (D-IO14)
-TILT_OVERRIDE_DEG = None                     # None = surface normal from CASE_R; a number forces |tilt| (e.g. 7.0 as the stock photo estimate)
+TILT_OVERRIDE_DEG = 12.5                     # Aidan 11:47 ET (M-IOT2): stock ports lean OUTWARD 12.5 deg from the board normal, columns mirrored.
+                                             # None = surface normal from CASE_R (5.3-5.5 deg at R 110); any number forces |tilt| (sign = outward)
+MOUTH_CLR = 0.05                             # no point of a tilted shell mouth closer than this to the outer surface (mouth never proud)
+AXIS_SHIFT_OUT = {"USBA": 0.35}             # extra OUTBOARD axis shift at the flex plane (mm): at 12.5 deg the H / O USB-A risers' inboard edges collide (riser gap +0.7)
+AXIS_BALANCE = True                          # shift each tilted axis along X (at the flex plane) to maximise the smallest flex / foam / frame-slot margin
+TILT_SEAT = True                             # flat plug seats on the OUTER face, perpendicular to the port axis (reduce the overmold stand-off of an off-normal port)
+SEAT_CLR, SEAT_MIN_WALL = 0.25, 0.6          # seat = plug overmold + 2 x SEAT_CLR; the floor keeps >= SEAT_MIN_WALL of skin (inner face stays smooth for the flex)
 RISER_T = 1.6                                # riser PCB (JLC04161H-7628, standard 4-layer)
 CONN_H = {"USBC": 10.5, "USBA": 11.5, "HDMI": 10.5}   # catalogue heights of the riser connectors (mating face above the riser top)
 LEGEND = [("blank ETH2 recess", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7)] if ETH2 == "blank" else []
@@ -169,12 +175,60 @@ def tilt_of(x):
     u = x - PL_C[0]; a = math.asin(u / R_FLEX)
     if TILT_OVERRIDE_DEG is not None: a = math.copysign(math.radians(TILT_OVERRIDE_DEG), u)
     return a
+fr = json.load(open(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json")))["features"]
+SLOT = {"USBC_H": "TALL_R", "USBC_O": "TALL_L", "USBA_H": "SQ_R", "USBA_O": "SQ_L", "HDMI": "SMALL_R1", "ETH2": "SMALL_R2"}
+R_FB = R_FLEXFACE - FLEX_T; R_FOAM = R_FB - FOAM_T; R_FRB = R_FOAM - FRAME_T
+_TG = {}
+def tilt_geom(oid, kind, x, y, w):
+    """Tilted port: axis direction n at tilt_of(x), through the flex cut-out centre (+ balance shift) at the flex mid-plane.
+    Returns mouth plane, recesses, overmold stand-off (with / without seat), per-layer margins of the tilted shell."""
+    if oid in _TG: return _TG[oid]
+    c = CUT[oid]; side = "H" if x < PL_C[0] else "O"; sw, sh = SHELL[kind]["shell"]; ow, oh = SHELL[kind]["overmold"]
+    ang = tilt_of(x); n = (math.sin(ang), math.cos(ang)); ex = (math.cos(ang), -math.sin(ang)); fslot = fr[SLOT[kind + ("" if kind == "HDMI" else "_" + side)]]
+    def build(dx):
+        u = x - PL_C[0] + dx; P0 = (u, -R0 + math.sqrt(R_FLEX ** 2 - u * u))
+        def t_hit(xi, rho):
+            qx, qz = P0[0] + xi * ex[0], P0[1] + xi * ex[1] + R0; b = qx * n[0] + qz * n[1]; cc = qx * qx + qz * qz - rho * rho
+            return -b + math.sqrt(b * b - cc)
+        def span(r_a, r_b):
+            pts = []
+            for rho in (r_a, r_b):
+                for xi in (-sw / 2, sw / 2):
+                    t = t_hit(xi, rho); qx, qz = P0[0] + xi * ex[0] + t * n[0], P0[1] + xi * ex[1] + t * n[1] + R0
+                    pts.append(PL_C[0] + rho * math.atan2(qx, qz))
+            return min(pts), max(pts)
+        def marg(sp, lo, hi): return [round(sp[0] - lo, 3), round(hi - sp[1], 3)]
+        m = dict(flex=marg(span(R_FLEXFACE, R_FB), c["cx"] - c["w"] / 2, c["cx"] + c["w"] / 2),
+                 foam=marg(span(R_FB, R_FOAM), c["cx"] - c["w"] / 2 - 0.3, c["cx"] + c["w"] / 2 + 0.3),
+                 frame=marg(span(R_FOAM, R_FRB), fslot["cx"] - fslot["w"] / 2, fslot["cx"] + fslot["w"] / 2))
+        return P0, t_hit, m
+    dx = 0.0
+    if AXIS_BALANCE:
+        _, _, m = build(0.0); lo = min(v[0] for v in m.values()); hi = min(v[1] for v in m.values()); dx = round((hi - lo) / 2, 3)
+        if abs(dx) < 0.02: dx = 0.0
+    dx = round(dx + math.copysign(AXIS_SHIFT_OUT.get(kind, 0.0), x - PL_C[0]), 3)
+    P0, t_hit, m = build(dx)
+    t_ax = t_hit(0.0, R0); t_m = min(t_hit(xi, R0 - MOUTH_CLR) for xi in (-sw / 2, sw / 2))
+    rec_e = [t_hit(xi, R0) - t_m for xi in (-sw / 2, sw / 2)]
+    xis = [w / 2 + k * (ow / 2 - w / 2) / 20 for k in range(21)] if ow > w else []
+    stand0 = max([0.0] + [t_hit(sg * xi, R0) - t_m for xi in xis for sg in (-1, 1)])
+    W = ow + 2 * SEAT_CLR
+    t_seat = max(t_m, max(t_hit(sg * xi, R0 - SKIN + SEAT_MIN_WALL) for xi in [w / 2 + k * (W / 2 - w / 2) / 20 for k in range(21)] for sg in (-1, 1)))
+    stand = min(stand0, t_seat - t_m) if TILT_SEAT else stand0
+    seat_depth = max(0.0, max(t_hit(sg * W / 2, R0) for sg in (-1, 1)) - t_seat)
+    g = dict(ang=ang, n=n, ex=ex, P0=P0, dx=dx, t_m=t_m, rec=t_ax - t_m, rec_e=rec_e, stand0=stand0, stand=stand, t_seat=t_seat, seat_w=W, seat_h=oh + 2 * SEAT_CLR,
+             seat=(TILT_SEAT and stand0 - stand > 0.02), seat_depth=seat_depth, m=m, sw=sw, sh=sh,
+             M=(P0[0] + t_m * n[0], P0[1] + t_m * n[1]), surface_normal=math.asin((x - PL_C[0]) / R_FLEX))
+    _TG[oid] = g; return g
 for oid, kind, x, y, w, h, r in OPEN:
     if kind in TILT_KINDS:
-        a = tilt_of(x); u = x - PL_C[0]
-        zf = -R0 + R_FLEX * math.cos(math.asin(u / R_FLEX)); xs = x            # axis through the flex cut-out centre
+        tg = tilt_geom(oid, kind, x, y, w); a = tg["ang"]; xs, zf = tg["P0"][0] + PL_C[0], tg["P0"][1]   # axis through the flex cut-out centre (+ balance shift)
         hole = cq.Workplane("XY").box(w, h, 14.0).edges("|Z").fillet(min(r, w / 2 - 0.01, h / 2 - 0.01)).rotate((0, 0, 0), (0, 1, 0), math.degrees(a)).translate((xs, y, zf))
-        plate = plate.cut(hole); report.append((oid, kind, x, y, w, h, "straight through-hole along the tilted port axis (%.2f deg), centred on the flex cut-out at the flex plane" % math.degrees(a)))
+        plate = plate.cut(hole); report.append((oid, kind, x, y, w, h, "straight through-hole along the tilted port axis (%.2f deg, axis shift %+.2f), centred on the flex cut-out at the flex plane" % (math.degrees(a), tg["dx"])))
+        if tg["seat"]:   # flat seat perpendicular to the axis, floor at t_seat along the axis
+            fx, fz = tg["P0"][0] + tg["t_seat"] * tg["n"][0] + PL_C[0], tg["P0"][1] + tg["t_seat"] * tg["n"][1]
+            seat = cq.Workplane("XY").box(tg["seat_w"], tg["seat_h"], 6.0).edges("|Z").fillet(1.0).translate((0, 0, 3.0)).rotate((0, 0, 0), (0, 1, 0), math.degrees(a)).translate((fx, y, fz))
+            plate = plate.cut(seat); report.append((oid + "_SEAT", "SEAT", x, y, tg["seat_w"], tg["seat_h"], "flat plug seat perpendicular to the axis, %.2f deep at the high edge, wall >= %.1f" % (tg["seat_depth"], SEAT_MIN_WALL)))
     else:
         plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0)); report.append((oid, kind, x, y, w, h, "through the curved skin (no land)"))
 for oid, x, y, dd in ROUND:
@@ -196,8 +250,6 @@ bb = plate.val().BoundingBox()
 print("bbox", round(bb.xmin, 2), round(bb.xmax, 2), round(bb.ymin, 2), round(bb.ymax, 2), round(bb.zmin, 2), round(bb.zmax, 2), "vol", round(plate.val().Volume(), 1), "solids", len(plate.solids().vals()))
 
 # ---------------- stack-up: required connector heights (board top -> mouth) ----------------
-fr = json.load(open(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json")))["features"]
-SLOT = {"USBC_H": "TALL_R", "USBC_O": "TALL_L", "USBA_H": "SQ_R", "USBA_O": "SQ_L", "HDMI": "SMALL_R1", "ETH2": "SMALL_R2"}
 def u_out(x, hw): return abs(x - PL_C[0]) + hw
 def zs_u(u): return -(CASE_R - math.sqrt(CASE_R ** 2 - u * u))
 def zface_max(x, hw): return zs_u(u_out(x, hw))      # mouth flush at the outboard shell edge (lowest outer-surface point of the footprint)
@@ -205,23 +257,29 @@ def relief_floor_at(x, y):
     for rid, ri in relief_info.items():
         if abs(x - ri["cx"]) <= ri["w"] / 2 and abs(y - ri["cy"]) <= ri["h"] / 2: return ri["floor_z"], rid
     return None, None
-STACK = []
+STACK = []; TILT_CHECK = []
 for oid, kind, x, y, w, h, r in OPEN:
     if kind == "AC": continue
     c = CUT[oid]; side = "H" if x < PL_C[0] else "O"
-    if kind in TILT_KINDS:   # tilted riser: axis radial, mouth tangent to the outer face, recess = sag over the half shell + 0.05
-        sw, sh = SHELL[kind]["shell"]; ang = tilt_of(x); n = (math.sin(ang), math.cos(ang)); u = x - PL_C[0]
-        zf = -R0 + R_FLEX * math.cos(math.asin(u / R_FLEX))
-        Mx, Mz = u + n[0] * (R0 - R_FLEX), zf + n[1] * (R0 - R_FLEX)          # axis hits the outer face (radial: exact)
-        rec = (sw / 2) ** 2 / (2 * R0) + 0.05
-        Mx, Mz = Mx - n[0] * rec, Mz - n[1] * rec
+    if kind in TILT_KINDS:   # tilted riser: axis through the flex cut-out centre at the flex mid-plane; NOT necessarily normal to the plate
+        tg = tilt_geom(oid, kind, x, y, w); n = tg["n"]; Mx, Mz = tg["M"]; sw, sh = tg["sw"], tg["sh"]
         hc = CONN_H[kind]; Bx, Bz = Mx - n[0] * hc, Mz - n[1] * hc               # riser top face at the connector centre
-        sm = min((c["w"] - sw) / 2 - abs(x - c["cx"]), (c["h"] - sh) / 2 - abs(y - c["cy"]))
-        STACK.append(dict(port=oid, kind=kind, x=round(x, 3), y=round(y, 3), tilt_deg=round(math.degrees(ang), 2), mouth_centre=[round(Mx + PL_C[0], 3), round(Mz, 3)],
-                          mouth_centre_height=round(Mz - Z_BOARD, 2), mouth_recess=round(rec, 2), plug_recess=round(rec, 2), d0_at_port=round(d0(x), 3),
+        _tc = dict(port=oid, tilt_deg=round(math.degrees(tg["ang"]), 2), surface_normal_deg=round(math.degrees(tg["surface_normal"]), 2),
+                   off_normal_deg=round(math.degrees(tg["ang"] - tg["surface_normal"]), 2), axis_shift_x=tg["dx"],
+                   flex_margin=tg["m"]["flex"], flex_margin_untilted=round((c["w"] - sw) / 2, 3), flex_margin_y=round((c["h"] - sh) / 2 - abs(y - c["cy"]), 3),
+                   foam_margin=tg["m"]["foam"], frame_slot_margin=tg["m"]["frame"], plate_opening_margin=round((w - sw) / 2, 3),
+                   overmold_standoff_no_seat=round(tg["stand0"], 2), overmold_standoff=round(tg["stand"], 2), seat=tg["seat"], seat_depth_max=round(tg["seat_depth"], 2))
+        TILT_CHECK.append(_tc)
+        STACK.append(dict(port=oid, kind=kind, x=round(x, 3), y=round(y, 3), tilt_deg=_tc["tilt_deg"], off_normal_deg=_tc["off_normal_deg"], axis_shift_x=tg["dx"],
+                          mouth_centre=[round(Mx + PL_C[0], 3), round(Mz, 3)],
+                          mouth_centre_height=round(Mz - Z_BOARD, 2), mouth_recess=round(tg["rec"], 2), mouth_recess_edges=[round(v, 2) for v in tg["rec_e"]],
+                          plug_recess=round(tg["stand"], 2), plug_overmold_standoff=round(tg["stand"], 2), d0_at_port=round(d0(x), 3),
                           riser_top_centre=[round(Bx + PL_C[0], 3), round(Bz, 3)], riser_top_height=round(Bz - Z_BOARD, 2), riser_bottom_height=round(Bz - RISER_T * n[1] - Z_BOARD, 2),
-                          conn_h=hc, shell_in_flex_cutout_margin=round(sm, 2), part=PARTS[kind]["mpn"], part_h=PARTS[kind]["h"],
-                          required_height=round(Mz - Z_BOARD, 2), riser_needed=None, relief=None))
+                          conn_h=hc, shell_in_flex_cutout_margin=round(min(tg["m"]["flex"] + [_tc["flex_margin_y"]]), 2), part=PARTS[kind]["mpn"], part_h=PARTS[kind]["h"],
+                          required_height=round(Mz - Z_BOARD, 2), riser_needed=None, relief=None,
+                          overmold_standoff_no_seat=_tc["overmold_standoff_no_seat"],
+                          seat_floor=([[round(tg["P0"][0] + tg["t_seat"] * n[0] + sg * tg["seat_w"] / 2 * tg["ex"][0] + PL_C[0], 3),
+                                        round(tg["P0"][1] + tg["t_seat"] * n[1] + sg * tg["seat_w"] / 2 * tg["ex"][1], 3)] for sg in (-1, 1)] if tg["seat"] else None)))
         continue
     if kind in ("USBC", "USBA", "HDMI"):
         sw, sh = SHELL[kind]["shell"]; ow, oh = SHELL[kind]["overmold"]
@@ -247,6 +305,7 @@ for oid, kind, x, y, w, h, r in OPEN:
 hd = [s for s in STACK if s["port"] == "HDMI"][0]
 hd["fallback_face_behind_flex_max_height"] = round(zs_u(u_out(hd["x"], SHELL["HDMI"]["shell"][0] / 2)) - SKIN + FLEX_POCKET - PSA_T - FLEX_T - 0.1 - Z_BOARD, 2)
 for s in STACK: print("STACK", s)
+for t in TILT_CHECK: print("TILTCHECK", t)
 
 # ---------------- flex check: shells/plugs vs cut-outs, LEDs vs plate features ----------------
 def margins(cx, cy, w, h, c):
@@ -400,7 +459,7 @@ if ETH2 == "open":
                                clip=dict(t=CLIP_T, w=CLIP_W, l=CLIP_L, hook=CLIP_HOOK), port_grid=dict(usbc_x=[XH, XO], source="flex 821-2222-A cut-out centres (scan)"),
                                flex=dict(flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, frame_t=FRAME_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK, led_h=LED_H, led_clr=LED_CLR,
                                          btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder, no bosses")),
-                   parts=PARTS, stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
+                   parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, source="M-IOT2 Aidan 2026-10-02 11:47 ET: outward 12.5 deg, mirrored" if TILT_OVERRIDE_DEG else "surface normal", mouth_clr=MOUTH_CLR, axis_balance=AXIS_BALANCE, axis_shift_out=AXIS_SHIFT_OUT, seat=TILT_SEAT, seat_clr=SEAT_CLR, seat_min_wall=SEAT_MIN_WALL, check=TILT_CHECK), stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
                    features=[dict(id=a, kind=b, x=round(c, 3), y=round(d, 3), w=e, h=f, note=g) for a, b, c, d, e, f, g in report], clips=CLIPS),
               open(os.path.join(HERE, "io_plate_v2_A0_features.json"), "w"), indent=1)
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
@@ -408,6 +467,10 @@ if ETH2 == "open":
     fig, ax = plt.subplots(figsize=(6, 13))
     ax.add_patch(FancyBboxPatch((PL_C[0] - PL_W / 2 + PL_R, PL_C[1] - PL_H / 2 + PL_R), PL_W - 2 * PL_R, PL_H - 2 * PL_R, boxstyle="round,pad=%g" % PL_R, fc="#dddddd", ec="k"))
     for rid, x, y, w, h, r in RELIEF: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="#c8c8c8", ec="#777777", ls="--"))
+    for oid, tg in _TG.items():
+        if tg["seat"]:
+            cx_ = tg["P0"][0] + tg["t_seat"] * tg["n"][0] + PL_C[0]; cy_ = CUT[oid]["cy"]; sw_, sh_ = tg["seat_w"] * math.cos(tg["ang"]), tg["seat_h"]
+            ax.add_patch(FancyBboxPatch((cx_ - sw_ / 2 + 1.0, cy_ - sh_ / 2 + 1.0), sw_ - 2.0, sh_ - 2.0, boxstyle="round,pad=1.0", fc="#cfc4e6", ec="m", ls="--", lw=0.6))
     for oid, kind, x, y, w, h, r in OPEN:
         ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="white", ec="k"))
         ax.text(x, y, oid, ha="center", va="center", fontsize=6)
@@ -416,7 +479,7 @@ if ETH2 == "open":
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="yellow", ec="k"))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=5)
     ax.set_xlim(20, 86); ax.set_ylim(-8, 162); ax.set_aspect("equal"); ax.grid(alpha=0.2)
-    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, blue = clips; USB-C/USB-A/HDMI holes run along the tilted port axes (D-IO14)", fontsize=8)
+    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, blue = clips, violet = flat plug seats (0-0.6 deep); USB-C/USB-A/HDMI holes along the 12.5 deg port axes", fontsize=8)
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150); plt.close(fig)
     iso = plate.translate((-PL_C[0], -PL_C[1], 0)).rotate((0, 0, 0), (0, 0, 1), 90).rotate((0, 0, 0), (1, 0, 0), 180)
     cq.exporters.export(iso, os.path.join(HERE, "_iso.svg"), opt={"projectionDir": (0.25, -0.45, 1.0), "showHidden": False, "width": 1600, "height": 700,

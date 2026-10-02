@@ -1,4 +1,4 @@
-"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~10:50 ET): curved plate (constant 1.2 wall, R from D0 18.0 crown / 16.5 at the
+"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~12:00 ET, tilt 12.5 deg M-IOT2): curved plate (constant 1.2 wall, R from D0 18.0 crown / 16.5 at the
 outermost port edge), stock 821-2222-A flex flat on the inner face, foam, metal frame (schematic), board top at D0, USB-C / USB-A / HDMI on
 tilted column risers (D-IO14: axis radial, mouth tangent to the face) on printed wedge cradles, RJ45 straight on the main board."""
 import math, json, os
@@ -50,8 +50,11 @@ for ax, (title, ports, slots) in zip(axs, rows):
             ax.add_patch(Polygon([T(-w / 2, 0), T(w / 2, 0), T(w / 2, s["conn_h"]), T(-w / 2, s["conn_h"])], fc="#cccccc", ec="k", label="connector on the riser (catalogue height)" if p == ports[0] else None))
             m = s["mouth_centre"]; ax.plot([T(0, -3)[0], m[0] + n[0] * 3], [T(0, -3)[1], m[1] + n[1] * 3], "r-.", lw=0.8)
             ax.plot(*m, "ro", ms=3)
-            ax.text(Bx, ZB + 1.0, "%s %s %.1f\nmouth %.2f above board\nriser %+.2f deg, gap %.1f-%.1f\nrecess %.2f" % (p, nm, s["conn_h"], s["mouth_centre_height"], s["tilt_deg"],
-                    r["underside_gap_range"][0], r["underside_gap_range"][1], s["mouth_recess"]), ha="center", fontsize=6.5)
+            ax.text(Bx, ZB + 1.0, "%s %s %.1f\nmouth %.2f above board\nriser %+.2f deg (%+.1f off normal), gap %.1f-%.1f\nmouth recess %.2f-%.2f, plug stand-off %.2f" % (p, nm, s["conn_h"],
+                    s["mouth_centre_height"], s["tilt_deg"], s.get("off_normal_deg", 0.0), r["underside_gap_range"][0], r["underside_gap_range"][1],
+                    min(s.get("mouth_recess_edges", [s["mouth_recess"]])), max(s.get("mouth_recess_edges", [s["mouth_recess"]])), s["plug_recess"]), ha="center", fontsize=6.0)
+            if s.get("seat_floor"):
+                (sx0, sz0), (sx1, sz1) = s["seat_floor"]; ax.plot([sx0, sx1], [sz0, sz1], "m-", lw=1.6, label="flat plug seat floor (perpendicular to the axis)" if p == ports[0] else None)
         ang = math.degrees(math.asin((x - C) / R))
         ax.annotate("surface normal %.1f deg" % ang, (x, zs(x)), (x - 6, 1.6), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5))
     for rid, sf in SF.items():

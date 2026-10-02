@@ -81,11 +81,12 @@ _pg = 0; _hc = 0
 for k, r in enumerate(RJ):
     fpn = "MP62_Hirose_DF40C-%dDS-0.4V_PLACEHOLDER" % r["btb_pins"]
     place("JR%d" % (k + 1), fpn, r["btb_main_plan"][0], r["btb_main_plan"][1], 90, "F",
-          "%s riser link (%s, ports %s, tilt %.2f deg): %s %s + flex jumper w/ 2 x DF40C-%dDP plugs" % (r["id"], r["type"], "/".join(r["ports"]), r["tilt_deg"], r["btb"], r["btb_lcsc"], r["btb_pins"]))
+          "%s riser link (%s, ports %s, tilt %.2f deg): %s %s + flex jumper w/ 2 x DF40C-%dDP plugs%s" % (r["id"], r["type"], "/".join(r["ports"]), r["tilt_deg"], r["btb"], r["btb_lcsc"], r["btb_pins"],
+          " (U-turn jumper from the riser TOP round its outboard edge)" if r.get("btb_side") == "F" else ""))
     for (x, y) in r["screws_cradle_to_main"]:
         _hc += 1; place("H%d" % (20 + _hc), "MP62_Cradle_Screw_M2_NPTH", x, y, 0, "F", "%s cradle M2 screw (printed PA12 wedge cradle)" % r["id"])
-    for (x, y, h, net) in r["pogo"]:
-        _pg += 1; place("PG%d" % _pg, "MP62_Pogo_SMD_D2.0_PLACEHOLDER", x, y, 0, "F", "%s pogo %s, working height %.2f" % (r["id"], net, h))
+    for (x, y, h, net, cls) in r["pogo"]:
+        _pg += 1; place("PG%d" % _pg, "MP62_Pogo_SMD_D2.0_PLACEHOLDER", x, y, 0, "F", "%s pogo %s, working height %.2f, length class %s" % (r["id"], net, h, cls))
     x0, x1 = r["plan_x_range"]; y0, y1 = r["y_range"]
     rectd(x0, y0, x1, y1, pcbnew.Dwgs_User, 0.12); txt("%s riser %.1f deg" % (r["id"], r["tilt_deg"]), (x0 + x1) / 2, y0 + 1.5, pcbnew.Dwgs_User, 0.6)
 place("J25", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 63.67, 91.60, 0, "F", "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
@@ -102,9 +103,7 @@ for i, (x, y) in enumerate(g["speaker"]["screws"]):
     place("H%d" % (11 + i), "MP62_SMT_Nut_M1.6_H1.5_SMTSO1615", x, y, 0, "F", "M1.6 x 1.5 SMT nut SMTSO1615MTJ (C2928168) - speaker")
 place("J29", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", g["speaker"]["jst"][0], g["speaker"]["jst"][1] + 1.0, 180, "F", "Speaker 2P (stock lead; pitch verify 1.0)")
 place("H13", "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER", 53.38, 58.38, 0, "F", "I/O-frame centre screw standoff (stock TB-bar point), height M-IOF2")
-for i, (n, x, y) in enumerate([("HDMI label", 46.2, 115.6), ("ETH icon", 53.42, 92.9), ("USB-C icon upper", 53.25, 70.4),
-                               ("USB-C icon lower", 53.25, 62.6), ("USB icon", 53.7, 49.4), ("audio icons", 53.8, 21.0)]):
-    place("D%d" % (21 + i), "LED_0603_1608Metric", x, y, 90, "F", "Light-pipe LED: " + n + " - DNP with the stock flex (its own LEDs light the icon pads via J31)", dnp=True)
+# D21-D26 light-pipe LEDs removed 2026-10-02 ~12:00 ET (flex lighting via J31; spots now under the tilted riser edges)
 place("U30", "SOT-23", 72.0, 112.0, 0, "F", "Hall A (DRV5032 class) - position TBD M-IOH1")
 place("U31", "SOT-23", 72.0, 104.0, 0, "F", "Hall B (DRV5032 class) - position TBD M-IOH1")
 # mounting holes (stock, 6)
