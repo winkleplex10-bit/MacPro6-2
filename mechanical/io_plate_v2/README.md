@@ -9,8 +9,8 @@ Coordinates are in the stock back-view frame of the I/O board. That is the view 
 
 | File | Content |
 |---|---|
-| `io_plate_v2_A0.step` / `.stl` | Plate with ETH2 **blank**: a 0.6 mm cosmetic recess, no hole. This is the default for rev A, where ETH2 is DNP. |
-| `io_plate_v2_A0_eth2open.step` / `.stl` | Same plate with the ETH2 opening cut, for rev B (AQC107). |
+| `io_plate_v2_A0.step` / `.stl` | **Rev A0 default (2026-10-02): ETH2 open**, for 2 × 2.5GbE (D-IO2). |
+| `io_plate_v2_A0_eth2blank.step` / `.stl` | Old single-Ethernet variant: ETH2 blank (0.6 mm cosmetic recess, no hole). Build with `--eth2 blank`. |
 | `io_plate_v2_A0_openings_backview.dxf` | Outline, openings, light-pipe bores and clip points in the back-view frame. |
 | `io_plate_v2_A0_openings_frontview.dxf` | Same, mirrored into the KiCad PCB front-view frame (x = 40 + 101.0 − Xb, y kept = Y; KiCad y = 200 − Y). |
 | `io_plate_v2_A0_features.json` | Every feature with size, collar length or spot-face depth, plus the parameters. |
@@ -36,6 +36,11 @@ Coordinates are in the stock back-view frame of the I/O board. That is the view 
 - **Snap clips (VERIFY):** at the stock clip points (31.0, 140.0), (28.2, 90.0), (29.6, 30.3) and (44.1, 2.7), plus their mirror images about X 53.19.
   - Tabs are 1.2 thick × 5.0 wide × 6.0 long with a 0.5 mm hook (MJF PA12, about 2.5 % strain).
 
+## ETH2 (2026-10-02)
+
+- Both RJ45s are HanRun HR913790A vertical magjacks (16.2 × 17.0 body, 16.9 tall). That body cannot pass the H-side frame slot (15.6 × 13.0), so **the jack faces sit behind the frame back plane** (set back ≥ 0.3 mm). Only the plug passes the 13.0 × 10.7 opening.
+- The ETH2 collar defaults to 1.0 mm long (`ETH_GUIDE_L`). After M-IOF2, lengthen it into a plug guide that stops 0.3 mm short of the jack face.
+
 ## Port angle handling (curved plate + flat lands; plan §4.4)
 
 - The stock ports fan outward about **7° per column** (±1.5°, mirror-symmetric). Sources: Aidan's edge-on photo (7.3° / 6.4°) and the case cylinder geometry (asin(10.6/82) = 7.4°).
@@ -47,6 +52,7 @@ Coordinates are in the stock back-view frame of the I/O board. That is the view 
 | LAND_C_H / _O (USB-C ×3) | −1.55 / −1.58 | 1.38 / 1.40 | 11.8 × 25.7 | 12.2 × 30.2 |
 | LAND_A_H / _O (USB-A ×2) | −1.93 / −2.15 | 1.90 / 2.1 | 16.8 × 19.3 | 17.6 × 20.0 |
 | LAND_ETH1 | −1.87 | – | 15.4 × 13.1 | 16.7 wide |
+| LAND_ETH2 | −1.91 | – | 14.8 × 12.4 (collar 14.6 × 12.3, 0.8 wall) | 15.6 × 13.0 (H side) |
 | LAND_HDMI | −2.25 | – | 17.8 × 8.4 | 18.3 × 9.0 |
 
 - USB-C mouths are flush with the land. USB-A, RJ45 and HDMI faces sit 1.2 mm behind the land.
@@ -72,5 +78,5 @@ Coordinates are in the stock back-view frame of the I/O board. That is the view 
 
 **Order:**
 - Upload `io_plate_v2_A0.stl` (or `.step`): MJF PA12, dyed black, qty 2, standard bead-blast finish, no supports.
-- Rev-B Ethernet uses `io_plate_v2_A0_eth2open.*`.
+- Order `io_plate_v2_A0.*` (ETH2 open). The `_eth2blank` file is only for a single-Ethernet build.
 - **Not ordered.** Measure M-IOT2 (curvature) and M-IOF2 (D0) first.

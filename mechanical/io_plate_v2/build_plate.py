@@ -10,7 +10,7 @@ import json, math, os, sys
 import cadquery as cq
 import ezdxf
 HERE = os.path.dirname(os.path.abspath(__file__))
-ETH2 = "blank"
+ETH2 = "open"    # rev A0 default since 2026-10-02 (D-IO2: 2 x i226-V); "--eth2 blank" builds the old blank variant
 if "--eth2" in sys.argv: ETH2 = sys.argv[sys.argv.index("--eth2") + 1]
 
 # ---------------- parameters ----------------
@@ -20,6 +20,8 @@ TILT_AX_DEG = 0.0   # + = board farther from the plate outer face as Xb increase
 TILT_AY_DEG = 0.0   # + = board farther from the plate outer face as Y increases    (from M-IOT1)
 TILT_REF = (53.2, 65.45)                                          # pivot: centre of the USB-C block
 COLLAR_L0 = 1.0; COLLAR_WALL = 1.0                               # nominal collar length behind the skin, wall
+COLLAR_WALL_BY = {"ETH2": 0.8}   # ETH2 collar 14.6 x 12.3 must pass the 15.6 x 13.0 H-side frame slot
+ETH_GUIDE_L = {"ETH2": COLLAR_L0}   # plug-guide length behind the land; extend toward the set-back jack face after M-IOF2 (stop 0.3 short of it)
 USBC_FLUSH_TOL = 0.15                                            # spot-face only if a USB-C mouth would sit deeper than this
 CLR = 0.3                                                        # design clearance per side already included in the sizes below
 XH, XO = 42.6, 63.9; CROWS = (75.2, 65.45, 55.7)
@@ -53,7 +55,7 @@ LANDS = [  # (id, cx, cy, w, h, r, border-to-boss)  flat lands parallel to the B
     ("LAND_A_H", 43.3, 37.675, 15.6, 18.15, 1.0, 0.6), ("LAND_A_O", 64.05, 37.675, 15.6, 18.15, 1.0, 0.6),
     ("LAND_ETH1", 63.5, 92.3, 14.2, 11.9, 1.0, 0.6), ("LAND_HDMI", 42.4, 107.4, 16.6, 7.2, 1.0, 0.6),
     ("LAND_AUD_H", 43.4, 19.1, 7.0, 7.0, 3.5, 0.6), ("LAND_AUD_O", 64.65, 19.4, 7.0, 7.0, 3.5, 0.6)]
-if ETH2 == "open": LANDS.append(("LAND_ETH2", 42.5, 92.0, 14.2, 11.9, 1.0, 0.6))
+if ETH2 == "open": LANDS.append(("LAND_ETH2", 42.5, 92.0, 13.8, 11.4, 1.0, 0.5))   # boss 14.8 x 12.4 inside the H-side frame slot 15.6 x 13.0
 FACE_SETBACK = {"USBC": 0.0, "USBA": LAND_T + 0.2, "RJ45": LAND_T + 0.2, "HDMI": LAND_T + 0.2}   # mouth / face below its land
 
 def zs(x):   # outer surface height at X (0 at the crown)
@@ -92,13 +94,17 @@ for oid, kind, x, y, w, h, r in OPEN:
     lid = land_of(x, y)
     if lid:
         zface = land_z[lid] - FACE_SETBACK.get(kind, 0.0)
-        report.append((oid, kind, x, y, w, h, "on %s; connector %s at z=%.2f below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)" %
+        if kind == "RJ45":
+            report.append((oid, kind, x, y, w, h, "on %s (land z=%.2f); plug passes the plate and the frame slot; HR913790A jack face SET BACK behind the frame back plane "
+                           "(face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)" % (lid, land_z[lid])))
+        else:
+            report.append((oid, kind, x, y, w, h, "on %s; connector %s at z=%.2f below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)" %
                        (lid, "mouth" if kind == "USBC" else "face", -zface)))
     else:
         report.append((oid, kind, x, y, w, h, "through (no land)"))
     if kind in ("USBA", "RJ45", "HDMI") and lid:
-        zl = land_z[lid]; L = COLLAR_L0
-        plate = plate.union(boxz(x, y, w + 2 * COLLAR_WALL, h + 2 * COLLAR_WALL, r + COLLAR_WALL, zl - LAND_T - L, zl - LAND_T + 0.01))
+        zl = land_z[lid]; L = ETH_GUIDE_L.get(oid, COLLAR_L0); cw = COLLAR_WALL_BY.get(oid, COLLAR_WALL)
+        plate = plate.union(boxz(x, y, w + 2 * cw, h + 2 * cw, r + cw, zl - LAND_T - L, zl - LAND_T + 0.01))
     plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0))
 for oid, x, y, dd in ROUND:
     plate = plate.cut(cq.Workplane("XY").workplane(offset=10).center(x, y).circle(dd / 2).extrude(-30)); report.append((oid, "ROUND", x, y, dd, dd, "through"))
@@ -120,19 +126,19 @@ zi = zs(FRAME_SCREW[0]) - SKIN
 plate = plate.cut(cq.Workplane("XY").workplane(offset=zi - 0.01).center(*FRAME_SCREW).circle(SCREW_POCKET_D / 2).extrude(SCREW_POCKET_DEPTH + 0.01))
 for nm, x, y, w, h in LEGEND:
     plate = plate.cut(boxz(x, y, w, h, 0.5, 10.0, -20.0).intersect(cyl(R0)).cut(cyl(R0 - 0.6)))
-tag = "" if ETH2 == "blank" else "_eth2open"
+tag = "" if ETH2 == "open" else "_eth2blank"
 step = os.path.join(HERE, "io_plate_v2_A0%s.step" % tag); stl = os.path.join(HERE, "io_plate_v2_A0%s.stl" % tag)
 cq.exporters.export(plate, step); cq.exporters.export(plate, stl, tolerance=0.02, angularTolerance=0.1)
 bb = plate.val().BoundingBox()
 print("bbox", round(bb.xmin, 2), round(bb.xmax, 2), round(bb.ymin, 2), round(bb.ymax, 2), round(bb.zmin, 2), round(bb.zmax, 2), "vol", round(plate.val().Volume(), 1), "solids", len(plate.solids().vals()))
 
 # ---------------- DXF (openings, back view and front view) ----------------
-if ETH2 == "blank":
+if ETH2 == "open":
     for view in ("backview", "frontview"):
         BW = 101.00496445740619
         fx = (lambda x: x) if view == "backview" else (lambda x: 40 + BW - x)   # front view = KiCad PCB frame x (y kept = Y; KiCad y = 200 - Y)
         doc = ezdxf.new("R2010"); msp = doc.modelspace()
-        for ln in ("OUTLINE", "OPENINGS", "LIGHTPIPES", "CLIPS", "NOTES", "OPTIONAL_ETH2"): doc.layers.add(ln)
+        for ln in ("OUTLINE", "OPENINGS", "LIGHTPIPES", "CLIPS", "NOTES", ): doc.layers.add(ln)
         def rrect(cx, cy, w, h, r, layer):
             r = min(r, w / 2, h / 2); pts = []
             for (ax, ay, a0) in ((cx + w / 2 - r, cy + h / 2 - r, 0), (cx - w / 2 + r, cy + h / 2 - r, 90), (cx - w / 2 + r, cy - h / 2 + r, 180), (cx + w / 2 - r, cy - h / 2 + r, 270)):
@@ -142,7 +148,6 @@ if ETH2 == "blank":
         rrect(PL_C[0], PL_C[1], PL_W, PL_H, PL_R, "OUTLINE")
         for oid, kind, x, y, w, h, r in OPEN:
             rrect(x, y, w, h, r, "OPENINGS"); msp.add_text(oid, dxfattribs={"layer": "NOTES", "height": 1.2}).set_placement((fx(x) - 2, y + h / 2 + 0.6))
-        rrect(42.5, 92.0, 13.0, 10.7, 0.5, "OPTIONAL_ETH2")
         for oid, x, y, dd in ROUND: msp.add_circle((fx(x), y), dd / 2, dxfattribs={"layer": "OPENINGS"})
         for oid, x, y in PIPES: msp.add_circle((fx(x), y), PIPE_BORE / 2, dxfattribs={"layer": "LIGHTPIPES"})
         for x, y, o in CLIPS: msp.add_circle((fx(x), y), 1.0, dxfattribs={"layer": "CLIPS"})
@@ -159,7 +164,6 @@ if ETH2 == "blank":
     for oid, kind, x, y, w, h, r in OPEN:
         ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="white", ec="k"))
         ax.text(x, y, oid, ha="center", va="center", fontsize=6)
-    ax.add_patch(FancyBboxPatch((42.5 - 6.0, 92 - 4.85), 12.0, 9.7, boxstyle="round,pad=0.5", fc="#cccccc", ec="gray", ls="--")); ax.text(42.5, 92, "ETH2\n(blank)", ha="center", va="center", fontsize=6)
     for oid, x, y, dd in ROUND: ax.add_patch(Circle((x, y), dd / 2, fc="white", ec="k"))
     ax.text(63.02, 108.03, "button\n(clear cap,\nD20)", ha="center", va="center", fontsize=5)
     for oid, x, y in PIPES: ax.add_patch(Circle((x, y), 1.0, fc="yellow", ec="k"))

@@ -79,8 +79,8 @@ for i, y in enumerate(CY):
     place("J%d" % (14 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XO, y, 0, "F", ["C4 GPU DP L4 (2-lane)", "C5 iGPU DDI-B", "C6 iGPU DDI-C"][i])
 for i, (x, y) in enumerate([(43.3, 42.75), (43.3, 32.6), (64.05, 42.75), (64.05, 32.6)]):
     place("J%d" % (21 + i), "MP62_USB_A3_9P_Vertical_PLACEHOLDER", x, y, 0, "F", "USB-A A%d 10G" % (i + 1))
-place("J25", "MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER", 63.5, 92.3, 0, "F", "ETH1 i226-V 2.5GbE (roomy frame side)")
-place("J26", "MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER", 42.5, 92.0, 0, "F", "ETH2 rev B AQC107 10GbE (DNP rev A; frame slot 15.6: jack set back)", dnp=True)
+place("J25", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 63.5, 92.3, 0, "F", "ETH1 i226-V #1 2.5GbE, HR913790A (face behind the frame plane)")
+place("J26", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 42.5, 92.0, 0, "F", "ETH2 i226-V #2 2.5GbE, HR913790A; H-side frame slot 15.6 x 13.0 < body 16.2 x 17.0: jack set back behind the frame, plug passes")
 place("J27", "MP62_HDMI_A_Vertical_PLACEHOLDER", 42.4, 107.4, 0, "F", "HDMI (GPU link 2 via TDP158)")
 place("SW1", "SW_SPST_PTS810", 63.02, 108.03, 0, "F", "Power button on the IOB behind the plate opening (printed cap); stock button is NOT on the stock IOB")
 place("J30", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", 56.5, 104.5, 0, "F", "Optional stock/remote power button 2P (parallel to SW1)")
@@ -140,7 +140,7 @@ for i, (x, y) in enumerate([(24.0, 43.5), (19.0, 32.6), (86.0, 42.75), (86.0, 32
 place("U34", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 53.5, 52.0, 0, "B", "CH334R hub H1a (C1-C3 + H1b) <- HS1 USB2")
 place("U32", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 53.5, 84.5, 0, "B", "CH334R hub H1b (C4-C6 + codec)")
 place("U33", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 53.0, 0, "B", "CH334R hub H2 (A1-A4) <- IOB-LINK USB2")
-for k, (x, y) in enumerate([(53.6, 46.6), (53.5, 89.0), (19.0, 47.4)]):
+for k, (x, y) in enumerate([(53.6, 46.6), (53.0, 95.5), (19.0, 47.4)]):   # Y2 moved above the RJ45 shield pins (HR913790A, 2026-10-02)
     place("Y%d" % (1 + k), "Crystal_SMD_3225-4Pin_3.2x2.5mm", x, y, 0, "B", "12 MHz hub crystal")
 # Ethernet
 place("U50", "MP62_Intel_i226V_QFN-56_7x7_P0.4_PLACEHOLDER", 78.0, 101.0, 0, "B", "i226-V 2.5GbE (PCIe x1 from HS1)")
@@ -160,6 +160,11 @@ place("U82", "SOIC-8_3.9x4.9mm_P1.27mm", 85.5, 115.5, 90, "B", "BL24C64A IOB ID 
 place("U83", "MSOP-8_3x3mm_P0.65mm", 75.0, 121.0, 0, "B", "TCA9517 I2C buffer (I2C_SYS <-> PD bus)")
 place("U84", "SOT-23-5", 81.0, 122.0, 0, "B", "74LVC1G07 PD_INT -> IOB_INT_N")
 place("L44", "L_1008_2520Metric", 78.0, 108.5, 0, "B", "i226 SVR inductor")
+# i226-V #2 (ETH2, D-IO2 resolved 2026-10-02): B side left of the J26 THT field
+place("U52", "MP62_Intel_i226V_QFN-56_7x7_P0.4_PLACEHOLDER", 28.0, 92.0, 0, "B", "i226-V #2 2.5GbE (PCIe x1 from HS1 k14, PCH RP4)")
+place("U53", "SOIC-8_3.9x4.9mm_P1.27mm", 19.5, 86.5, 0, "B", "i226-V #2 NVM SPI flash")
+place("Y6", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 28.0, 85.0, 0, "B", "25 MHz (i226-V #2)")
+place("L45", "L_1008_2520Metric", 28.0, 98.5, 0, "B", "i226 #2 SVR inductor")
 for k in range(8):
     place("D%d" % (1 + k), "LED_0603_1608Metric", 13.5 + 2.4 * k, 121.0, 90, "B", "Diag LED %d (stock #1-#8 set)" % (1 + k))
 place("SW2", "SW_SPST_TL3342", 16.5, 114.5, 0, "B", "DIAG button")

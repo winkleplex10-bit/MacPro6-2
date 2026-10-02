@@ -56,6 +56,25 @@ def usb_a_vert():
           text("USB-A 3.0 vertical PLACEHOLDER", 0, 3.9, "F.Fab", 0.4)]
     write(n, L)
 
+def rj45_hr913790a():
+    """HanRun HR913790A: 1x1 vertical (top-entry) RJ45 with integrated 2.5G/5GBASE-T magnetics + 3 LEDs. From the HanRun drawing REV A1
+    (component-side view): body 16.20 x 17.00, height 16.90; 10 signal pins d0.89 at 1.27 pitch in two rows 2.54 apart; LEDs d1.02;
+    shield d1.63 at 15.80; 2 x d3.20 posts at 11.43. Origin = body centre; LED/latch side toward -y. Row y-positions read from the drawing (VERIFY)."""
+    n = "MP62_RJ45_HanRun_HR913790A_Vertical_2G5"
+    L = head(n, "HanRun HR913790A vertical RJ45 magjack, 2.5G/5GBASE-T (IEEE 802.3bz), 3 LEDs, shielded. Body 16.2 x 17.0 x 16.9 h. Land pattern from the HanRun drawing REV A1; verify row offsets before ordering.",
+             "RJ45 vertical magjack 2.5G HR913790A", "through_hole")
+    yh = -8.5 + 6.83
+    for k in range(1, 11):
+        x = (5.5 - k) * 1.27; y = yh + 8.89 - (2.54 if k % 2 == 0 else 0.0)
+        L.append(tht(str(k), x, y, 1.4, 0.95))
+    for k, x in ((14, -6.325), (13, -3.785), (12, 3.785), (11, 6.325)): L.append(tht(str(k), x, yh - 4.11, 1.6, 1.1))
+    for sx in (-1, 1): L.append(tht("S", sx * 7.90, yh + 3.89, 2.5, 1.7))
+    L += [npth(-5.715, yh, 3.2), npth(5.715, yh, 3.2)]
+    L += [rect(-8.1, -8.5, 8.1, 8.5, "F.Fab", 0.1), rect(-5.85, -4.2, 5.85, 4.2, "F.Fab", 0.08, True),
+          rect(-9.3, -8.8, 9.3, 8.8, "F.CrtYd", 0.05), rect(-8.3, -8.7, 8.3, 8.7, "F.SilkS", 0.12) if False else '  (fp_line (start -8.3 -8.7) (end 8.3 -8.7) (stroke (width 0.12) (type solid)) (layer "F.SilkS"))', '  (fp_line (start -8.3 8.7) (end 8.3 8.7) (stroke (width 0.12) (type solid)) (layer "F.SilkS"))',
+          text("HR913790A 16.2x17.0 h16.9 (LED/latch side -y)", 0, -9.4, "F.Fab", 0.4)]
+    write(n, L)
+
 def rj45_vert():
     n = "MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER"
     L = head(n, "PLACEHOLDER vertical (top-entry) RJ45 with integrated magnetics, 2.5GBASE-T/10GBASE-T rated, 2 LEDs. Shell <= 15.2 wide x 13.6, plug mouth 11.7 x 8.4 on F.Fab. "
@@ -146,7 +165,7 @@ def qfn_ph(name, w, h, pins_per_side, pitch, ep, descr):
 def copy(lib, name, src=SYS):
     shutil.copy(os.path.join(src, lib + ".pretty", name + ".kicad_mod"), os.path.join(LIB, name + ".kicad_mod")); print("copied", name)
 
-usb_c_vert(); usb_a_vert(); rj45_vert(); hdmi_vert(); aud_edge(); psu_dc12(); nut_m16(); standoff_frame(); mount_hole(); picoblade6()
+usb_c_vert(); usb_a_vert(); rj45_vert(); rj45_hr913790a(); hdmi_vert(); aud_edge(); psu_dc12(); nut_m16(); standoff_frame(); mount_hole(); picoblade6()
 qfn_ph("MP62_TI_TPS65994AD_QFN-48_6x6_P0.4_PLACEHOLDER", 6, 6, (12, 12, 12, 12), 0.4, (4.2, 4.2),
        "PLACEHOLDER TI TPS65994ADRSLR dual-port USB-C PD controller (6 x 6 VQFN, LCSC stock seen). Replace with the TI land pattern (power-path pads are not generic).")
 qfn_ph("MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER", 4, 6, (12, 8, 12, 8), 0.4, (2.4, 4.4),

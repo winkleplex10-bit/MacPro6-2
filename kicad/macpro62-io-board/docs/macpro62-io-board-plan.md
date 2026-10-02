@@ -2,11 +2,11 @@
 
 | Item | Value |
 |---|---|
-| Date | 2026-10-01, written ≈ 22:15 ET |
+| Date | 2026-10-01, written ≈ 22:15 ET; **rev 2026-10-02 ≈ 08:30 ET: D-IO2 resolved, 2 × 2.5GbE (2 × i226-V) on rev A0** |
 | Owner | Aidan Winkler (MacPro6,2 project) |
 | Board | **IOB rev A0** replaces the stock I/O board. It is 101.0 × 173.6 mm, uses the 6 stock holes and the stock bosses, and keeps the stock port layout: AC, power button, HDMI, 2 × RJ45, 6 × USB-C in the old Thunderbolt slots, 4 × USB-A, 2 audio jacks. |
 | Plate | **New plastic I/O plate v2**. The metal I/O frame stays. The plate is curved to the case, with flat port lands for straight connectors. It is ready to print as STEP + STL. |
-| KiCad | `kicad/macpro62-io-board/` (KiCad 9). **Floorplan:** outline, holes, keep-outs, 6-layer stackup and 113 footprints, covering every IC, connector, crystal, inductor and bulk capacitor. **DRC 0 / 0** (`--severity-all`). **Schematic:** 387 symbol instances, ≈ 470 nets, ERC **0 errors / 0 warnings**. **Routing has not started.** Small passives are not placed yet. |
+| KiCad | `kicad/macpro62-io-board/` (KiCad 9). **Floorplan:** outline, holes, keep-outs, 6-layer stackup and 117 footprints, covering every IC, connector, crystal, inductor and bulk capacitor. **DRC 0 / 0** (`--severity-all`). **Schematic:** 410 symbol instances, ≈ 500 nets, ERC **0 errors / 0 warnings**. **Routing has not started.** Small passives are not placed yet. |
 | Status | **Plan for review. Nothing ordered.** The stock PSU, audio and I/O-wall flex pin functions are **UNCONFIRMED** (probing procedures are in §9). Several land patterns are placeholders (§10). |
 
 Tags: **[Sourced]**, **[Estimate]**, **[Inference]**, **[Unverified]**, **TO MEASURE**.
@@ -20,10 +20,10 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 1. **Ports.** Same layout as stock. Each old Thunderbolt rectangle gets 3 USB-C ports (6 in total), all with **DP alt mode**:
    - C1 and C2: Face P GPU links 0 and 1, 4-lane each.
    - C3 and C4: GPU links 3 and 4, 2-lane each.
-   - C5 and C6: iGPU DDI-B and DDI-C. **macOS cannot use these.**
+   - C5 and C6: iGPU DDI-B (4-lane) and DDI-C (**2-lane since 2026-10-02**, its ML2/ML3 pair slot now carries the second i226). **macOS cannot use these.**
    - HDMI: GPU link 2 (DP++) through a TDP158.
    - 4 × USB-A 10 G, with a TUSB1002A redriver on each port.
-   - 1 × 2.5GbE (i226-V). The second RJ45 is a DNP site for the rev-B AQC107.
+   - **2 × 2.5GbE (2 × i226-V, U50 → ETH1, U52 → ETH2)**, both on HanRun HR913790A vertical 2.5G magjacks. The AQC107 10 G becomes a later variant (§5.1.1).
    - Audio uses the **stock audio jack flex** via a CM108B USB codec. The **stock speaker** runs from a PAM8302A amp.
 2. **The stock ports really are angled (§4.4).** Each column of shells is tilted about **7° outward (±1.5°)**, mirror-symmetric about the centre bar. The I/O wall follows the case cylinder (R ≈ 82–84 mm).
    - **Recommendation: standard straight connectors on a flat board, with a curved plate that has flat "port lands" (§4.4).**
@@ -52,7 +52,7 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | # | Decision | Recommendation | If the other option is chosen |
 |---|---|---|---|
 | **D-IO1** | USB-C 5 V budget | Shared cap of 45–60 W. Extra ports drop to 1.5 A when the cap is reached. | 6 × 15 W = 90 W plus USB-A breaks the 40–50 W IOB allocation and the 405 W PSU rule. |
-| **D-IO2** | Rev-A ETH2 | DNP site + blank plate land (`io_plate_v2_A0.step`) | Rev B adds the AQC107 and needs IOB-HS2 (MCIO 74, PCIe x4) plus the `_eth2open` plate. |
+| **D-IO2** | Rev-A ETH2 | **RESOLVED (Aidan, 2026-10-02 ≈ 08:05 ET): 2 × 2.5GbE.** i226-V #2 on PCH RP4 / HSIO 13 via HS1 k14 (§5.1.1); ETH2 jack set back behind the frame (§4.1); plate ETH2 opened (`io_plate_v2_A0.step`). | AQC107 10 G = later variant: needs PCIe x4 on a new IOB-HS2 cable (J3 has no free pairs) and replaces i226 #2. |
 | **D-IO3** | **CR-CB-IO1** | Accept: new J3 pinout, i226 moves to the IOB, 1 × USB2, VBAT from the IOB, **Z790 required** for 10 × 10 G | With B760 only 6 of the 10 ports get SuperSpeed. |
 | **D-IO4** | **CR-BP-IOB** | Accept the GH15 pinout (§5.5) and feed BP J2 through IOB J5 | – |
 | **D-IO5** | Codec | CM108B now (UAC1, mono line-in); CM6646 later | Wait for CM6646 stock (UAC2, stereo line-in, S/PDIF in). |
@@ -112,8 +112,8 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | USB-C C4–C6 (other column) | X 63.9; same Y | Same |
 | USB-A A1/A2 | (43.3, 42.75), (43.3, 32.6) | Vertical USB 3.2 Std-A |
 | USB-A A3/A4 | (64.05, 42.75), (64.05, 32.6) | Same |
-| ETH1 | (63.5, 92.3) | Vertical RJ45 magjack, 2.5G |
-| ETH2 (DNP) | (42.5, 92.0) | 10G magjack site (rev B) |
+| ETH1 | (63.5, 92.3) | **HanRun HR913790A** vertical magjack, 2.5G/5G (body 16.2 × 17.0, 16.9 tall). O side: the frame L-leg (16.8 wide) passes the body. |
+| ETH2 | (42.5, 92.0) | **HanRun HR913790A**, same part. The H-side frame slot is only **15.6 × 13.0**, smaller than any vertical 2.5G magjack (all ≈ 16 × 13.5–17), and narrow non-magnetic jacks are still ≥ 13.45 × 15.9. So the jack is **set back**: its face sits ≥ 0.3 mm behind the frame back plane and only the plug (11.7 × 8 + latch) passes the 13.0 × 10.7 plate opening and the slot. Both jacks share one height, so ETH1 sits at the same plane. |
 | HDMI | (42.4, 107.4) | Vertical type A |
 | Power button SW1 | (63.02, 108.03) | PTS810 + printed clear cap. Power LED D20 at (63.0, 103.3). |
 | Audio jacks | (43.4, 19.1), (64.65, 19.4) | On the stock audio-jack flex (J28) |
@@ -179,6 +179,7 @@ All new connectors are **straight**: their mating axis is normal to the board. B
   | USB-A | 16.8 × 19.3 | SQ 17.6 × 20.0 |
   | HDMI | 17.8 × 8.4 | 18.3 × 9.0 |
   | ETH1 | 15.4 × 13.1 | Leg, 16.7 wide |
+  | ETH2 | 14.8 × 12.4 (collar 14.6 × 12.3, 0.8 wall) | H-side slot 15.6 × 13.0 |
 
 - USB-C mouths sit flush with the land. USB-A, RJ45 and HDMI faces sit 1.2 mm behind the land, the same as the stock skin. Plug overmolds stop on a flat face, so plugs seat fully.
 - The frame stays unmodified. Straight shells cross the frame plane within ≈ 0.25 mm of where the angled stock shells did, against ≥ 1.6 mm per-side slot clearance.
@@ -191,7 +192,7 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 | USB-C, O column | 1.58 |
 | USB-A, H column | 3.13 |
 | USB-A, O column | 3.35 |
-| RJ45 | 3.07 |
+| RJ45 | 3.07 / 3.11 (land −1.87 / −1.91); the **jack face is set back** behind the frame back plane, see §4.1 |
 | HDMI | 3.45 |
 
 - Choose standard receptacle heights from these depths. Vertical USB-C mid-mounts come in about 0.5 mm steps.
@@ -215,13 +216,13 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 - The eight lands are listed in §4.4. Collars are 1.0 wall × 1.0 long behind the USB-A, RJ45 and HDMI lands.
 - 8 snap clips at the stock clip points and their mirror images (VERIFY): (31.0, 140), (28.2, 90), (29.6, 30.3), (44.1, 2.7).
 - Frame-screw relief Ø6 × 0.6.
-- The ETH2 position gets a 0.6 mm cosmetic recess (blank), or an opening in the `_eth2open` variant.
+- **ETH2 is open** (rev A0 default since 2026-10-02) with its own land 13.8 × 11.4 and a 0.8-wall collar sized for the 15.6 × 13.0 H-side slot. `ETH_GUIDE_L` lengthens that collar into a plug guide toward the set-back jack once M-IOF2 is known. `--eth2 blank` still builds the old blank variant.
 - One solid, ≈ 10.2 cm³, bounding box 52.2 × 163.1 × 11.1.
 
 | File | Content |
 |---|---|
-| `io_plate_v2_A0.step` / `.stl` | Rev A plate (ETH2 blank) |
-| `io_plate_v2_A0_eth2open.step` / `.stl` | Rev B plate (ETH2 open) |
+| `io_plate_v2_A0.step` / `.stl` | **Rev A0 plate, ETH2 open** (2 × RJ45) |
+| `io_plate_v2_A0_eth2blank.step` / `.stl` | Old variant with ETH2 blank (single-Ethernet build) |
 | `io_plate_v2_A0_openings_backview.dxf`, `…_frontview.dxf` | Planform. The front view is in the KiCad x frame. |
 | `io_plate_v2_A0_features.json` | Per-feature report |
 | `io_plate_v2_A0_preview.png`, `…_iso_inner.png`, `…_section.png` | Previews |
@@ -270,9 +271,10 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 |---|---|
 | k0–k5 | USB3 for C1–C6 |
 | k6–k9 | USB3 for A1–A4 |
-| k10 | i226 PCIe x1 |
+| k10 | i226 #1 PCIe x1 (PCH RP3 / HSIO 12) |
 | k11 / k12 | DDI-B ML0/1 and ML2/3 |
-| k13 / k14 | DDI-C ML0/1 and ML2/3 |
+| k13 | DDI-C ML0/1 (DDI-C is 2-lane since v0.2) |
+| **k14** | **i226 #2 PCIe x1 (PCH RP4 / HSIO 13)**; was DDI-C ML2/3 |
 | k15 | DDI-B AUX (PET) and DDI-C AUX (PER) |
 
 **Sideband:**
@@ -280,13 +282,15 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 | Contact | Signal |
 |---|---|
 | A8 / A9 | HPD_B / HPD_C |
-| B8 / B9 / A11 | I226 CLKREQ# / WAKE# / PERST# |
+| B8 / B9 / A11 | I226 CLKREQ# / WAKE# (shared, OD wired-OR) / PERST# (shared by both i226) |
 | B11 / B12 | I226 REFCLK |
 | A12 / A30 | PRSNT, tied to GND on the IOB |
 | A26 | VBAT_RTC |
 | A27 | USB_OC# |
 | B29 / B30 | USB2 uplink to hub H1a |
-| B26 / B27 / A29 | Spare |
+| B26 / B27 | I226B REFCLK± (PCH CLKOUT_PCIE_SRC11 [Proposal]) |
+| A29 | I226B CLKREQ# (SRCCLKREQ11#) |
+| – | **No spare sideband contacts left on HS1** |
 
 - The CB plan changes:
   - The i226 (U13) moves to the IOB.
@@ -294,6 +298,28 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
   - CB BT1 becomes DNP. The CB keeps the BAT54C diode-OR with 3V3_DSW, 1 µF + 0.1 µF and the RTCRST# RC.
 - **Z790 is required** for 10 × 10 G (HSIO 0–9 are dedicated USB 3.2 Gen2). B760 gives 4 × 10 G + 2 × 5 G.
 - macOS: 15-port limit per xHCI, so a USBMap is needed.
+- Pinout file is now `docs/mp62-iob-hs1_mcio124_pinout_v0.2.csv` (v0.1 superseded).
+
+#### 5.1.1 PCH lane for the second i226-V (D-IO2, 2026-10-02)
+
+Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desktop PCH HSIO Details"]:
+
+| HSIO | Z790 function | MP62 use |
+|---|---|---|
+| 0–9 | USB 3.2 Gen 2x1 only | 10 × USB3 → IOB (HS1 k0–k9) |
+| 10–11 (RP1–2) | PCIe 3.0 | Spare x1 ×2 (Wi-Fi later) |
+| **12 (RP3)** | PCIe 3.0 / GbE | **i226 #1** (HS1 k10), CLKOUT_SRC12, same lane as the i225 LAN on MSI ms7d25 |
+| **13 (RP4)** | PCIe 3.0 | **i226 #2** (HS1 k14), CLKOUT_SRC11 [Proposal] |
+| 14–17 (RP5–8) | PCIe 4.0 | Reserved x4 for the later AQC107 variant |
+| 18–25 (RP9–16) | PCIe 4.0 (22–25 also SATA) | M.2 boot x4 (one group); SATA0 → BP |
+| 26–37 | PCIe 3.0/SATA, PCIe 4.0 | Spare |
+
+- **No PCH lane conflict.** USB3 sits on HSIO 0–9, which Z790 never shares with PCIe, so the 10 × 10 G ports stay intact. RP1–4 must run as 4 × x1 (soft strap), as on the ms7d25 reference (RP1/RP2/RP3 used as x1). Root ports in use: 4–5 of 16. i226-V links at Gen2 x1 (5 GT/s), which a Gen3 lane covers. B760 has HSIO 10–13 as PCIe 3.0 too.
+- **The conflict is on the cable, not the PCH.** All 16 pair slots of the CB J3 / IOB-HS1 MCIO 124 were used, and the 3 spare sideband contacts were the only free pins. Resolution: **DDI-C drops from 4 to 2 lanes** (k14 → i226 #2), REFCLK2 takes B26/B27, CLKREQ2# A29, PERST#/WAKE# are shared.
+  - Cost: C6 (iGPU DDI-C, not usable in macOS anyway) is limited to 2-lane HBR2 (≈ 2560 × 1440 @ 60 or 4K @ 30). In return C6 can run DP and USB3 10 G at the same time.
+  - Rejected alternative: an ASM1182e PCIe switch on the IOB sharing the k10 lane (+$4–5, a clock buffer, and Gen2 x1 ≈ 4 Gb/s is oversubscribed by 2 × 2.5 G).
+- **CB impact (CR-CB-IO1 rev):** J3 k14 = PCH RP4 PCIe (AC caps on the CB TX side), CLKOUT_SRC11 to J3 B26/B27, SRCCLKREQ11# from A29; DDI-C ML2/ML3 not routed.
+- **AQC107 later variant:** J3 has no free pairs, so it needs PCIe x4 (RP5–8) on a second cable (IOB-HS2) and replaces i226 #2 at ETH2.
 
 ### 5.2 Display link: MCIO 74 from Face P
 
@@ -390,7 +416,7 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 | PD | 3 × TPS65994AD U1–U3 (PD1 = C1/C2, PD2 = C3/C4, PD3 = C5/C6); flashes U4/U6/U7 (8 Mbit); ADCIN straps | I2C1 → I2C_PD (behind the TCA9517 U83, enabled by PG_3V3). IRQs → U84 74LVC1G07 → IOB_INT_N. |
 | USB-A ×4 | J21–J24; TUSB1002A U21–U24; 1.5 A switches U25–U28 (FLT# → USB_OC#); 100 µF bulk per port | |
 | USB2 | CH334R: H1a U34 (C1–C3 + H1b), H1b U32 (C4–C6 + codec), H2 U33 (A1–A4, uplink from IOB-LINK); 12 MHz Y1–Y3 | |
-| Ethernet | i226-V U50 + NVM U51 + 25 MHz Y4 + SVR L44; J25 magjack; J26 DNP | |
+| Ethernet | **2 × i226-V**: U50 + NVM U51 + 25 MHz Y4 + SVR L44 → J25 (ETH1); **U52 + NVM U53 + Y6 + L45 → J26 (ETH2)**. Both jacks HanRun HR913790A (P1 common CT → 100 nF, P10 Bob-Smith → GND, green link + yellow activity LEDs via 330 R) | U52 group on B at Xb 20–30, Y 83–100 (left of the J26 THT field). Hub crystal Y2 moved to (53.0, 95.5). |
 | HDMI | TDP158 U60 + 1V1 LDO U61; 0.5 A PTC on +5V; DDC 1.8 k pull-ups | |
 | Audio | CM108B U70 + Y5. HP_L/R → J28; line-in L+R mixed into the mono ADC; S/PDIF TX to J28; optical RX not supported | CM6646 is the upgrade path. |
 | Speaker | PAM8302A U71 (mono sum); SD# from CM108B GPIO3; J29 | |
@@ -413,8 +439,8 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
   |---|---|
   | USB-C, 6 × 15 W | 90 W |
   | USB-A, 4 × 4.5–7.5 W | 18–30 W |
-  | Logic | ≈ 8 W |
-  | Worst case at 12 V | ≈ 116–126 W |
+  | Logic | ≈ 9 W (incl. ≈ 1 W for i226 #2 [Estimate]) |
+  | Worst case at 12 V | ≈ 117–127 W |
 
 - **Recommendation (D-IO1):** 5 V / 3 A is advertised at attach, with a 45–60 W USB-C pool. The BP MCU sets the TPS65994 source PDOs over I²C and drops extra ports to 1.5 A.
 
@@ -425,6 +451,7 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 - **Stackup:** 6 layers, JLC06161H-2116.
 - **Netclasses:** USB3_90R, DP_100R, PCIE_85R, USB2_90R, MDI_100R, PWR_5V, PWR_12V. Default clearance 0.1.
 - **Placement:** see `floorplan_iob_A0.png`, `render_port_side_F.png` and `render_psu_side_B.png`.
+- **2026-10-02 changes (D-IO2):** U52/U53/Y6/L45 added on B; J25/J26 on the HR913790A footprint (from the HanRun drawing, verify row offsets); J26 populated; Y2 moved to (53.0, 95.5) to clear the wider jack shield pins.
 - **2026-10-01 changes:** J30 and J31 added on F. U83/U84/L44 placed on B. The duplicate PD flash (old U5) was removed. J2 moved to Y 150.6 to clear the AC keep-out. J6 moved to Xb 80. J4 moved to Xb 8.75.
 - **DRC:** 0 violations, 0 unconnected, 0 footprint errors (`drc_report.txt`).
 - **ERC:** 0 / 0 (`erc_report.txt`).
@@ -485,8 +512,10 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 | Stock pinouts (PSU, audio, wall flex) | Wrong function | Probe per §9; 0R matrices and DNP links. |
 | Plate curvature R and D0 | Ports recessed or proud | M-IOT2 and M-IOF2 before ordering; parametric rebuild. |
 | Clip positions | Plate does not latch | VERIFY on the stock plate; print one test plate. |
-| i226-V availability | Ethernet missing | AQC107 rev B; check JLC/LCSC stock. |
-| macOS USB / i226 support | Driver issues | USBMap; AppleIGC caveat (spec §8.4). |
+| i226-V availability (now 2 per board) | Ethernet missing | Check JLC/LCSC stock (KTI226V C26159200) for 2 × qty. |
+| **HR913790A not stocked at LCSC** | Assembly delay | JLC global sourcing or consign; fallback Amphenol RJMG2V1SLN12W5R (LCSC C6647577, vertical shielded, 2.5G rating unverified) or a non-magnetic vertical jack + discrete 2.5G transformer. |
+| **ETH jack set-back** (both jacks behind the frame plane) | Jack hits the frame, or plug latch/boot hard to reach | M-IOF2 must show D0 ≥ 16.9 + frame-back depth + 0.3. The plug protrudes ≈ 8 mm from the jack face; set-back ≤ ≈ 5 mm keeps the latch reachable [Estimate]. Some snagless boots may touch the plate. |
+| macOS USB / i226 support | Driver issues, now on 2 ports | USBMap; AppleIGC caveat (spec §8.4); the AQC107 variant is the macOS-native fallback. |
 
 ---
 
@@ -494,11 +523,11 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 
 | Group | Per board |
 |---|---|
-| ICs (3 × TPS65994AD ≈ $15, 6 × TUSB1046A ≈ $18, 4 × TUSB1002A ≈ $7, i226-V ≈ $6–9, TDP158 ≈ $3.5, 3 × CH334R ≈ $1.5, CM108B ≈ $1.2, power ≈ $5, management ≈ $3, flashes ≈ $1.3) | ≈ $63 |
-| Connectors (MCIO 124 ≈ $8–12, MCIO 74 ≈ $6–9, 6 × USB-C ≈ $5, 4 × USB-A ≈ $2, RJ45 ≈ $2–4, HDMI, Micro-Fit, GH15, ZIF ≈ $0.3, FPC 50P, stock headers ≈ $2–6) | ≈ $35 |
+| ICs (3 × TPS65994AD ≈ $15, 6 × TUSB1046A ≈ $18, 4 × TUSB1002A ≈ $7, 2 × i226-V ≈ $12–18, TDP158 ≈ $3.5, 3 × CH334R ≈ $1.5, CM108B ≈ $1.2, power ≈ $5, management ≈ $3, flashes ≈ $1.6) | ≈ $70 |
+| Connectors (MCIO 124 ≈ $8–12, MCIO 74 ≈ $6–9, 6 × USB-C ≈ $5, 4 × USB-A ≈ $2, 2 × RJ45 HR913790A ≈ $4–8, HDMI, Micro-Fit, GH15, ZIF ≈ $0.3, FPC 50P, stock headers ≈ $2–6) | ≈ $38 |
 | Passives, inductors, crystals, nuts, holder | ≈ $7 |
-| **Total parts** | **≈ $105** |
-| 5 × 6-layer PCBs + 2 assembled (JLC turnkey, extended-part fees) | ≈ $700–900 total |
+| **Total parts** | **≈ $115** (was ≈ $105; **+ ≈ $9–14 per board** for i226 #2, its NVM/crystal/inductor/passives and the second jack) |
+| 5 × 6-layer PCBs + 2 assembled (JLC turnkey, extended-part fees) | ≈ $720–930 total (+ ≈ $20–30 for 2 assembled boards; no new unique part types, so no new extended-part fees; HR913790A needs global sourcing for both jacks) |
 | Plate, MJF PA12 × 2 + clear SLA button cap | ≈ $25–45 plus shipping |
 
 ---
@@ -510,7 +539,7 @@ The pinout is in `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.1.
 | **M-IOT1** | Port-face angle per column with a phone inclinometer (zeroed on the PCB), plus caliper inboard/outboard face heights (§4.4). |
 | **M-IOT2** | Plate outer-face curvature: steel rule plus feeler gauges at the centre bar and at each column → `CASE_R`. |
 | M-IOF1 | Back depth from the board B side to the PSU frame window. |
-| M-IOF2 | Plate thickness; frame depth; board-to-plate-crown distance D0 (sets the connector heights); standoff height H13; frame centre-screw head height. |
+| M-IOF2 | Plate thickness; frame depth; board-to-plate-crown distance D0 (sets the connector heights); standoff height H13; frame centre-screw head height. **Also the frame back-plane depth at the ETH slots: the HR913790A (16.9 tall) face must sit ≥ 0.3 behind it (gating for J26).** |
 | M-IOF3 | Front height envelope outside the plate for the power stage (U40–U42, L41/L42). |
 | M-IOF4 | HS1 (J1) and J2 plug clearance over the psu_frame top bead (Y ≈ 163) and window top (Y ≈ 160). |
 | M-IOH1 | Hall sensor positions and magnet polarity (stock: magnet ≈ 1 inch right of the power button overrides the interlock). |

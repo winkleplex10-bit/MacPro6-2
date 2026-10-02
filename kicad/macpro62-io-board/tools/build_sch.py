@@ -24,7 +24,7 @@ def ic(name, left, right, ref, fp, desc, w=None, start=1):
     addsym(name, pins, ref, fp, desc, w)
 
 # ---------------- symbols ----------------
-hs = list(csv.DictReader(open(os.path.join(PRJ, "docs", "mp62-iob-hs1_mcio124_pinout_v0.1.csv"))))
+hs = list(csv.DictReader(open(os.path.join(PRJ, "docs", "mp62-iob-hs1_mcio124_pinout_v0.2.csv"))))
 addsym("MCIO124_IOB_HS1", [(r["contact"], r["signal"], "L" if r["contact"][0] == "A" else "R") for r in hs] + [("MP", "SHIELD/MP", "R")],
        "J", "MP62_MCIO_124P_RA_SFF-TA-1016", "MCIO 124P RA (Amphenol G97R24332HR class), MP62 IOB-HS v0.1 pinout, CB J3 -> IOB")
 dl = list(csv.DictReader(open("/workspace/macpro62-face/pinouts/mp62-face-v0.1_mcio74_displaylink_module-end.csv")))
@@ -40,9 +40,9 @@ addsym("USB_A3", [("1", "VBUS", "L"), ("2", "D-", "L"), ("3", "D+", "L"), ("4", 
 addsym("HDMI_A", [(str(i), n, "L" if i <= 10 else "R") for i, n in enumerate(
     ["D2+", "D2_S", "D2-", "D1+", "D1_S", "D1-", "D0+", "D0_S", "D0-", "CK+", "CK_S", "CK-", "CEC", "UTIL", "SCL", "SDA", "DDC_GND", "+5V", "HPD"], 1)] + [("S", "SHIELD", "R")],
     "J", "MP62_HDMI_A_Vertical_PLACEHOLDER", "HDMI type A receptacle, vertical (HDMI 1.4/2.0 pinout)")
-addsym("RJ45_MAG", [(str(i), "MDI%d%s" % ((i - 1) // 2, "+-"[(i - 1) % 2]), "L") for i in range(1, 9)] +
-       [("9", "LED1_A", "R"), ("10", "LED1_K", "R"), ("11", "LED2_A", "R"), ("12", "LED2_K", "R"), ("S", "SHIELD", "R")],
-       "J", "MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER", "RJ45 vertical with integrated magnetics, 2.5GBASE-T (LOGICAL pins; part TBD)")
+addsym("RJ45_HR913790A", [("1", "CT", "L")] + [(str(k), "TRD%d%s" % ((k - 2) // 2 + 1, "+-"[(k - 2) % 2]), "L") for k in range(2, 10)] +
+       [("10", "BS_CAP", "R"), ("11", "LEDGO_11", "R"), ("12", "LEDGO_12", "R"), ("13", "LEDY_K", "R"), ("14", "LEDY_A", "R"), ("S", "SHIELD", "R")],
+       "J", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", "HanRun HR913790A vertical RJ45, integrated 2.5G/5G magnetics (P1 = common CT, P10 = 1000 pF Bob-Smith to chassis); green/orange bicolour 11/12, yellow 14(A)/13(K)")
 addsym("AUDIO_STOCK_50P", [(str(i), "P%d" % i, "L" if i <= 25 else "R") for i in range(1, 51)] + [("MP", "MP", "R")], "J",
        "MP62_StockAudio_EdgeCard_50P_P0.5_PLACEHOLDER", "Stock audio module connector placeholder 50P 0.5 mm (count, pitch and pinout UNCONFIRMED)")
 addsym("PSU_DC_12P", [(str(i), "P%d" % i, "L" if i <= 6 else "R") for i in range(1, 13)], "J", "MP62_StockPSU_DC_12P_P1.5_Shrouded_PLACEHOLDER",
@@ -163,7 +163,7 @@ for r in hs:
     s = r["signal"]
     if s.startswith("IOB_HS_PRSNT"): j1[r["contact"]] = "GND"
     elif s.startswith("RSVD"): pass
-    elif s.endswith("_SSRX_P") or s.endswith("_SSRX_N") or (s.startswith("PCIE_I226_RX")):
+    elif s.endswith("_SSRX_P") or s.endswith("_SSRX_N") or (s.startswith("PCIE_I226_RX")) or (s.startswith("PCIE_I226B_RX")):
         j1[r["contact"]] = s.replace("_SSRX_", "_SSRXC_").replace("_RX_", "_RXC_")     # after the IOB AC caps
     else: j1[r["contact"]] = s
 j1["MP"] = "GND"
@@ -186,7 +186,7 @@ add("J2", "MCIO74_DisplayLink", "DISPLAY-LINK MCIO 74 RA <- Face P", j2)
 # --- USB-C ports ---
 # port -> (video source prefix, lanes, aux, hpd net, PD ref, PD port)
 CP = {1: ("DL0", 4, "DL0_AUX", "DL_HPD0", "U1", "A"), 2: ("DL1", 4, "DL1_AUX", "DL_HPD1", "U1", "B"), 3: ("DL3", 2, "DL3_AUX", "DL_HPD3", "U2", "A"),
-      4: ("DL4", 2, "DL4_AUX", "DL_HPD4", "U2", "B"), 5: ("DDIB", 4, "DDIB_AUX", "HPD_B", "U3", "A"), 6: ("DDIC", 4, "DDIC_AUX", "HPD_C", "U3", "B")}
+      4: ("DL4", 2, "DL4_AUX", "DL_HPD4", "U2", "B"), 5: ("DDIB", 4, "DDIB_AUX", "HPD_B", "U3", "A"), 6: ("DDIC", 2, "DDIC_AUX", "HPD_C", "U3", "B")}   # C6 2-lane since v0.2 (HS1 k14 -> i226 #2)
 for p in range(1, 7):
     section("USB-C C%d (DP alt mode) + TUSB1046A U%d" % (p, 10 + p))
     src, nl, aux, hpd, pd, pp = CP[p]
@@ -271,24 +271,31 @@ for ref, y, up, dn, val in hubs:
     dec(ref + "_V33", ["1uF"]); dec("5V_A", ["1uF"])
 
 # --- Ethernet ---
-section("Ethernet: i226-V U50 -> J25; J26 DNP site (rev B AQC107)")
-add("U50", "I226V", "Intel i226-V 2.5GbE", {"PETP": "PCIE_I226_RX_P", "PETN": "PCIE_I226_RX_N", "PERP": "PCIE_I226_TX_P", "PERN": "PCIE_I226_TX_N",
-    "REFCLKP": "I226_REFCLK+", "REFCLKN": "I226_REFCLK-", "PERST#": "I226_PERST#", "CLKREQ#": "I226_CLKREQ#", "WAKE#": "I226_WAKE#", "XTAL1": "I226_XI", "XTAL2": "I226_XO",
-    "SPI_CS#": "I226_SPI_CS#", "SPI_CLK": "I226_SPI_CLK", "SPI_MOSI": "I226_SPI_MOSI", "SPI_MISO": "I226_SPI_MISO", "VCC3P3": "3V3", "SVR_SW": "I226_SVR", "VCC0P9": "I226_0V9",
-    "GND": "GND", "EP_GND": "GND", **{"MDI%d%s" % (i, q): "ETH1_MDI%d_%s" % (i, q) for i in range(4) for q in "PN"},
-    "LED0#": "ETH1_LED_LINK#", "LED1#": "ETH1_LED_ACT#", "RSET": "I226_RSET"})
-for pol in "PN": cap("PCIE_I226_RX_" + pol, "PCIE_I226_RXC_" + pol, "220nF 0201 X7R (i226 TX -> PCH RX AC cap)")
-add("Y4", "XTAL4", "25MHz 3225 +/-30ppm (i226)", {"1": "I226_XI", "3": "I226_XO", "2": "GND", "4": "GND"})
-cap("I226_XI", "GND", "18pF"); cap("I226_XO", "GND", "18pF")
-add("U51", "SPI_FLASH", "i226 NVM 2 Mbit+ SPI flash (Intel image)", {"1": "I226_SPI_CS#", "2": "I226_SPI_MISO", "3": "3V3", "4": "GND", "8": "3V3", "7": "3V3",
-    "6": "I226_SPI_CLK", "5": "I226_SPI_MOSI"})
-add("L44", "L", "i226 SVR inductor (value per Intel design guide)", {"1": "I226_SVR", "2": "I226_0V9"}, fp=FPL + ":L_1008_2520Metric")
-dec("I226_0V9", ["22uF 0603", "1uF", "100nF"]); dec("3V3", ["22uF 0603", "1uF", "100nF", "100nF"])
-res("I226_RSET", "GND", "RSET (value per Intel)")
-add("J25", "RJ45_MAG", "RJ45 vertical magjack 2.5G (ETH1, Xb 63.5)", {**{"%d" % (2 * i + 1 + j): "ETH1_MDI%d_%s" % (i, "PN"[j]) for i in range(4) for j in range(2)},
-    "9": "3V3", "10": "ETH1_LED_LINK#", "11": "3V3", "12": "ETH1_LED_ACT#", "S": "GND"})
-add("J26", "RJ45_MAG", "DNP rev A: RJ45 10G magjack site (rev B AQC107 via IOB-HS2)", {"S": "GND"}, dnp=True)
-res("I226_CLKREQ#", "3V3", "10k (DNP if CB pulls up)", dnp=True)
+section("Ethernet: 2 x i226-V (U50 -> J25 ETH1, U52 -> J26 ETH2), D-IO2 resolved 2026-10-02")
+def eth_port(n, u, nvm, xt, l, j, pfx, note):
+    P = "PCIE_%s" % pfx                     # PCIE_I226 / PCIE_I226B
+    S = pfx                                  # I226 / I226B
+    E = "ETH%d" % n
+    add(u, "I226V", "Intel i226-V 2.5GbE #%d (%s)" % (n, note), {"PETP": P + "_RX_P", "PETN": P + "_RX_N", "PERP": P + "_TX_P", "PERN": P + "_TX_N",
+        "REFCLKP": S + "_REFCLK+", "REFCLKN": S + "_REFCLK-", "PERST#": "I226_PERST#", "CLKREQ#": S + "_CLKREQ#", "WAKE#": "I226_WAKE#", "XTAL1": S + "_XI", "XTAL2": S + "_XO",
+        "SPI_CS#": S + "_SPI_CS#", "SPI_CLK": S + "_SPI_CLK", "SPI_MOSI": S + "_SPI_MOSI", "SPI_MISO": S + "_SPI_MISO", "VCC3P3": "3V3", "SVR_SW": S + "_SVR", "VCC0P9": S + "_0V9",
+        "GND": "GND", "EP_GND": "GND", **{"MDI%d%s" % (i, q): "%s_MDI%d_%s" % (E, i, q) for i in range(4) for q in "PN"},
+        "LED0#": E + "_LED_LINK#", "LED1#": E + "_LED_ACT#", "RSET": S + "_RSET"})
+    for pol in "PN": cap(P + "_RX_" + pol, P + "_RXC_" + pol, "220nF 0201 X7R (i226 TX -> PCH RX AC cap)")
+    add(xt, "XTAL4", "25MHz 3225 +/-30ppm (i226 #%d)" % n, {"1": S + "_XI", "3": S + "_XO", "2": "GND", "4": "GND"})
+    cap(S + "_XI", "GND", "18pF"); cap(S + "_XO", "GND", "18pF")
+    add(nvm, "SPI_FLASH", "i226 #%d NVM 2 Mbit+ SPI flash (Intel image)" % n, {"1": S + "_SPI_CS#", "2": S + "_SPI_MISO", "3": "3V3", "4": "GND", "8": "3V3", "7": "3V3",
+        "6": S + "_SPI_CLK", "5": S + "_SPI_MOSI"})
+    add(l, "L", "i226 #%d SVR inductor (value per Intel design guide)" % n, {"1": S + "_SVR", "2": S + "_0V9"}, fp=FPL + ":L_1008_2520Metric")
+    dec(S + "_0V9", ["22uF 0603", "1uF", "100nF"]); dec("3V3", ["22uF 0603", "1uF", "100nF", "100nF"])
+    res(S + "_RSET", "GND", "RSET (value per Intel)")
+    add(j, "RJ45_HR913790A", "HanRun HR913790A vertical 2.5G magjack (%s)" % E, {"1": E + "_CT", **{"%d" % (2 + 2 * i + k): "%s_MDI%d_%s" % (E, i, "PN"[k]) for i in range(4) for k in range(2)},
+        "10": "GND", "11": E + "_LED_LINK#", "12": E + "_LEDG_A", "13": E + "_LED_ACT#", "14": E + "_LEDY_A", "S": "GND"})
+    cap(E + "_CT", "GND", "100nF 0402 (magjack common centre tap)")
+    res(E + "_LEDG_A", "3V3", "330R (green link LED; orange half of the bicolour unused)"); res(E + "_LEDY_A", "3V3", "330R (yellow activity LED)")
+    res(S + "_CLKREQ#", "3V3", "10k (DNP if CB pulls up)", dnp=True)
+eth_port(1, "U50", "U51", "Y4", "L44", "J25", "I226", "HS1 k10, PCH RP3 / HSIO 12, CLKOUT_SRC12")
+eth_port(2, "U52", "U53", "Y6", "L45", "J26", "I226B", "HS1 k14, PCH RP4 / HSIO 13, CLKOUT_SRC11; REFCLK on HS1 B26/B27, CLKREQ# A29")
 
 # --- HDMI ---
 section("HDMI: GPU link 2 (DP++) -> TDP158 U60 -> J27")

@@ -53,7 +53,7 @@ Deliverables:
 | Face P GPU x16 | CPU PEG Gen5 (lanes 16–31 on CPU-LINK, Gen4 by policy) | 16 (CPU) | ✓ | ✓ |
 | Face S x4 | **CPU Gen4 x4** (CPU-LINK lanes 12–15) | 4 (CPU) | ✓ | ✓ |
 | M.2 boot NVMe | PCH Gen4 x4 | 4 | ✓ | ✓ |
-| i226-V 2.5GbE | PCH Gen3 x1 | 1 | ✓ | ✓ |
+| i226-V 2.5GbE ×2 (on the IOB since CR-CB-IO1; 2nd port added 2026-10-02, spec item 24) | PCH Gen3 x1 ×2: RP3 / HSIO 12 (CLKOUT_SRC12) and RP4 / HSIO 13 (CLKOUT_SRC11) via J3 k10 / k14 | 2 | ✓ | ✓ |
 | AQC107 10GbE (later) | PCH Gen3/4 x4 | 4 | ✓ (9 of 14) | ✓ (9 of 28) |
 | SATA0 to the BP (OpenCore SSD) | PCH SATA | 1 | ✓ | ✓ |
 | USB to the IOB | PCH USB3 ×4 + USB2 ×4 | — | ✓ | ✓ |

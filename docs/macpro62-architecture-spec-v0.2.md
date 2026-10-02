@@ -47,6 +47,13 @@
     - **Stock connectors identified:** the stock 6-pin is the PSU data cable. CONN_C is the fan/AirPort interposer ribbon and is not reproduced in rev A (D-IO9; fan via BP J5).
     - **Port lights:** motion-triggered through the LIS2DH12 INT1 → BP MCU.
     - **Open decisions:** D-IO1–D-IO11. Pinouts of the PSU headers, audio flex and I/O-wall flex are UNCONFIRMED; see the IOB plan §9 for probing.
+24. **IOB D-IO2 resolved: 2 × 2.5GbE on rev A0 (Aidan, 2026-10-02 ~08:05 ET; rev ~08:30 ET; IOB plan §5.1.1).**
+    - **Ports:** a second i226-V (U52, plus NVM U53, Y6, L45) drives ETH2. Both RJ45s are HanRun HR913790A vertical 2.5G/5G magjacks (16.2 × 17.0, 16.9 tall). The H-side frame slot is 15.6 × 13.0, so the ETH2 jack sits **set back behind the frame** and only the plug passes; ETH1 shares the same plane. The plate's ETH2 opening is open (`io_plate_v2_A0.step`). AQC107 10 G becomes a later variant (PCIe x4 RP5–8 on a new IOB-HS2 cable).
+    - **PCH lanes (Z790 Flex-I/O, Intel 743835):** i226 #1 = RP3 / HSIO 12 (CLKOUT_SRC12). **i226 #2 = RP4 / HSIO 13** (PCIe 3.0, CLKOUT_SRC11 [Proposal]). RP1–4 run as 4 × x1. No conflict with the 10 × USB3 ports (HSIO 0–9 are USB-only) or with the M.2 / AQC107 groups.
+    - **Cable conflict resolved (CR-CB-IO1 rev):** CB J3 / IOB-HS1 had no free pairs. **DDI-C drops to 2 lanes**: k14 becomes i226 #2 PCIe, REFCLK2 goes on B26/B27, CLKREQ2# on A29, and PERST#/WAKE# are shared. C6 (iGPU, non-macOS) is limited to 2-lane HBR2. HS1 now has no spare sideband contacts. Pinout `docs/mp62-iob-hs1_mcio124_pinout_v0.2.csv`.
+    - **Cost:** about +$9–14 per board (≈ $115 parts). IOB power +≈ 1 W.
+    - **Checks:** DRC 0 / ERC 0, 117 footprints.
+    - **Open items:** HR913790A is not stocked at LCSC (global sourcing or consign). M-IOF2 must confirm the jack set-back (D0 ≥ 16.9 + frame-back depth + 0.3).
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
 **v0.1 (2026-09-30):** first draft (card-edge architecture).
@@ -1419,6 +1426,7 @@ v0.1's 12V_EDGE (card-edge 12 V) is gone: anything above 3 W uses 12V_BUS.
 > - DDI-B and DDI-C each feed their own USB-C port (C5/C6). The DP mux in the CB update below is not needed.
 > - Audio is CM108B (UAC1) for rev A, with CM6646 deferred (D-IO5).
 > - Power budget: ≈ 116–126 W worst case at 12 V, with the USB-C pool capped at 45–60 W.
+> - **2026-10-02 (item 24):** 2 × 2.5GbE (2 × i226-V on PCH RP3/RP4). DDI-C on J3 is now 2-lane; k14 carries i226 #2.
 
 > **CB update (2026-10-01):** the IOB high-speed link from the CB (J3, MCIO 124 RA, back side) now also carries **2 × CPU DDI** (DDI-B native DP, DDI-C into a 2:1 DP mux with the Face P GPU's DP in front of the USB-C DP-alt path): 26 of 32 pairs used (§6.0). The IOB needs the DP mux (TI HD3SS215 class [Unverified]) and the DP++ receptacle.
 

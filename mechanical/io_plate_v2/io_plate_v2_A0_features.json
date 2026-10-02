@@ -103,6 +103,15 @@
    "note": "flat land z=-1.38 (crown=0); boss 8.2 x 8.2; inboard pocket depth 0.99"
   },
   {
+   "id": "LAND_ETH2",
+   "kind": "LAND",
+   "x": 42.5,
+   "y": 92.0,
+   "w": 13.8,
+   "h": 11.4,
+   "note": "flat land z=-1.91 (crown=0); boss 14.8 x 12.4; inboard pocket depth 1.82"
+  },
+  {
    "id": "C1",
    "kind": "USBC",
    "x": 42.6,
@@ -199,7 +208,16 @@
    "y": 92.3,
    "w": 13.0,
    "h": 10.7,
-   "note": "on LAND_ETH1; connector face at z=3.07 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+   "note": "on LAND_ETH1 (land z=-1.87); plug passes the plate and the frame slot; HR913790A jack face SET BACK behind the frame back plane (face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)"
+  },
+  {
+   "id": "ETH2",
+   "kind": "RJ45",
+   "x": 42.5,
+   "y": 92.0,
+   "w": 13.0,
+   "h": 10.7,
+   "note": "on LAND_ETH2 (land z=-1.91); plug passes the plate and the frame slot; HR913790A jack face SET BACK behind the frame back plane (face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)"
   },
   {
    "id": "HDMI",

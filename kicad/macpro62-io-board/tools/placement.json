@@ -153,6 +153,62 @@
 "fp": "MP62_IO:LED_0603_1608Metric",
 "dnp": false
 },
+"L45": {
+"side": "B",
+"xb": [
+26.01,
+30.0
+],
+"y": [
+97.11,
+99.89
+],
+"value": "i226 #2 SVR inductor",
+"fp": "MP62_IO:L_1008_2520Metric",
+"dnp": false
+},
+"Y6": {
+"side": "B",
+"xb": [
+25.86,
+30.15
+],
+"y": [
+83.2,
+86.8
+],
+"value": "25 MHz (i226-V #2)",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"U53": {
+"side": "B",
+"xb": [
+15.76,
+23.25
+],
+"y": [
+83.75,
+89.25
+],
+"value": "i226-V #2 NVM SPI flash",
+"fp": "MP62_IO:SOIC-8_3.9x4.9mm_P1.27mm",
+"dnp": false
+},
+"U52": {
+"side": "B",
+"xb": [
+23.76,
+32.25
+],
+"y": [
+87.75,
+96.25
+],
+"value": "i226-V #2 2.5GbE (PCIe x1 from HS1 k14, PCH RP4)",
+"fp": "MP62_IO:MP62_Intel_i226V_QFN-56_7x7_P0.4_PLACEHOLDER",
+"dnp": false
+},
 "L44": {
 "side": "B",
 "xb": [
@@ -366,12 +422,12 @@
 "Y2": {
 "side": "B",
 "xb": [
-51.36,
-55.65
+50.86,
+55.15
 ],
 "y": [
-87.2,
-90.8
+93.7,
+97.3
 ],
 "value": "12 MHz hub crystal",
 "fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
@@ -1416,29 +1472,29 @@
 "J26": {
 "side": "F",
 "xb": [
-34.16,
-50.85
+33.16,
+51.85
 ],
 "y": [
-84.75,
-99.25
+83.16,
+100.84
 ],
-"value": "ETH2 rev B AQC107 10GbE (DNP rev A; frame slot 15.6: jack set back)",
-"fp": "MP62_IO:MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER",
-"dnp": true
+"value": "ETH2 i226-V #2 2.5GbE, HR913790A; H-side frame slot 15.6 x 13.0 < body 16.2 x 17.0: jack set back behind the frame, plug passes",
+"fp": "MP62_IO:MP62_RJ45_HanRun_HR913790A_Vertical_2G5",
+"dnp": false
 },
 "J25": {
 "side": "F",
 "xb": [
-55.16,
-71.85
+54.16,
+72.85
 ],
 "y": [
-85.06,
-99.55
+83.45,
+101.14
 ],
-"value": "ETH1 i226-V 2.5GbE (roomy frame side)",
-"fp": "MP62_IO:MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER",
+"value": "ETH1 i226-V #1 2.5GbE, HR913790A (face behind the frame plane)",
+"fp": "MP62_IO:MP62_RJ45_HanRun_HR913790A_Vertical_2G5",
 "dnp": false
 },
 "J24": {

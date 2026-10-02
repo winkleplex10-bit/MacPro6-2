@@ -12,7 +12,7 @@ def col(r, v):
     if r.startswith("J1") and len(r) == 3: return "#4c9be8"   # USB-C
     if r in ("J21", "J22", "J23", "J24"): return "#7fb3ff"
     if r in ("J1", "J2"): return "#ff9f40"
-    if r in ("J25", "J26", "U50", "U51", "Y4", "L44"): return "#6cc070"
+    if r in ("J25", "J26", "U50", "U51", "Y4", "L44", "U52", "U53", "Y6", "L45"): return "#6cc070"
     if r in ("J27", "U60", "U61"): return "#c77dff"
     if r in ("J3", "J4", "J5", "U40", "U41", "U42", "U43") or r[0] in "LC" and "uh" in v or r.startswith("C4") or r.startswith("C5"): return "#ff6b6b"
     if r in ("J28", "J29", "U70", "U71", "Y5"): return "#ffd166"

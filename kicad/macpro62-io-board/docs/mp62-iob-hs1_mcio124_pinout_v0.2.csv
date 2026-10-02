@@ -1,0 +1,125 @@
+contact,signal,dir,notes
+A1,GND,,
+B1,GND,,
+A2,USB3_C1_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-C C1 (PCH USB3 port 1)
+B2,USB3_C1_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-C C1 (PCH USB3 port 1)
+A3,USB3_C1_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-C C1 (PCH USB3 port 1)
+B3,USB3_C1_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-C C1 (PCH USB3 port 1)
+A4,GND,,
+B4,GND,,
+A5,USB3_C2_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C2 (port 2)
+B5,USB3_C2_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C2 (port 2)
+A6,USB3_C2_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C2 (port 2)
+B6,USB3_C2_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C2 (port 2)
+A7,GND,,
+B7,GND,,
+A8,HPD_B,IOB->CB,"DDI-B hot-plug (3.3 V, from PD #3 port A HPD GPIO)"
+B8,I226_CLKREQ#,IOB->CB,i226 CLKREQ# (OD)
+A9,HPD_C,IOB->CB,DDI-C hot-plug (PD #3 port B)
+B9,I226_WAKE#,IOB->CB,"PE_WAKE# of i226 #1 and #2, wired-OR (OD) (v0.2)"
+A10,GND,,
+B10,GND,,
+A11,I226_PERST#,CB->IOB,"PLTRST-derived PERST#, shared by i226 #1 and #2 (v0.2)"
+B11,I226_REFCLK+,CB->IOB,PCH CLKOUT_PCIE pair for the i226
+A12,IOB_HS_PRSNT0#,IOB->CB,IOB ties to GND (cable present)
+B12,I226_REFCLK-,CB->IOB,
+A13,GND,,
+B13,GND,,
+A14,USB3_C3_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C3 (port 3)
+B14,USB3_C3_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C3 (port 3)
+A15,USB3_C3_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C3 (port 3)
+B15,USB3_C3_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C3 (port 3)
+A16,GND,,
+B16,GND,,
+A17,USB3_C4_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C4 (port 4)
+B17,USB3_C4_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C4 (port 4)
+A18,USB3_C4_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C4 (port 4)
+B18,USB3_C4_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C4 (port 4)
+A19,GND,,
+B19,GND,,
+A20,USB3_C5_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C5 (port 5)
+B20,USB3_C5_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C5 (port 5)
+A21,USB3_C5_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C5 (port 5)
+B21,USB3_C5_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C5 (port 5)
+A22,GND,,
+B22,GND,,
+A23,USB3_C6_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C6 (port 6)
+B23,USB3_C6_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C6 (port 6)
+A24,USB3_C6_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C6 (port 6)
+B24,USB3_C6_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C6 (port 6)
+A25,GND,,
+B25,GND,,
+A26,VBAT_RTC,IOB->CB,coin cell (IOB BT1) via 1k + BAT54 on the IOB; CB does the RTC diode-OR with 3V3_DSW + RC
+B26,I226B_REFCLK+,CB->IOB,PCH CLKOUT_PCIE_SRC11 [Proposal] for i226 #2 (HCSL)
+A27,USB_OC#,IOB->CB,wire-OR of the 4 USB-A switch FLT# (to PCH OC0#)
+B27,I226B_REFCLK-,CB->IOB,
+A28,GND,,
+B28,GND,,
+A29,I226B_CLKREQ#,IOB->CB,i226 #2 CLKREQ# -> SRCCLKREQ11# (OD)
+B29,USB2_HS1_DP,bi,"PCH USB2 port -> IOB hub H1 (uses the REFCLK1 pair, 85-100 ohm, OK for USB2)"
+A30,IOB_HS_PRSNT1#,IOB->CB,IOB ties to GND
+B30,USB2_HS1_DN,bi,
+A31,GND,,
+B31,GND,,
+A32,USB3_A1_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-A A1 (port 7)
+B32,USB3_A1_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-A A1 (port 7)
+A33,USB3_A1_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-A A1 (port 7)
+B33,USB3_A1_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-A A1 (port 7)
+A34,GND,,
+B34,GND,,
+A35,USB3_A2_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / A2 (port 8)
+B35,USB3_A2_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / A2 (port 8)
+A36,USB3_A2_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / A2 (port 8)
+B36,USB3_A2_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / A2 (port 8)
+A37,GND,,
+B37,GND,,
+A38,GND,,
+B38,GND,,
+A39,USB3_A3_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / A3 (port 9)
+B39,USB3_A3_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / A3 (port 9)
+A40,USB3_A3_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / A3 (port 9)
+B40,USB3_A3_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / A3 (port 9)
+A41,GND,,
+B41,GND,,
+A42,USB3_A4_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / A4 (port 10)
+B42,USB3_A4_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / A4 (port 10)
+A43,USB3_A4_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / A4 (port 10)
+B43,USB3_A4_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / A4 (port 10)
+A44,GND,,
+B44,GND,,
+A45,PCIE_I226_TX_P,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)"
+B45,PCIE_I226_RX_P,IOB->CB,"i226 TX (AC caps on IOB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)"
+A46,PCIE_I226_TX_N,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)"
+B46,PCIE_I226_RX_N,IOB->CB,"i226 TX (AC caps on IOB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)"
+A47,GND,,
+B47,GND,,
+A48,DDIB_ML0_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B48,DDIB_ML1_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A49,DDIB_ML0_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B49,DDIB_ML1_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A50,GND,,
+B50,GND,,
+A51,DDIB_ML2_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B51,DDIB_ML3_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A52,DDIB_ML2_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B52,DDIB_ML3_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A53,GND,,
+B53,GND,,
+A54,DDIC_ML0_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B54,DDIC_ML1_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A55,DDIC_ML0_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B55,DDIC_ML1_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A56,GND,,
+B56,GND,,
+A57,PCIE_I226B_TX_P,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)"
+B57,PCIE_I226B_RX_P,IOB->CB,"i226 #2 TX (AC caps on IOB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)"
+A58,PCIE_I226B_TX_N,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)"
+B58,PCIE_I226B_RX_N,IOB->CB,"i226 #2 TX (AC caps on IOB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)"
+A59,GND,,
+B59,GND,,
+A60,DDIB_AUX_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B60,DDIC_AUX_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A61,DDIB_AUX_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+B61,DDIC_AUX_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)"
+A62,GND,,
+B62,GND,,
