@@ -65,7 +65,7 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO6** | **Angled ports** | **(a) Straight connectors + curved plate**. **Since 2026-10-02 ≈ 10:15 ET: no lands** (stock flex), mouths flush at the outboard edge; plug recess USB-C 0.62–0.67, USB-A ≈ 1.7–1.8, HDMI ≈ 2.0 (§4.7.3) | Wedge sub-boards: +2 boards, HBR3/10 G across mezzanines, ≈ +$60–120. Board tilt: does not work. |
 | **D-IO7** | C5/C6 from the iGPU | Keep them (Windows/Linux displays; USB works in macOS) | Make them USB-only and drop U15/U16 mux functions. |
 | **D-IO8** | Stackup | 6 layers, JLC06161H-2116 | 4 layers: loses the solid reference planes for 10 G + HBR3. |
-| **D-IO9** | Fan + AirPort ribbon (CONN_C) | **Superseded 2026-10-02 ≈ 10:50 ET: reproduced on the IOB** at the stock position, B side, centred between the stock standoffs (41.06, 5.17) / (59.92, 5.20): J7, 2 × 20 @ 0.5 mm (DF12-40DS-0.5V(86) footprint candidate, C431048). Fan via EMC2101 (U90), AirPort PCIe via an ASM1182e switch (U91) on the i226 #2 lane, Bluetooth USB2 via a 4th CH334R (U35). The BP J5 fan harness is dropped (§5.7). | Pinout and mating are unconfirmed until M-IOC1 / M-IOC3. |
+| **D-IO9** | Fan + AirPort ribbon (CONN_C) | **Superseded 2026-10-02 ≈ 10:50 ET: reproduced on the IOB** at the stock position, B side, centred between the stock standoffs (41.06, 5.17) / (59.92, 5.20): J7, 2 × 20 @ 0.5 mm (DF12-40DS-0.5V(86) footprint candidate, C431048). Fan via EMC2101 (U90), AirPort PCIe via an ASM1182e switch (U91) on the i226 #2 lane, Bluetooth USB2 via a 4th CH334R (U35). The BP J5 fan harness is dropped (§5.7). **11:30 ET:** + J8 U.FL for the fan-assembly antenna cable (2nd fan-assembly cable, iFixit 21222 step 8) at the photo position (38.4, 16.0) B, optional DNP pass-through J9; T8 fan-cable bracket keep-out X 38.06–62.92, Y 0–10.5 on B (only J7/H14/H15 inside, checked by `build_pcb.py`). | Pinout and mating are unconfirmed until M-IOC1 / M-IOC3; antenna receptacle type/position M-IOA1. |
 | **D-IO10** | Port illumination | **Revised 2026-10-02: the flex on J31 only.** D21–D26 DNP, plate light pipes removed, light windows over the flex pads. TLC59116 stays (D20, diag LEDs, and the A1 flex below). | Board light pipes: need Ø2.5 holes drilled in the frame centre bar (5 of 6 positions blocked). |
 | **D-IO12** | Which flex on the plate | **Revised 2026-10-02 ≈ 10:15 ET: reuse the stock 821-2222-A; no replacement flex for now.** The plate has no bosses, the ports are centred on the flex cut-outs (USB-C +0.44 per side), and there are pockets for the plate-side LEDs and the button carrier (§4.7.2–4.7.3). *Earlier text:* **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
 | **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
@@ -539,11 +539,15 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
 ### 4.7.7 CONN_C fan + AirPort (rev 2026-10-02 ≈ 10:50 ET)
 - **Stock connector** (photo a802…, 10:22). Dual-row press-fit B2B, **2 × 20 = 40 contacts**. The pitch measures 0.49 mm (31.7 px against 65 px/mm from the 18.86 standoff spacing), so 0.5 mm. Body ≈ 12.6 long. It is centred between the two threaded standoffs, giving a centre of **(50.49, 5.18)** on the B side (the earlier estimate was 49.7, 5.0).
 - **Footprint candidate.** Hirose **DF12-40DS-0.5V(86)** receptacle (A 12.1 / B 9.5 / 40 pos; LCSC C431048, but LCSC showed "not available now" at the time of the search; Digi-Key/Mouser stock DF12(3.0)-40DS-0.5V(86)). Apple usually uses Panasonic / JAE / Hirose 0.5 mm B2B in this class. **Mating with the stock plug is not verified** (M-IOC3): read the markings on the cable plug and measure the mated height, the pin-1 side and the boss/peg positions.
-- **Signals (proposed, all UNCONFIRMED)**:
-  - AirPort PCIe x1 Gen1/2: TX ±, RX ±, REFCLK ±, PERST#, CLKREQ#, WAKE#.
+- **Wireless card (Aidan, 11:21 ET).** The card plugs into the AirPort adapter board in the fan assembly, **not into the IOB**, so it does not change CONN_C mechanically. It uses the Apple 12+6 gold-finger edge, the same as the iMac 2017 card (BCM94360CD / BCM943602CDP / BCM94360NG class). Aidan's Sonoma-compatible iMac card fits the same socket. It is longer, with a 4 × U.FL row and 2 screw holes in the top section; that section can be trimmed (no traces there).
+  - Photo check (`39d538…jpg`): edge marked **P1** at the 12-finger end and **P18** at the 6-finger end, 12 + key + 6 fingers on the visible face. This matches the public BCM94360 pinout [pinoutguide.com, after the tonymacx86 thread]: 1 3V3 WiFi, 2 LED_WLAN#, 3 GND, 4/5 PETp0/n0, 6 GND, 7/8 REFCLK±, 9 GND, 10/11 PERp0/n0, 12 GND | key | 13 WAKE#, 14 PERST#, 15 CLKREQ#, 16/17 USB D−/D+, 18 3V3 Bluetooth. The card has **no** W_DISABLE#, BT_DISABLE# or SMBus pins.
+  - The Mac Pro has **4 antenna leads** (3 Wi-Fi + 1 BT) to the card's 4 U.FL. The iMac card's U.FL row sits higher (in the trimmable top section), so check that the stock leads reach it and are routed without strain (**M-IOA2**). Lead order on the stock card: note it before unplugging.
+  - Access: the black plastic top cap is held by **3 adhesive strips** (not clips) and must come off to reach the card; budget new strips (3M 467MP/VHB-class, cut to the stock shapes).
+- **Signals (CONN_C is the adapter-board ribbon; its pin order is still UNCONFIRMED, but the signal set now follows the card)**:
+  - AirPort PCIe x1: TX ± (host → card PERp/n), RX ± (card PETp/n → host), REFCLK ±, PERST#, CLKREQ#, WAKE#.
   - Bluetooth USB 2.0: D+ / D−.
-  - 3V3_WL (load-switched, 4 pins) and a 3V3 standby pin.
-  - W_DISABLE#, BT_DISABLE#, optional SMBus.
+  - 3V3_WL (load-switched, 4 pins) for card P1, and 3V3_BT (card P18) fed from 3V3_SB by 0R (DNP alt from S0 3V3) so BT can wake the machine.
+  - LED_WLAN# (card P2, DNP pull-up, unused). Former W_DISABLE# / BT_DISABLE# / SMBus pins are now NC29 / NC31 / NC33 (the adapter board may still carry parts: M-IOC1).
   - Fan: 12 V (3 pins, 1.5 A PTC), PWM, TACH.
   - ≈ 14 GND.
   - Working pin map: `CONNC` in `tools/build_sch.py`.
@@ -553,7 +557,7 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
   - Shared Gen2 x1 (≈ 4 Gb/s) for 2.5 GbE + 3 × 3 ac (≈ 0.6–1.3 Gb/s). It only saturates when both run flat-out in the same direction.
   - Rejected: a second HS cable (+$10–20, CB connector, PCH lane), or USB Wi-Fi (not native).
   - Bluetooth: a 4th CH334R (U35, H3) on H2 port 4 carries A4 + BT + 2 spare ports (+$0.6).
-- **macOS.** The BCM4360-class card (BCM94360CD family) is natively supported, including Handoff / AirDrop. Caveat: macOS 14+ removed the BCM4360 Wi-Fi driver. Bluetooth still works, but Wi-Fi on 14+ needs OCLP-style root patches [Moderate confidence].
+- **macOS.** Plan for the iMac 2017-style card (Aidan has a Sonoma-compatible one that fits the stock socket), so native Wi-Fi + BT with Handoff / AirDrop and no root patches. *(11:21 ET: the earlier OCLP / Wi-Fi caveat for the stock BCM94360CD on macOS 14+ is dropped.)*
 - **Probing (M-IOC1, stock board powered, DMM + scope).** Probe on the stock IOB connector pads:
   1. GND continuity map, unpowered.
   2. Resistance-to-GND signature of every pin, unpowered.
@@ -566,6 +570,23 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
   9. PERST# toggling at boot; CLKREQ# / WAKE# pull-ups.
   10. W_DISABLE / BT_DISABLE levels.
   11. Any SMBus pair (pull-ups to 3.3 V).
+
+- **Fan-assembly antenna cable (11:30 ET).** iFixit 21222 step 4 / 8: the fan assembly has **two** cables on the IOB side: the ribbon (CONN_C) and an **antenna cable** that plugs into the IO board. The card itself carries the 4 antennas (above), so this cable most likely brings one card antenna (or the fan-assembly antenna) out to an element that radiates through the **plastic I/O cover**, the only RF window in the aluminium case [Inference]. Without it the card still works, but one chain (or BT) is weaker.
+  - **J8**: Hirose U.FL-R-SMT-1(10) (LCSC **C88373**; reel (80) C88374) on B at **(38.4, 16.0)**, the silver ≈ 2.9 × 1.5 SMD part seen in the stock fan-side photo (crop `bracket/io_stock_photos/scan/fan_right.png`). Type and position are **UNCONFIRMED** (the iFixit text gives no type; the guide photos could not be read): **M-IOA1**. Own footprint `MP62_UFL_Hirose_U.FL-R-SMT-1` (KiCad U.FL land pattern without the In5/In6 keep-out zone).
+  - **J9** (DNP): second U.FL on F at (24.0, 14.0) joined to J8 by a 50 Ω CPW (net RF_ANT_FAN), for a pass-through to an FPC antenna behind the plastic cover if the stock IOB turns out to have its own element. If M-IOA1 shows the stock IOB has a PCB antenna, copy it instead.
+  - Moved to make room: U70 CM108B (38.0, 22.0) → **(38.0, 24.5)**.
+- **T8 fan-cable bracket (11:30 ET).** iFixit steps 5–6: a bracket held by **2 captive T8 screws** presses the ribbon plug onto CONN_C. The screws go into the two stock standoffs flanking CONN_C, which H14 / H15 already reproduce at (41.06, 5.17) / (59.92, 5.20) (OD ≈ 4.1 from the photo, M2-class thread; the screws stay in the bracket, so only the threaded standoff is on the IOB).
+  - Keep-out on B: **X 38.06–62.92, Y 0–10.5** (standoffs ± 3 mm, drawn on B.Fab + Dwgs.User). Only J7, H14, H15 inside; `build_pcb.py` prints the check ("violations: none").
+  - Moved out of it: U90 EMC2101 (44.0, 11.0) (courtyard reached Y ≈ 9.2) → **(65.0, 5.0), rot 90**.
+  - Still to measure (**M-IOB2**): bracket outline and thickness, standoff height and thread, whether the bracket needs a ground pad.
+
+### 4.7.8 Stock I/O cover phone scan (2026-10-02 ≈ 11:30 ET)
+- **Data.** `Untitled scan.ply` is a **Gaussian-splat** PLY (3DGS: 156,788 splats, SH degree 3, no mesh), inner/back face only. Script `mechanical/io_cover_scan/scan_overlay.py` → `io_cover_scan_check.json`, `io_cover_scan_overlay.png`.
+- **Scale and layout.** Mirrored similarity fit of 13 opening centroids to the plate openings: scale **0.931** (raw scan 7.4 % oversize, normal phone scale drift), rotation 2.85°, **RMS 0.49 mm**. The AC opening, not used in the fit, lands within 0.86 mm. Affine fit: 0.934 / 0.917 (≈ 1.8 % anisotropy), RMS 0.46.
+- **Outline.** Width ≈ 52.4 at 50 % density (51.5–53.0; splat blur adds ≈ 0.5) vs 51.9; centre 53.0–53.5 vs 53.19; length ≈ 160.3 (ends fuzzy, top touches the table) vs 163.1; corners consistent with r 11.5. **No outline change**; the flatbed-based outline stays.
+- **Curvature.** Inner face, |u| < 22: R ≈ **101.7** (bootstrap 99.7–103.7), but Y bands give 94–123 and the half-width choice 77–102 (height noise MAD 1.36 mm, median splat 0.76 mm). It rules out the old 82 and agrees with the D0-derived **R_inner 110.0** (at |u| = 20 the two differ by ≈ 0.2 mm, below the scan noise). **Kept R from D0**; `R_INNER_OVERRIDE` in `build_plate.py` (default None) switches to 101.7 if a measurement says so. Tilt unchanged.
+- **Not resolvable.** Clips, ribs, bosses, pins, glue-pocket area and wall thickness (one-sided, noisy scan). Only a right-edge rim band (X ≈ 78, Y 64–116) and one weak blob (29.1, 19.9) stand out > 1 mm.
+- **Better measurements:** a radius gauge or card profile across the cover at the USB-C rows (M-IOT2); wall thickness by caliper at an opening edge (M-IOS1); clip positions by caliper from the cover edge (M-IOK1).
 
 ## 5. Interconnects
 
@@ -659,8 +680,8 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 |---|---|---|---|
 | CONN_A, 6-pin | (9.9, 5.2), B | PSU data cable | J4 |
 | CONN_B, 12P | (25.6, 5.8), B | PSU DC-out | J3 |
-| CONN_C, fine pitch + 2 threaded standoffs | (49.7, 5.0), B | **Fan-assembly ribbon** (interposer: fan 12 V/PWM/FG + AirPort Wi-Fi/BT), held by the bracket with 2 captive T8 screws [Sourced: iFixit steps 5–7] | **Not reproduced (D-IO9).** Standoff positions kept free. M-IOC1. |
-| Fan antenna coax | near the top edge | AirPort antenna | Not on rev A |
+| CONN_C, fine pitch + 2 threaded standoffs | (49.7, 5.0), B | **Fan-assembly ribbon** (interposer: fan 12 V/PWM/FG + AirPort Wi-Fi/BT), held by the bracket with 2 captive T8 screws [Sourced: iFixit steps 5–7] | **J7 at (50.49, 5.18) + H14/H15 standoffs (D-IO9, 10:50 ET); bracket keep-out on B (§4.7.7).** M-IOC1. |
+| Fan-assembly antenna cable (iFixit 21222 step 8) | ≈ (38.4, 16.0), B, photo candidate (M-IOA1) | AirPort antenna lead to the I/O-cover RF window [Inference] | **J8 U.FL C88373** + DNP J9 pass-through (§4.7.7) |
 | Long front socket (≈ 34 × 5, ~45–50 contacts) | (50.9, 10.4), F | **Audio-jack ribbon** (821-1776): "squeeze and pull" latch [iFixit step 30] | J28, 50P 0.5 placeholder |
 | **I/O-shield ZIF, 14P** | ≈ (82.8, 10.0), F, bottom-right corner near the 2R2 inductor and barcode F5K610200 | **I/O wall 821-2222 flex: power button + port illumination** [iFixit step 29; Aidan photos] | **J31** (§5.6) |
 | MEG-Array | Y ≈ 173 | IO-board data cable to the interconnect board | Replaced by IOB-HS1 + J2 |
@@ -777,6 +798,12 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - Added on B: J7 CONN_C (DF12-40) with standoffs H14/H15 at the stock spots, U90 EMC2101 (44.0, 11.0), U91 ASM1182e (24.0, 130.0), U35 CH334R H3 + Y7.
   - DRC 0/0/0 (`--severity-all`), ERC 0. Riser PCBs DRC 0.
 
+- **2026-10-02 ≈ 11:30 ET**:
+  - Added J8 (B, U.FL C88373, fan-assembly antenna cable) and DNP J9 (F, pass-through), net RF_ANT_FAN.
+  - T8 bracket keep-out X 38.06–62.92 / Y 0–10.5 on B.Fab + Dwgs.User with a script check; U90 → (65.0, 5.0) rot 90, U70 → (38.0, 24.5).
+  - CONN_C signals follow the Apple 12+6 card (LED_WLAN#, 3V3_BT; disables / SMBus dropped).
+  - DRC 0/0/0, ERC 0.
+
 ## 9. Probing procedures for Aidan (stock board + PSU)
 
 > Safety: the PSU has mains on the primary side. Probe only the low-voltage headers with the PSU in its cage. After unplugging, hold the power button for 10 s to discharge (iFixit).
@@ -829,6 +856,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - The CONN_C pinout and mating are unconfirmed.
   - The FPC jumper impedance must be TDR-checked.
   - Riser tilt follows R 111.2 (D0-derived); the stock tilt is unconfirmed.
+  - 11:30 ET: J8 antenna receptacle type/position and the T8 bracket outline are unconfirmed (M-IOA1, M-IOB2); the iMac card's U.FL row must be reachable by the stock leads (M-IOA2); R_inner 110 (D0) vs 101.7 (cover scan) is unresolved within ± 0.2 mm at the port edge.
   - The main schematic still lists the port receptacles J11–J24/J27 logically; they physically sit on the riser PCBs, linked by JR1–JR5. The riser schematics and pin maps are still to be drawn.
 
 | Item | Risk | Mitigation |
@@ -891,6 +919,10 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | M-IOC1 | CONN_C full pin map on the stock board (§4.7.7 probing list): GND, 12 V, 3.3 V, PWM, TACH, PCIe pairs, REFCLK, USB2, PERST#/CLKREQ#/WAKE#, disables. |
 | M-IOC3 | CONN_C mating: stock cable plug markings, mated height, pin-1 side, bosses; confirm the DF12-40 footprint or find the Apple/Panasonic/JAE part. |
 | M-IOT2 | Stock port tilt on the board (side photo looks upright vs the 6.4–7.3° front-scan estimate): an angle gauge on a stock USB-A shell. |
+| **M-IOA1** | Fan-assembly antenna cable: connector type on the stock IOB (U.FL / MHF / W.FL), exact position (expected ≈ (38.4, 16.0) B), and where its RF goes on the stock board (PCB antenna? a second connector? which card antenna feeds it). |
+| **M-IOA2** | iMac card in the fan-assembly adapter: do the 4 stock antenna leads reach its U.FL row; which lead is BT; trimmed-section clearance. |
+| **M-IOB2** | T8 fan-cable bracket: outline, thickness, standoff height and thread, ground contact; confirm the B keep-out X 38.06–62.92 / Y 0–10.5. |
+| **M-IOK1** | Plate clip positions by caliper from the cover edge (the phone scan cannot resolve them). |
 | M-IOR1 | RJ45 ZJLQ-RJ45-SMD-PCB125-8P8C height (≤ 13.0) and latch orientation; V24P05S pin map. |
 | M-IOR2 | Riser underside gaps after assembly (DF40 C-fold space 4.4–6.5; pogo working height 5.9–7.1). |
 | M-IOB1 | I/O-wall flex J31: count, pitch, contact side, button pair, GND, I²C, LED supply (§9.5). |
@@ -907,6 +939,9 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - `kicad/macpro62-io-risers/`: `risers.json` (geometry), `MP62_RISER.pretty`, and `riser_c/`, `riser_a/`, `riser_hdmi/` (PCB, project, DRC report, top/bottom renders), built by `tools/build_risers.py`.
   - `kicad/macpro62-io-board/tools/risers_geom.py` (riser geometry from the plate stack) and `tools/make_fps_risers.py` (DF40C-80/50/40, DF12-40, RJ45 no-mag, V24P05S, pogo, cradle holes, ASM1182e).
   - `mechanical/io_plate_v2/io_plate_v2_A0_section.png` (tilted risers + cradles).
+- **2026-10-02 ≈ 11:30 ET additions**:
+  - `mechanical/io_cover_scan/`: `scan_overlay.py`, `io_cover_scan_check.json`, `io_cover_scan_overlay.png`, `README.md` (the raw 38 MB PLY and the npy/npz intermediates are kept on the box, not zipped).
+  - `kicad/macpro62-io-board/MP62_IO.pretty/MP62_UFL_Hirose_U.FL-R-SMT-1.kicad_mod`.
 
 | Path | Content |
 |---|---|

@@ -32,8 +32,12 @@ _uH = 53.19 - min(c["cx"] - c["w"] / 2 for c in _ce if c["cx"] < 53.19)   # H si
 _uO = max(c["cx"] + c["w"] / 2 for c in _ce if c["cx"] > 53.19) - 53.19   # O side: USB-A outer edge (X 71.09)
 D0_EDGE_U = {"mean": (_uH + _uO) / 2, "H": _uH, "O": _uO}.get(D0_EDGE_SIDE, D0_EDGE_SIDE) if isinstance(D0_EDGE_SIDE, str) else D0_EDGE_SIDE
 _s = D0_CROWN - D0_EDGE
-R_INNER = (D0_EDGE_U ** 2 + _s ** 2) / (2 * _s)     # 80.83
-CASE_R = R_INNER + SKIN                      # 82.03 (case cylinder, consistent with the previous 82.0 estimate)
+R_INNER = (D0_EDGE_U ** 2 + _s ** 2) / (2 * _s)     # 109.97 from D0 (rev 10:21 ET)
+# Stock-cover phone scan (2026-10-02 11:07, ../io_cover_scan/io_cover_scan_check.json): inner-face fit R 101.7 (bootstrap 99.7-103.7,
+# Y-bands 94-123, half-width 16-24 mm -> 77-102): consistent with the D0 value, rules out the old 82, but not tighter than D0 -> kept.
+R_INNER_OVERRIDE = None                      # e.g. 101.7 to use the scan fit instead of D0 (one-line switch; risers.json/tilt follow)
+if R_INNER_OVERRIDE: R_INNER = R_INNER_OVERRIDE
+CASE_R = R_INNER + SKIN                      # 111.17 outer
 Z_BOARD = -SKIN - D0_CROWN                   # stock board top at -19.2 (our board top assumed at the same plane: MEASURE M-IOS2)
 FLEX_T, PSA_T = 0.12, 0.05                   # flex + its PSA [Estimate, MEASURE]
 FOAM_T = 1.0                                 # stock foam behind the flex (board side) [Aidan ~1, MEASURE]
@@ -390,7 +394,9 @@ if ETH2 == "open":
         msp.add_text("MP62 IO plate v2 A0 - %s - mm - Y up = MEG/base end" % view, dxfattribs={"layer": "NOTES", "height": 2}).set_placement((fx(PL_C[0]) - 30, -12))
         doc.saveas(os.path.join(HERE, "io_plate_v2_A0_openings_%s.dxf" % view))
     json.dump(dict(params=dict(outline=dict(centre=PL_C, w=PL_W, h=PL_H, r=PL_R), case_r=round(CASE_R, 3), r_inner=round(R_INNER, 3), skin=SKIN, rim_h=RIM_H, rim_w=RIM_W,
-                               d0=dict(crown=D0_CROWN, edge=D0_EDGE, edge_u=D0_EDGE_U, board_top_z=Z_BOARD, note="board top -> plate inner face; edge reading position assumed |u|=15.5 (CONFIRM)"),
+                               d0=dict(crown=D0_CROWN, edge=D0_EDGE, edge_u=D0_EDGE_U, board_top_z=Z_BOARD, note="board top -> plate inner face; 16.5 read at the outer edge of the outermost port columns (Aidan 10:21 ET)"),
+                               cover_scan=dict(file="../io_cover_scan/io_cover_scan_check.json", R_inner_fit=101.7, scale=0.931, opening_rms=0.49,
+                                               outline_width=52.4, outline_length=160.3, verdict="2D layout confirmed (+-0.5); R 100-110 consistent; ends, clips, pins, wall below resolution -> geometry unchanged"),
                                clip=dict(t=CLIP_T, w=CLIP_W, l=CLIP_L, hook=CLIP_HOOK), port_grid=dict(usbc_x=[XH, XO], source="flex 821-2222-A cut-out centres (scan)"),
                                flex=dict(flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, frame_t=FRAME_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK, led_h=LED_H, led_clr=LED_CLR,
                                          btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder, no bosses")),

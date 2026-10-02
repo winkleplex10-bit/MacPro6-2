@@ -41,15 +41,43 @@
 "fp": "MP62_IO:MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER",
 "dnp": false
 },
+"J9": {
+"side": "F",
+"xb": [
+21.88,
+26.25
+],
+"y": [
+11.46,
+16.54
+],
+"value": "Optional antenna pass-through U.FL C88373 (50 ohm CPW from J8) for an FPC antenna behind the plastic I/O cover; DNP until M-IOA1",
+"fp": "MP62_IO:MP62_UFL_Hirose_U.FL-R-SMT-1",
+"dnp": true
+},
+"J8": {
+"side": "B",
+"xb": [
+36.16,
+40.53
+],
+"y": [
+13.46,
+18.54
+],
+"value": "Fan-assembly antenna coax: U.FL-R-SMT-1(10) C88373 (stock type/position UNCONFIRMED, M-IOA1)",
+"fp": "MP62_IO:MP62_UFL_Hirose_U.FL-R-SMT-1",
+"dnp": false
+},
 "U90": {
 "side": "B",
 "xb": [
-40.78,
-47.23
+63.21,
+66.8
 ],
 "y": [
-9.21,
-12.79
+1.78,
+8.22
 ],
 "value": "EMC2101 fan controller @0x4C on I2C_SYS: PWM + TACH to J7, 12V fan feed",
 "fp": "MP62_IO:MSOP-8_3x3mm_P0.65mm",
@@ -426,8 +454,8 @@
 43.2
 ],
 "y": [
-16.81,
-27.19
+19.31,
+29.69
 ],
 "value": "C-Media CM108B USB audio codec (UAC1)",
 "fp": "MP62_IO:LQFP-48_7x7mm_P0.5mm",

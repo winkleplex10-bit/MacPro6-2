@@ -160,7 +160,7 @@ place("U51", "SOIC-8_3.9x4.9mm_P1.27mm", 86.0, 97.0, 90, "B", "i226-V NVM SPI fl
 place("U60", "MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER", 28.5, 108.0, 0, "B", "TDP158 HDMI 2.0 retimer (GPU link 2)")
 place("U61", "SOT-23-5", 20.5, 108.0, 90, "B", "1V1 LDO (TDP158 core)")
 # Audio
-place("U70", "LQFP-48_7x7mm_P0.5mm", 38.0, 22.0, 0, "B", "C-Media CM108B USB audio codec (UAC1)")
+place("U70", "LQFP-48_7x7mm_P0.5mm", 38.0, 24.5, 0, "B", "C-Media CM108B USB audio codec (UAC1)")
 place("Y5", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 30.5, 22.0, 90, "B", "12 MHz (CM108B)")
 place("U71", "MSOP-8_3x3mm_P0.65mm", 15.5, 103.0, 0, "B", "PAM8302A mono class-D 2.5 W (speaker)")
 # management
@@ -187,7 +187,15 @@ place("J7", "MP62_Hirose_DF12-40DS-0.5V_PLACEHOLDER", (_cs[0][0] + _cs[1][0]) / 
       "CONN_C fan + AirPort 2x20 @0.5 (stock press B2B). DF12-40DS-0.5V(86) C431048 footprint candidate; pinout UNCONFIRMED (M-IOC1)")
 for k, (x, y) in enumerate(_cs):
     place("H%d" % (14 + k), "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER", x, y, 0, "B", "CONN_C threaded standoff (stock position %.2f, %.2f; thread = stock T8 captive screw, M-IOC1)" % (x, y))
-place("U90", "MSOP-8_3x3mm_P0.65mm", 44.0, 11.0, 0, "B", "EMC2101 fan controller @0x4C on I2C_SYS: PWM + TACH to J7, 12V fan feed")
+place("U90", "MSOP-8_3x3mm_P0.65mm", 65.0, 5.0, 90, "B", "EMC2101 fan controller @0x4C on I2C_SYS: PWM + TACH to J7, 12V fan feed")
+# fan-assembly ANTENNA cable (iFixit 21222 step 8: 2nd fan-assembly cable, plugs into the IO board) -> U.FL; stock spot from the
+# fan photo: silver SMD part ~2.9 x 1.5 at ~(38.4, 16.0) B, UNCONFIRMED (M-IOA1). J9 = optional pass-through to an antenna behind the plastic cover.
+place("J8", "MP62_UFL_Hirose_U.FL-R-SMT-1", 38.4, 16.0, 0, "B", "Fan-assembly antenna coax: U.FL-R-SMT-1(10) C88373 (stock type/position UNCONFIRMED, M-IOA1)")
+place("J9", "MP62_UFL_Hirose_U.FL-R-SMT-1", 24.0, 14.0, 0, "F", "Optional antenna pass-through U.FL C88373 (50 ohm CPW from J8) for an FPC antenna behind the plastic I/O cover; DNP until M-IOA1", dnp=True)
+# T8 fan-cable bracket (iFixit 21222 steps 5-6): 2 captive T8 screws into the CONN_C standoffs H14/H15; bracket presses the ribbon plug onto J7.
+_bk = (min(x for x, y in _cs) - 3.0, 0.0, max(x for x, y in _cs) + 3.0, 10.5)
+rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.B_Fab, 0.12); rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.Dwgs_User, 0.12)
+txt("B: T8 fan-cable bracket keep-out (only J7, H14, H15)", (_bk[0] + _bk[2]) / 2, _bk[3] + 0.8, pcbnew.Dwgs_User, 0.6)
 place("U91", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 24.0, 130.0, 0, "B", "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7")
 place("U35", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 59.0, 0, "B", "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare")
 place("Y7", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 19.0, 63.5, 0, "B", "12 MHz hub crystal (H3)")
@@ -249,6 +257,12 @@ notes = ["MP62 I/O board IOB rev A0 FLOORPLAN (not routed). Viewed from the FRON
          "PLACEHOLDER land patterns: all vertical port connectors, stock audio/PSU connectors, TPS65994AD, TUSB1046A, TUSB1002A, TDP158, i226-V, CH334R."]
 for i, s in enumerate(notes): txt(s, 50, -8 - 2.0 * i, pcbnew.Cmts_User, 0.9)
 txt("MP62 IOB A0", 86, 90, pcbnew.F_SilkS, 1.5, 90)
+_kv = []
+for f in board.GetFootprints():
+    if not f.IsFlipped() or f.GetReference() in ("J7", "H14", "H15"): continue
+    bb = f.GetBoundingBox(False); x0 = W - (pcbnew.ToMM(bb.GetRight()) - OX); x1 = W - (pcbnew.ToMM(bb.GetLeft()) - OX); y1 = OY - pcbnew.ToMM(bb.GetTop()); y0 = OY - pcbnew.ToMM(bb.GetBottom())
+    if x1 > _bk[0] and x0 < _bk[2] and y1 > _bk[1] and y0 < _bk[3]: _kv.append(f.GetReference())
+print("fan-bracket keep-out violations:", _kv or "none")
 pcbnew.SaveBoard(OUT, board)
 bb = {}
 for f in board.GetFootprints():

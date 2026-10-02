@@ -50,9 +50,10 @@ ic("ASM1182E", ["UP_RXP", "UP_RXN", "UP_TXP", "UP_TXN", "UP_REFCLKP", "UP_REFCLK
    "U", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", "ASMedia ASM1182e PCIe Gen2 1:2 packet switch (downstream REFCLK outputs per datasheet: VERIFY), LOGICAL pins", w=15.24)
 CONNC = [("1", "GND"), ("2", "GND"), ("3", "WL_PCIE_TX+"), ("4", "FAN_12V"), ("5", "WL_PCIE_TX-"), ("6", "FAN_12V"), ("7", "GND"), ("8", "FAN_12V"), ("9", "WL_PCIE_RX+"), ("10", "GND"),
          ("11", "WL_PCIE_RX-"), ("12", "FAN_PWM"), ("13", "GND"), ("14", "FAN_TACH"), ("15", "WL_REFCLK+"), ("16", "GND"), ("17", "WL_REFCLK-"), ("18", "BT_USB2_DP"), ("19", "GND"),
-         ("20", "BT_USB2_DN"), ("21", "WL_PERST#"), ("22", "GND"), ("23", "WL_CLKREQ#"), ("24", "3V3_WL"), ("25", "WL_WAKE#"), ("26", "3V3_WL"), ("27", "W_DISABLE#"), ("28", "3V3_WL"),
-         ("29", "BT_DISABLE#"), ("30", "3V3_WL"), ("31", "SMB_SCL"), ("32", "GND"), ("33", "SMB_SDA"), ("34", "3V3_SB"), ("35", "FAN_SENSE"), ("36", "GND"), ("37", "NC37"), ("38", "NC38"),
+         ("20", "BT_USB2_DN"), ("21", "WL_PERST#"), ("22", "GND"), ("23", "WL_CLKREQ#"), ("24", "3V3_WL"), ("25", "WL_WAKE#"), ("26", "3V3_WL"), ("27", "LED_WLAN#"), ("28", "3V3_WL"),
+         ("29", "NC29"), ("30", "3V3_WL"), ("31", "NC31"), ("32", "GND"), ("33", "NC33"), ("34", "3V3_BT"), ("35", "FAN_SENSE"), ("36", "GND"), ("37", "NC37"), ("38", "NC38"),
          ("39", "GND"), ("40", "GND")]
+addsym("UFL", [("1", "SIG", "L"), ("2", "GND", "R")], "J", "MP62_UFL_Hirose_U.FL-R-SMT-1", "Hirose U.FL-R-SMT-1 50 ohm receptacle (C88373)")
 addsym("CONNC_40", [(k, n + ("" if n not in ("GND", "FAN_12V", "3V3_WL") else "_" + k), "L" if int(k) % 2 else "R") for k, n in CONNC], "J", "MP62_Hirose_DF12-40DS-0.5V_PLACEHOLDER",
        "CONN_C fan + AirPort 2x20 @ 0.5 (stock press B2B, DF12-40DS-0.5V(86) candidate). PROPOSED pinout - every pin UNCONFIRMED until M-IOC1 probing.")
 addsym("RJ45_HR913790A", [("1", "CT", "L")] + [(str(k), "TRD%d%s" % ((k - 2) // 2 + 1, "+-"[(k - 2) % 2]), "L") for k in range(2, 10)] +
@@ -330,8 +331,10 @@ for pol in "PN": cap("PCIE_I226B_RXS_" + pol, "PCIE_I226B_RXC_" + pol, "220nF 02
 for pol in "+-": cap("WL_PCIE_TXC" + pol, "WL_PCIE_TX" + pol, "100nF 0201 (switch TX -> AirPort RX AC cap)")
 add("Y8", "XTAL4", "25MHz 3225 (ASM1182e, per datasheet)", {"1": "U91_XI", "3": "U91_XO", "2": "GND", "4": "GND"})
 dec("U91_1V0", ["10uF", "1uF", "100nF"]); dec("3V3", ["10uF", "100nF", "100nF"])
-add("J7", "CONNC_40", "CONN_C fan + AirPort (stock press B2B, 2x20 @0.5; pinout UNCONFIRMED, M-IOC1)", {**{k: n for k, n in CONNC if n not in ("NC37", "NC38", "FAN_SENSE")},
+add("J7", "CONNC_40", "CONN_C fan + AirPort (stock press B2B, 2x20 @0.5; pinout UNCONFIRMED, M-IOC1)", {**{k: n for k, n in CONNC if n not in ("NC29", "NC31", "NC33", "NC37", "NC38", "FAN_SENSE")},
     "21": "I226_PERST#", "25": "I226_WAKE#", "18": "BT_USB2_DP", "20": "BT_USB2_DN"})
+add("J8", "UFL", "Fan-assembly antenna coax (stock type/position UNCONFIRMED, M-IOA1)", {"1": "RF_ANT_FAN", "2": "GND"})
+add("J9", "UFL", "Optional antenna pass-through (DNP) - 50 ohm CPW from J8", {"1": "RF_ANT_FAN", "2": "GND"}, dnp=True)
 add("U90", "EMC2101", "EMC2101 fan controller (SMBus 0x4C, PWM 25 kHz, TACH)", {"VDD": "3V3", "SCL": "I2C_SYS_SCL", "SDA": "I2C_SYS_SDA", "GND": "GND",
     "FAN_PWM": "FAN_PWM", "ALERT#/TACH": "FAN_TACH", "DP": "EMC_DP", "DN": "EMC_DN"})
 res("FAN_TACH", "3V3", "10k TACH pull-up"); res("FAN_PWM", "3V3", "4k7 PWM pull-up (open-drain)")
@@ -339,9 +342,11 @@ add("Q90", "C", "MMBT3904 remote diode (or omit: EMC2101 internal sensor)", {"1"
 add("F90", "R", "1.5 A PTC / 0R fuse link (+12V_IOB -> FAN_12V)", {"1": "+12V_IOB", "2": "FAN_12V"})
 add("U92", "C", "3V3 WLAN load switch (TPS22918 class, 2 A) 3V3 -> 3V3_WL (LOGICAL 2-pin stand-in)", {"1": "3V3", "2": "3V3_WL"})
 dec("3V3_WL", ["22uF 0805", "1uF", "100nF"]); dec("FAN_12V", ["10uF 25V 0805"])
-res("W_DISABLE#", "3V3", "10k (radio on; drive from TLC59116/IOB GPIO if wanted)"); res("BT_DISABLE#", "3V3", "10k")
-res("WL_CLKREQ#", "3V3", "10k"); res("3V3_SB", "3V3", "0R (3V3_SB alias: confirm the stock rail on M-IOC1)")
-res("SMB_SCL", "I2C_SYS_SCL", "0R DNP (fan-assembly SMBus, if present)", dnp=True); res("SMB_SDA", "I2C_SYS_SDA", "0R DNP", dnp=True)
+# card side = Apple 12+6 AirPort edge (BCM94360CD / iMac 2017 BCM943602-class, P1..P18): 3V3 WiFi, LED_WLAN#, PET/PER/REFCLK, WAKE#, PERST#, CLKREQ#, USB D-/D+, 3V3 BT
+# -> no W_DISABLE# / BT_DISABLE# / SMBus on the card (pins 29/31/33 left NC; the adapter board may still add parts: M-IOC1)
+res("LED_WLAN#", "3V3_WL", "10k DNP (card LED_WLAN# open-drain, unused)", dnp=True)
+res("WL_CLKREQ#", "3V3", "10k"); res("3V3_BT", "3V3_SB", "0R: Bluetooth 3V3 (card P18) from standby so BT can wake in S3; confirm on M-IOC1"); res("3V3_BT", "3V3", "0R DNP alt: BT from S0 3V3", dnp=True)
+
 
 # --- HDMI ---
 section("HDMI: GPU link 2 (DP++) -> TDP158 U60 -> J27")

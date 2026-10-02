@@ -79,6 +79,11 @@
       - Fan: EMC2101 @0x4C. **This supersedes the §4.6 BP J5 fan harness.**
       - AirPort PCIe: ASM1182e switch on the i226 #2 lane (HS1 unchanged).
       - Bluetooth USB2: 4th CH334R.
+28. **2026-10-02 ≈ 11:30 ET — I/O cover scan check, fan antenna cable, T8 bracket, wireless card.**
+    - **Cover phone scan** (Gaussian-splat PLY): layout matches the plate at 0.49 mm RMS after a 0.931 rescale; the outline confirms the current plate; R_inner ≈ 101.7 (spread 77–123) vs 110 from D0, consistent, D0 value kept (`R_INNER_OVERRIDE` option). Clips, ribs, wall and glue pocket not resolvable. No geometry change (IOB plan §4.7.8).
+    - **Fan antenna cable** (iFixit 21222 step 8): J8 U.FL (C88373) on the IOB B side at the photo position (38.4, 16.0), DNP J9 pass-through; type/position M-IOA1.
+    - **T8 fan-cable bracket:** B keep-out X 38.06–62.92 / Y 0–10.5 around the CONN_C standoffs; U90 and U70 moved out.
+    - **Wireless card:** Apple 12+6 edge (P1–P18) in the fan-assembly adapter; the iMac 2017-style card fits (top section trimmable), native on Sonoma, so the OCLP / Wi-Fi caveat is dropped and OD-7 is closed (stock location, Broadcom). CONN_C signals follow the card pinout. Top cap is held by 3 adhesive strips.
 
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
@@ -1686,7 +1691,7 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 4. **OD-4: Main NVMe location:** **on the Face S storage module** only, **or** also an **M.2 2280 on the CPU board** (lanes 8–11; fit TBD)?
 5. **OD-5: BP thickness:** **resolved: 1.6 mm** (MCIO needs ≥ 1.42 mm [N41]; 6 L). Only the screw stack (M8) remains.
 6. **OD-6: Face assignment:** which physical face is **Face P**: stock **GPU-B** (next to the I/O, stock display source [REF-S1 p.22]) or **GPU-A**? (Affects display cable length.)
-7. **OD-7: Wi-Fi location** (IOB vs top interposer) and chipset (Broadcom + OCLP vs Intel AirportItlwm).
+7. ~~**OD-7: Wi-Fi location** (IOB vs top interposer) and chipset (Broadcom + OCLP vs Intel AirportItlwm).~~ **Closed 2026-10-02 ≈ 11:30 ET:** stock fan-assembly adapter + iMac 2017-style Apple 12+6 card (Sonoma-native) via CONN_C (changelog 28).
 8. **OD-8: Port illumination:** new LED flex vs stock port positions (IOB phase).
 9. **OD-9: 12 V inputs:** keep stock bus bars only in rev A, **or** also populate the optional 8-pin inputs on the CPU board and faces?
 10. **OD-10: Gen5 build:** route a separate **BP-G5** (5 × DS320PR810 + 80 output caps, ≈ $95–115 + 6.4 W) **or** always fit redrivers on one BP **or** go Gen4-only and revisit with a retimer later?

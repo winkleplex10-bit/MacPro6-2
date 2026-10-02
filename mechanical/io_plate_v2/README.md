@@ -1,3 +1,8 @@
+> **Rev 2026-10-02 ≈ 11:30 ET (stock cover phone scan check, no geometry change):**
+> - Scan (`../io_cover_scan/`, Gaussian-splat PLY) registered to the plate at **0.49 mm RMS** over 13 openings after a 0.931 rescale. Outline width ≈ 52.4 vs 51.9 (blur ≈ 0.5), centre and corners agree: **outline kept**.
+> - Inner radius from the scan ≈ 101.7 (bootstrap 99.7–103.7, band spread 77–123) vs **109.97 from D0**: consistent, D0 kept. New switch `R_INNER_OVERRIDE = None` (set 101.7 to use the scan fit); `params.cover_scan` in the features JSON records the check.
+> - Clips, ribs, bosses, pins, glue pocket and wall thickness are below the scan's resolution: unchanged. STEP/STL/DXF/PNGs regenerated (identical geometry).
+
 > **Rev 2026-10-02 ≈ 10:50 ET:**
 > - Plate radius re-derived from D0 (18.0 crown / 16.5 at the outer edge of the outermost port columns, |u| 18.1): **R 111.17 outer**.
 > - USB-C / USB-A / HDMI openings are **straight through-holes along the tilted port axes** (±5.25–5.51°, D-IO14 column risers). The USB-C spot-faces are removed.
