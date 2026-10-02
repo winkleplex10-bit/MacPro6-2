@@ -2,10 +2,10 @@
 
 | Item | Value |
 |---|---|
-| Date | 2026-10-01, written ≈ 22:15 ET; **rev 2026-10-02 ≈ 08:30 ET: D-IO2 resolved, 2 × 2.5GbE (2 × i226-V) on rev A0**; **≈ 09:10 ET: stock edge/plate/flex photos → plate v2 reworked for the 821-2222 flex, D0 re-estimated (§4.7)** |
+| Date | 2026-10-01, written ≈ 22:15 ET; **rev 2026-10-02 ≈ 08:30 ET: D-IO2 resolved, 2 × 2.5GbE (2 × i226-V) on rev A0**; **≈ 09:10 ET: stock edge/plate/flex photos → plate v2 reworked for the 821-2222 flex, D0 re-estimated (§4.7)**; **≈ 10:15 ET: flatbed scan of the 821-2222-A flex + measured D0 18.0 / 16.5 → no lands or bosses (the stock flex lies flat), port grid = flex cut-outs, USB-C columns X 43.09 / 63.69, port risers and non-magnetic RJ45 proposed (§4.7.1–4.7.4)** |
 | Owner | Aidan Winkler (MacPro6,2 project) |
 | Board | **IOB rev A0** replaces the stock I/O board. It is 101.0 × 173.6 mm, uses the 6 stock holes and the stock bosses, and keeps the stock port layout: AC, power button, HDMI, 2 × RJ45, 6 × USB-C in the old Thunderbolt slots, 4 × USB-A, 2 audio jacks. |
-| Plate | **New plastic I/O plate v2**. The metal I/O frame stays. The plate is curved to the case, with flat port lands for straight connectors. It is ready to print as STEP + STL. |
+| Plate | **New plastic I/O plate v2**. The metal I/O frame stays, and the stock 821-2222-A flex is reused. The plate is curved to the case (outer R 82.0 from the measured D0). Since 2026-10-02 ≈ 10:15 ET it has **no lands or bosses**: the inner face is smooth so the flex lies flat, and the openings go straight through. It is ready to print as STEP + STL. |
 | KiCad | `kicad/macpro62-io-board/` (KiCad 9). **Floorplan:** outline, holes, keep-outs, 6-layer stackup and 117 footprints, covering every IC, connector, crystal, inductor and bulk capacitor. **DRC 0 / 0** (`--severity-all`). **Schematic:** 410 symbol instances, ≈ 500 nets, ERC **0 errors / 0 warnings**. **Routing has not started.** Small passives are not placed yet. |
 | Status | **Plan for review. Nothing ordered.** The stock PSU, audio and I/O-wall flex pin functions are **UNCONFIRMED** (probing procedures are in §9). Several land patterns are placeholders (§10). |
 
@@ -23,10 +23,10 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
    - C5 and C6: iGPU DDI-B (4-lane) and DDI-C (**2-lane since 2026-10-02**, its ML2/ML3 pair slot now carries the second i226). **macOS cannot use these.**
    - HDMI: GPU link 2 (DP++) through a TDP158.
    - 4 × USB-A 10 G, with a TUSB1002A redriver on each port.
-   - **2 × 2.5GbE (2 × i226-V, U50 → ETH1, U52 → ETH2)**, both on HanRun HR913790A vertical 2.5G magjacks. The AQC107 10 G becomes a later variant (§5.1.1).
+   - **2 × 2.5GbE (2 × i226-V, U50 → ETH1, U52 → ETH2)**. The HanRun HR913790A magjacks (16.9) are **too tall for the measured D0**: the jack face must be ≤ 13.6. D-IO15 proposes a non-magnetic vertical RJ45 ≤ 13 plus discrete 2.5G magnetics (§4.7.4). The AQC107 10 G becomes a later variant (§5.1.1).
    - Audio uses the **stock audio jack flex** via a CM108B USB codec. The **stock speaker** runs from a PAM8302A amp.
 2. **The stock ports really are angled (§4.4).** Each column of shells is tilted about **7° outward (±1.5°)**, mirror-symmetric about the centre bar. The I/O wall follows the case cylinder (R ≈ 82–84 mm).
-   - **Recommendation: standard straight connectors on a flat board, with a curved plate that has flat "port lands" (§4.4).**
+   - **Recommendation (rev 2026-10-02 ≈ 10:15 ET): standard straight connectors on a flat board, and a curved plate *without* lands, because the stock flex must lie flat (§4.7.3).** Each mouth is flush at its shell's outboard edge. USB-C, USB-A and HDMI need 17.2–17.9 mm from the board top, so they sit on **port risers** (D-IO14, §4.7.4). (The 2026-10-01 flat-land design below is superseded.)
    - This is the cheapest option. The board, frame and connectors stay standard; all the compensation goes into a 3D-printed part.
    - Tilting the whole board cannot work: one board tilt cannot produce two opposite column angles.
    - Wedge sub-boards and angled-shell connectors cost more and add SI risk. No catalogue part exists for angled shells.
@@ -57,13 +57,15 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO3** | **CR-CB-IO1** | Accept: new J3 pinout, i226 moves to the IOB, 1 × USB2, VBAT from the IOB, **Z790 required** for 10 × 10 G | With B760 only 6 of the 10 ports get SuperSpeed. |
 | **D-IO4** | **CR-BP-IOB** | Accept the GH15 pinout (§5.5) and feed BP J2 through IOB J5 | – |
 | **D-IO5** | Codec | CM108B now (UAC1, mono line-in); CM6646 later | Wait for CM6646 stock (UAC2, stereo line-in, S/PDIF in). |
-| **D-IO6** | **Angled ports** | **(a) Straight connectors + curved plate with flat lands** (§4.4) | Wedge sub-boards: +2 boards, HBR3/10 G across mezzanines, ≈ +$60–120. Board tilt: does not work. |
+| **D-IO6** | **Angled ports** | **(a) Straight connectors + curved plate**. **Since 2026-10-02 ≈ 10:15 ET: no lands** (stock flex), mouths flush at the outboard edge; plug recess USB-C 0.62–0.67, USB-A ≈ 1.7–1.8, HDMI ≈ 2.0 (§4.7.3) | Wedge sub-boards: +2 boards, HBR3/10 G across mezzanines, ≈ +$60–120. Board tilt: does not work. |
 | **D-IO7** | C5/C6 from the iGPU | Keep them (Windows/Linux displays; USB works in macOS) | Make them USB-only and drop U15/U16 mux functions. |
 | **D-IO8** | Stackup | 6 layers, JLC06161H-2116 | 4 layers: loses the solid reference planes for 10 G + HBR3. |
 | **D-IO9** | Fan + AirPort ribbon (CONN_C) | Rev A: **not reproduced.** The fan gets its own harness to BP J5 (spec §4.6). The CONN_C standoff positions are kept free. | Reproduce CONN_C on the IOB (needs M-IOC1) to keep the stock fan/AirPort blind-mate path. |
 | **D-IO10** | Port illumination | **Revised 2026-10-02: the flex on J31 only.** D21–D26 DNP, plate light pipes removed, light windows over the flex pads. TLC59116 stays (D20, diag LEDs, and the A1 flex below). | Board light pipes: need Ø2.5 holes drilled in the frame centre bar (5 of 6 positions blocked). |
-| **D-IO12** | Which flex on the plate | **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
+| **D-IO12** | Which flex on the plate | **Revised 2026-10-02 ≈ 10:15 ET: reuse the stock 821-2222-A; no replacement flex for now.** The plate has no bosses, the ports are centred on the flex cut-outs (USB-C +0.44 per side), and there are pockets for the plate-side LEDs and the button carrier (§4.7.2–4.7.3). *Earlier text:* **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
 | **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
+| **D-IO14** | Connector heights (measured D0 18.0 / 16.5) | **Port risers**: USB-C, USB-A and HDMI receptacles (15.0 tall catalogue parts) on riser PCBs over a high-speed board-to-board stack. Δ ≈ +2.9 for USB-C, +2.4 for USB-A, +2.2 for HDMI (§4.7.4). | Parts straight on the board: mouths 2.2–2.9 below flush and plugs do not seat. A custom tall USB-C needs tooling and an MOQ. |
+| **D-IO15** | RJ45 | **Non-magnetic vertical RJ45 ≤ 13.0 + discrete 2.5G magnetics (Jansum V24P05S)**. The face must be ≤ 13.6, behind the frame. | HR913790A (16.9) does not fit at all with D0 18. |
 | **D-IO11** | Plate process | **MJF PA12, dyed black** (JLC3DP or PCBWay) | SLA black resin: nicer surface, but the clips are brittle. CNC: best fit, ≈ 10× the price. |
 
 ---
@@ -107,7 +109,23 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 
 ## 4. Ports, plate and tilt
 
-### 4.1 Port grid (face centres; mean of the board front scan and the plate scan, ±0.5)
+### 4.1 Port grid (rev 2026-10-02 ≈ 10:15 ET: centres of the stock 821-2222-A flex cut-outs from the flatbed scan, ±0.15)
+
+| Port | Position (X, Y) | Part / height (§4.7.4) |
+|---|---|---|
+| USB-C C1–C3 (H column) | X **43.09**; Y 75.76 / 65.84 / 55.97 | FG-ST-C-24P-VT-SMT-15.0 (C51911913) on a +2.90 riser; mouth 17.90 above the board |
+| USB-C C4–C6 (O column) | X **63.69**; same Y | Same part, +2.82 riser; mouth 17.82 |
+| USB-A A1/A2 | (43.12, 42.64), (43.12, 32.54) | KH-3.0AF180WJ-15JB (C2979045), +2.49 riser; mouth 17.49 |
+| USB-A A3/A4 | (63.76, 42.64), (63.76, 32.54) | Same, +2.38; mouth 17.38 |
+| ETH1 | (63.67, 91.60) | Non-magnetic vertical RJ45 ≤ 13.0 + V24P05S (D-IO15); face ≤ 13.6 |
+| ETH2 | (43.15, 91.41) | Same; face ≤ 13.7 |
+| HDMI | (42.96, 107.07) | Vertical H15 (JLC C9900153431), +2.24 riser; mouth 17.24 (the shell must pass the 5.83 flex cut-out) |
+| Button | (63.79, 108.11) = flex button-carrier centre | Cap on the flex dome (J31). SW1 / D20 are DNP. |
+| Audio jacks | (43.4, 19.1), (64.65, 19.4) | Stock audio flex (unchanged) |
+
+Moves against the 2026-10-01 grid: USB-C H +0.49 / O −0.21 in X, rows +0.4…+0.56; USB-A −0.18…−0.29 X, −0.06…−0.11 Y; ETH +0.65 / +0.17 X, −0.6…−0.7 Y; HDMI (+0.56, −0.33); button (+0.77, +0.08).
+
+*Superseded grid (2026-10-01; face centres, mean of the board front scan and the plate scan, ±0.5):*
 
 | Port | Position (X, Y) | Part (placeholder footprint) |
 |---|---|---|
@@ -124,6 +142,19 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 All new connectors are **straight**: their mating axis is normal to the board. Because the grid is the face centres, the mouths line up with the plate openings without any offset.
 
 ### 4.2 Plate openings (outer)
+
+**Rev 2026-10-02 ≈ 10:15 ET** (all go straight through the curved skin, with no lands):
+
+- USB-C 9.6 × 4.0 R 1.8 (shell 8.94 × 3.26 passes, 0.11 inside the flex cut-out).
+- USB-A 14.0 × 6.0 R 0.6 (the shell passes).
+- HDMI 15.6 × 5.7 R 1.0.
+- ETH1 13.0 × 10.4, ETH2 13.0 × 10.7.
+- Audio Ø4.8 (stock).
+- Button Ø12.4 at (63.79, 108.11).
+- Light windows re-centred on the scanned pads: HDMI (43.41, 113.09), ETH (53.41, 92.27), TB (53.36, 65.94), USB (53.46, 37.92), audio (43.39, 12.40) / (63.61, 12.40).
+- Outer spot-faces at the USB-C columns (§4.7.3).
+
+*Earlier table (2026-10-01/02 09:10):*
 
 | Opening | Size | Notes |
 |---|---|---|
@@ -143,6 +174,8 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 - That is a relative in-plane error of ≤ 0.5° at registration accuracy. It is absorbed by the 0.3+ mm per-side clearances. **M-IOP1** confirms with calipers.
 
 ### 4.4 Port angle: estimate and decision (D-IO6)
+
+> **Partly superseded (2026-10-02 ≈ 10:15 ET).** The flat lands and bosses below were removed because the stock flex must lie flat and bosses cannot fit inside its cut-outs. The angle evidence still holds. Heights now come from the measured D0 (§4.7.4), and the depth table below is obsolete.
 
 **Evidence.**
 
@@ -213,6 +246,18 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 
 ### 4.5 Plate v2 CAD (`mechanical/io_plate_v2/`)
 
+> **Rev 2026-10-02 ≈ 10:15 ET:** `build_plate.py` was rewritten.
+> - D0 parameters (`D0_CROWN` 18.0, `D0_EDGE` 16.5, `D0_EDGE_U` 15.5) set CASE_R 82.03; the board top is at z −19.2.
+> - Constant 1.2 wall with a smooth inner face. No lands, bosses or ramps.
+> - Port grid from the flex trace JSON.
+> - 0.2 glue pocket (outline + 0.2), 19 LED pockets and a button-carrier pocket (wall 0.35).
+> - Ø2.4 locating pins, Ø1.4 ear pins, USB-C outer spot-faces, rim notch X 76.0–81.5.
+> - The `stack`, `parts`, `flex_check` and `led_check` blocks are in the features JSON.
+> - 8.5 cm³, one solid, bbox 52.2 × 163.2 × 11.1.
+> - `section_plot.py` now shows the full stack down to the board, with the risers. `--flex none` is retired.
+>
+> The bullets below describe the 09:10 build.
+
 - Outline 51.9 × 163.1, R 11.5, at (53.19, 77.07). Perimeter rim 1.2 × 3.0.
 - **Constant 1.2 wall:** the outer face is a cylinder (`CASE_R` 82; None = flat) and the inner face is the concentric cylinder R0 − 1.2, as on the stock plate.
 - **Flat port lands** (§4.4) are pockets on the outside, backed by bosses on the inside. The bosses stand 0.6–2.0 proud of the inner skin at their inboard edge. Since 2026-10-02 that inboard edge is **ramped 60–72°** (steep enough to keep ≥ 0.8 under the land edge), so a flex can drape over it.
@@ -234,9 +279,10 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 | `io_plate_v2_A0_openings_backview.dxf`, `…_frontview.dxf` | Planform. The front view is in the KiCad x frame. |
 | `io_plate_v2_A0_features.json` | Per-feature report |
 | `io_plate_v2_A0_preview.png`, `…_iso_inner.png`, `…_section.png` | Previews. The section now shows the constant wall, ramped bosses, flex, foam and a schematic frame. |
-| `flex_821-2222_trace.dxf` / `.json` | **Flex trace** (plate-facing side, back view): outline, port cut-outs, frame holes, light-guide pads, LED chips, button dome, tail (approx.), plus reference layers (plate openings, our bosses, windows) and `A1_FLEX_CUTOUTS_PROPOSED` |
+| `flex_821-2222_trace.dxf` / `.json` | **Flex trace from the flatbed scan (rev 10:15 ET)** (plate-facing side, back view): outline, cut-outs, holes, light-guide pads, silver frames, 19 LEDs, button ring/dome, tail + 14 contacts, `IGNORED_BLACK_TAB`, reference plate/opening/window/LED-pocket layers |
+| `flex_821-2222_scan_vs_photo_deltas.md` | Delta table, scan trace against the 09:06 photo trace |
 | `flex_821-2222_check.png` | Flex trace against our ports, bosses and frame slots, with the clearance numbers |
-| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut: flex outline, minus our bosses + 0.3, frame holes + 0.5 and the button ring + 0.5 |
+| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut (scan outline): flex outline, minus the flex cut-outs + 0.3, holes + 0.5 and the button ring + 0.5 |
 | `build_plate.py`, `section_plot.py` | Parametric sources |
 
 ### 4.6 Ordering the plate (JLC3DP or PCBWay) [D-IO11]
@@ -350,6 +396,94 @@ The new plate copies all of this except the collars (see below).
   - 1.0 closed-cell PE/PORON with PSA, ≈ $2–5 laser-cut; or
   - 0.25 Formex GK-10 / fish paper (UL94 V-0), ≈ $3–8 one-off, < $1 in volume [Estimate].
 - Add Kapton dots only if a caliper check finds anything < 0.5 from the frame.
+
+### 4.7.1 Flex 821-2222-A from the flatbed scan (2026-10-02 ≈ 10:15 ET; supersedes the photo trace above)
+
+Source: Aidan's flatbed scan (200 dpi, flex flat on the glass, L-shaped ruler). Scripts and intermediate images are in `bracket/io_stock_photos/scan/` (`ticks.py`, `frameF.py`, `rr110.py`, `bake_scan.py`, `deltas.py`, `overlay.py`).
+
+- **Scale:** both ruler arms are mm scales (no separate inch scale was found). The ticks give **7.8935 px/mm across** (rms 0.4 px over 147 mm) and **7.8735 px/mm along** (rms 0.6–0.7 px over 209 mm). The two agree to 0.24 %, and the nominal 200 dpi is 7.874, so there is no perspective. Use the per-axis values.
+- **Flatness:** the long frame edges are straight to 0.03 mm and parallel, so the frame lay flat. Only the free tail drifts about 3° in-plane; it is idealised as straight.
+- **Idealisation:** straight edges, arcs and symmetric groups. The TB, USB-A and audio cut-outs share one size and one column pair; the rows are the measured means. Edges were read at threshold 110–150 (±0.15 mm). The **wide black stiffened tab beside the tail is ignored**: it is glued to the metal plate and sits on DXF layer `IGNORED_BLACK_TAB` for reference only.
+- **Placement in the plate frame:** rotation 0, plus the least-squares translation onto the stock port grid (rms 0.58; a free rotation of 0.65° would give 0.48, inside the grid's ±1° uncertainty). Flex holes against frame holes: HOLE_C1 Δ (+0.25, +0.12); HOLE_C2 Δ (−0.03, −0.22).
+- **Result** (`flex_821-2222_trace.json/.dxf`, plate frame):
+  - Frame 45.60 wide (X 30.53–76.13), Y 10.0–115.9, plus the neck X 76.13–80.58 / Y 28.22–47.13.
+  - Cut-outs: TB 9.83 × 6.10 R 2.25 at X 43.09 / 63.69, Y 75.76 / 65.84 / 55.97. USB-A 14.66 × 6.39 R 1.64 at X 43.12 / 63.76, Y 42.64 / 32.54. ETH2 14.14 × 11.37 at (43.15, 91.41). ETH1 14.20 × 10.73 at (63.67, 91.60): the two ETH heights really differ. HDMI 16.14 × 5.83 at (42.96, 107.07). Audio Ø8.05 at (43.06, 19.03) / (63.74, 19.03).
+  - Holes: HOLE_C1 Ø3.3 (low confidence, partly shadowed) at (53.18, 75.53); HOLE_C2 Ø5.08 at (53.35, 58.16); PIN_C3 Ø5.67 at (53.38, 19.27). Two button-carrier ear holes Ø1.8.
+  - Button carrier ring Ø15.57 at (63.79, 108.11), dome Ø≈4. **19 LED chips** (≈ 1.0–1.25 × 3.6–5.2) are on the plate-facing side, 2 of them flank the button. 6 light-guide pads and 3 silver frames.
+  - Tail: 4.75 wide, ≈ 83 mm from the neck to the end, contact end 8.25 wide with 14 × 0.5 gold contacts (exposed ≥ 1.8 long).
+- **Deltas against the 09:06 photo trace** (full table: `mechanical/io_plate_v2/flex_821-2222_scan_vs_photo_deltas.md`). The overall scale agrees (similarity fit 1.0033, rms 0.30), but individual features moved:
+  - TB cut-outs +0.05…+0.75 wider, centres +0.12…+0.43 higher in Y; the H column is 0.12–0.35 farther outboard in X. USB-A +0.2…0.4 in Y.
+  - HDMI (+1.22, −0.34), 5.83 tall (was 6.23). ETH +0.5 X. Audio holes Ø8.05 (was 7.4/7.5).
+  - Button ring Ø15.57 (was 11.8) at +1.54 X. HOLE_C2 Ø5.08 (was 4.5), PIN_C3 Ø5.67 (was 4.6).
+  - The frame is 45.6 wide with straight edges (the photo outline was 51.7 wide including the wavy edges and neck). 19 LEDs instead of the 34 photo "chips" (the photo also counted reflector tabs).
+
+### 4.7.2 Fit check against the stock flex (scan trace)
+
+`flex_821-2222_check.png`; numbers in `io_plate_v2_A0_features.json` (`flex_check`, `led_check`).
+
+| Item | Result |
+|---|---|
+| USB-C shells 8.94 × 3.26 in the 9.83 × 6.10 cut-outs | **+0.44 / +0.45 per side** once the columns move to X 43.09 / 63.69 (+0.49 / −0.21). At the old X 42.6 the H column was −0.05 (interference). |
+| USB-A shells (13.2 × 5.7 assumed) in 14.66 × 6.39 | +0.34 per side |
+| HDMI shell (15.2 × 5.5 assumed) in 16.14 × 5.83 | +0.17 per side. **The receptacle shell must be ≤ 15.4 × 5.6 to pass**; otherwise see the fallback in §4.7.4. |
+| RJ45 plug 11.7 × 8.2 in the ETH cut-outs | +1.22 / +1.25 |
+| Audio (stock jacks, stock plate positions) | Ø4.8 opening +1.28 / +0.64; jack nose (Ø6 assumed) +0.68 / **+0.04**. AUD_O is the flex hole that sits 0.91 off the stock plate hole: check M-IOW1. |
+| Old land bosses against the cut-outs | **Impossible.** The room inside the cut-outs is ≤ 0.45 per side (USB-C), 0.34 (USB-A) and 0.17 (HDMI), and the HDMI cut-out (5.83) is smaller than the old opening (6.0). So the plate now has **no bosses**: the inner face is flush, and the flex lies flat. |
+| Locating pins Ø2.4 in the flex holes | C1 +0.18 radial; C3 +0.53 |
+| LEDs against plate features | 17 clear. The 2 button LEDs sit under the button cap by design. No LED is under a pin, clip, rim, screw relief, spot-face or window edge. |
+
+### 4.7.3 Plate redesign (rev 2026-10-02 ≈ 10:15 ET)
+
+- **No lands and no bosses.** Every opening goes straight through the curved 1.2 skin. The inner face is one smooth cylinder (outer R 82.03, inner R 80.83, from D0), and the flex lies in a 0.2 glue pocket (outline + 0.2, which also locates the flex to ±0.2).
+- **Port grid = the flex cut-out centres** (§4.1). The USB-C columns move to X 43.09 / 63.69. Openings: USB-C 9.6 × 4.0; USB-A 14.0 × 6.0 (the shell passes); HDMI 15.6 × 5.7; ETH1 13.0 × 10.4; ETH2 13.0 × 10.7. Audio stays at the stock positions.
+- **Pockets for the plate-side parts of the flex.** There are 19 LED pockets (chip + 0.25 per side) and a Ø16.17 pocket for the button carrier, each 0.70 above the flex face (LED/carrier height 0.6 assumed, TO MEASURE). They leave a 0.35 wall.
+- **Pins:** Ø2.4 × 2.5 locating pins at the frame holes (52.93, 75.41) and (54.49, 19.23). Ø1.4 × 0.8 ear pins in the button-carrier ear holes locate the button end.
+- **Spot-faces:** shallow flat spot-faces on the outer face at the two USB-C columns (12.8 × 26.8, floor z −0.68 / −0.70, wall ≥ 0.6) let a USB-C overmold get within 0.62–0.67 of the mouth. USB-A and HDMI cannot get spot-faces: the USB LED and the HDMI LED/window sit where their overmolds land.
+- **Unchanged:** rim notch X 76.0–81.5 / Y 27.7–47.6 for the neck. Light windows re-centred on the scanned pads. The mirrored clip at (76.78, 30.3) is dropped (the stock clip points stay, 7 clips). Frame-screw relief.
+- **Plug seating is now set by the curvature**, not by lands:
+  - The mouth is flush at the outboard edge of each shell, which is the lowest point of the curved face over the port.
+  - The plug overmold stops on the highest point under it.
+  - The difference is the plug recess: USB-C 0.62–0.67 (with the spot-face), USB-A 1.69–1.78, HDMI ≈ 1.96. Treat USB-A and HDMI as fit-test items.
+- One solid, 8.5 cm³. The `--flex none` mode, collars and light-pipe bosses are retired.
+
+### 4.7.4 Measured D0, stack-up and connector heights
+
+**Input (Aidan, 2026-10-02):** D0 = I/O PCB top to the plastic cover's inner surface = **18.0 at the crown**, **16.5 at the farthest edges**. It replaces the 22–25 photo estimate.
+
+- **Curvature:** the 16.5 reading is taken to be at |u| ≈ 15.5 from the centre (the outer edges of the USB-C/TB openings). Then R_inner = (15.5² + 1.5²)/(2 × 1.5) = **80.83**, so R_outer = 82.03, which matches the case-cylinder estimate. If the 16.5 was read at the plate edge (|u| ≈ 25), R would be ≈ 210 and every height below changes by up to 1.5 mm. **Confirm where it was read (M-IOD0).**
+- **Stack-up (z from the outer crown, at the crown):**
+  - Outer face 0.
+  - Inner face −1.2 (stock wall assumed 1.2, M-IOS1).
+  - Glue pocket 0.2, then PSA 0.05 + flex 0.12. The board-side face of the flex is at −1.17.
+  - Foam 1.0, then the metal frame 1.0 (assumed concentric). The frame back plane is at −3.37 at the crown and ≈ −5.3 at the RJ45 outboard edges.
+  - **Board top −19.2.** D0 at the port columns is 17.33–17.38.
+- **Required heights:** board top to mouth, with the mouth flush at the outboard shell edge.
+
+| Port | Needs | Mouth below crown | Plug recess | Chosen part (JLC/LCSC) | Part height | Riser |
+|---|---|---|---|---|---|---|
+| USB-C C1–C3 (H) | **17.90** | 1.31 | 0.62 | **FG-ST-C-24P-VT-SMT-15.0, LCSC C51911913** (24P vertical SMT, the tallest catalogue part found) | 15.0 | **+2.90** |
+| USB-C C4–C6 (O) | **17.82** | 1.38 | 0.67 | same | 15.0 | **+2.82** |
+| USB-A A1/A2 (H) | **17.49** | 1.71 | 1.69 | **kinghelm KH-3.0AF180WJ-15JB, LCSC C2979045** (USB 3.0 9P vertical THT; LCSC stock low. Alternatives: CHIN-BAN USB30-AF-006 JLC C50285702, Kangmo CMUSB661034A) | 15.0 | **+2.49** |
+| USB-A A3/A4 (O) | **17.38** | 1.82 | 1.78 | same | 15.0 | **+2.38** |
+| HDMI | **17.24** (the shell passes the flex) | 1.96 | 1.96 | **"HDMI_180_H=15mm", JLC C9900153431** (JLC-assembly vertical HDMI; confirm the datasheet and the shell size ≤ 15.4 × 5.6). Alternative: HOAUC HYC79-HDMIA19-105 C711353 (10.5). | 15.0 | **+2.24** |
+| HDMI fallback (the shell does not pass 5.83) | face ≤ 15.97 | – | ≈ 3.2–4.2 | the same part directly on the board | 15.0 | none (a poor plug seat) |
+| RJ45 ETH1 / ETH2 | **face ≤ 13.6 / 13.7** (≥ 0.3 behind the frame back plane; the body cannot pass the frame slot or the flex) | – | – | **non-magnetic vertical RJ45 ≤ 13.0** (candidates, heights TBC: Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C C55547809, KRJ-18111NL) + **Jansum V24P05S 2.5G discrete magnetics** (LCSC C20071250, 24-pin SMD, 15.1 × 10.0 × 4.0; verify) | ≤ 13.0 | none |
+
+- **Catalogue check:** no vertical USB-C, USB-A 3.0 or HDMI receptacle taller than ≈ 15 mm was found at JLC/LCSC (USB-C 9.3–15.0, USB-A 3.0 vertical 11.5–15, HDMI 8.5–15). **HR913790A (16.9) no longer fits**: vertical magjacks are 16.5–16.9 tall, and the face must be ≤ 13.6.
+- **Proposal D-IO14: port risers.**
+  - Mount the USB-C, USB-A and HDMI receptacles on small **riser PCBs, one per column group**: a USB-C ×3 riser on each side, a USB-A ×2 riser on each side, and an HDMI riser.
+  - Each riser stands on a fine-pitch board-to-board mezzanine. Target Δ: USB-C 2.85 (e.g. 0.8 riser + 2.0 stack), USB-A 2.4 and HDMI 2.2 (0.8 + 1.5 stack, mouth within ±0.15 of flush).
+  - The mezzanine must carry DP HBR3 (8.1 Gb/s), USB 10 G, USB2, CC/SBU and 5 V / 3 A per port. Use a Hirose DF40-class or Molex SlimStack-class high-speed pair and verify its SI rating, or a solder-down castellated/LGA riser.
+  - Cost ≈ +$15–30 per board in connectors and riser PCBs [Estimate], plus SI risk on the 10 G and HBR3 lanes.
+  - Raising the whole board does not work: the board is 101 wide inside an R ≈ 81 case cylinder, so its edges would hit the wall.
+  - Ordering a 2.0 board does not help unless our board top sits lower than the stock top (M-IOS2).
+- **Proposal D-IO15: RJ45.** Replace HR913790A with a non-magnetic vertical RJ45 ≤ 13.0 plus discrete 2.5G magnetics per port. This costs ≈ +$1–2 and ≈ 15 × 10 mm of B- or F-side area per port. The footprint and nets change before routing.
+- **KiCad (done):**
+  - Ports moved to the new grid: J11–J16, J21–J24, J25/J26, J27.
+  - SW1 and D20 moved to the ring centre and set DNP (the flex dome and LEDs replace them). D21–D26 are DNP.
+  - D22 moved to X 53.42 to clear J26.
+  - Part numbers and heights are in the value fields. Footprints remain placeholders; the RJ45 and riser footprints wait for D-IO14/15.
+  - DRC 0 / 0 / 0.
 
 ---
 
@@ -547,6 +681,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 - **Stackup:** 6 layers, JLC06161H-2116.
 - **Netclasses:** USB3_90R, DP_100R, PCIE_85R, USB2_90R, MDI_100R, PWR_5V, PWR_12V. Default clearance 0.1.
 - **Placement:** see `floorplan_iob_A0.png`, `render_port_side_F.png` and `render_psu_side_B.png`.
+- **2026-10-02 ≈ 10:15 ET changes (flex scan + D0):** ports moved to the flex cut-out grid (USB-C X 43.09 / 63.69, Y 75.76 / 65.84 / 55.97; USB-A, ETH, HDMI per §4.1). SW1 / D20 moved to (63.79, 108.11 / 103.38) and set DNP. D21–D26 are DNP and D22 moved to X 53.42. Part numbers and heights are in the values. RJ45 and riser footprints are pending D-IO14/15. DRC 0 / 0 / 0.
 - **2026-10-02 changes (D-IO2):** U52/U53/Y6/L45 added on B; J25/J26 on the HR913790A footprint (from the HanRun drawing, verify row offsets); J26 populated; Y2 moved to (53.0, 95.5) to clear the wider jack shield pins.
 - **2026-10-01 changes:** J30 and J31 added on F. U83/U84/L44 placed on B. The duplicate PD flash (old U5) was removed. J2 moved to Y 150.6 to clear the AC keep-out. J6 moved to Xb 80. J4 moved to Xb 8.75.
 - **DRC:** 0 violations, 0 unconnected, 0 footprint errors (`drc_report.txt`).
@@ -611,8 +746,12 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | i226-V availability (now 2 per board) | Ethernet missing | Check JLC/LCSC stock (KTI226V C26159200) for 2 × qty. |
 | **HR913790A not stocked at LCSC** | Assembly delay | JLC global sourcing or consign; fallback Amphenol RJMG2V1SLN12W5R (LCSC C6647577, vertical shielded, 2.5G rating unverified) or a non-magnetic vertical jack + discrete 2.5G transformer. |
 | **ETH jack set-back** (both jacks behind the frame plane) | Jack hits the frame, or plug latch/boot hard to reach | M-IOF2 must show D0 ≥ 16.9 + frame-back depth + 0.3. The plug protrudes ≈ 8 mm from the jack face; set-back ≤ ≈ 5 mm keeps the latch reachable [Estimate]. Some snagless boots may touch the plate. |
-| **D0 ≈ 22–25 mm from the edge photos (§4.7)** | Standard vertical USB-C/USB-A/HDMI sit 5–15 mm too deep; USB-C plugs cannot mate | Caliper D0 first (M-IOF2); then tall parts or a raised port carrier (new decision). Board 2.0 vs 1.6 adds 0.4. |
-| **Stock flex vs land bosses (§4.7)** | Flex rims must fold 1.2–2.0 into the frame slots; USB-C shell margin −0.11…+0.32 | Gentle fit test only; A1 replacement flex (D-IO12); shift USB-C columns ≈ 0.25 inboard if the caliper confirms. |
+| **Measured D0 18.0 / 16.5 (§4.7.4)** | No catalogue USB-C/USB-A/HDMI is tall enough (need 17.2–17.9, have 15.0); HR913790A too tall (16.9 vs ≤ 13.6) | Port risers (D-IO14) and a non-magnetic RJ45 + magnetics (D-IO15). Confirm where the 16.5 was read (M-IOD0), the stock wall (M-IOS1) and the board-top reference (M-IOS2). |
+| **Plug seating on the curved plate (no lands)** | Plug recess USB-C 0.62–0.67, USB-A 1.7–1.8, HDMI ≈ 2.0: partial mating, USB 3 SS contacts | Print a test plate and try real cables (M-IOC2). Fallback: a 7° wedge riser per column (stock-like). |
+| **Plate-side LEDs / button carrier height** | Flex does not lie flat if they are taller than 0.6; pocket wall only 0.35 (light bleed) | M-IOW4; the pockets are parametric (`LED_H`, `BTN_CARRIER_H`). |
+| **HDMI shell vs flex cut-out 5.83** | Shell does not pass, so the face drops behind the flex (recess 3–4) | Pick a receptacle whose front shell is ≤ 15.4 × 5.6 (M-IOH2). |
+| *(superseded)* D0 ≈ 22–25 mm from the edge photos (§4.7) | Standard vertical USB-C/USB-A/HDMI sit 5–15 mm too deep; USB-C plugs cannot mate | Caliper D0 first (M-IOF2); then tall parts or a raised port carrier (new decision). Board 2.0 vs 1.6 adds 0.4. |
+| *(resolved 10:15 ET: no bosses, columns moved; USB-C margin +0.44)* Stock flex vs land bosses (§4.7) | Flex rims must fold 1.2–2.0 into the frame slots; USB-C shell margin −0.11…+0.32 | Gentle fit test only; A1 replacement flex (D-IO12); shift USB-C columns ≈ 0.25 inboard if the caliper confirms. |
 | macOS USB / i226 support | Driver issues, now on 2 ports | USBMap; AppleIGC caveat (spec §8.4); the AQC107 variant is the macOS-native fallback. |
 
 ---
@@ -640,7 +779,13 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | **M-IOT1** | Port-face angle per column with a phone inclinometer (zeroed on the PCB), plus caliper inboard/outboard face heights (§4.4). |
 | **M-IOT2** | Plate outer-face curvature: steel rule plus feeler gauges at the centre bar and at each column → `CASE_R`. |
 | M-IOF1 | Back depth from the board B side to the PSU frame window. |
-| **M-IOF2 (first)** | **D0 by caliper**: stock board top to the plate crown, installed (photo estimate 22–25, §4.7). Also: stock port-face heights above the board (stack top ≈ 20–23 est.), frame thickness and back-plane depth, plate-to-frame gap at the centre bar, H13 standoff height, centre-screw head height. ETH gate: HR913790A face ≥ 0.3 behind the frame back plane (≈ 1.8–4.8 est.). |
+| **M-IOF2** | *D0 measured 2026-10-02 (18.0 / 16.5).* Still needed: frame thickness and curvature, frame back-plane depth, plate-to-frame gap; originally: **D0 by caliper**: stock board top to the plate crown, installed (photo estimate 22–25, §4.7). Also: stock port-face heights above the board (stack top ≈ 20–23 est.), frame thickness and back-plane depth, plate-to-frame gap at the centre bar, H13 standoff height, centre-screw head height. ETH gate: HR913790A face ≥ 0.3 behind the frame back plane (≈ 1.8–4.8 est.). |
+| **M-IOD0 (first)** | Where the 16.5 D0 edge reading was taken (distance from the centre bar; assumed 15.5) and on which side. Ideally D0 at 5 points across (−20, −10, 0, +10, +20). |
+| **M-IOS1** | Stock plastic cover wall thickness at the crown and near the ports (assumed 1.2). |
+| **M-IOS2** | Stock board thickness and which face sits on the bosses; is D0 referenced to the same top face our board will have? |
+| **M-IOW4** | Height of the flex's plate-side LED chips and of the button carrier ring; which flex face carries the LEDs; caliper HOLE_C1 (scan Ø3.3, low confidence) and AUD_O. |
+| **M-IOH2** | Stock HDMI receptacle front shell size (must be ≤ 15.4 × 5.6 to pass the flex); the USB-A shell size with its spring fingers. |
+| **M-IOC2** | Plug test on a printed plate: USB-C, USB-A (USB 3 link), HDMI and RJ45 cables seated at the computed recesses. |
 | **M-IOW1** | 821-2222 flex by caliper: outline, the 15 port cut-outs (especially the TB holes: is the 8.94 USB-C shell clear?), frame-hole holes, LED and pad positions; check against `flex_821-2222_trace.dxf`. |
 | **M-IOW2** | Foam thickness, free and compressed, plus flex thickness with PSA (`FOAM_T`, `FLEX_T`, `FLEX_POCKET`). |
 | **M-IOW3** | What backs the stock button dome (bracket, frame tab, shroud?), and the dome travel/force. Is the rigid IC tab glued, free or clipped? |

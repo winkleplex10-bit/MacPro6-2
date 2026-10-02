@@ -1,107 +1,100 @@
 #!/usr/bin/env python3
-"""MP62 I/O plate v2 rev A0 (new plastic plate; stock metal I/O frame stays). cadquery 2.8 + ezdxf.
-Frame: stock BACK-VIEW frame of the I/O board (mm): origin at the board's bottom-left virtual corner, X to the right as seen
-from behind the machine, Y up toward the MEG-array / base end. Z = 0 is the plate OUTER (visible) face, -Z goes into the
-machine toward the I/O frame and the board.
-Tilt handling = option (a): standard flat connectors; the plate absorbs any board-to-plate tilt with per-opening collars
-(USB-A / RJ45 / HDMI) and outer spot-faces (USB-C) computed from TILT_AX_DEG / TILT_AY_DEG (set them from measurement
-M-IOT1; both 0 until measured).  Usage: python build_plate.py [--eth2 open|blank] [--flex stock|none]
-Rev 2026-10-02 ~09:10 ET (Aidan photos of the stock plate inside + the 821-2222 flex laid flat):
-  * inner face = concentric cylinder R0 - SKIN (constant 1.2 wall); flat port lands are recessed pockets on the outside, backed by
-    bosses on the inside (inboard edges ramped so a flex can drape over them);
-  * FLEX = "stock": plate carries the I/O-wall flex 821-2222 (or the A1 replacement flex with the same outline) glued in a 0.2 mm
-    pocket on the inner skin; no collars, no light-pipe bosses (the metal frame centre bar blocks board-side light pipes);
-    light windows over the flex light-guide pads; rim notch for the flex neck; clips that collide with the flex are dropped."""
+"""MP62 I/O plate v2 rev A0 (new plastic plate; stock metal I/O frame and the stock 821-2222-A I/O-wall flex are reused). cadquery 2.8 + ezdxf.
+Frame: stock BACK-VIEW frame of the I/O board (mm): origin at the board's bottom-left virtual corner, X to the right as seen from behind
+the machine, Y up toward the MEG-array / base end. Z = 0 is the crown of the plate OUTER (visible) face, -Z goes into the machine.
+Usage: python build_plate.py [--eth2 open|blank]
+Rev 2026-10-02 ~10:07 ET (Aidan flatbed scan of the 821-2222-A flex + measured D0):
+  * port grid = centres of the stock flex cut-outs (scan trace flex_821-2222_trace.json); USB-C columns X 43.09 / 63.69;
+  * NO lands, NO bosses: every opening goes straight through the curved 1.2 skin, the inner face is one smooth cylinder so the stock
+    flex lies flat (bosses cannot fit inside the flex cut-outs: <= 0.4 mm/side); the flex sits in a 0.2 glue pocket;
+  * curvature from D0 (board top -> cover inner face): 18.0 at the crown, 16.5 at |u| = D0_EDGE_U -> inner R ~80.8, outer R ~82.0;
+  * clearance pockets on the inner face for the flex's plate-side LEDs and the button carrier, ear pins, Ø2.4 locating pins;
+  * shallow outer spot-faces at the USB-C columns (plug overmold relief, >= 0.6 wall kept);
+  * connector mouth heights / stack-up reported in io_plate_v2_A0_features.json ("stack")."""
 import json, math, os, sys
 import cadquery as cq
 import ezdxf
+from matplotlib.path import Path as MPath
 HERE = os.path.dirname(os.path.abspath(__file__))
-ETH2 = "open"    # rev A0 default since 2026-10-02 (D-IO2: 2 x i226-V); "--eth2 blank" builds the old blank variant
+ETH2 = "open"    # rev A0 default (D-IO2: 2 x i226-V); "--eth2 blank" builds the single-Ethernet variant
 if "--eth2" in sys.argv: ETH2 = sys.argv[sys.argv.index("--eth2") + 1]
-FLEX = "stock"   # "stock": I/O-wall flex 821-2222 outline glued to the inner face (rev A0 default since 2026-10-02 09:10 ET); "none": old collars
-if "--flex" in sys.argv: FLEX = sys.argv[sys.argv.index("--flex") + 1]
 FJ = json.load(open(os.path.join(HERE, "flex_821-2222_trace.json")))
-FLEX_T, PSA_T = 0.12, 0.05     # flex (polyimide + cover) and its PSA [Estimate, TO MEASURE]
-FOAM_T = 1.0                    # stock foam over the flex, board side [Aidan ~1 mm, TO MEASURE]
-FLEX_POCKET = 0.20              # glue pocket depth into the inner skin (leaves 1.0 of the 1.2 wall)
-FLEX_CLR = 0.30                 # pocket outline = flex outline + this
-RAMP_MIN_DEG = 45.0             # boss inboard ramp, steepened until >= 0.8 mm stays under the land edge
-
-# ---------------- parameters ----------------
-PL_C = (53.19, 77.07); PL_W, PL_H, PL_R = 51.9, 163.1, 11.5      # outline (fit of the stock plate scan; straight width 51.89)
-SKIN = 1.2; RIM_H = 3.0; RIM_W = 1.2                             # skin, inner perimeter rim (tray)
-TILT_AX_DEG = 0.0   # + = board farther from the plate outer face as Xb increases   (from M-IOT1)
-TILT_AY_DEG = 0.0   # + = board farther from the plate outer face as Y increases    (from M-IOT1)
-TILT_REF = (53.2, 65.45)                                          # pivot: centre of the USB-C block
-COLLAR_L0 = 1.0; COLLAR_WALL = 1.0                               # nominal collar length behind the skin, wall
-COLLAR_WALL_BY = {"ETH2": 0.8}   # ETH2 collar 14.6 x 12.3 must pass the 15.6 x 13.0 H-side frame slot
-ETH_GUIDE_L = {"ETH2": COLLAR_L0}   # plug-guide length behind the land; extend toward the set-back jack face after M-IOF2 (stop 0.3 short of it)
-USBC_FLUSH_TOL = 0.15                                            # spot-face only if a USB-C mouth would sit deeper than this
-CLR = 0.3                                                        # design clearance per side already included in the sizes below
-XH, XO = 42.6, 63.9; CROWS = (75.2, 65.45, 55.7)
-OPEN = []   # (id, kind, cx, cy, w, h, r)
-for i, y in enumerate(CROWS):
-    OPEN.append(("C%d" % (i + 1), "USBC", XH, y, 9.6, 4.0, 1.8))
-    OPEN.append(("C%d" % (i + 4), "USBC", XO, y, 9.6, 4.0, 1.8))
-for n, (x, y) in zip(("A1", "A2", "A3", "A4"), ((43.3, 42.75), (43.3, 32.6), (64.05, 42.75), (64.05, 32.6))):
-    OPEN.append((n, "USBA", x, y, 13.6, 6.0, 0.5))
-OPEN.append(("ETH1", "RJ45", 63.5, 92.3, 13.0, 10.7, 0.5))
-if ETH2 == "open": OPEN.append(("ETH2", "RJ45", 42.5, 92.0, 13.0, 10.7, 0.5))
-OPEN.append(("HDMI", "HDMI", 42.4, 107.4, 15.4, 6.0, 0.8))
-OPEN.append(("AC", "AC", 52.08, 129.95, 34.55, 24.65, 3.0))
-ROUND = [("AUD_H", 43.4, 19.1, 4.8), ("AUD_O", 64.65, 19.4, 4.8), ("PWR_BTN", 63.02, 108.03, 12.4)]
-PIPES = [("LP_HDMI", 46.2, 115.6), ("LP_ETH", 52.95, 92.9), ("LP_USBC_U", 53.25, 70.4), ("LP_USBC_L", 53.25, 62.6), ("LP_USB", 53.7, 49.4), ("LP_AUDIO", 53.8, 21.0)]
-PIPE_BORE, PIPE_OD, PIPE_L = 2.2, 4.4, 2.0   # bore for a 2.0 mm PMMA rod / Bivar-type pipe; 1.1 mm wall
+CUT = {c["id"]: c for c in FJ["cutouts"]}
 PADS = {p["id"]: p for p in FJ["light_pads"]}
-# light windows through the skin over the flex light-guide pads (flex mode); (id, cx, cy, w, h, r) - VERIFY against the stock icon art
+BTN = FJ["button"]
+
+# ---------------- stack-up (z, mm; 0 = crown of the outer face) ----------------
+SKIN = 1.2                                  # plate wall = stock cover wall [ASSUMED, MEASURE M-IOS1]
+D0_CROWN, D0_EDGE, D0_EDGE_U = 18.0, 16.5, 15.5   # Aidan 2026-10-02: board top -> cover inner face; edge reading assumed at |u| = 15.5 (TO CONFIRM)
+_s = D0_CROWN - D0_EDGE
+R_INNER = (D0_EDGE_U ** 2 + _s ** 2) / (2 * _s)     # 80.83
+CASE_R = R_INNER + SKIN                      # 82.03 (case cylinder, consistent with the previous 82.0 estimate)
+Z_BOARD = -SKIN - D0_CROWN                   # stock board top at -19.2 (our board top assumed at the same plane: MEASURE M-IOS2)
+FLEX_T, PSA_T = 0.12, 0.05                   # flex + its PSA [Estimate, MEASURE]
+FOAM_T = 1.0                                 # stock foam behind the flex (board side) [Aidan ~1, MEASURE]
+FRAME_T = 1.0                                # metal I/O frame thickness, assumed concentric with the plate [MEASURE M-IOF2]
+FLEX_POCKET = 0.20                           # glue pocket depth into the inner skin
+FLEX_CLR = 0.20                              # pocket outline = flex outline + this (also locates the flex: +-0.2)
+LED_H, LED_CLR = 0.60, 0.25                  # plate-side LED chip height above the flex face [MEASURE], pocket clearance per side
+BTN_CARRIER_H = 0.60                         # button carrier ring height above the flex face, plate side [MEASURE]
+POCKET_GAP = 0.10                            # air gap above LEDs / carrier
+MIN_WALL = 0.6                               # outer spot-faces keep at least this wall
+
+# ---------------- outline, ports ----------------
+PL_C = (53.19, 77.07); PL_W, PL_H, PL_R = 51.9, 163.1, 11.5      # outline (fit of the stock plate scan)
+RIM_H = 3.0; RIM_W = 1.2
+XH, XO = CUT["C1"]["cx"], CUT["C4"]["cx"]                        # USB-C columns from the flex cut-outs (43.09 / 63.69)
+OPEN = []   # (id, kind, cx, cy, w, h, r)   plate opening = straight through the skin
+for i in range(3):
+    for cid in ("C%d" % (i + 1), "C%d" % (i + 4)):
+        OPEN.append((cid, "USBC", CUT[cid]["cx"], CUT[cid]["cy"], 9.6, 4.0, 1.8))
+for a in ("A1", "A2", "A3", "A4"):
+    OPEN.append((a, "USBA", CUT[a]["cx"], CUT[a]["cy"], 14.0, 6.0, 0.6))
+OPEN.append(("ETH1", "RJ45", CUT["ETH1"]["cx"], CUT["ETH1"]["cy"], 13.0, 10.4, 0.5))
+if ETH2 == "open": OPEN.append(("ETH2", "RJ45", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7, 0.5))
+OPEN.append(("HDMI", "HDMI", CUT["HDMI"]["cx"], CUT["HDMI"]["cy"], 15.6, 5.7, 1.0))
+OPEN.append(("AC", "AC", 52.08, 129.95, 34.55, 24.65, 3.0))
+ROUND = [("AUD_H", 43.4, 19.1, 4.8), ("AUD_O", 64.65, 19.4, 4.8), ("PWR_BTN", BTN["cx"], BTN["cy"], 12.4)]   # audio = stock plate positions (stock audio module)
 WINDOWS = [("W_HDMI", PADS["PAD_HDMI"]["cx"], PADS["PAD_HDMI"]["cy"], 7.0, 1.6, 0.6), ("W_ETH", PADS["PAD_ETH"]["cx"], PADS["PAD_ETH"]["cy"], 3.0, 5.0, 1.0),
            ("W_TB", PADS["PAD_TB"]["cx"], PADS["PAD_TB"]["cy"], 3.0, 5.0, 1.0), ("W_USB", PADS["PAD_USB"]["cx"], PADS["PAD_USB"]["cy"], 3.0, 6.0, 1.0),
            ("W_AUD_H", PADS["PAD_AUD_H"]["cx"], PADS["PAD_AUD_H"]["cy"], 4.0, 2.4, 0.8), ("W_AUD_O", PADS["PAD_AUD_O"]["cx"], PADS["PAD_AUD_O"]["cy"], 4.0, 2.4, 0.8)]
-if FLEX == "stock": PIPES = []
-else: WINDOWS = []
 CLIPS_L = [(31.0, 140.0), (28.2, 90.0), (29.6, 30.3)]           # stock clip points (left), mirrored about the plate centre X
 CLIP_B = [(44.1, 2.7)]
 CLIPS = [(x, y, "x-") for x, y in CLIPS_L] + [(2 * PL_C[0] - x, y, "x+") for x, y in CLIPS_L] + \
         [(x, y, "y-") for x, y in CLIP_B] + [(2 * PL_C[0] - x, y, "y-") for x, y in CLIP_B]
-CLIP_T, CLIP_W, CLIP_L, CLIP_HOOK = 1.2, 5.0, 6.0, 0.5   # MJF PA12: strain ~1.5*t*y/L^2 = 2.5 %
-FRAME_SCREW = (53.38, 58.38); SCREW_POCKET_D, SCREW_POCKET_DEPTH = 6.0, 0.6     # frame centre screw head relief (M-IOF2)
-LEGEND = [("blank ETH2 recess", 42.5, 92.0, 13.0, 10.7)] if ETH2 == "blank" else []
+CLIP_T, CLIP_W, CLIP_L, CLIP_HOOK = 1.2, 5.0, 6.0, 0.5
+FRAME_SCREW = (53.38, 58.38); SCREW_POCKET_D, SCREW_POCKET_DEPTH = 6.0, 0.6
+LOCATE_PINS = [("PIN_C1", 52.93, 75.41, 2.4), ("PIN_C3", 54.49, 19.23, 2.4)]; PIN_LEN = 2.5    # frame holes (frame scan); pass the flex holes Ø3.3 / Ø5.67
+EAR_PINS = [(h["id"], h["cx"], h["cy"], 1.4) for h in FJ["holes"] if h["id"].startswith("BTN_EAR")]; EAR_PIN_LEN = 0.8   # locate the button end of the flex
+NECK = (76.0, FJ["neck"]["y"][0] - 0.5, 81.5, FJ["neck"]["y"][1] + 0.5)   # rim notch where the flex neck leaves over the +X edge
+# outer spot-faces (plug overmold relief) per USB-C column: (id, cx, cy, w, h, r); floor = flat, >= MIN_WALL everywhere
+_cy = [CUT["C%d" % k]["cy"] for k in (1, 2, 3)]
+RELIEF = [("RELIEF_C_H", XH, sum(_cy) / 3, 12.8, max(_cy) - min(_cy) + 7.0, 2.0), ("RELIEF_C_O", XO, sum(_cy) / 3, 12.8, max(_cy) - min(_cy) + 7.0, 2.0)]
+LEGEND = [("blank ETH2 recess", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7)] if ETH2 == "blank" else []
+# connector envelopes: shell (passes plate + flex), overmold of the mating plug (spec max / typical)
+SHELL = {"USBC": dict(shell=(8.94, 3.26), overmold=(12.35, 6.5)), "USBA": dict(shell=(13.2, 5.7), overmold=(16.0, 8.0)),
+         "HDMI": dict(shell=(15.2, 5.5), overmold=(20.0, 10.5)), "RJ45": dict(body=(16.2, 17.0), plug=(11.7, 8.2))}
+PARTS = {
+    "USBC": dict(mpn="FG-ST-C-24P-VT-SMT-15.0", lcsc="C51911913", h=15.0, note="24P vertical SMT, 15.0 tall (tallest catalogue part found; JSX/Yeeshine 9.3-15.0)"),
+    "USBA": dict(mpn="kinghelm KH-3.0AF180WJ-15JB", lcsc="C2979045", h=15.0, note="USB 3.0 Type-A 9P vertical THT, L 15.0 (LCSC stock low: alt. CHIN-BAN USB30-AF-006 JLC C50285702, Kangmo CMUSB661034A 15.0)"),
+    "HDMI": dict(mpn="HDMI_180_H=15mm (JLC assembly part)", lcsc="C9900153431", h=15.0, note="vertical HDMI-A, H 15 (datasheet/shell size to confirm; alt. HOAUC HYC79-HDMIA19-105 C711353 H 10.5)"),
+    "RJ45": dict(mpn="non-magnetic vertical RJ45 <= 13.0 + Jansum V24P05S 2.5G magnetics", lcsc="C20071250 (magnetics, verify)", h=13.0,
+                 note="HR913790A magjack (16.9) no longer fits: max face height ~13.4. Jack candidates (height TBC): Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C C55547809, KRJ-18111NL")}
 
-
-# ---- curvature (stock I/O wall follows the case cylinder; Aidan 2026-10-01 photo: shells fan outward ~6.5-7.5 deg per column) ----
-CASE_R = 82.0          # outer-face radius about an axis parallel to Y through X = PL_C[0]; None = flat plate.  MEASURE M-IOT2.
-LAND_T = 1.0           # material thickness under every flat port land
-LANDS = [  # (id, cx, cy, w, h, r, border-to-boss)  flat lands parallel to the BOARD (straight connectors), one per port group
-    ("LAND_C_H", XH, 65.45, 10.6, 24.5, 1.5, 0.6), ("LAND_C_O", XO, 65.45, 10.6, 24.5, 1.5, 0.6),
-    ("LAND_A_H", 43.3, 37.675, 15.6, 18.15, 1.0, 0.6), ("LAND_A_O", 64.05, 37.675, 15.6, 18.15, 1.0, 0.6),
-    ("LAND_ETH1", 63.5, 92.3, 14.2, 11.9, 1.0, 0.6), ("LAND_HDMI", 42.4, 107.4, 16.6, 7.2, 1.0, 0.6),
-    ("LAND_AUD_H", 43.4, 19.1, 7.0, 7.0, 3.5, 0.6), ("LAND_AUD_O", 64.65, 19.4, 7.0, 7.0, 3.5, 0.6)]
-if ETH2 == "open": LANDS.append(("LAND_ETH2", 42.5, 92.0, 13.8, 11.4, 1.0, 0.5))
-if FLEX == "stock":   # audio bosses must pass the flex's Ø7.4 / Ø7.5 audio holes: land Ø6.4 + 0.3 border = Ø7.0
-    LANDS = [(l[0], l[1], l[2], 6.4, 6.4, 3.2, 0.3) if l[0].startswith("LAND_AUD") else l for l in LANDS]   # boss 14.8 x 12.4 inside the H-side frame slot 15.6 x 13.0
-FACE_SETBACK = {"USBC": 0.0, "USBA": LAND_T + 0.2, "RJ45": LAND_T + 0.2, "HDMI": LAND_T + 0.2}   # mouth / face below its land
-
-def zs(x):   # outer surface height at X (0 at the crown)
-    if not CASE_R: return 0.0
+def zs(x):  # outer surface height at X (0 at the crown)
     u = x - PL_C[0]; return -(CASE_R - math.sqrt(CASE_R ** 2 - u * u))
-
-def dz(x, y):   # residual board-to-plate tilt from M-IOT1 (0 until measured)
-    return (x - TILT_REF[0]) * math.tan(math.radians(TILT_AX_DEG)) + (y - TILT_REF[1]) * math.tan(math.radians(TILT_AY_DEG))
+def zi(x): return zs(x) - SKIN
+def d0(x): return zi(x) - Z_BOARD
 
 # ---------------- solid ----------------
 BIG = 400.0
 def prism(w, h, r, z0=2.0, z1=-20.0):
     return cq.Workplane("XY").workplane(offset=z0).center(*PL_C).sketch().rect(w, h).vertices().fillet(r).finalize().extrude(z1 - z0)
-def cyl(rad):
-    if not CASE_R: return cq.Workplane("XY").workplane(offset=-(CASE_R_FLAT - rad)).center(*PL_C).rect(BIG, BIG).extrude(-BIG)
-    return cq.Workplane("XZ").center(PL_C[0], -CASE_R).circle(rad).extrude(BIG, both=True)
-CASE_R_FLAT = 1000.0
-R0 = CASE_R or CASE_R_FLAT
+def cyl(rad): return cq.Workplane("XZ").center(PL_C[0], -CASE_R).circle(rad).extrude(BIG, both=True)
 def boxz(cx, cy, w, h, r, za, zb):
-    return cq.Workplane("XY").workplane(offset=za).center(cx, cy).sketch().rect(w, h).vertices().fillet(max(r, 0.05)).finalize().extrude(zb - za)
-from matplotlib.path import Path as MPath
+    return cq.Workplane("XY").workplane(offset=za).center(cx, cy).sketch().rect(w, h).vertices().fillet(max(min(r, w / 2 - 0.01, h / 2 - 0.01), 0.05)).finalize().extrude(zb - za)
+R0 = CASE_R
 FLEX_POLY = [tuple(p) for p in FJ["outline"]]
-NECK = (74.6, 27.6, 81.5, 46.7)    # flex neck to the IC tab / ZIF tail leaves over the +X edge (trace: X 75.2-80.5, Y 28.2-46.1) -> rim notch
 def _seg_d(px, py, ax, ay, bx, by):
     dx, dy = bx - ax, by - ay; t = max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy + 1e-12)))
     return math.hypot(px - (ax + t * dx), py - (ay + t * dy))
@@ -109,101 +102,67 @@ def flex_dist(px, py):   # signed distance to the flex outline (negative inside)
     d = min(_seg_d(px, py, *FLEX_POLY[i], *FLEX_POLY[(i + 1) % len(FLEX_POLY)]) for i in range(len(FLEX_POLY)))
     inside = MPath(FLEX_POLY).contains_point((px, py)) or (NECK[0] <= px <= NECK[2] and NECK[1] <= py <= NECK[3])
     return -d if inside else d
-dropped_clips = []
-if FLEX == "stock":
-    keep = []
-    for x, y, o in CLIPS:
-        if (x, y) in [(cx_, cy_) for cx_, cy_ in CLIPS_L + CLIP_B]: keep.append((x, y, o)); continue   # stock clip points always stay (the stock flex lived with them)
-        hw, hh = ((CLIP_T + 2 * CLIP_HOOK) / 2, CLIP_W / 2) if o[0] == "x" else (CLIP_W / 2, (CLIP_T + 2 * CLIP_HOOK) / 2)
-        dmin = min(flex_dist(x + i * hw, y + j * hh) for i in (-1, 0, 1) for j in (-1, 0, 1))
-        (keep if dmin > FLEX_CLR + 0.2 else dropped_clips).append((x, y, o))
-    CLIPS = keep
+dropped_clips = []; keep = []
+for x, y, o in CLIPS:
+    if (x, y) in CLIPS_L + CLIP_B: keep.append((x, y, o)); continue     # stock clip points always stay (the stock flex lived with them)
+    hw, hh = ((CLIP_T + 2 * CLIP_HOOK) / 2, CLIP_W / 2) if o[0] == "x" else (CLIP_W / 2, (CLIP_T + 2 * CLIP_HOOK) / 2)
+    dmin = min(flex_dist(x + i * hw, y + j * hh) for i in (-1, 0, 1) for j in (-1, 0, 1))
+    (keep if dmin > FLEX_CLR + 0.2 else dropped_clips).append((x, y, o))
+CLIPS = keep
 
-plate = prism(PL_W, PL_H, PL_R).intersect(cyl(R0)).cut(cyl(R0 - SKIN))      # constant 1.2 wall: inner face concentric with the outer cylinder
+plate = prism(PL_W, PL_H, PL_R).intersect(cyl(R0)).cut(cyl(R0 - SKIN))      # constant wall, inner face concentric (one smooth cylinder)
 rim = prism(PL_W, PL_H, PL_R).cut(prism(PL_W - 2 * RIM_W, PL_H - 2 * RIM_W, PL_R - RIM_W)).intersect(cyl(R0 - SKIN + 0.02)).cut(cyl(R0 - SKIN - RIM_H))
 plate = plate.union(rim)
-report = []; land_z = {}; boss_info = {}
-def ramp_cut(x_in, z_in, s, theta, y, ylen):
-    run = 8.0 / math.tan(theta)
-    pts = [(x_in, z_in + 0.02), (x_in - s * run, z_in - 8.0), (x_in, z_in - 8.0)]
-    return cq.Workplane("XZ").polyline(pts).close().extrude(ylen / 2, both=True).translate((0, y, 0))
-for lid, x, y, w, h, r, b in LANDS:
-    zl = min(zs(x - w / 2), zs(x + w / 2)) + dz(x, y)     # flat land at the lowest outer-surface point of its footprint
-    land_z[lid] = zl
-    boss = boxz(x, y, w + 2 * b, h + 2 * b, r + b, zl - LAND_T, zl + 0.5).intersect(cyl(R0))
-    s_in = 1.0 if x < PL_C[0] else -1.0                         # inboard = toward the centre bar
-    x_in = x + s_in * (w / 2 + b); z_in = zs(x_in) - SKIN       # inner skin at the boss inboard edge
-    p = z_in - (zl - LAND_T)                                     # how far the boss stands proud of the inner skin there
-    theta = None
-    if FLEX == "stock" and p > 0.05:
-        theta = max(math.radians(RAMP_MIN_DEG), math.atan2(max(p - (LAND_T - 0.8), 0.0), b))
-        boss = boss.cut(ramp_cut(x_in, z_in, s_in, theta, y, h + 2 * b + 0.2))
-    plate = plate.union(boss).cut(boxz(x, y, w, h, r, zl, 10.0))
-    boss_info[lid] = dict(boss_w=round(w + 2 * b, 2), boss_h=round(h + 2 * b, 2), proud_of_inner_skin=round(p, 2), ramp_deg=round(math.degrees(theta), 1) if theta else None,
-                          ramp_run=round(p / math.tan(theta), 2) if theta else None, land_z=round(zl, 2), boss_bottom_z=round(zl - LAND_T, 2))
-    report.append((lid, "LAND", x, y, w, h, "flat land z=%.2f (crown=0); boss %.1f x %.1f; inboard pocket depth %.2f; boss stands %.2f proud of the inner skin at its inboard edge%s" % (
-        zl, w + 2 * b, h + 2 * b, max(zs(x - w / 2), zs(x + w / 2)) - zl, p, ("; inboard ramp %.0f deg" % math.degrees(theta)) if theta else "")))
-def land_of(x, y):
-    for lid, lx, ly, w, h, r, b in LANDS:
-        if abs(x - lx) <= w / 2 and abs(y - ly) <= h / 2: return lid
-    return None
-for oid, kind, x, y, w, h, r in OPEN:
-    lid = land_of(x, y)
-    if lid:
-        zface = land_z[lid] - FACE_SETBACK.get(kind, 0.0)
-        if kind == "RJ45":
-            report.append((oid, kind, x, y, w, h, "on %s (land z=%.2f); plug passes the plate, the flex cut-out and the frame slot; HR913790A jack face SET BACK behind the frame back plane "
-                           "(face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)" % (lid, land_z[lid])))
-        else:
-            report.append((oid, kind, x, y, w, h, "on %s; connector %s at z=%.2f below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)" %
-                       (lid, "mouth" if kind == "USBC" else "face", -zface)))
-    else:
-        report.append((oid, kind, x, y, w, h, "through (no land)"))
-    if FLEX != "stock" and kind in ("USBA", "RJ45", "HDMI") and lid:   # collars only without the flex (they would pierce the flex rims)
-        zl = land_z[lid]; L = ETH_GUIDE_L.get(oid, COLLAR_L0); cw = COLLAR_WALL_BY.get(oid, COLLAR_WALL)
-        plate = plate.union(boxz(x, y, w + 2 * cw, h + 2 * cw, r + cw, zl - LAND_T - L, zl - LAND_T + 0.01))
-    plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0))
-for oid, x, y, dd in ROUND:
-    plate = plate.cut(cq.Workplane("XY").workplane(offset=10).center(x, y).circle(dd / 2).extrude(-30)); report.append((oid, "ROUND", x, y, dd, dd, "through"))
-for oid, x, y in PIPES:
-    zi = zs(x) - SKIN + dz(x, y)
-    plate = plate.union(cq.Workplane("XY").workplane(offset=zi + 0.3).center(x, y).circle(PIPE_OD / 2).extrude(-(PIPE_L + 0.3)))
-    plate = plate.cut(cq.Workplane("XY").workplane(offset=10).center(x, y).circle(PIPE_BORE / 2).extrude(-30))
-    report.append((oid, "LIGHTPIPE", x, y, PIPE_BORE, PIPE_BORE, "boss OD %.1f, %.1f mm below the inner face at z=%.2f" % (PIPE_OD, PIPE_L, zi)))
+report = []
 for x, y, o in CLIPS:
-    zi = zs(x) - SKIN
+    z_ = zi(x)
     if o[0] == "x":
-        tab = cq.Workplane("XY").workplane(offset=zi + 0.3).center(x, y).rect(CLIP_T, CLIP_W).extrude(-(CLIP_L + 0.3))
-        hook = cq.Workplane("XY").workplane(offset=zi - CLIP_L + 1.2).center(x + (-1 if o == "x-" else 1) * (CLIP_T / 2 + CLIP_HOOK / 2), y).rect(CLIP_HOOK, CLIP_W).extrude(-1.2)
+        tab = cq.Workplane("XY").workplane(offset=z_ + 0.3).center(x, y).rect(CLIP_T, CLIP_W).extrude(-(CLIP_L + 0.3))
+        hook = cq.Workplane("XY").workplane(offset=z_ - CLIP_L + 1.2).center(x + (-1 if o == "x-" else 1) * (CLIP_T / 2 + CLIP_HOOK / 2), y).rect(CLIP_HOOK, CLIP_W).extrude(-1.2)
     else:
-        tab = cq.Workplane("XY").workplane(offset=zi + 0.3).center(x, y).rect(CLIP_W, CLIP_T).extrude(-(CLIP_L + 0.3))
-        hook = cq.Workplane("XY").workplane(offset=zi - CLIP_L + 1.2).center(x, y - (CLIP_T / 2 + CLIP_HOOK / 2)).rect(CLIP_W, CLIP_HOOK).extrude(-1.2)
+        tab = cq.Workplane("XY").workplane(offset=z_ + 0.3).center(x, y).rect(CLIP_W, CLIP_T).extrude(-(CLIP_L + 0.3))
+        hook = cq.Workplane("XY").workplane(offset=z_ - CLIP_L + 1.2).center(x, y - (CLIP_T / 2 + CLIP_HOOK / 2)).rect(CLIP_W, CLIP_HOOK).extrude(-1.2)
     plate = plate.union(tab).union(hook)
 for x, y, o in dropped_clips: report.append(("CLIP_DROPPED", "CLIP", x, y, CLIP_T, CLIP_W, "mirrored clip collides with the 821-2222 flex/neck -> removed"))
-zi = zs(FRAME_SCREW[0]) - SKIN
-plate = plate.cut(cq.Workplane("XY").workplane(offset=zi - 0.01).center(*FRAME_SCREW).circle(SCREW_POCKET_D / 2).extrude(SCREW_POCKET_DEPTH + 0.01))
-if FLEX == "stock":
-    # glue pocket: flex outline + FLEX_CLR, FLEX_POCKET deep into the inner skin; land bosses (incl. audio) are kept; rim/clip material inside is removed
-    fl = cq.Workplane("XY").workplane(offset=-20).polyline(FLEX_POLY).close().offset2D(FLEX_CLR).extrude(22)
-    fl = fl.union(boxz((NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1], 0.3, -20, 2))
-    keep = None
-    for lid, x, y, w, h, r, b in LANDS:
-        k = boxz(x, y, w + 2 * b + 0.02, h + 2 * b + 0.02, r + b, -20, 2)
-        keep = k if keep is None else keep.union(k)
-    pocket = fl.intersect(cyl(R0 - SKIN + FLEX_POCKET)).cut(keep)
-    plate = plate.cut(pocket)
-    report.append(("FLEX_POCKET", "GLUE", PL_C[0], PL_C[1], 0, 0, "821-2222 glue pocket %.2f deep (outline + %.2f), wall left %.2f; foam allowance %.2f (TO MEASURE) behind the flex; rim notched for the neck X %.1f-%.1f, Y %.1f-%.1f" % (
-        FLEX_POCKET, FLEX_CLR, SKIN - FLEX_POCKET, FOAM_T, NECK[0], NECK[2], NECK[1], NECK[3])))
-    for wid, x, y, w, h, r in WINDOWS:
-        plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0))
-        report.append((wid, "LIGHT_WINDOW", x, y, w, h, "through window over the flex light-guide pad (stock LEDs light it)"))
-# locating pins at the frame's HOLE_C1 / PIN_C3 (the stock plate shows round bosses there); they pass the flex holes (Ø3.4 / Ø4.6) and
-# locate plate + flex on the frame.  Length TO VERIFY against the frame thickness (M-IOF2).
-LOCATE_PINS = [("PIN_C1", 52.93, 75.41, 2.7), ("PIN_C3", 54.49, 19.23, 2.7)]; PIN_LEN = 2.5
+plate = plate.cut(cq.Workplane("XY").workplane(offset=zi(FRAME_SCREW[0]) - 0.01).center(*FRAME_SCREW).circle(SCREW_POCKET_D / 2).extrude(SCREW_POCKET_DEPTH + 0.01))
+# glue pocket (flex outline + FLEX_CLR, FLEX_POCKET into the skin) + neck notch through the rim
+fl = cq.Workplane("XY").workplane(offset=-20).polyline(FLEX_POLY).close().offset2D(FLEX_CLR).extrude(22)
+fl = fl.union(boxz((NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1], 0.3, -20, 2))
+plate = plate.cut(fl.intersect(cyl(R0 - SKIN + FLEX_POCKET)))
+report.append(("FLEX_POCKET", "GLUE", PL_C[0], PL_C[1], 0, 0, "821-2222-A glue pocket %.2f deep (outline + %.2f), wall left %.2f; inner face otherwise one smooth cylinder (no bosses); rim notched X %.1f-%.1f, Y %.1f-%.1f" % (
+    FLEX_POCKET, FLEX_CLR, SKIN - FLEX_POCKET, NECK[0], NECK[2], NECK[1], NECK[3])))
+# clearance pockets for the plate-side parts of the flex (LED chips, button carrier ring)
+R_FLEXFACE = R0 - SKIN + FLEX_POCKET - PSA_T          # plate-side face of the flex
+R_LEDPOCKET = R_FLEXFACE + LED_H + POCKET_GAP
+R_BTNPOCKET = R_FLEXFACE + BTN_CARRIER_H + POCKET_GAP
+led_cut = None
+for k, l in enumerate(FJ["leds"]):
+    b = boxz(l["cx"], l["cy"], l["w"] + 2 * LED_CLR, l["h"] + 2 * LED_CLR, 0.3, -20, 2)
+    led_cut = b if led_cut is None else led_cut.union(b)
+plate = plate.cut(led_cut.intersect(cyl(R_LEDPOCKET)))
+plate = plate.cut(cq.Workplane("XY").workplane(offset=-20).center(BTN["cx"], BTN["cy"]).circle(BTN["ring_d"] / 2 + 0.3).extrude(22).intersect(cyl(R_BTNPOCKET)))
+report.append(("LED_POCKETS", "POCKET", 0, 0, 0, 0, "%d pockets (chip + %.2f/side), %.2f above the flex face, wall left %.2f" % (len(FJ["leds"]), LED_CLR, LED_H + POCKET_GAP, R0 - R_LEDPOCKET)))
+report.append(("BTN_CARRIER_POCKET", "POCKET", BTN["cx"], BTN["cy"], BTN["ring_d"] + 0.6, BTN["ring_d"] + 0.6, "Ø%.2f, %.2f above the flex face, wall left %.2f (carrier height TO MEASURE)" % (BTN["ring_d"] + 0.6, BTN_CARRIER_H + POCKET_GAP, R0 - R_BTNPOCKET)))
+# outer spot-faces at the USB-C columns
+relief_info = {}
+for rid, x, y, w, h, r in RELIEF:
+    u_near = min(abs(x - w / 2 - PL_C[0]), abs(x + w / 2 - PL_C[0]))
+    zf = -(CASE_R - math.sqrt(CASE_R ** 2 - u_near ** 2)) - (SKIN - MIN_WALL)
+    plate = plate.cut(boxz(x, y, w, h, r, zf, 5.0))
+    relief_info[rid] = dict(floor_z=round(zf, 3), w=w, h=h, cx=round(x, 3), cy=round(y, 3))
+    report.append((rid, "SPOTFACE", x, y, w, h, "flat floor z=%.2f (wall >= %.1f at the inboard edge); USB-C plug overmold relief" % (zf, MIN_WALL)))
+for oid, kind, x, y, w, h, r in OPEN:
+    plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0)); report.append((oid, kind, x, y, w, h, "through the curved skin (no land)"))
+for oid, x, y, dd in ROUND:
+    plate = plate.cut(cq.Workplane("XY").workplane(offset=10).center(x, y).circle(dd / 2).extrude(-30)); report.append((oid, "ROUND", x, y, dd, dd, "through"))
+for wid, x, y, w, h, r in WINDOWS:
+    plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0)); report.append((wid, "LIGHT_WINDOW", x, y, w, h, "through window over the flex light-guide pad"))
 for pid, x, y, dd in LOCATE_PINS:
-    zi = zs(x) - SKIN
-    plate = plate.union(cq.Workplane("XY").workplane(offset=zi + 0.3).center(x, y).circle(dd / 2).extrude(-(PIN_LEN + 0.3)).faces("<Z").chamfer(0.3))
-    report.append((pid, "PIN", x, y, dd, dd, "locating pin Ø%.1f x %.1f into the frame hole (frame scan Ø3.0-3.1), through the flex hole" % (dd, PIN_LEN)))
+    plate = plate.union(cq.Workplane("XY").workplane(offset=zi(x) + 0.3).center(x, y).circle(dd / 2).extrude(-(PIN_LEN + 0.3)).faces("<Z").chamfer(0.3))
+    report.append((pid, "PIN", x, y, dd, dd, "locating pin Ø%.1f x %.1f into the frame hole, through the flex hole" % (dd, PIN_LEN)))
+for pid, x, y, dd in EAR_PINS:
+    plate = plate.union(cq.Workplane("XY").workplane(offset=zi(x) + FLEX_POCKET + 0.01).center(x, y).circle(dd / 2).extrude(-(EAR_PIN_LEN + FLEX_POCKET)).faces("<Z").chamfer(0.2))
+    report.append((pid, "PIN", x, y, dd, dd, "flex locating pin Ø%.1f x %.1f in the button-carrier ear hole Ø1.8" % (dd, EAR_PIN_LEN)))
 for nm, x, y, w, h in LEGEND:
     plate = plate.cut(boxz(x, y, w, h, 0.5, 10.0, -20.0).intersect(cyl(R0)).cut(cyl(R0 - 0.6)))
 tag = "" if ETH2 == "open" else "_eth2blank"
@@ -212,151 +171,213 @@ cq.exporters.export(plate, step); cq.exporters.export(plate, stl, tolerance=0.02
 bb = plate.val().BoundingBox()
 print("bbox", round(bb.xmin, 2), round(bb.xmax, 2), round(bb.ymin, 2), round(bb.ymax, 2), round(bb.zmin, 2), round(bb.zmax, 2), "vol", round(plate.val().Volume(), 1), "solids", len(plate.solids().vals()))
 
-# ---------------- 821-2222 flex: clearance check, trace DXF, foam/insulator DXF, A1 replacement-flex cut-outs ----------------
-THRU = {"USBC": (8.94, 3.26, "receptacle shell (mouth flush with the land, so it crosses the flex plane)"), "USBA": (12.0, 4.5, "plug (receptacle face sits behind the flex plane)"),
-        "RJ45": (11.7, 8.2, "plug body [latch excluded]"), "HDMI": (13.9, 4.45, "plug (receptacle face behind the flex plane)")}
-CUT = {c["id"]: c for c in FJ["cutouts"]}
-OPEN2CUT = {"C1": "C1", "C2": "C2", "C3": "C3", "C4": "C4", "C5": "C5", "C6": "C6", "A1": "A1", "A2": "A2", "A3": "A3", "A4": "A4", "ETH1": "ETH1", "ETH2": "ETH2", "HDMI": "HDMI"}
-LAND_OF_OPEN = {o[0]: land_of(o[2], o[3]) for o in OPEN}
-FLEX_CHECK = []
-def margins(cx, cy, w, h, c):   # per-side margins of a w x h box at (cx,cy) inside flex cut-out c (+ = clear)
+# ---------------- stack-up: required connector heights (board top -> mouth) ----------------
+fr = json.load(open(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json")))["features"]
+SLOT = {"USBC_H": "TALL_R", "USBC_O": "TALL_L", "USBA_H": "SQ_R", "USBA_O": "SQ_L", "HDMI": "SMALL_R1", "ETH2": "SMALL_R2"}
+def u_out(x, hw): return abs(x - PL_C[0]) + hw
+def zs_u(u): return -(CASE_R - math.sqrt(CASE_R ** 2 - u * u))
+def zface_max(x, hw): return zs_u(u_out(x, hw))      # mouth flush at the outboard shell edge (lowest outer-surface point of the footprint)
+def relief_floor_at(x, y):
+    for rid, ri in relief_info.items():
+        if abs(x - ri["cx"]) <= ri["w"] / 2 and abs(y - ri["cy"]) <= ri["h"] / 2: return ri["floor_z"], rid
+    return None, None
+STACK = []
+for oid, kind, x, y, w, h, r in OPEN:
+    if kind == "AC": continue
+    c = CUT[oid]; side = "H" if x < PL_C[0] else "O"
+    if kind in ("USBC", "USBA", "HDMI"):
+        sw, sh = SHELL[kind]["shell"]; ow, oh = SHELL[kind]["overmold"]
+        z_m = zface_max(x, sw / 2)
+        u_in = max(abs(x - PL_C[0]) - ow / 2, 0.0)
+        zr, rid = relief_floor_at(x, y)
+        z_om = zs_u(u_in) if zr is None else max(zr, zs_u(abs(x - PL_C[0]) + ow / 2))
+        req = z_m - Z_BOARD; part = PARTS[kind]
+        sm = min((c["w"] - sw) / 2 - abs(x - c["cx"]), (c["h"] - sh) / 2 - abs(y - c["cy"]))
+        STACK.append(dict(port=oid, kind=kind, x=round(x, 3), y=round(y, 3), mouth_z=round(z_m, 3), d0_at_port=round(d0(x), 3), required_height=round(req, 2),
+                          plug_overmold_stop_z=round(z_om, 3), plug_recess=round(z_om - z_m, 2), relief=rid, shell_in_flex_cutout_margin=round(sm, 2),
+                          part=part["mpn"], part_h=part["h"], riser_needed=round(req - part["h"], 2)))
+    else:   # RJ45: body cannot pass the frame slot or the flex cut-out -> face behind the frame back plane
+        bw, bh = SHELL["RJ45"]["body"]
+        z_frame_back = zi_u = zs_u(u_out(x, bw / 2)) - SKIN + FLEX_POCKET - PSA_T - FLEX_T - FOAM_T - FRAME_T
+        zf = z_frame_back - 0.3
+        pw, ph = SHELL["RJ45"]["plug"]
+        sm = min((c["w"] - pw) / 2 - abs(x - c["cx"]), (c["h"] - ph) / 2 - abs(y - c["cy"]))
+        STACK.append(dict(port=oid, kind=kind, x=round(x, 3), y=round(y, 3), face_z_max=round(zf, 3), max_height=round(zf - Z_BOARD, 2), plug_in_flex_cutout_margin=round(sm, 2),
+                          note="jack body 16.2 x 17.0 cannot pass the frame slot (H: SMALL_R2 15.6 x 13.0; O: BIG_L leg X 54.2-70.9, Y 85.3-115.5) nor the flex cut-out: face >= 0.3 behind the frame back plane",
+                          part=PARTS["RJ45"]["mpn"], part_h=PARTS["RJ45"]["h"]))
+# HDMI fallback if the receptacle shell does not pass the 5.83 flex cut-out
+hd = [s for s in STACK if s["port"] == "HDMI"][0]
+hd["fallback_face_behind_flex_max_height"] = round(zs_u(u_out(hd["x"], SHELL["HDMI"]["shell"][0] / 2)) - SKIN + FLEX_POCKET - PSA_T - FLEX_T - 0.1 - Z_BOARD, 2)
+for s in STACK: print("STACK", s)
+
+# ---------------- flex check: shells/plugs vs cut-outs, LEDs vs plate features ----------------
+def margins(cx, cy, w, h, c):
     return dict(xm=round((cx - w / 2) - (c["cx"] - c["w"] / 2), 2), xp=round((c["cx"] + c["w"] / 2) - (cx + w / 2), 2),
                 ym=round((cy - h / 2) - (c["cy"] - c["h"] / 2), 2), yp=round((c["cy"] + c["h"] / 2) - (cy + h / 2), 2))
+THRU = {"USBC": SHELL["USBC"]["shell"], "USBA": SHELL["USBA"]["shell"], "HDMI": SHELL["HDMI"]["shell"], "RJ45": SHELL["RJ45"]["plug"]}
+FLEX_CHECK = []
 for oid, kind, x, y, w, h, r in OPEN:
-    if oid not in OPEN2CUT: continue
-    c = CUT[OPEN2CUT[oid]]; tw, th, what = THRU[kind]
+    if oid not in CUT: continue
+    c = CUT[oid]; tw, th = THRU[kind]
     mt = margins(x, y, tw, th, c); mo = margins(x, y, w, h, c)
-    lid = LAND_OF_OPEN[oid]; bi = boss_info.get(lid, {})
-    L_ = LANDS[[l[0] for l in LANDS].index(lid)] if lid else None
-    mb = margins(L_[1], L_[2], bi["boss_w"], bi["boss_h"], c) if lid else None
-    grouped = lid in ("LAND_C_H", "LAND_C_O", "LAND_A_H", "LAND_A_O")
     FLEX_CHECK.append(dict(port=oid, flex_cutout=dict(cx=c["cx"], cy=c["cy"], w=c["w"], h=c["h"]), offset=[round(x - c["cx"], 2), round(y - c["cy"], 2)],
-                           through=what, through_size=[tw, th], through_min_margin=min(mt.values()), plate_opening_min_margin=min(mo.values()),
-                           boss=lid, boss_overlap_max=round(-min(mb["xm"], mb["xp"], *(() if grouped else (mb["ym"], mb["yp"]))), 2) if mb else None,
-                           flex_bars_on_boss=grouped, boss_proud=bi.get("proud_of_inner_skin")))
-for aid, lid in (("AUD_H", "LAND_AUD_H"), ("AUD_O", "LAND_AUD_O")):
-    c = CUT[aid]; L = [l for l in LANDS if l[0] == lid][0]; bd = L[3] + 2 * L[6]
-    FLEX_CHECK.append(dict(port=aid, flex_cutout=dict(cx=c["cx"], cy=c["cy"], d=c["d"]), offset=[round(L[1] - c["cx"], 2), round(L[2] - c["cy"], 2)], through="3.5 mm plug / Ø4.8 opening",
-                           through_min_margin=round(c["d"] / 2 - 4.8 / 2 - math.hypot(L[1] - c["cx"], L[2] - c["cy"]), 2), boss=lid,
-                           boss_overlap_max=round(bd / 2 + math.hypot(L[1] - c["cx"], L[2] - c["cy"]) - c["d"] / 2, 2), boss_proud=boss_info[lid]["proud_of_inner_skin"]))
-if FLEX == "stock" and ETH2 == "open":
-    for row in FLEX_CHECK: print("FLEXCHECK", row)
-    # trace DXF (back view, plate frame)
+                           through=("plug" if kind == "RJ45" else "receptacle shell"), through_size=[tw, th], through_min_margin=min(mt.values()), plate_opening_min_margin=min(mo.values()),
+                           boss=None, inner_face="flush (no boss)"))
+for aid in ("AUD_H", "AUD_O"):
+    c = CUT[aid]; o = [q for q in ROUND if q[0] == aid][0]; off = math.hypot(o[1] - c["cx"], o[2] - c["cy"])
+    FLEX_CHECK.append(dict(port=aid, flex_cutout=dict(cx=c["cx"], cy=c["cy"], d=c["d"]), offset=[round(o[1] - c["cx"], 2), round(o[2] - c["cy"], 2)],
+                           through="Ø4.8 opening / jack nose (Ø6.0 assumed)", through_min_margin=round(c["d"] / 2 - 4.8 / 2 - off, 2), jack_nose_margin=round(c["d"] / 2 - 3.0 - off, 2), boss=None, inner_face="flush (no boss)"))
+for hid, (pid, px_, py_, pd) in (("HOLE_C1", LOCATE_PINS[0]), ("PIN_C3", LOCATE_PINS[1])):
+    hh = [q for q in FJ["holes"] if q["id"] == hid][0]
+    FLEX_CHECK.append(dict(port=pid, flex_hole=hh, pin_d=pd, radial_margin=round(hh["d"] / 2 - pd / 2 - math.hypot(px_ - hh["cx"], py_ - hh["cy"]), 2)))
+# LEDs against plate features (rectangles grown by LED_CLR; circles by radius)
+def rect_hit(l, x, y, w, h, g=0.0):
+    return abs(l["cx"] - x) < (l["w"] + w) / 2 + g and abs(l["cy"] - y) < (l["h"] + h) / 2 + g
+LED_CHECK = []
+feats = [(o[0], o[2], o[3], o[4], o[5]) for o in OPEN] + [(q[0], q[1], q[2], q[3], q[3]) for q in ROUND] + [(q[0], q[1], q[2], q[3], q[4]) for q in WINDOWS] + \
+        [(q[0], q[1], q[2], q[3] + 0.6, q[3] + 0.6) for q in LOCATE_PINS + EAR_PINS] + [("FRAME_SCREW_RELIEF", FRAME_SCREW[0], FRAME_SCREW[1], SCREW_POCKET_D, SCREW_POCKET_D)] + \
+        [("CLIP", x, y, (CLIP_T + 2 * CLIP_HOOK) if o[0] == "x" else CLIP_W, CLIP_W if o[0] == "x" else CLIP_T + 2 * CLIP_HOOK) for x, y, o in CLIPS] + \
+        [("RIM_NECK_NOTCH", (NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1])]
+for k, l in enumerate(FJ["leds"]):
+    hits = [f[0] for f in feats if rect_hit(l, f[1], f[2], f[3], f[4], LED_CLR)]
+    in_rim = (l["cx"] - l["w"] / 2 < PL_C[0] - PL_W / 2 + RIM_W + 0.3) or (l["cx"] + l["w"] / 2 > PL_C[0] + PL_W / 2 - RIM_W - 0.3)
+    rel = [rid for rid, ri in relief_info.items() if rect_hit(l, ri["cx"], ri["cy"], ri["w"], ri["h"], LED_CLR)]
+    btn = math.hypot(l["cx"] - BTN["cx"], l["cy"] - BTN["cy"]) < BTN["ring_d"] / 2
+    if btn: hits = [h_ for h_ in hits if h_ != "PWR_BTN"]   # button LEDs sit under the button cap by design (they light it)
+    LED_CHECK.append(dict(led=k, cx=l["cx"], cy=l["cy"], w=l["w"], h=l["h"], conflicts=hits + (["RIM"] if in_rim else []) + rel, in_button_pocket=btn,
+                          ok=not (hits or in_rim or rel)))
+for row in FLEX_CHECK: print("FLEXCHECK", row)
+for row in LED_CHECK:
+    if not row["ok"]: print("LED CONFLICT", row)
+
+# ---------------- trace DXF, foam DXF, check image (ETH2 open build only) ----------------
+def rr_pts(cx, cy, w, h, r, n=9):
+    r = min(r, w / 2, h / 2); pts = []
+    for (ax_, ay_, a0) in ((cx + w / 2 - r, cy + h / 2 - r, 0), (cx - w / 2 + r, cy + h / 2 - r, 90), (cx - w / 2 + r, cy - h / 2 + r, 180), (cx + w / 2 - r, cy - h / 2 + r, 270)):
+        for k in range(n):
+            t = math.radians(a0 + 90 * k / (n - 1)); pts.append((ax_ + r * math.cos(t), ay_ + r * math.sin(t)))
+    return pts
+if ETH2 == "open":
     doc = ezdxf.new("R2010"); msp = doc.modelspace()
-    for ln, col in (("FLEX_OUTLINE", 30), ("FLEX_CUTOUTS", 30), ("FLEX_FRAME_HOLES", 30), ("FLEX_LIGHT_PADS", 5), ("FLEX_LEDS", 2), ("FLEX_BUTTON", 6), ("FLEX_TAIL_APPROX", 8),
-                    ("FLEX_SILVER_FRAMES", 9), ("REF_PLATE_OUTLINE", 7), ("REF_PLATE_OPENINGS", 7), ("REF_LAND_BOSSES", 1), ("REF_LIGHT_WINDOWS", 2), ("A1_FLEX_CUTOUTS_PROPOSED", 3), ("NOTES", 7)):
+    for ln, col in (("FLEX_OUTLINE", 30), ("FLEX_CUTOUTS", 30), ("FLEX_HOLES", 30), ("FLEX_LIGHT_PADS", 5), ("FLEX_LEDS", 2), ("FLEX_BUTTON", 6), ("FLEX_TAIL", 8), ("FLEX_CONTACTS", 40),
+                    ("FLEX_SILVER_FRAMES", 9), ("IGNORED_BLACK_TAB", 251), ("REF_PLATE_OUTLINE", 7), ("REF_PLATE_OPENINGS", 7), ("REF_LIGHT_WINDOWS", 2), ("REF_LED_POCKETS", 1), ("NOTES", 7)):
         doc.layers.add(ln, color=col)
-    def rr(cx, cy, w, h, r, layer):
-        r = min(r, w / 2, h / 2); pts = []
-        for (ax_, ay_, a0) in ((cx + w / 2 - r, cy + h / 2 - r, 0), (cx - w / 2 + r, cy + h / 2 - r, 90), (cx - w / 2 + r, cy - h / 2 + r, 180), (cx + w / 2 - r, cy - h / 2 + r, 270)):
-            for k in range(9):
-                t = math.radians(a0 + 90 * k / 8); pts.append((ax_ + r * math.cos(t), ay_ + r * math.sin(t)))
-        msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": layer})
+    def rr(cx, cy, w, h, r, layer): msp.add_lwpolyline(rr_pts(cx, cy, w, h, r), close=True, dxfattribs={"layer": layer})
     msp.add_lwpolyline(FLEX_POLY, close=True, dxfattribs={"layer": "FLEX_OUTLINE"})
+    msp.add_lwpolyline([tuple(p) for p in FJ["tail"]], close=True, dxfattribs={"layer": "FLEX_TAIL"})
+    ce = FJ["contact_end"]; cc = ce["contacts"]
+    for k in range(cc["n"]):
+        x0 = (cc["x"][0] + cc["x"][1]) / 2 - (cc["n"] - 1) * cc["pitch"] / 2 + k * cc["pitch"]
+        msp.add_lwpolyline([(x0 - 0.15, cc["y"][0]), (x0 + 0.15, cc["y"][0]), (x0 + 0.15, cc["y"][1]), (x0 - 0.15, cc["y"][1])], close=True, dxfattribs={"layer": "FLEX_CONTACTS"})
+    it = FJ["ignored_tab"]; rr((it["x"][0] + it["x"][1]) / 2, (it["y"][0] + it["y"][1]) / 2, it["x"][1] - it["x"][0], it["y"][1] - it["y"][0], 0.5, "IGNORED_BLACK_TAB")
     for c in FJ["cutouts"]:
         if "d" in c: msp.add_circle((c["cx"], c["cy"]), c["d"] / 2, dxfattribs={"layer": "FLEX_CUTOUTS"})
-        else: msp.add_lwpolyline([tuple(p) for p in c["poly"]], close=True, dxfattribs={"layer": "FLEX_CUTOUTS"})
+        else: rr(c["cx"], c["cy"], c["w"], c["h"], c["r"], "FLEX_CUTOUTS")
         msp.add_text(c["id"], dxfattribs={"layer": "NOTES", "height": 1.0}).set_placement((c["cx"] - 1.5, c["cy"]))
-    for hh in FJ["holes"]: msp.add_circle((hh["cx"], hh["cy"]), hh["d"] / 2, dxfattribs={"layer": "FLEX_FRAME_HOLES"})
+    for hh in FJ["holes"]: msp.add_circle((hh["cx"], hh["cy"]), hh["d"] / 2, dxfattribs={"layer": "FLEX_HOLES"})
     for p in FJ["light_pads"]: rr(p["cx"], p["cy"], p["w"], p["h"], 0.3, "FLEX_LIGHT_PADS"); msp.add_text(p["id"], dxfattribs={"layer": "NOTES", "height": 0.8}).set_placement((p["cx"] - 2, p["cy"] + p["h"] / 2 + 0.3))
-    for l in FJ["leds"]: rr(l["cx"], l["cy"], l["w"], l["h"], 0.05, "FLEX_LEDS")
+    for l in FJ["leds"]: rr(l["cx"], l["cy"], l["w"], l["h"], 0.05, "FLEX_LEDS"); rr(l["cx"], l["cy"], l["w"] + 2 * LED_CLR, l["h"] + 2 * LED_CLR, 0.3, "REF_LED_POCKETS")
     for f in FJ["silver_frames"]: rr(f["cx"], f["cy"], f["w"], f["h"], 0.5, "FLEX_SILVER_FRAMES")
-    bt = FJ["button"]; msp.add_circle((bt["cx"], bt["cy"]), bt["ring_d"] / 2, dxfattribs={"layer": "FLEX_BUTTON"}); msp.add_circle((bt["cx"], bt["cy"]), bt["dome_d"] / 2, dxfattribs={"layer": "FLEX_BUTTON"})
-    msp.add_lwpolyline([tuple(p) for p in FJ["tail_approx"]], close=True, dxfattribs={"layer": "FLEX_TAIL_APPROX"})
-    it = FJ["ic_tab_from_plate_scan"]; rr((it["x"][0] + it["x"][1]) / 2, (it["y"][0] + it["y"][1]) / 2, it["x"][1] - it["x"][0], it["y"][1] - it["y"][0], 0.2, "FLEX_TAIL_APPROX")
+    msp.add_circle((BTN["cx"], BTN["cy"]), BTN["ring_d"] / 2, dxfattribs={"layer": "FLEX_BUTTON"}); msp.add_circle((BTN["cx"], BTN["cy"]), BTN["dome_d"] / 2, dxfattribs={"layer": "FLEX_BUTTON"})
     rr(PL_C[0], PL_C[1], PL_W, PL_H, PL_R, "REF_PLATE_OUTLINE")
     for oid, kind, x, y, w, h, r in OPEN: rr(x, y, w, h, r, "REF_PLATE_OPENINGS")
     for oid, x, y, dd in ROUND: msp.add_circle((x, y), dd / 2, dxfattribs={"layer": "REF_PLATE_OPENINGS"})
-    for lid, x, y, w, h, r, b in LANDS:
-        rr(x, y, w + 2 * b, h + 2 * b, r + b, "REF_LAND_BOSSES")
-        rr(x, y, w + 2 * b + 0.6, h + 2 * b + 0.6, r + b + 0.3, "A1_FLEX_CUTOUTS_PROPOSED")   # A1 replacement flex: boss + 0.3 per side
     for wid, x, y, w, h, r in WINDOWS: rr(x, y, w, h, r, "REF_LIGHT_WINDOWS")
-    msp.add_text("821-2222 I/O-wall flex trace (plate-facing side, back view, mm) from Aidan photo 3ea4e6e5; homography rms 0.41 mm; VERIFY by caliper", dxfattribs={"layer": "NOTES", "height": 1.6}).set_placement((20, -22))
+    msp.add_text("821-2222-A I/O-wall flex trace (plate-facing side, back view, mm) from Aidan flatbed scan 06ea8deb (200 dpi, ruler-calibrated, idealised); +-0.15; VERIFY by caliper",
+                 dxfattribs={"layer": "NOTES", "height": 1.6}).set_placement((20, -26))
     doc.saveas(os.path.join(HERE, "flex_821-2222_trace.dxf"))
-    # foam / insulator die-cut (board side of the flex): flex outline + neck, minus land bosses + 0.3, minus frame holes/pin + 0.5, minus button ring
+    # foam / insulator die-cut (board side of the flex): flex outline, minus cut-outs + 0.3, minus holes + 0.5, minus the button ring + 0.5
     doc = ezdxf.new("R2010"); msp = doc.modelspace()
     for ln in ("CUT_OUTER", "CUT_INNER", "NOTES"): doc.layers.add(ln)
-    rr_layer = lambda *a: rr(*a)
     msp.add_lwpolyline(FLEX_POLY, close=True, dxfattribs={"layer": "CUT_OUTER"})
-    for lid, x, y, w, h, r, b in LANDS: rr(x, y, w + 2 * b + 0.6, h + 2 * b + 0.6, r + b + 0.3, "CUT_INNER")
-    for hh in FJ["holes"]: msp.add_circle((hh["cx"], hh["cy"]), hh["d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
-    msp.add_circle((bt["cx"], bt["cy"]), bt["ring_d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
-    msp.add_text("MP62 IO flex foam / insulator A0 (back view, mm): 1.0 PE/PORON foam with PSA (stock-like) OR 0.25 Formex GK-10 / fish paper; laser or die cut; VERIFY against the flex", dxfattribs={"layer": "NOTES", "height": 1.6}).set_placement((20, -22))
+    for c in FJ["cutouts"]:
+        if "d" in c: msp.add_circle((c["cx"], c["cy"]), c["d"] / 2 + 0.3, dxfattribs={"layer": "CUT_INNER"})
+        else: msp.add_lwpolyline(rr_pts(c["cx"], c["cy"], c["w"] + 0.6, c["h"] + 0.6, c["r"] + 0.3), close=True, dxfattribs={"layer": "CUT_INNER"})
+    for hh in FJ["holes"]:
+        if not hh["id"].startswith("BTN_EAR"): msp.add_circle((hh["cx"], hh["cy"]), hh["d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
+    msp.add_circle((BTN["cx"], BTN["cy"]), BTN["ring_d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
+    msp.add_text("MP62 IO flex foam / insulator A0 (back view, mm, scan-based outline): 1.0 PE/PORON foam with PSA (stock-like) OR 0.25 Formex GK-10; laser/die cut; VERIFY against the flex",
+                 dxfattribs={"layer": "NOTES", "height": 1.6}).set_placement((20, -12))
     doc.saveas(os.path.join(HERE, "io_flex_foam_insulator_A0.dxf"))
     # check image
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     from matplotlib.patches import Polygon as MPoly, Circle as MCirc, Rectangle as MRect, FancyBboxPatch as FBP
-    fr = json.load(open(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json"))) if os.path.exists(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json")) else None
-    fig, ax = plt.subplots(figsize=(8.5, 15))
+    fig, ax = plt.subplots(figsize=(9.5, 15))
     ax.add_patch(FBP((PL_C[0] - PL_W / 2 + PL_R, PL_C[1] - PL_H / 2 + PL_R), PL_W - 2 * PL_R, PL_H - 2 * PL_R, boxstyle="round,pad=%g" % PL_R, fc="#f4f4f4", ec="k", lw=0.8))
-    ax.add_patch(MPoly(FLEX_POLY, fc="#ffd98a", ec="#c07000", lw=0.8, label="821-2222 flex (trace)"))
-    ax.add_patch(MPoly([tuple(p) for p in FJ["tail_approx"]], fc="#ffe9b8", ec="#c07000", ls="--", lw=0.6))
+    ax.add_patch(MPoly(FLEX_POLY, fc="#ffd98a", ec="#c07000", lw=0.8))
+    ax.add_patch(MPoly([tuple(p) for p in FJ["tail"]], fc="#ffe9b8", ec="#c07000", lw=0.6))
+    ax.add_patch(MRect((it["x"][0], it["y"][0]), it["x"][1] - it["x"][0], it["y"][1] - it["y"][0], fc="#dddddd", ec="#888888", ls="--", lw=0.6)); ax.text((it["x"][0] + it["x"][1]) / 2, (it["y"][0] + it["y"][1]) / 2, "black tab\n(ignored)", fontsize=6, ha="center", color="#666666")
+    ax.add_patch(MRect((ce["x"][0], ce["y"][0]), ce["x"][1] - ce["x"][0], ce["y"][1] - ce["y"][0], fc="#e0a040", ec="#805000", lw=0.6))
     for c in FJ["cutouts"]:
-        ax.add_patch(MCirc((c["cx"], c["cy"]), c["d"] / 2, fc="w", ec="#c07000") if "d" in c else MPoly(c["poly"], fc="w", ec="#c07000"))
+        ax.add_patch(MCirc((c["cx"], c["cy"]), c["d"] / 2, fc="w", ec="#c07000") if "d" in c else MPoly(rr_pts(c["cx"], c["cy"], c["w"], c["h"], c["r"]), fc="w", ec="#c07000"))
     for hh in FJ["holes"]: ax.add_patch(MCirc((hh["cx"], hh["cy"]), hh["d"] / 2, fc="w", ec="#c07000"))
     for p in FJ["light_pads"]: ax.add_patch(MRect((p["cx"] - p["w"] / 2, p["cy"] - p["h"] / 2), p["w"], p["h"], fc="#b8c8ff", ec="b", lw=0.5))
-    for l in FJ["leds"]: ax.add_patch(MRect((l["cx"] - l["w"] / 2, l["cy"] - l["h"] / 2), l["w"], l["h"], fc="#fff200", ec="k", lw=0.3))
-    ax.add_patch(MCirc((bt["cx"], bt["cy"]), bt["ring_d"] / 2, fc="none", ec="m", lw=0.8))
-    if fr:
-        for k, v in fr["features"].items():
-            if k.startswith(("SQ", "TALL", "SMALL", "ROUND", "BIG")): ax.add_patch(MRect((v["cx"] - v["w"] / 2, v["cy"] - v["h"] / 2), v["w"], v["h"], fc="none", ec="g", lw=0.6, ls=":"))
-    for lid, x, y, w, h, r, b in LANDS: ax.add_patch(MRect((x - (w + 2 * b) / 2, y - (h + 2 * b) / 2), w + 2 * b, h + 2 * b, fc="none", ec="r", lw=0.9))
-    for oid, kind, x, y, w, h, r in OPEN: ax.add_patch(MRect((x - w / 2, y - h / 2), w, h, fc="none", ec="k", lw=0.5))
-    for oid, x, y, dd in ROUND: ax.add_patch(MCirc((x, y), dd / 2, fc="none", ec="k", lw=0.5))
+    for row, l in zip(LED_CHECK, FJ["leds"]): ax.add_patch(MRect((l["cx"] - l["w"] / 2, l["cy"] - l["h"] / 2), l["w"], l["h"], fc="#fff200" if row["ok"] else "#ff3030", ec="k", lw=0.3))
+    ax.add_patch(MCirc((BTN["cx"], BTN["cy"]), BTN["ring_d"] / 2, fc="none", ec="m", lw=0.8))
+    for k, v in fr.items():
+        if k.startswith(("SQ", "TALL", "SMALL", "ROUND", "BIG")): ax.add_patch(MRect((v["cx"] - v["w"] / 2, v["cy"] - v["h"] / 2), v["w"], v["h"], fc="none", ec="g", lw=0.6, ls=":"))
+    for oid, kind, x, y, w, h, r in OPEN: ax.add_patch(MPoly(rr_pts(x, y, w, h, r), fc="none", ec="k", lw=0.6))
+    for s in STACK:
+        if "shell_in_flex_cutout_margin" in s:
+            sw, sh = SHELL[s["kind"]]["shell"]; ax.add_patch(MRect((s["x"] - sw / 2, s["y"] - sh / 2), sw, sh, fc="none", ec="r", lw=0.7, ls="--"))
+    for oid, x, y, dd in ROUND: ax.add_patch(MCirc((x, y), dd / 2, fc="none", ec="k", lw=0.6))
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(MRect((x - w / 2, y - h / 2), w, h, fc="#ffff80", ec="k", lw=0.6))
+    for pid, x, y, dd in LOCATE_PINS + EAR_PINS: ax.add_patch(MCirc((x, y), dd / 2, fc="#4040ff", ec="k", lw=0.4))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=6)
     for x, y, o in dropped_clips: ax.plot(x, y, "rx", ms=9, mew=2)
     for row in FLEX_CHECK:
-        c = row["flex_cutout"]
-        ax.text(c["cx"], c["cy"], "%s\nthru %+.2f\nboss +%.1f%s\nlift %.1f" % (row["port"], row["through_min_margin"], row["boss_overlap_max"] or 0, "+bars" if row.get("flex_bars_on_boss") else "", row["boss_proud"] or 0), fontsize=4.6, ha="center", va="center", color="darkred")
-    ax.set_xlim(22, 118); ax.set_ylim(-16, 160); ax.set_aspect("equal"); ax.grid(alpha=0.25)
-    ax.set_title("821-2222 flex trace vs plate v2 A0 (back view, mm)\norange = flex, white = flex cut-outs, red = our land bosses, black = plate openings, green dotted = metal frame slots,\n"
-                 "blue = light-guide pads, yellow chips = LEDs, yellow = plate light windows, x = dropped clip.  'thru' = min margin of shell/plug in the cut-out,\n"
-                 "'boss +' = how far our boss overlaps the flex rim, 'lift' = boss height proud of the inner skin (the rim would have to fold into the frame slot)", fontsize=6.5)
-    plt.tight_layout(); plt.savefig(os.path.join(HERE, "flex_821-2222_check.png"), dpi=170)
+        if "flex_cutout" not in row: continue
+        c = row["flex_cutout"]; st = [s for s in STACK if s["port"] == row["port"]]
+        ht = ("\nH %.2f" % st[0]["required_height"]) if st and "required_height" in st[0] else (("\nH<=%.1f" % st[0]["max_height"]) if st else "")
+        ax.text(c["cx"], c["cy"] - (1.2 if "d" in c else 0), "%s\n%+.2f%s" % (row["port"], row["through_min_margin"], ht), fontsize=5, ha="center", va="center", color="darkred")
+    ax.set_xlim(22, 120); ax.set_ylim(-24, 160); ax.set_aspect("equal"); ax.grid(alpha=0.25)
+    ax.set_title("821-2222-A flex (scan trace) vs plate v2 A0, back view, mm.  Inner face flush: no bosses, flex sits flat.\n"
+                 "orange = flex, white = flex cut-outs/holes, black = plate openings, red dashed = receptacle shells, green dotted = metal frame slots,\n"
+                 "blue pads = light guides, yellow chips = LEDs (red = conflict), yellow = light windows, blue dots = pins.\n"
+                 "label: min margin of shell/plug in the flex cut-out, H = required board-top-to-mouth height (RJ45: max)", fontsize=6.5)
+    plt.tight_layout(); plt.savefig(os.path.join(HERE, "flex_821-2222_check.png"), dpi=170); plt.close(fig)
 
-# ---------------- DXF (openings, back view and front view) ----------------
+# ---------------- DXF (openings, back view and front view), features JSON, previews ----------------
 if ETH2 == "open":
     for view in ("backview", "frontview"):
         BW = 101.00496445740619
         fx = (lambda x: x) if view == "backview" else (lambda x: 40 + BW - x)   # front view = KiCad PCB frame x (y kept = Y; KiCad y = 200 - Y)
         doc = ezdxf.new("R2010"); msp = doc.modelspace()
-        for ln in ("OUTLINE", "OPENINGS", "LIGHTPIPES", "LIGHT_WINDOWS", "CLIPS", "NOTES", ): doc.layers.add(ln)
-        def rrect(cx, cy, w, h, r, layer):
-            r = min(r, w / 2, h / 2); pts = []
-            for (ax, ay, a0) in ((cx + w / 2 - r, cy + h / 2 - r, 0), (cx - w / 2 + r, cy + h / 2 - r, 90), (cx - w / 2 + r, cy - h / 2 + r, 180), (cx + w / 2 - r, cy - h / 2 + r, 270)):
-                for k in range(9):
-                    t = math.radians(a0 + 90 * k / 8); pts.append((fx(ax + r * math.cos(t)), ay + r * math.sin(t)))
-            msp.add_lwpolyline(pts, close=True, dxfattribs={"layer": layer})
+        for ln in ("OUTLINE", "OPENINGS", "LIGHT_WINDOWS", "SPOTFACES", "CLIPS", "PINS", "NOTES"): doc.layers.add(ln)
+        def rrect(cx, cy, w, h, r, layer): msp.add_lwpolyline([(fx(a), b) for a, b in rr_pts(cx, cy, w, h, r)], close=True, dxfattribs={"layer": layer})
         rrect(PL_C[0], PL_C[1], PL_W, PL_H, PL_R, "OUTLINE")
         for oid, kind, x, y, w, h, r in OPEN:
             rrect(x, y, w, h, r, "OPENINGS"); msp.add_text(oid, dxfattribs={"layer": "NOTES", "height": 1.2}).set_placement((fx(x) - 2, y + h / 2 + 0.6))
         for oid, x, y, dd in ROUND: msp.add_circle((fx(x), y), dd / 2, dxfattribs={"layer": "OPENINGS"})
-        for oid, x, y in PIPES: msp.add_circle((fx(x), y), PIPE_BORE / 2, dxfattribs={"layer": "LIGHTPIPES"})
         for wid, x, y, w, h, r in WINDOWS: rrect(x, y, w, h, r, "LIGHT_WINDOWS")
+        for rid, x, y, w, h, r in RELIEF: rrect(x, y, w, h, r, "SPOTFACES")
         for x, y, o in CLIPS: msp.add_circle((fx(x), y), 1.0, dxfattribs={"layer": "CLIPS"})
+        for pid, x, y, dd in LOCATE_PINS + EAR_PINS: msp.add_circle((fx(x), y), dd / 2, dxfattribs={"layer": "PINS"})
         msp.add_text("MP62 IO plate v2 A0 - %s - mm - Y up = MEG/base end" % view, dxfattribs={"layer": "NOTES", "height": 2}).set_placement((fx(PL_C[0]) - 30, -12))
         doc.saveas(os.path.join(HERE, "io_plate_v2_A0_openings_%s.dxf" % view))
-    json.dump(dict(params=dict(outline=dict(centre=PL_C, w=PL_W, h=PL_H, r=PL_R), case_r=CASE_R, land_t=LAND_T, clip=dict(t=CLIP_T, w=CLIP_W, l=CLIP_L, hook=CLIP_HOOK), skin=SKIN, rim_h=RIM_H, rim_w=RIM_W, tilt_ax_deg=TILT_AX_DEG, tilt_ay_deg=TILT_AY_DEG,
-                   tilt_ref=TILT_REF, collar_l0=COLLAR_L0 if FLEX != "stock" else 0.0, clearance_per_side=CLR,
-                   flex=dict(mode=FLEX, flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK)), bosses=boss_info, flex_check=FLEX_CHECK, features=[dict(id=a, kind=b, x=c, y=d, w=e, h=f, note=g) for a, b, c, d, e, f, g in report],
-                   clips=CLIPS), open(os.path.join(HERE, "io_plate_v2_A0_features.json"), "w"), indent=1)
-    # preview: outer view (2D) + isometric of the inner side
+    json.dump(dict(params=dict(outline=dict(centre=PL_C, w=PL_W, h=PL_H, r=PL_R), case_r=round(CASE_R, 3), r_inner=round(R_INNER, 3), skin=SKIN, rim_h=RIM_H, rim_w=RIM_W,
+                               d0=dict(crown=D0_CROWN, edge=D0_EDGE, edge_u=D0_EDGE_U, board_top_z=Z_BOARD, note="board top -> plate inner face; edge reading position assumed |u|=15.5 (CONFIRM)"),
+                               clip=dict(t=CLIP_T, w=CLIP_W, l=CLIP_L, hook=CLIP_HOOK), port_grid=dict(usbc_x=[XH, XO], source="flex 821-2222-A cut-out centres (scan)"),
+                               flex=dict(flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, frame_t=FRAME_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK, led_h=LED_H, led_clr=LED_CLR,
+                                         btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder, no bosses")),
+                   parts=PARTS, stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
+                   features=[dict(id=a, kind=b, x=round(c, 3), y=round(d, 3), w=e, h=f, note=g) for a, b, c, d, e, f, g in report], clips=CLIPS),
+              open(os.path.join(HERE, "io_plate_v2_A0_features.json"), "w"), indent=1)
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     from matplotlib.patches import FancyBboxPatch, Circle
     fig, ax = plt.subplots(figsize=(6, 13))
     ax.add_patch(FancyBboxPatch((PL_C[0] - PL_W / 2 + PL_R, PL_C[1] - PL_H / 2 + PL_R), PL_W - 2 * PL_R, PL_H - 2 * PL_R, boxstyle="round,pad=%g" % PL_R, fc="#dddddd", ec="k"))
+    for rid, x, y, w, h, r in RELIEF: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="#c8c8c8", ec="#777777", ls="--"))
     for oid, kind, x, y, w, h, r in OPEN:
         ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="white", ec="k"))
         ax.text(x, y, oid, ha="center", va="center", fontsize=6)
     for oid, x, y, dd in ROUND: ax.add_patch(Circle((x, y), dd / 2, fc="white", ec="k"))
-    ax.text(63.02, 108.03, "button\n(clear cap,\nD20)", ha="center", va="center", fontsize=5)
-    for oid, x, y in PIPES: ax.add_patch(Circle((x, y), 1.0, fc="yellow", ec="k"))
+    ax.text(BTN["cx"], BTN["cy"], "button\n(cap on the\nflex dome)", ha="center", va="center", fontsize=5)
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="yellow", ec="k"))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=5)
     ax.set_xlim(20, 86); ax.set_ylim(-8, 162); ax.set_aspect("equal"); ax.grid(alpha=0.2)
-    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows over the 821-2222 flex pads, blue = clips (verify)", fontsize=8)
-    plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150)
+    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, grey dashed = USB-C overmold spot-faces, blue = clips", fontsize=8)
+    plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150); plt.close(fig)
     iso = plate.translate((-PL_C[0], -PL_C[1], 0)).rotate((0, 0, 0), (0, 0, 1), 90).rotate((0, 0, 0), (1, 0, 0), 180)
     cq.exporters.export(iso, os.path.join(HERE, "_iso.svg"), opt={"projectionDir": (0.25, -0.45, 1.0), "showHidden": False, "width": 1600, "height": 700,
                                                                  "marginLeft": 40, "marginTop": 40, "strokeWidth": 0.15})

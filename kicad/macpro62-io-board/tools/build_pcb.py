@@ -17,7 +17,7 @@ ds.m_TrackMinWidth = FromMM(0.1); ds.m_MinClearance = FromMM(0.1); ds.m_ViasMinS
 ds.m_CopperEdgeClearance = FromMM(0.3); ds.m_HoleClearance = FromMM(0.2); ds.m_HoleToHoleMin = FromMM(0.25); ds.m_SilkClearance = FromMM(0.0)
 ds.SetAuxOrigin(P(0, 0)); ds.SetGridOrigin(P(0, 0))
 tb = board.GetTitleBlock(); tb.SetTitle("MP62 I/O board IOB rev A0 - FLOORPLAN (6 x USB-C DP-alt, 4 x USB-A, HDMI, 2 x RJ45, stock audio/speaker/PSU)")
-tb.SetRevision("A0-floorplan"); tb.SetDate("2026-10-01"); tb.SetCompany("MacPro6,2 / Aidan Winkler (open spec)")
+tb.SetRevision("A0-floorplan"); tb.SetDate("2026-10-02"); tb.SetCompany("MacPro6,2 / Aidan Winkler (open spec)")
 tb.SetComment(0, "Viewed from the FRONT (port side). Coordinates in docs = stock back-view frame (Xb, Y): KiCad x = OX + 101.0 - Xb")
 tb.SetComment(1, "Stackup JLC06161H-2116 6L 1.6 mm (L1 sig, L2 GND, L3 sig, L4 PWR, L5 GND, L6 sig)")
 tb.SetComment(2, "F: ports (vertical), speaker, coin cell, button, light-pipe LEDs, 5 V power stage. B: MCIO HS1 + display link, PSU connectors, PD/mux/redriver ICs, i226-V")
@@ -71,30 +71,31 @@ def place(ref, name, xb, y, rot=0.0, side="F", value=None, dnp=False):
     f.Reference().SetLayer(pcbnew.B_Fab if side == "B" else pcbnew.F_Fab)
     FP.append((ref, name, xb, y, rot, side, value or name, dnp)); return f
 
-# ---------------- port grid (mean of board trace and plate scan, +-0.5) ----------------
-XH, XO = 42.6, 63.9
-CY = [75.2, 65.45, 55.7]
+# ---------------- port grid = centres of the stock 821-2222-A flex cut-outs (flatbed scan 2026-10-02; plate frame, +-0.15) ----------------
+# Heights (board top -> mouth) needed for D0 = 18.0 / 16.5: USB-C 17.90 (H) / 17.82 (O), USB-A 17.49 / 17.38, HDMI 17.24, RJ45 face <= 13.6 (plan 4.7.4)
+XH, XO = 43.09, 63.69
+CY = [75.76, 65.84, 55.97]
 for i, y in enumerate(CY):
-    place("J%d" % (11 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XH, y, 0, "F", ["C1 GPU DP L0 (4-lane)", "C2 GPU DP L1 (4-lane)", "C3 GPU DP L3 (2-lane)"][i])
-    place("J%d" % (14 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XO, y, 0, "F", ["C4 GPU DP L4 (2-lane)", "C5 iGPU DDI-B", "C6 iGPU DDI-C"][i])
-for i, (x, y) in enumerate([(43.3, 42.75), (43.3, 32.6), (64.05, 42.75), (64.05, 32.6)]):
-    place("J%d" % (21 + i), "MP62_USB_A3_9P_Vertical_PLACEHOLDER", x, y, 0, "F", "USB-A A%d 10G" % (i + 1))
-place("J25", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 63.5, 92.3, 0, "F", "ETH1 i226-V #1 2.5GbE, HR913790A (face behind the frame plane)")
-place("J26", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 42.5, 92.0, 0, "F", "ETH2 i226-V #2 2.5GbE, HR913790A; H-side frame slot 15.6 x 13.0 < body 16.2 x 17.0: jack set back behind the frame, plug passes")
-place("J27", "MP62_HDMI_A_Vertical_PLACEHOLDER", 42.4, 107.4, 0, "F", "HDMI (GPU link 2 via TDP158)")
-place("SW1", "SW_SPST_PTS810", 63.02, 108.03, 0, "F", "Power button on the IOB behind the plate opening (printed cap); stock button is NOT on the stock IOB")
+    place("J%d" % (11 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XH, y, 0, "F", ["C1 GPU DP L0 (4-lane)", "C2 GPU DP L1 (4-lane)", "C3 GPU DP L3 (2-lane)"][i] + "; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)")
+    place("J%d" % (14 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XO, y, 0, "F", ["C4 GPU DP L4 (2-lane)", "C5 iGPU DDI-B", "C6 iGPU DDI-C"][i] + "; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)")
+for i, (x, y) in enumerate([(43.12, 42.64), (43.12, 32.54), (63.76, 42.64), (63.76, 32.54)]):
+    place("J%d" % (21 + i), "MP62_USB_A3_9P_Vertical_PLACEHOLDER", x, y, 0, "F", "USB-A A%d 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +%.1f port riser (mouth %.2f)" % (i + 1, 2.5 if x < 53 else 2.4, 17.49 if x < 53 else 17.38))
+place("J25", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 63.67, 91.60, 0, "F", "ETH1 i226-V #1 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.6 -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)")
+place("J26", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 43.15, 91.41, 0, "F", "ETH2 i226-V #2 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.7 (behind the frame) -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)")
+place("J27", "MP62_HDMI_A_Vertical_PLACEHOLDER", 42.96, 107.07, 0, "F", "HDMI (GPU link 2 via TDP158); vertical H15 (JLC C9900153431, verify shell <= 15.4 x 5.6) on +2.2 port riser (mouth 17.24)")
+place("SW1", "SW_SPST_PTS810", 63.79, 108.11, 0, "F", "DNP with the stock 821-2222-A flex (its dome switch is the power button, via J31); fit only without the flex", dnp=True)
 place("J30", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", 56.5, 104.5, 0, "F", "Optional stock/remote power button 2P (parallel to SW1)")
 place("J31", "Hirose_FH12-14S-0.5SH_1x14-1MP_P0.50mm_Horizontal", 82.8, 10.0, 0, "F", "I/O-wall (821-2222) flex ZIF 14P 0.5: power button + port illumination (HX FPC 0.5-14P HYH2.0, C7502869; land pattern = FH12 placeholder, verify)")
-place("D20", "LED_0603_1608Metric", 63.0, 103.3, 0, "F", "Power/sleep LED (white) under button cap")
+place("D20", "LED_0603_1608Metric", 63.79, 103.38, 0, "F", "DNP with the stock flex (its 2 button LEDs light the cap via J31); power/sleep LED only without the flex", dnp=True)
 place("J28", "MP62_StockAudio_EdgeCard_50P_P0.5_PLACEHOLDER", 50.9, 10.4, 0, "F", "Stock audio module connector (PLACEHOLDER)")
 place("BT1", "BatteryHolder_Keystone_3034_1x20mm", g["coin"]["c"][0], g["coin"]["c"][1], 0, "F", "CR2032/BR2032 holder (stock spot) -> VBAT_RTC over HS1")
 for i, (x, y) in enumerate(g["speaker"]["screws"]):
     place("H%d" % (11 + i), "MP62_SMT_Nut_M1.6_H1.5_SMTSO1615", x, y, 0, "F", "M1.6 x 1.5 SMT nut SMTSO1615MTJ (C2928168) - speaker")
 place("J29", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", g["speaker"]["jst"][0], g["speaker"]["jst"][1] + 1.0, 180, "F", "Speaker 2P (stock lead; pitch verify 1.0)")
 place("H13", "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER", 53.38, 58.38, 0, "F", "I/O-frame centre screw standoff (stock TB-bar point), height M-IOF2")
-for i, (n, x, y) in enumerate([("HDMI label", 46.2, 115.6), ("ETH icon", 52.95, 92.9), ("USB-C icon upper", 53.25, 70.4),
+for i, (n, x, y) in enumerate([("HDMI label", 46.2, 115.6), ("ETH icon", 53.42, 92.9), ("USB-C icon upper", 53.25, 70.4),
                                ("USB-C icon lower", 53.25, 62.6), ("USB icon", 53.7, 49.4), ("audio icons", 53.8, 21.0)]):
-    place("D%d" % (21 + i), "LED_0603_1608Metric", x, y, 90, "F", "Light-pipe LED: " + n)
+    place("D%d" % (21 + i), "LED_0603_1608Metric", x, y, 90, "F", "Light-pipe LED: " + n + " - DNP with the stock flex (its own LEDs light the icon pads via J31)", dnp=True)
 place("U30", "SOT-23", 72.0, 112.0, 0, "F", "Hall A (DRV5032 class) - position TBD M-IOH1")
 place("U31", "SOT-23", 72.0, 104.0, 0, "F", "Hall B (DRV5032 class) - position TBD M-IOH1")
 # mounting holes (stock, 6)
@@ -221,8 +222,9 @@ circle(g["coin"]["c"][0], g["coin"]["c"][1], g["coin"]["d"] / 2, U4L, 0.1)
 for (x, y) in g["stock_conn"]["CONN_C_standoffs"]: circle(x, y, 2.0, pcbnew.Dwgs_User, 0.08)
 txt("Dwgs.User: stock CONN_C standoffs (back side) - function unknown, not reproduced", 50, -3, pcbnew.Dwgs_User, 0.7)
 notes = ["MP62 I/O board IOB rev A0 FLOORPLAN (not routed). Viewed from the FRONT (port side). F = front, B = back (PSU side).",
-         "Port grid: columns Xb 42.6 / 63.9; USB-C rows Y 75.2 / 65.45 / 55.7; USB-A rows 42.75 / 32.6; RJ45 Y ~92; HDMI (42.4,107.4); button (63.0,108.0).",
-         "All ports are VERTICAL (mating axis normal to the board) like stock; plate openings follow the connectors; tilt (~1-3 deg est.) is taken up by the plate (plan 4.4).",
+         "Port grid (stock flex cut-outs, scan 2026-10-02): USB-C Xb 43.09 / 63.69, Y 75.76 / 65.84 / 55.97; USB-A 43.12 / 63.76, Y 42.64 / 32.54; RJ45 (43.15,91.41)/(63.67,91.60); HDMI (42.96,107.07); button (63.79,108.11).",
+         "D0 = 18.0 crown / 16.5 edge: USB-C/USB-A/HDMI need 17.2-17.9 board-to-mouth -> port risers (+2.2..2.9) under 15.0 parts; RJ45 face <= 13.6 (plan 4.7.4).",
+         "All ports are VERTICAL (mating axis normal to the board); the plate is curved with no lands (stock flex must lie flat), mouths flush at the outboard edge (plan 4.4/4.7).",
          "B top: J1 IOB-HS1 MCIO124 (CB J3), J2 display link MCIO74 (Face P). B bottom: stock PSU DC 12P + signal 6P (pinouts UNCONFIRMED), J5 Micro-Fit -> BP J2, J6 IOB-LINK.",
          "PLACEHOLDER land patterns: all vertical port connectors, stock audio/PSU connectors, TPS65994AD, TUSB1046A, TUSB1002A, TDP158, i226-V, CH334R."]
 for i, s in enumerate(notes): txt(s, 50, -8 - 2.0 * i, pcbnew.Cmts_User, 0.9)

@@ -1,42 +1,56 @@
-"""Section at Y = 65.45 (USB-C row) and Y = 37.7 (USB-A pair): curved plate with constant 1.2 wall, flat lands (pockets outside,
-bosses inside with ramped inboard edges), straight connectors, and the 821-2222 flex + foam on the inner skin (rev 2026-10-02 09:10 ET)."""
+"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~10:08 ET): curved plate (constant 1.2 wall, no lands/bosses), stock 821-2222-A
+flex flat on the inner face, foam, metal frame (schematic), board top at the measured D0, straight vertical connectors at the required
+height (port riser where the catalogue part is too short), USB-C overmold spot-faces."""
 import math, json, os
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-from matplotlib.patches import Polygon
+from matplotlib.patches import Rectangle
 HERE = os.path.dirname(os.path.abspath(__file__))
 FJ = json.load(open(os.path.join(HERE, "io_plate_v2_A0_features.json")))
-B = FJ["bosses"]; P = FJ["params"]; FL = P["flex"]
-R = P["case_r"]; C = P["outline"]["centre"][0]; SK = P["skin"]
+P = FJ["params"]; FL = P["flex"]; ST = {s["port"]: s for s in FJ["stack"]}; SF = FJ["spotfaces"]
+R = P["case_r"]; C = P["outline"]["centre"][0]; SK = P["skin"]; ZB = P["d0"]["board_top_z"]
 zs = lambda x: -(R - math.sqrt(R * R - (x - C) ** 2))
 fr = json.load(open(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json")))["features"]
-fig, axs = plt.subplots(2, 1, figsize=(12, 8.2))
-rows = [("Section Y = 65.45 (USB-C C2 / C5 row)", [("LAND_C_H", 42.6, 10.6, 0.6), ("LAND_C_O", 63.9, 10.6, 0.6)], 8.94, 6.5, 0.0, ("TALL_R", "TALL_L")),
-        ("Section Y = 37.7 (USB-A pair)", [("LAND_A_H", 43.3, 15.6, 0.6), ("LAND_A_O", 64.05, 15.6, 0.6)], 13.1, 7.0, 1.2, ("SQ_R", "SQ_L"))]
-for ax, (title, lands, pw, ph, setback, slots) in zip(axs, rows):
+SH = {"USBC": (8.94, "USB-C"), "USBA": (13.2, "USB-A"), "RJ45": (16.2, "RJ45"), "HDMI": (15.2, "HDMI")}
+rows = [("Y = %.2f: USB-C C2 / C5 row" % ST["C2"]["y"], ("C2", "C5"), ("TALL_R", "TALL_L")),
+        ("Y = %.2f: USB-A A1 / A3 row" % ST["A1"]["y"], ("A1", "A3"), ("SQ_R", "SQ_L")),
+        ("Y = %.2f: RJ45 ETH2 / ETH1 row" % ST["ETH2"]["y"], ("ETH2", "ETH1"), ("SMALL_R2", "BIG_L"))]
+fig, axs = plt.subplots(3, 1, figsize=(12, 15))
+for ax, (title, ports, slots) in zip(axs, rows):
     xs = [27.24 + i * 0.1 for i in range(520)]
-    ax.plot(xs, [zs(x) for x in xs], "k-", lw=1, label="outer face (R %g, MEASURE M-IOT2)" % R)
-    ax.plot(xs, [zs(x) - SK for x in xs], "k--", lw=0.8, label="inner face, concentric (constant %.1f wall)" % SK)
-    ax.plot(xs, [zs(x) - SK - FL["flex_t"] for x in xs], color="#d08000", lw=1.6, label="821-2222 flex on the inner skin (%.2f, in a %.2f glue pocket)" % (FL["flex_t"], FL["pocket"]))
-    ax.fill_between(xs, [zs(x) - SK - FL["flex_t"] for x in xs], [zs(x) - SK - FL["flex_t"] - FL["foam_t"] for x in xs], color="#ffe7a8", alpha=0.6, label="foam %.1f (TO MEASURE)" % FL["foam_t"])
-    zf = lambda x: zs(x) - SK - FL["flex_t"] - FL["foam_t"]
-    gaps = [(fr[sl]["cx"] - fr[sl]["w"] / 2, fr[sl]["cx"] + fr[sl]["w"] / 2) for sl in slots]
+    ax.fill_between(xs, [zs(x) for x in xs], [zs(x) - SK for x in xs], color="#555555", alpha=0.55, label="plate, constant %.1f wall, outer R %.1f (from D0)" % (SK, R))
+    zfl = lambda x: zs(x) - SK + FL["pocket"] - FL["psa_t"]
+    ax.plot(xs, [zfl(x) - FL["flex_t"] for x in xs], color="#d08000", lw=1.6, label="821-2222-A flex, flat on the smooth inner face (0.2 glue pocket)")
+    ax.fill_between(xs, [zfl(x) - FL["flex_t"] for x in xs], [zfl(x) - FL["flex_t"] - FL["foam_t"] for x in xs], color="#ffe7a8", alpha=0.7, label="foam %.1f (TO MEASURE)" % FL["foam_t"])
+    zf = lambda x: zfl(x) - FL["flex_t"] - FL["foam_t"]
+    gaps = []
+    for sl in slots:
+        v = fr[sl]
+        if sl == "BIG_L": gaps.append((v["x_range_leg"][0], v["x_range_leg"][1]))
+        else: gaps.append((v["cx"] - v["w"] / 2, v["cx"] + v["w"] / 2))
+    gaps.sort()
     solid = [x for x in xs if not any(a <= x <= b for a, b in gaps)]
     for seg in [[x for x in solid if x < gaps[0][0]], [x for x in solid if gaps[0][1] < x < gaps[1][0]], [x for x in solid if x > gaps[1][1]]]:
-        if seg: ax.fill_between(seg, [zf(x) for x in seg], [zf(x) - 0.8 for x in seg], color="g", alpha=0.35, label="metal I/O frame (schematic, thickness/depth TO MEASURE)" if seg[0] < 30 else None)
-    for sl, (a, b) in zip(slots, gaps): ax.text((a + b) / 2, zf((a + b) / 2) - 1.6, "frame slot %s" % sl, fontsize=6, ha="center", color="g")
-    for lid, cx, w, b in lands:
-        bi = B[lid]; zl = bi["land_z"]; zb = bi["boss_bottom_z"]; s = 1 if cx < C else -1
-        x_out = cx - s * (w / 2 + b); x_in = cx + s * (w / 2 + b); z_in = zs(x_in) - SK
-        run = bi["ramp_run"] or 0.0
-        poly = [(x_out, zs(x_out)), (x_out, zb), (x_in - s * run, zb), (x_in, z_in), (x_in, zl), (cx + s * w / 2, zl), (cx - s * w / 2, zl), (x_out, zl)]
-        ax.add_patch(Polygon(poly, closed=True, fc="#bbbbff", ec="b", lw=0.6, label="land boss (flat, parallel to the board), ramped %s deg inboard" % bi["ramp_deg"] if lid == lands[0][0] else None))
-        ax.plot([cx - w / 2, cx + w / 2], [zl, zl], "b-", lw=2)
-        ax.annotate("boss %.2f proud of the skin:\nflex rim must fold into the slot" % bi["proud_of_inner_skin"], (x_in, (z_in + zb) / 2), ((31.0 if s > 0 else 61.0), -11.2), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5))
-        top = zl - setback
-        ax.add_patch(plt.Rectangle((cx - pw / 2, top - ph), pw, ph, fc="#cccccc", ec="k", label="straight receptacle (mouth/face)" if lid == lands[0][0] else None))
-        ang = math.degrees(math.asin((cx - C) / R))
-        ax.annotate("stock shell normal %.1f deg" % ang, (cx, zs(cx)), (cx - 8, 2.2), fontsize=7, arrowprops=dict(arrowstyle="-", lw=0.5))
-    ax.set_xlim(26, 81); ax.set_ylim(-12, 4); ax.set_aspect("equal"); ax.grid(alpha=0.3); ax.set_title(title, fontsize=9)
+        if seg: ax.fill_between(seg, [zf(x) for x in seg], [zf(x) - FL["frame_t"] for x in seg], color="g", alpha=0.35, label="metal I/O frame %.1f (schematic, TO MEASURE)" % FL["frame_t"] if seg[0] < 30 else None)
+    ax.axhline(ZB, color="#2a7a2a", lw=2); ax.text(27.5, ZB + 0.2, "board top z = %.1f (D0 %.1f crown / %.1f at |u| %.1f)" % (ZB, P["d0"]["crown"], P["d0"]["edge"], P["d0"]["edge_u"]), fontsize=7, color="#2a7a2a")
+    for p in ports:
+        s = ST[p]; w, nm = SH[s["kind"]]; x = s["x"]
+        if s["kind"] == "RJ45":
+            top = s["face_z_max"]; h = s["max_height"]
+            ax.add_patch(Rectangle((x - w / 2, ZB), w, h, fc="#cccccc", ec="k", label="vertical connector at the required / max height" if p == ports[0] and ax is axs[2] else None))
+            ax.text(x, ZB + h / 2, "%s %s\nface <= %.1f above board\n(non-magnetic jack)" % (p, nm, h), ha="center", fontsize=7)
+        else:
+            ph = s["part_h"]; rs = s["riser_needed"]
+            if rs > 0.05:
+                ax.add_patch(Rectangle((x - w / 2 - 1.5, ZB), w + 3, rs, fc="#9fd0ff", ec="b", label="port riser (BTB stack + riser PCB)" if p == ports[0] else None))
+            ax.add_patch(Rectangle((x - w / 2, ZB + max(rs, 0)), w, ph, fc="#cccccc", ec="k", label="straight vertical connector (catalogue height)" if p == ports[0] else None))
+            ax.plot([x - w / 2 - 1, x + w / 2 + 1], [s["mouth_z"]] * 2, "r-", lw=1.2)
+            ax.text(x, ZB + rs + ph / 2, "%s %s\nneeds %.2f\n= %.1f part + %.2f riser\nplug recess %.2f" % (p, nm, s["required_height"], ph, rs, s["plug_recess"]), ha="center", fontsize=7)
+        ang = math.degrees(math.asin((x - C) / R))
+        ax.annotate("surface normal %.1f deg" % ang, (x, zs(x)), (x - 6, 1.6), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5))
+    for rid, sf in SF.items():
+        if title.startswith("Y = %.2f: USB-C" % ST["C2"]["y"]):
+            ax.plot([sf["cx"] - sf["w"] / 2, sf["cx"] + sf["w"] / 2], [sf["floor_z"]] * 2, "m--", lw=1.0, label="overmold spot-face floor" if rid.endswith("_H") else None)
+    ax.set_xlim(26, 81); ax.set_ylim(ZB - 1.0, 3.0); ax.set_aspect("equal"); ax.grid(alpha=0.3); ax.set_title(title, fontsize=9)
     ax.set_xlabel("Xb (mm, back view)"); ax.set_ylabel("z (mm, 0 = crown of the outer face)")
-axs[0].legend(fontsize=6.5, loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=3)
-plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_section.png"), dpi=140)
+    ax.legend(fontsize=6, loc="lower right", ncol=2)
+plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_section.png"), dpi=130)

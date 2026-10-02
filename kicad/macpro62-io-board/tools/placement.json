@@ -650,8 +650,8 @@
 81.25
 ],
 "y": [
-52.96,
-58.44
+53.22,
+58.72
 ],
 "value": "TUSB1046A C6 alt-mode mux/redriver",
 "fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
@@ -664,8 +664,8 @@
 32.75
 ],
 "y": [
-52.96,
-58.44
+53.22,
+58.72
 ],
 "value": "TUSB1046A C3 alt-mode mux/redriver",
 "fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
@@ -678,8 +678,8 @@
 81.25
 ],
 "y": [
-62.71,
-68.19
+63.09,
+68.59
 ],
 "value": "TUSB1046A C5 alt-mode mux/redriver",
 "fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
@@ -692,8 +692,8 @@
 32.75
 ],
 "y": [
-62.71,
-68.19
+63.09,
+68.59
 ],
 "value": "TUSB1046A C2 alt-mode mux/redriver",
 "fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
@@ -706,8 +706,8 @@
 81.25
 ],
 "y": [
-72.45,
-77.94
+73.02,
+78.5
 ],
 "value": "TUSB1046A C4 alt-mode mux/redriver",
 "fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
@@ -720,8 +720,8 @@
 32.75
 ],
 "y": [
-72.45,
-77.94
+73.02,
+78.5
 ],
 "value": "TUSB1046A C1 alt-mode mux/redriver",
 "fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
@@ -1241,9 +1241,9 @@
 19.47,
 22.53
 ],
-"value": "Light-pipe LED: audio icons",
+"value": "Light-pipe LED: audio icons - DNP with the stock flex (its own LEDs light the icon pads via J31)",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "D25": {
 "side": "F",
@@ -1255,9 +1255,9 @@
 47.88,
 50.93
 ],
-"value": "Light-pipe LED: USB icon",
+"value": "Light-pipe LED: USB icon - DNP with the stock flex (its own LEDs light the icon pads via J31)",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "D24": {
 "side": "F",
@@ -1269,9 +1269,9 @@
 61.07,
 64.12
 ],
-"value": "Light-pipe LED: USB-C icon lower",
+"value": "Light-pipe LED: USB-C icon lower - DNP with the stock flex (its own LEDs light the icon pads via J31)",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "D23": {
 "side": "F",
@@ -1283,23 +1283,23 @@
 68.88,
 71.93
 ],
-"value": "Light-pipe LED: USB-C icon upper",
+"value": "Light-pipe LED: USB-C icon upper - DNP with the stock flex (its own LEDs light the icon pads via J31)",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "D22": {
 "side": "F",
 "xb": [
-52.18,
-53.73
+52.65,
+54.2
 ],
 "y": [
 91.38,
 94.42
 ],
-"value": "Light-pipe LED: ETH icon",
+"value": "Light-pipe LED: ETH icon - DNP with the stock flex (its own LEDs light the icon pads via J31)",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "D21": {
 "side": "F",
@@ -1311,9 +1311,9 @@
 114.08,
 117.12
 ],
-"value": "Light-pipe LED: HDMI label",
+"value": "Light-pipe LED: HDMI label - DNP with the stock flex (its own LEDs light the icon pads via J31)",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "H13": {
 "side": "F",
@@ -1402,16 +1402,16 @@
 "D20": {
 "side": "F",
 "xb": [
-61.48,
-64.53
+62.27,
+65.32
 ],
 "y": [
-102.53,
-104.08
+102.61,
+104.16
 ],
-"value": "Power/sleep LED (white) under button cap",
+"value": "DNP with the stock flex (its 2 button LEDs light the cap via J31); power/sleep LED only without the flex",
 "fp": "MP62_IO:LED_0603_1608Metric",
-"dnp": false
+"dnp": true
 },
 "J31": {
 "side": "F",
@@ -1444,196 +1444,196 @@
 "SW1": {
 "side": "F",
 "xb": [
-60.13,
-65.92
+60.9,
+66.69
 ],
 "y": [
-106.14,
-109.92
+106.22,
+110.0
 ],
-"value": "Power button on the IOB behind the plate opening (printed cap); stock button is NOT on the stock IOB",
+"value": "DNP with the stock 821-2222-A flex (its dome switch is the power button, via J31); fit only without the flex",
 "fp": "MP62_IO:SW_SPST_PTS810",
-"dnp": false
+"dnp": true
 },
 "J27": {
 "side": "F",
 "xb": [
-33.76,
-51.05
+34.32,
+51.61
 ],
 "y": [
-103.66,
-111.14
+103.33,
+110.81
 ],
-"value": "HDMI (GPU link 2 via TDP158)",
+"value": "HDMI (GPU link 2 via TDP158); vertical H15 (JLC C9900153431, verify shell <= 15.4 x 5.6) on +2.2 port riser (mouth 17.24)",
 "fp": "MP62_IO:MP62_HDMI_A_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J26": {
 "side": "F",
 "xb": [
-33.16,
-51.85
+33.81,
+52.5
 ],
 "y": [
-83.16,
-100.84
+82.56,
+100.25
 ],
-"value": "ETH2 i226-V #2 2.5GbE, HR913790A; H-side frame slot 15.6 x 13.0 < body 16.2 x 17.0: jack set back behind the frame, plug passes",
+"value": "ETH2 i226-V #2 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.7 (behind the frame) -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)",
 "fp": "MP62_IO:MP62_RJ45_HanRun_HR913790A_Vertical_2G5",
 "dnp": false
 },
 "J25": {
 "side": "F",
 "xb": [
-54.16,
-72.85
+54.33,
+73.02
 ],
 "y": [
-83.45,
-101.14
+82.75,
+100.44
 ],
-"value": "ETH1 i226-V #1 2.5GbE, HR913790A (face behind the frame plane)",
+"value": "ETH1 i226-V #1 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.6 -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)",
 "fp": "MP62_IO:MP62_RJ45_HanRun_HR913790A_Vertical_2G5",
 "dnp": false
 },
 "J24": {
 "side": "F",
 "xb": [
-56.41,
-71.7
+56.12,
+71.41
 ],
 "y": [
-29.16,
-36.04
+29.09,
+35.99
 ],
-"value": "USB-A A4 10G",
+"value": "USB-A A4 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.4 port riser (mouth 17.38)",
 "fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J23": {
 "side": "F",
 "xb": [
-56.41,
-71.7
+56.12,
+71.41
 ],
 "y": [
-39.31,
-46.19
+39.19,
+46.09
 ],
-"value": "USB-A A3 10G",
+"value": "USB-A A3 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.4 port riser (mouth 17.38)",
 "fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J22": {
 "side": "F",
 "xb": [
-35.66,
-50.95
+35.48,
+50.77
 ],
 "y": [
-29.16,
-36.04
+29.09,
+35.99
 ],
-"value": "USB-A A2 10G",
+"value": "USB-A A2 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.5 port riser (mouth 17.49)",
 "fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J21": {
 "side": "F",
 "xb": [
-35.66,
-50.95
+35.48,
+50.77
 ],
 "y": [
-39.31,
-46.19
+39.19,
+46.09
 ],
-"value": "USB-A A1 10G",
+"value": "USB-A A1 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.5 port riser (mouth 17.49)",
 "fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J16": {
 "side": "F",
 "xb": [
-58.86,
-68.95
+58.65,
+68.74
 ],
 "y": [
-52.25,
-59.15
+52.53,
+59.41
 ],
-"value": "C6 iGPU DDI-C",
+"value": "C6 iGPU DDI-C; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)",
 "fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J13": {
 "side": "F",
 "xb": [
-37.56,
-47.65
+38.05,
+48.14
 ],
 "y": [
-52.25,
-59.15
+52.53,
+59.41
 ],
-"value": "C3 GPU DP L3 (2-lane)",
+"value": "C3 GPU DP L3 (2-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)",
 "fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J15": {
 "side": "F",
 "xb": [
-58.86,
-68.95
+58.65,
+68.74
 ],
 "y": [
-62.0,
-68.9
+62.4,
+69.28
 ],
-"value": "C5 iGPU DDI-B",
+"value": "C5 iGPU DDI-B; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)",
 "fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J12": {
 "side": "F",
 "xb": [
-37.56,
-47.65
+38.05,
+48.14
 ],
 "y": [
-62.0,
-68.9
+62.4,
+69.28
 ],
-"value": "C2 GPU DP L1 (4-lane)",
+"value": "C2 GPU DP L1 (4-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)",
 "fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J14": {
 "side": "F",
 "xb": [
-58.86,
-68.95
+58.65,
+68.74
 ],
 "y": [
-71.75,
-78.64
+72.31,
+79.2
 ],
-"value": "C4 GPU DP L4 (2-lane)",
+"value": "C4 GPU DP L4 (2-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)",
 "fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
 "dnp": false
 },
 "J11": {
 "side": "F",
 "xb": [
-37.56,
-47.65
+38.05,
+48.14
 ],
 "y": [
-71.75,
-78.64
+72.31,
+79.2
 ],
-"value": "C1 GPU DP L0 (4-lane)",
+"value": "C1 GPU DP L0 (4-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)",
 "fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
 "dnp": false
 }
