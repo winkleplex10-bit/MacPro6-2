@@ -2,73 +2,254 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "3da05e4b-835d-4d95-a108-d0262fe7bc7e")
+	(uuid "7e5332db-0268-4196-a0dd-67dcc23bc266")
 	(paper "A4")
 	(title_block
 		(title "MP62 backplane: I/O board low-speed link")
-		(date "2026-10-01")
-		(rev "A-bd1")
-		(comment 1 "Block stub: hierarchical labels only, circuit TBD")
+		(date "2026-10-02")
+		(rev "A-bd2")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
 	)
-	(lib_symbols)
+	(lib_symbols
+		(symbol "MP62:STUB_IOB_LINK"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_IOB_LINK"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_IOB_LINK_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -24.13)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_IOB_LINK_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "PWRBTN_IN_N" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "IOB_HALL_A_N" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "IOB_HALL_B_N" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "I2C_SYS_SCL" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "I2C_SYS_SDA" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "IOB_INT_N" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -15.24 0)
+					(length 2.54)
+					(name "IOB_PRSNT_N" (effects (font (size 1.0 1.0))))
+					(number "7" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -17.78 0)
+					(length 2.54)
+					(name "IOB_USB_DP" (effects (font (size 1.0 1.0))))
+					(number "8" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -20.32 0)
+					(length 2.54)
+					(name "IOB_USB_DN" (effects (font (size 1.0 1.0))))
+					(number "9" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -22.86 0)
+					(length 2.54)
+					(name "3V3_SB" (effects (font (size 1.0 1.0))))
+					(number "10" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
 	(hierarchical_label "PWRBTN_IN_N"
 		(shape output)
 		(at 38.1 30.48 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "b0f34daf-cc2b-4d4e-8693-7c32e26b6a59")
+		(uuid "23d17c19-67db-4196-bedd-6a36aeaaf5d6")
 	)
 	(hierarchical_label "IOB_HALL_A_N"
 		(shape output)
 		(at 38.1 33.02 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "2465aa27-cb9c-4289-b603-81eb227d251c")
+		(uuid "cec1571d-37e3-43c6-98f0-7d2b2debaee5")
 	)
 	(hierarchical_label "IOB_HALL_B_N"
 		(shape output)
 		(at 38.1 35.56 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "f6c88b65-e190-4705-bd78-b2e2a7eff6ff")
+		(uuid "f3aea977-1a04-4fd3-b442-c4bb837348db")
 	)
 	(hierarchical_label "I2C_SYS_SCL"
 		(shape bidirectional)
 		(at 38.1 38.10 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "d1b16e76-239d-4163-baea-9b6765a69801")
+		(uuid "5cdecb7e-9d24-497a-845b-6070fda2f056")
 	)
 	(hierarchical_label "I2C_SYS_SDA"
 		(shape bidirectional)
 		(at 38.1 40.64 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "47310be7-dc37-44ca-9378-95bf4c4324d9")
+		(uuid "906d63e7-db81-448b-9317-9dd4f7ae69fa")
+	)
+	(hierarchical_label "IOB_INT_N"
+		(shape output)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "541a8d2b-6cc6-438e-bb32-e5934ecfcb68")
+	)
+	(hierarchical_label "IOB_PRSNT_N"
+		(shape output)
+		(at 38.1 45.72 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b389e42a-6540-4983-8374-bcc1fc6f7406")
+	)
+	(hierarchical_label "IOB_USB_DP"
+		(shape bidirectional)
+		(at 38.1 48.26 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "434f6b65-0bfa-4c5a-bdba-6e4f1bcc1a97")
+	)
+	(hierarchical_label "IOB_USB_DN"
+		(shape bidirectional)
+		(at 38.1 50.80 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "61d2696b-43a3-48e3-9087-52539527a1a8")
 	)
 	(hierarchical_label "3V3_SB"
 		(shape input)
-		(at 38.1 43.18 180)
+		(at 38.1 53.34 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "c1e5837f-1612-4e02-99b2-9250b4a1fd61")
+		(uuid "bea8be75-744f-487f-aaab-7414b330102d")
+	)
+	(symbol
+		(lib_id "MP62:STUB_IOB_LINK")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "acb16f40-b2b2-426c-a263-e900857bd9ce")
+		(property "Reference" "#BLK6"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_IOB_LINK"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "bf694db7-5f96-42f1-9620-872b7b5da6e5")
+		)
+		(pin "2"
+			(uuid "f6ba737b-dc21-4068-90eb-a5e237403cf5")
+		)
+		(pin "3"
+			(uuid "f702a7db-43c6-40a1-90d7-eafdb2b96bed")
+		)
+		(pin "4"
+			(uuid "e7bea17c-0dfb-497d-874b-30b9821e5696")
+		)
+		(pin "5"
+			(uuid "000ce260-4f60-4b04-be98-717921590fc4")
+		)
+		(pin "6"
+			(uuid "57f6c506-8d1e-4060-8554-573263902265")
+		)
+		(pin "7"
+			(uuid "c93d555f-9255-4260-87f8-f9c4281dacec")
+		)
+		(pin "8"
+			(uuid "92bba545-2a2b-41c4-9374-d5e864cb9058")
+		)
+		(pin "9"
+			(uuid "8ab7e22e-59c4-4867-b481-0794b1e484da")
+		)
+		(pin "10"
+			(uuid "8eb6d3a4-d4d1-4256-b8b9-12f057717af1")
+		)
+		(instances
+			(project "backplane"
+				(path "/6a1c2d3e-0000-4000-8000-000000000062/d310270f-1d7a-44ba-a7bf-682dd6751172"
+					(reference "#BLK6")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(text "BLOCK STUB (rev A block diagram). Contents planned:"
 		(exclude_from_sim no)
 		(at 76.20 30.48 0)
 		(effects (font (size 1.5 1.5)) (justify left bottom))
-		(uuid "b81244fe-6951-4fb8-a97e-dca361558f4e")
+		(uuid "7f0862c8-dbc3-4eb5-8449-9d7897bcea20")
 	)
-	(text "- J6 JST GH 15P to the new I/O board (designed later): power button, dual Hall interlock, LED/illumination I2C"
+	(text "- J6 JST GH 15P (BM15B vertical) <-> IOB J6, 1:1 GH 15P cable (ICD 2026-10-02, pinout = IOB plan 5.3):"
 		(exclude_from_sim no)
 		(at 76.20 35.56 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "0b38a602-81fe-4be0-aa3a-d8a26704633a")
+		(uuid "9ad1ffaf-633d-42fd-b59d-10e1ea711541")
 	)
-	(text "- 3V3_SB supply for the IOB Hall sensors and button; no high-speed signals on this link"
+	(text "- 1,2 3V3_SB (BP -> IOB) | 3,7,12,15 GND | 4 PWRBTN_IN_N | 5 HALL_A_N | 6 HALL_B_N | 8 I2C_SYS_SCL | 9 I2C_SYS_SDA"
 		(exclude_from_sim no)
 		(at 76.20 39.37 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b349d217-16f4-40ab-9dec-492fc0e1add1")
+		(uuid "8a0d9f02-f509-4e7f-99b4-4f54e03d9ee7")
 	)
-	(text "- IOB high-speed (USB3, DP/HDMI, MDI, audio USB) runs CPU board -> IOB directly (TBD with IOB design)"
+	(text "- 10 IOB_INT_N (OD, IOB -> BP, BP pull-up) | 11 IOB_PRSNT_N (IOB ties to GND; BP 10k pull-up to 3V3_SB) | 13/14 USB2_LINK D+/D- (CPU-LINK USB2_SPARE)"
 		(exclude_from_sim no)
 		(at 76.20 43.18 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e8098035-e583-4ee9-a567-a562a5e8f319")
+		(uuid "2460be3b-6fd7-4923-9591-6041e9b41988")
+	)
+	(text "- IOB high-speed (USB3 x10, DDI, 2x i226 PCIe, VBAT) runs CB J3 -> IOB HS1 directly; 12 V via the IOB 12P PSU header, not the BP"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "21c28a34-1a02-4e83-859d-0fd260b6ad44")
 	)
 )

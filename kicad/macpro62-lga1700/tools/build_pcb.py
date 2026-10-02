@@ -274,11 +274,11 @@ for y in range(40, 104, 9):
     rect(9.05, y - 2.6, 13.25, y + 2.6, E2, 0.08)                            # via corridor under each power stage
 txt("VRM via corridor x 9.05-13.25 (between the J7/J6 pad rows)", 11.15, 112.5, E2, 0.5, angle=90)
 place("J8", L, "MP62_CB_M2_2280_MKey_PLACEHOLDER", 123.0, 24.8, side="B", center=False, value="J8 M.2 2280 boot (PCH x4)")
-place("J3", L, "MP62_AREA_J3_MCIO_RA_IOB_44x12", 78.0, 160.0, side="B", value="J3 IOB-HS MCIO RA")
-place("BT1", L, "MP62_AREA_BT1_CR2032_22x16", 70.0, 128.0, side="B", value="BT1 CR2032")
+place("J3", L, "MP62_AREA_J3_MCIO_RA_IOB_44x12", 78.0, 160.0, side="B", value="J3 IOB-HS MCIO 124 RA (host end, docs/mp62-cb-j3_mcio124_host-end.csv)")
+place("BT1", L, "MP62_AREA_BT1_CR2032_22x16", 70.0, 128.0, side="B", value="BT1 CR2032 DNP (VBAT_RTC from the IOB via J3 B26)")
 place("CB1", L, "MP62_AREA_Bulk12V_Back_16x30", 28.0, 55.0, side="B", value="12V bulk L")
 place("CB2", L, "MP62_AREA_Bulk12V_Back_16x30", 128.5, 55.0, side="B", value="12V bulk R")
-place("U13", L, "MP62_AREA_i226V_10x10", 106.0, 148.0, side="B", value="U13 i226-V")
+# U13 i226-V removed 2026-10-02 (ICD): both i226-V are on the IOB (PCH RP3 / RP4 PCIe x1 over J3)
 place("U14", L, "MP62_AREA_HDA_ALC897_DNP_10x10", 46.0, 120.0, side="B", value="U14 ALC897 DNP")
 BPZ = (37.25, 40.0, 118.75, 107.0)
 rule_area("MP62_BACKPLATE_B", [(BPZ[0], BPZ[1]), (BPZ[2], BPZ[1]), (BPZ[2], BPZ[3]), (BPZ[0], BPZ[3])], [pcbnew.B_Cu], fp=True)
@@ -290,7 +290,7 @@ rect(96.0, 120.5, 124.0, 145.5, E2, 0.12); txt("BACK: PCH decoupling field (keep
 txt("DDR0/DDR1 exit the +Y package edge -> left (CH-A J6 near, J7 far) / right (CH-B J9 near, J10 far), daisy chain on L3/L8", CX, 96.0, C, 0.65)
 txt("PEG x16 Gen5 + CPU x4 Gen4 -> down to J1 (Face P / Face S)", CX, 30.0, C, 0.7)
 txt("DMI x8 -> PCH (right, up)", 107.0, 112.0, C, 0.65)
-txt("DDI A-E lands (bottom-left of the package): DDI-1 (native DP) + DDI-2 (USB-C DP-alt) -> J3 IOB (sec. 7 of the plan)", CX, 50.5, C, 0.6)
+txt("DDI lands (bottom-left of the package): DDI-B 4-lane + DDI-C 2-lane DP -> J3 -> IOB C5 / C6 (plan sec. 7, ICD)", CX, 50.5, C, 0.6)
 txt("PCH x4 Gen4 -> J8 M.2 (back)", 78.0, 38.0, C, 0.65)
 
 NOTES = [

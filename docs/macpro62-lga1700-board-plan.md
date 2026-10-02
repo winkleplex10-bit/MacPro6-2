@@ -1,6 +1,6 @@
 # MacPro6,2 — own LGA1700 CPU board ("CB"): feasibility study and plan
 
-Version fl2.1, 2026-10-01 (~21:15 ET, right-notch note ~21:21 ET; fl2.1 = single 12 V entry at the left lug pair, from Aidan's stock-board photos ~21:03 ET, right notch = GPU bus-bar pass-through ~21:19 ET, §6; fl2 = 4 × DDR5 UDIMM vertical in the stock DIMM strips, §4, after Aidan's question and correction ~18:10 ET; fl1 = 2 × SO-DIMM, kept as the fallback variant). Status: **[Proposal]**. Tags are the same as in the spec: [Sourced] with a link, [Estimate], [Inference], [Unverified], TBD.
+Version fl2.1, 2026-10-01 (~21:15 ET, right-notch note ~21:21 ET; fl2.1 = single 12 V entry at the left lug pair, from Aidan's stock-board photos ~21:03 ET, right notch = GPU bus-bar pass-through ~21:19 ET, §6; fl2 = 4 × DDR5 UDIMM vertical in the stock DIMM strips, §4, after Aidan's question and correction ~18:10 ET; fl1 = 2 × SO-DIMM, kept as the fallback variant). **fl2.2 (2026-10-02, interface audit):** CB side of `/workspace/macpro62-interface-control.md` — U13 i226-V removed (both i226 on the IOB), BT1 DNP, J3 = IOB-HS1 v0.2 host end (`kicad/macpro62-lga1700/docs/mp62-cb-j3_mcio124_host-end.csv`, rows A/B swapped against the IOB table), CPU-LINK CB mapping column in `docs/cpulink_224_pinout_draft.csv`, stale lane/USB/display text updated (§0, §1.2, §2.4, §7.2, §8). Status: **[Proposal]**. Tags are the same as in the spec: [Sourced] with a link, [Estimate], [Inference], [Unverified], TBD.
 
 **Decision (Aidan, 2026-10-01 ~17:30 ET):** skip the COM-HPC module. The first CPU board is our own LGA1700 socket board (the former stretch goal P6, spec §6.8). The COM-HPC carrier (`/workspace/kicad/macpro62-cpu-carrier/`) stays as an **archived fallback**. It is not deleted.
 
@@ -17,14 +17,14 @@ Deliverables:
 | Topic | Recommendation | Confidence |
 |---|---|---|
 | Chipset | **Z790** (FH82Z790, SRM8P). It matches the Dasharo MSI PRO Z790-P reference exactly: same PCH SKU, FSP, ME image and soft-strap layout. B760 is a pin-compatible cost-down (same 700-series ballout). W680 only if ECC is a must. | medium |
-| Lane budget | CPU PEG x16 → Face P; CPU x4 Gen4 → Face S; PCH Gen4 x4 → M.2 boot; PCH x1 → i226-V; PCH x4 reserved → AQC107; PCH USB3 ×4 + USB2 ×4 → IOB; SATA0 + 4 × USB2 → CPU-LINK. Fits Z790 and B760. | high |
+| Lane budget | CPU PEG x16 → Face P; CPU x4 Gen4 → Face S; PCH Gen4 x4 → M.2 boot; PCH RP3 + RP4 (x1 each) → 2 × i226-V **on the IOB** via J3; PCH x4 reserved → AQC107; PCH USB3 ×10 (10 G) + USB2 ×1 + DDI-B x4 + DDI-C x2 + VBAT_RTC → IOB (J3); SATA0 + 4 × USB2 → CPU-LINK. **Needs Z790** (10 × 10 G; B760 has 4 × 10 G + 2 × 5 G). | high |
 | Firmware | **coreboot + Dasharo** (upstream `msi/ms7d25` port as the template). Public RPL-S FSP. ME = CSME 16.1 Consumer region built with MFIT, HAP bit set. EDK2 (Dasharo UefiPayloadPkg) payload. OpenCore is first loaded from the BP SATA SSD (rev A); embedding it in the payload FV is the stretch goal. | medium (ME/FIT legal grey area) |
-| EC | **RP2350 on the CB** as a GPIO "EC": power sequencing, PWRBTN#, RSMRST#, PWROKs, fan/thermal, SMBus. No SuperIO, no eSPI device. Console on the PCH UART. | medium |
+| EC | **RP2350 on the CB** as a GPIO "EC": power sequencing, PWRBTN#, RSMRST#, PWROKs, thermal + fan demand (FAN_PWMOUT; the fan itself is on the IOB EMC2101, driven by the BP MCU), SMBus. No SuperIO, no eSPI device. Console on the PCH UART. | medium |
 | VRM | **RT3628AE** (LCSC C3249940) with **6 + 1 phases**: 7 × Vishay SiC654 50 A plus 2 for VCCIN_AUX, and Eaton FP4 0.15 µH 5.0 mm inductors. All on the front, ≤ 6.0 mm, and thermally padded to the core plate. | medium (controller config tools are NDA) |
 | Memory | **fl2: 4 × DDR5 UDIMM, vertical, like the stock Mac Pro** (UMAX 90414 short-latch SMT sockets at the stock card centrelines x 6.5 / 15.8 and 140.55 / 149.85, back side), **2DPC daisy chain**, DDR5-4000 (4 × 1R) / 3600 (4 × 2R) / 4400 (2 DIMMs), up to 4 × 48 GB. Same topology as the Dasharo reference MSI PRO Z690-A (2DPC). **Gate: M-CC15** (DIMM top ≤ 33.25 mm off the back vs stock DDR3 ≈ 30 + seat). Fallbacks: VLP 18.75 mm UDIMMs in the same sockets, or fl1 2 × SO-DIMM. | medium |
 | PCB | **JLC 10-layer, 1.6 mm, ENIG + hard-gold bevelled fingers, POFV via-in-pad, impedance control** | high (capability); PCH 0.5 mm fan-out is the tight spot |
 | Socket | **Foxconn PE17007-11NK0-1H**, LCSC C38520273, $5.79 @ 1, 32 in stock (2026-10-01) | high |
-| iGPU | **Enabled** (UHD 770): DDI-1 native DP + DDI-2 into the IOB USB-C DP-alt mux. Bring-up and fallback for Windows/Linux only. **macOS cannot use it at all** (§7). | high |
+| iGPU | **Enabled** (UHD 770): DDI-B (4-lane) → IOB USB-C C5 and DDI-C (2-lane) → C6, DP alt-mode through the IOB TUSB1046A (no 2:1 mux). Bring-up and fallback for Windows/Linux only. **macOS cannot use it at all** (§7). | high |
 | Rev-A cost | **≈ $1.5k–2.6k** for 5 PCBs and 2 assembled; **≈ $2.6k–4.4k** for 5 assembled. CPU, RAM and SSD extra; plan on a rev B. [Estimate] | low-medium |
 | Go/no-go | **GO for a de-risking phase P6-0** (≈ 3–6 weeks, ≈ $400–900). **CONDITIONAL GO** for the rev-A order at gate G-A. | — |
 
@@ -56,12 +56,12 @@ Deliverables:
 | i226-V 2.5GbE ×2 (on the IOB since CR-CB-IO1; 2nd port added 2026-10-02, spec item 24) | PCH Gen3 x1 ×2: RP3 / HSIO 12 (CLKOUT_SRC12) and RP4 / HSIO 13 (CLKOUT_SRC11) via J3 k10 / k14 | 2 | ✓ | ✓ |
 | AQC107 10GbE (later) | PCH Gen3/4 x4 | 4 | ✓ (9 of 14) | ✓ (9 of 28) |
 | SATA0 to the BP (OpenCore SSD) | PCH SATA | 1 | ✓ | ✓ |
-| USB to the IOB | PCH USB3 ×4 + USB2 ×4 | — | ✓ | ✓ |
-| USB2 on CPU-LINK (BP MCU, Face P, Face S, spare) | PCH USB2 ×4 | — | ✓ (8 + EC = 9 of 12) | ✓ |
+| USB to the IOB | PCH USB3 10 G ×10 (HSIO 0–9) + USB2 ×1 (hubs on the IOB) | — | ✗ (4 × 10 G + 2 × 5 G) | ✓ |
+| USB2 on CPU-LINK (BP MCU, Face P, Face S, spare → IOB hub H2 / Bluetooth) | PCH USB2 ×4 | — | ✓ | ✓ (5 + EC of 14) |
 | Audio | **USB audio on the IOB** (rev-A default, CM6646). An HDA codec (Realtek ALC897-VA2-CG, LCSC C5884442) is a DNP option. | HDA link | ✓ | ✓ |
 | Display | CPU DDI (§7) | — | ✓ | ✓ |
 
-- **Both B760 and Z790 meet the requirement.** B760 has two penalties:
+- **Since the IOB moved to 10 × USB 3.2 Gen2 (2026-10-02), only Z790 meets the requirement** (B760: 4 × 10 G + 2 × 5 G, so four IOB ports would drop to 5 G or be lost). B760 also has two further penalties:
   - DMI x4 (≈ 7.9 GB/s) is shared by NVMe, 10GbE and USB. That is acceptable for this machine.
   - No CPU x8/x8 split. We don't need one, because the BP would split lanes if a future face needs x8/x8 (spec §2.4).
 - **Recommendation: Z790.**
@@ -160,7 +160,7 @@ Deliverables:
     - DSW_PWROK, RSMRST#, PWRBTN#, SLP_S3# / SLP_S4# / SLP_S5# / SLP_SUS# (inputs);
     - PCH_PWROK, SYS_PWROK, VR enables, and the VR / eFuse PGOODs.
   - Timing per the public PCH datasheet power-sequencing section. The exact delays and margins are in the PDG, so add margin and measure on the MSI board ([Estimate]/TBD).
-  - It also runs fans/thermal via SMBus or I²C, presents the CB ID EEPROM (0x57, mandatory per spec §6.7), and talks to the BP MCU (CPU-LINK sideband).
+  - It also handles thermal (PECI/TS) and outputs the **fan demand on CPU-LINK FAN_PWMOUT** (the fan is driven by the IOB EMC2101; the BP MCU reads the demand and writes the EMC2101). The **CB ID EEPROM (0x57, mandatory per spec §6.7) sits on CPU-LINK I2C0** (3V3_SB), readable by the BP MCU in S5. The PCH SMBus (DIMM SPD 0x50–0x53, PMIC 0x48–0x4B, TS 0x10–0x13 / 0x30–0x33) reaches CPU-LINK SMB_* only through **DNP 0R links** (no multi-master on the DIMM bus) [Proposal, ICD 2026-10-02]. Mapping of every CPU-LINK pin: `docs/cpulink_224_pinout_draft.csv`, column `cb_net`.
 - **eSPI:** the RP2350 has **no eSPI target hardware**; a PIO eSPI is possible but unproven. We **don't use an eSPI device**: no eSPI EC, and the TPM is on SPI0 CS2#. Configure eSPI as unused in the soft straps / FSP [Inference; on the MSI reference board the SuperIO cannot be removed, so this is first tested on our rev-A board, with a footprint for an eSPI header kept as a fallback].
 - **Console:** PCH LPSS UART (coreboot supports it on ADL/RPL) on the debug header. The POST code goes to the EC via a GPIO port or SMBus (optional).
 
@@ -222,7 +222,7 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 - **VCC1P05/1P8_PROC, VDD2, PCH 0.82 V (15 A), 1.8 V, 3.3 V, DSW, 5 V VIN_BULK** (the DDR5 module PMICs need 5 V; 4 UDIMMs ≈ 6 A budget [Estimate]): JLC-stocked bucks. Part selection is a schematic task (TPS546/TPS56xxx/MPS class).
 - **Standby:** 5V_SBY (6 pins) and 3V3_SB (2 pins) come from the BP over CPU-LINK (spec §3.8). They power the PCH primary/DSW wells, the RP2350 and the RTC in S5 (≈ 1–3 W [Estimate]); check against the BP 5V_SBY budget.
 - **12 V input (fl2.1, single entry):** the stock board takes 12 V **only at the left lug pair** (LUG1/LUG2, top-left next to the VRM; Aidan's photos, §6.1). LUG1/LUG2 → **one** TPS259851 eFuse U11 (36, 146) (ILIM ≈ 25 A, TVS, IMON → EC ADC) → 12 V plane → VCCCORE/GT VR input caps (CIN1) and every other rail. U12 and the right-hand pair are gone.
-  - Load [Estimate]: 92 W PL2 + 6 W PCH + ≈ 20 W for 4 DDR5 DIMMs (PMIC from 5 V) + i226/EC/misc ≈ 125 W → ≈ 142 W in at ≈ 88 % → **≈ 12 A sustained at 12 V; design for 20 A peak** (PL2/turbo transients, DIMM inrush). The stock board fed a 130 W Xeon E5 plus 4 DIMMs through the same pair, so one pair is enough.
+  - Load [Estimate]: 92 W PL2 + 6 W PCH + ≈ 20 W for 4 DDR5 DIMMs (PMIC from 5 V) + EC/misc (i226 now on the IOB) ≈ 125 W → ≈ 142 W in at ≈ 88 % → **≈ 12 A sustained at 12 V; design for 20 A peak** (PL2/turbo transients, DIMM inrush). The stock board fed a 130 W Xeon E5 plus 4 DIMMs through the same pair, so one pair is enough.
   - Lug pins: each lug lands on 2 × 2 PTH (back photo), so ≈ 3 A per pin at 12 A, ≈ 5 A per pin at 20 A. Use ≥ 1.6 mm drilled, ≥ 2.6 mm annular pads, all 10 layers tied to the 12 V / GND planes [Estimate].
   - **Copper [Estimate, IPC-2221 internal]:** 13 A at 10 °C rise needs ≈ 1,460 mil² ≈ 27 mm of 1 oz on one layer. **12 V on L5 + L6 (1 oz), ≥ 20 mm wide** from U11 down the left edge to CIN1 / the VRM column (≈ 60 mm, ≈ 0.75 mΩ, ≈ 10 mV and 0.13 W at 13 A), plus **≥ 8 mm across the top band** to the right-side rails (VCCIN_AUX, 5 V / 3.3 V bucks, ≈ 4–5 A). If JLC's 10L inner layers are 0.5 oz, double the widths or add a third 12 V layer. GND return: L2/L4/L7/L9 solid, stitched at the GND lug.
   - Short path: the entry, U11 and the VCCCORE input caps are all at the top-left, so the high-current path is short and stays on the left; only ≈ 4–5 A travels to the right.
@@ -364,22 +364,22 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 
 | Port | Use | Path | Rate |
 |---|---|---|---|
-| **DDI-B → IOB native DP** (DP++ receptacle on the IOB) | Bring-up without any face module; service/fallback monitor | CB → J3 MCIO → IOB | **HBR2** (5.4 Gb/s; 4K60 8 bpc with 4 lanes); no retimer |
-| **DDI-C → IOB USB-C DP-alt** | Second source into the IOB USB-C DP-alt path, **next to the Face P GPU's DP** | CB → J3 → IOB 2:1 DP mux (e.g. TI HD3SS215 class [Unverified]) → USB-C alt-mode mux/redriver (TUSB1046-class [Unverified]) | HBR2 |
+| **DDI-B (4-lane) → IOB USB-C C5** | Bring-up without any face module; service/fallback monitor | CB → J3 k11/k12 (AUX on k15 PET) → IOB TUSB1046A (C5) | **HBR2** (5.4 Gb/s; 4K60 8 bpc with 4 lanes); no retimer |
+| **DDI-C (2-lane) → IOB USB-C C6** | Second iGPU output; C6 can run DP + USB3 10 G at once | CB → J3 k13 (AUX on k15 PER) → IOB TUSB1046A (C6) | HBR2 x2 (≈ 2560 × 1440 @ 60) |
 | DDI-A/D/E | not connected (AUX/main pins left per datasheet rules) | — | — |
 
 - The DDI main links run ≈ 110–130 mm from the bottom-left of the socket to J3 at the back top, plus the cable. That suits HBR2 [Estimate]. HBR3 would need retimers; not in rev A.
-- **IOB link (J3, MCIO 124 RA) pair count** (the MCIO 124 carries 32 differential pairs plus sideband [spec §3; verify the pin map]):
+- **IOB link (J3, MCIO 124 RA) = IOB-HS1 v0.2** (ICD 2026-10-02; IOB plan §5.1). Host-end contact map: `kicad/macpro62-lga1700/docs/mp62-cb-j3_mcio124_host-end.csv` (= the IOB table with rows A/B swapped, crossing cable). All 16 lane slots and all sideband contacts are used:
 
-| Group | Pairs |
+| Group | Lane slots (PET/PER pairs) |
 |---|---|
-| USB 3.2 × 4 (TX + RX) | 8 |
-| USB2 × 4 | 4 |
-| i226-V MDI (2.5GBASE-T, 4 pairs) | 4 |
-| **DDI-B (4 main + AUX)** | **5** |
-| **DDI-C (4 main + AUX)** | **5** |
-| **Total** | **26 of 32 (6 spare)** |
-| Single-ended (sideband pins) | 2 × HPD, DP-mux SEL (or I²C to the IOB mux), DDC only if an HDMI is fitted, IOB 3V3/5V sense, PWRBTN/LED via the BP link (unchanged) |
+| USB 3.2 Gen2 × 10 (C1–C6, A1–A4), PCH HSIO 0–9 | k0–k9 |
+| i226 #1 PCIe x1 (PCH RP3 / HSIO 12, CLKOUT_SRC12 on B11/B12 IOB-end) | k10 |
+| DDI-B ML0–3 | k11, k12 |
+| DDI-C ML0–1 | k13 |
+| i226 #2 + AirPort PCIe x1 via the IOB ASM1182e (PCH RP4 / HSIO 13, CLKOUT_SRC11 on B26/B27 IOB-end, SRCCLKREQ11# A29) | k14 |
+| DDI-B AUX (PET) / DDI-C AUX (PER) | k15 |
+| Sideband (IOB-end contacts) | HPD_B/HPD_C A8/A9, I226 CLKREQ#/WAKE#/PERST# B8/B9/A11, PRSNT A12/A30 (IOB ties to GND), VBAT_RTC A26 (IOB → CB), USB_OC# A27 (CB pull-up, PCH OC0#), USB2 B29/B30 |
 
 ### 7.3 Primary display selection in firmware
 
@@ -429,8 +429,8 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | **J6, J7 / J9, J10** | **DDR5 UDIMM vertical sockets** (UMAX 90414 short latch): CH-A near/far, CH-B near/far | **B** | centrelines x 15.8 / 6.5 / 140.55 / 149.85, y 24.3–166.9 (courtyard 142.5 × 7.0); latch-open keep-out 152 on Dwgs |
 | CB1, CB2 | 12 V bulk polymer (moved out of the strips in fl2) | B | x 19.7–36.3 / 120.2–136.8, y 39.7–70.3 |
 | J8 | M.2 2280 boot (PCH x4) | B | y 13–36 |
-| J3 | IOB-HS MCIO 124 RA (USB3/USB2/MDI/**2 × DDI**) | B | (78, 160), exits toward the top edge |
-| U13, U14, BT1, CB1/CB2 | i226-V, ALC897 (DNP), CR2032, 12 V bulk | B | top |
+| J3 | IOB-HS MCIO 124 RA = IOB-HS1 v0.2 host end (10 × USB3, USB2, 2 × i226 PCIe x1, DDI-B x4 + DDI-C x2, VBAT_RTC) | B | (78, 160), exits toward the top edge |
+| U14, BT1, CB1/CB2 | ALC897 (DNP), CR2032 **DNP** (VBAT_RTC from the IOB), 12 V bulk; **U13 i226-V removed 2026-10-02** (both i226 on the IOB) | B | top |
 | — | backplate keep-out | B | x 37.25–118.75, y 40–107 |
 
 **Land-group check** (from the public ballout, drawn on Dwgs.User):
@@ -451,7 +451,7 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | PCBA setup, stencil, double-sided, BGA X-ray, consignment handling, extended-part fees (~40 unique × $3) | $250–450 | $350–600 | JLC price page [N113]; per-joint cost is small (~5k joints/board) |
 | **PCH** Z790 loose (+3 spares) | 5 × $50–55 = $250–275 | 8 × $50–55 = $400–440 | €45–48 listings [N90]; authenticity risk |
 | Socket ($5.79), RT3628AE ($2.18), 9 × SiC654 ($1.02), 4 × DDR5 DIMM socket (≈ $4.44, long-latch LCSC price as a proxy for the short latch), RP2350 ($1.30) | 2 × ≈ $27 | 5 × ≈ $27 | LCSC 2026-10-01 [N102][N108][N114][N115] |
-| 9 × FP4 inductors, eFuses, bucks, SPI flash, i226-V, crystals, M.2 socket, ~1,500–2,500 passives | 2 × $100–180 | 5 × $100–180 | [Estimate]; no prices sourced for FP4/i226-V |
+| 9 × FP4 inductors, eFuses, bucks, SPI flash, crystals, M.2 socket, ~1,500–2,500 passives | 2 × $100–180 | 5 × $100–180 | [Estimate]; no prices sourced for FP4 |
 | Contact frame (CNC 7075) + steel backplate + springs/screws (2–5 sets) | $100–250 | $200–400 | JLC CNC/sheet-metal [Estimate] |
 | Shipping, customs/duties | $100–200 | $150–250 | [Estimate] |
 | **Subtotal (boards)** | **≈ $1.5k–2.6k** | **≈ $2.6k–4.4k** | |

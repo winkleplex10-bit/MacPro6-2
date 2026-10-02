@@ -40,8 +40,8 @@ ds.m_SilkClearance = FromMM(0.0)
 
 tb = board.GetTitleBlock()
 tb.SetTitle("MacPro6,2 Backplane (BP) - rev A floorplan " + ("v0.2 HUB" if VARIANT == "hub" else "v0.1 DIRECT (saved variant)"))
-tb.SetRevision("A-fp2-hub" if VARIANT == "hub" else "A-fp1-direct")
-tb.SetDate("2026-10-01")
+tb.SetRevision("A-fp4-hub" if VARIANT == "hub" else "A-fp1-direct")
+tb.SetDate("2026-10-02")
 tb.SetCompany("MacPro6,2 / Aidan Winkler")
 tb.SetComment(0, "Edge.Cuts: D122 disc + 2x D4 holes at +/-49 mm from Fusion base_board_outline.dxf")
 if VARIANT == "hub":
@@ -141,20 +141,45 @@ for i, h in enumerate(holes):
               value="MountingHole D4 plated (stock D4.000 at x=%+.0f)" % h["cx"], center=False)
     circle(h["cx"], h["cy"], HOLE_KO, pcbnew.Cmts_User, 0.1)
 
-# ---------------- assumed face chords (drawing only) ----------------
-D_FACE = 30.0  # ASSUMED distance of each core face's bottom edge chord from the disc centre (TBD measurement)
-for name, ang in (("CPU face", -90.0), ("Face P (primary)", 30.0), ("Face S (secondary)", 150.0)):
+# ---------------- CR-BP-1: six small stock holes S1-S6 (purpose unknown) -> D6 keep-outs ----------------
+# Base-board scan, BP frame = midpoint of the gold holes (bracket/base_board/README.md). Not drilled on the BP.
+S_HOLES = [("S1", -52.64, 13.81), ("S2", -26.57, -46.65), ("S3", 26.49, -46.64), ("S4", -18.12, 50.70), ("S5", 18.49, 50.72), ("S6", 52.80, 13.88)]
+S_KO_R = 3.0
+for nm, sx, sy in S_HOLES:
+    zz = pcbnew.ZONE(board); zz.SetIsRuleArea(True)
+    zz.SetDoNotAllowFootprints(True); zz.SetDoNotAllowVias(True); zz.SetDoNotAllowTracks(True)
+    zz.SetDoNotAllowPads(True); zz.SetDoNotAllowCopperPour(True); zz.SetZoneName("CR-BP-1_KO_" + nm)
+    lz = pcbnew.LSET(); [lz.AddLayer(l) for l in [pcbnew.F_Cu, pcbnew.B_Cu, pcbnew.In1_Cu, pcbnew.In2_Cu, pcbnew.In3_Cu, pcbnew.In4_Cu]]
+    zz.SetLayerSet(lz)
+    oz = zz.Outline(); oz.NewOutline()
+    for i in range(32):
+        a = 2 * math.pi * i / 32
+        pp = P(sx + S_KO_R * math.cos(a), sy + S_KO_R * math.sin(a)); oz.Append(pp.x, pp.y)
+    board.Add(zz)
+    circle(sx, sy, S_KO_R, pcbnew.Cmts_User, 0.1)
+    txt(nm + " stock hole: D6 keep-out (CR-BP-1)", sx, sy - 4.0, pcbnew.Cmts_User, 0.6)
+# ---------------- face / CPU board planes (drawing only) ----------------
+if VARIANT == "hub":
+    # fp3: M2 measured (Aidan 2026-10-01): GPU boards ~55 mm from the disc centre; bottom edges ~15 mm above the BP (M1).
+    # CPU board plane ESTIMATED at 12.6 mm from the service-guide photo of the stock logic-board riser slot (TBD).
+    CHORDS = (("CPU board plane (ESTIMATED from stock slot photo, d~12.6, TBD)", -90.0, 12.6),
+              ("Face P board plane MEASURED ~55 mm (M2), bottom edge ~15 mm above BP (M1)", 30.0, 55.0),
+              ("Face S board plane MEASURED ~55 mm (M2), bottom edge ~15 mm above BP (M1)", 150.0, 55.0))
+else:
+    CHORDS = tuple((n, a, 30.0) for n, a in (("CPU face", -90.0), ("Face P (primary)", 30.0), ("Face S (secondary)", 150.0)))
+for name, ang, D_FACE in CHORDS:
     a = math.radians(ang)
     nx, ny = math.cos(a), math.sin(a)
     tx, ty = -ny, nx
     half = math.sqrt(R * R - D_FACE * D_FACE)
     cxp, cyp = D_FACE * nx, D_FACE * ny
-    seg(cxp - half * tx, cyp - half * ty, cxp + half * tx, cyp + half * ty, pcbnew.Dwgs_User, 0.2)
+    seg(cxp - half * tx, cyp - half * ty, cxp + half * tx, cyp + half * ty, pcbnew.Dwgs_User, 0.3 if VARIANT == "hub" else 0.2)
     rot = math.degrees(math.atan2(ty, tx))
     if rot > 90: rot -= 180
     if rot < -90: rot += 180
-    lx, ly = cxp - 3.0 * nx, cyp - 3.0 * ny
-    txt("%s bottom-edge chord ASSUMED d=%.0f mm (TBD)" % (name, D_FACE), lx, ly, pcbnew.Dwgs_User, 1.0, rot)
+    off = 1.8 if VARIANT == "hub" else 3.0
+    lx, ly = cxp - off * nx, cyp - off * ny
+    txt(name if VARIANT == "hub" else "%s bottom-edge chord ASSUMED d=%.0f mm (TBD)" % (name, D_FACE), lx, ly, pcbnew.Dwgs_User, 0.8 if VARIANT == "hub" else 1.0, rot)
 
 if VARIANT == "direct":
     # ---------------- connectors and blocks (saved DIRECT variant) ----------------
@@ -227,14 +252,29 @@ for ref, f, val in placed:
                (pcbnew.ToMM(bb.GetRight()) - CX, CY - pcbnew.ToMM(bb.GetBottom()))]
     rmax = max(math.hypot(x, y) for x, y in pts)
     # min distance from the bbox of the courtyard to each hole centre
-    xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
     dmin = 1e9
+    def _segd(px, py, ax, ay, bx, by):
+        vx, vy = bx - ax, by - ay; L2 = vx * vx + vy * vy
+        t = 0 if L2 == 0 else max(0, min(1, ((px - ax) * vx + (py - ay) * vy) / L2))
+        return math.hypot(px - ax - t * vx, py - ay - t * vy)
+    def _inside(px, py, P):
+        c = False
+        for i in range(len(P)):
+            (x1, y1), (x2, y2) = P[i], P[(i + 1) % len(P)]
+            if (y1 > py) != (y2 > py) and px < x1 + (py - y1) * (x2 - x1) / (y2 - y1): c = not c
+        return c
+    if len(pts) == 2:   # bbox fallback -> rectangle
+        (xa, ya), (xb, yb) = pts; pts = [(xa, ya), (xb, ya), (xb, yb), (xa, yb)]
     for h in holes:
-        dx = max(min(xs) - h["cx"], 0, h["cx"] - max(xs)); dy = max(min(ys) - h["cy"], 0, h["cy"] - max(ys))
-        dmin = min(dmin, math.hypot(dx, dy))
-    good = rmax <= R_COMP and dmin >= HOLE_KO
+        d = 0.0 if _inside(h["cx"], h["cy"], pts) else min(_segd(h["cx"], h["cy"], *pts[i], *pts[(i + 1) % len(pts)]) for i in range(len(pts)))
+        dmin = min(dmin, d)
+    smin = 1e9
+    for nm, sx, sy in S_HOLES:
+        d = 0.0 if _inside(sx, sy, pts) else min(_segd(sx, sy, *pts[i], *pts[(i + 1) % len(pts)]) for i in range(len(pts)))
+        smin = min(smin, d)
+    good = rmax <= R_COMP and dmin >= HOLE_KO and smin >= S_KO_R
     ok &= good
-    report.append("%-4s rmax=%5.1f (limit %.0f)  hole-dist=%5.1f (min %.0f)  %s  %s" % (ref, rmax, R_COMP, dmin, HOLE_KO, "OK" if good else "FAIL", val))
+    report.append("%-4s rmax=%5.1f (limit %.0f)  hole-dist=%5.1f (min %.0f)  S-dist=%5.1f (min %.0f)  %s  %s" % (ref, rmax, R_COMP, dmin, HOLE_KO, smin, S_KO_R, "OK" if good else "FAIL", val))
 open(os.path.join(PRJ, "fitcheck_floorplan.txt") if VARIANT == "hub" else os.path.join(PRJ, "variants", "fitcheck_direct.txt"), "w").write("\n".join(report) + "\n")
 print("\n".join(report))
 pcbnew.SaveBoard(OUT, board)

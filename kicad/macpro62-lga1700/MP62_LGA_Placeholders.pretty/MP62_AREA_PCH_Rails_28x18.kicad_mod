@@ -12,6 +12,6 @@
   (fp_rect (start -14.000 -9.000) (end 14.000 9.000) (stroke (width 0.12) (type solid)) (fill no) (layer "F.SilkS"))
   (fp_text user "PCH VCCPRIM_CORE 0.82 V ~12 A buck" (at 0.000 -7.600 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.09))))
   (fp_text user "+ 1.8 V (~2.3 A), 1.05, 3.3 primary" (at 0.000 -6.450 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.09))))
-  (fp_text user "DSW 3.3, RTC (CR2032 via diode)" (at 0.000 -5.300 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.09))))
+  (fp_text user "DSW 3.3, RTC (VBAT_RTC from J3 / 3V3_DSW OR)" (at 0.000 -5.300 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.09))))
   (fp_text user "743835 Electr_Therm Icc sheet" (at 0.000 -4.150 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.09))))
 )

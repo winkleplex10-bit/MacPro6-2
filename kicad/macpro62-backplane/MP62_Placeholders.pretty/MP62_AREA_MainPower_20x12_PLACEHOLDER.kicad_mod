@@ -13,6 +13,6 @@
   (fp_text user "PLACEHOLDER area: MAIN-RAIL POWER" (at 0.000 -4.000 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
   (fp_text user "12V -> 3V3_BP buck" (at 0.000 -2.400 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
   (fp_text user "FACE_P / FACE_S 3V3_AUX load switches" (at 0.000 -0.800 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
-  (fp_text user "12V fan eFuse, INA power monitor" (at 0.000 0.800 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (fp_text user "INA power monitor (fan moved to IOB CONN_C)" (at 0.000 0.800 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
   (fp_text user "12V/11V input TVS + fuse" (at 0.000 2.400 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
 )

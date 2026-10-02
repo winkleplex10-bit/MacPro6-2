@@ -95,7 +95,7 @@ area("MP62_AREA_StandbyPower_22x12_PLACEHOLDER", 22, 12,
      ["PLACEHOLDER area: STANDBY POWER", "11V_SB -> 3V3_SB buck (MCU, EEPROM)", "11V_SB -> 5V_SBY buck (COM-HPC)", "PSU_EN gate logic (interlock AND req AND !latch)", "THERM latch, HW watchdog"],
      "PLACEHOLDER area reservation for standby power and the hardware safety gate.")
 area("MP62_AREA_MainPower_20x12_PLACEHOLDER", 20, 12,
-     ["PLACEHOLDER area: MAIN-RAIL POWER", "12V -> 3V3_BP buck", "FACE_P / FACE_S 3V3_AUX load switches", "12V fan eFuse, INA power monitor", "12V/11V input TVS + fuse"],
+     ["PLACEHOLDER area: MAIN-RAIL POWER", "12V -> 3V3_BP buck", "FACE_P / FACE_S 3V3_AUX load switches", "INA power monitor (fan moved to IOB CONN_C)", "12V/11V input TVS + fuse"],
      "PLACEHOLDER area reservation for main-rail (S0) power on the backplane.")
 
 # 4. MCIO 124-pos (16i) vertical SMT receptacle, from TE 2360189 rev A1 customer drawing
@@ -134,20 +134,22 @@ b += rect(-42.78, -2.2, 42.78, 2.2, "F.Fab")
 b += rect(-43.2, -3.75, 43.2, 3.75, "F.CrtYd", 0.05)
 b += rect(-43.12, -3.15, 43.12, 3.15, "F.SilkS", 0.12)
 b += text("PLACEHOLDER: Mini Cool Edge 224P vertical SMT (ME1022410103011), MP62 CPU-LINK hub pinout", 0, 0, "F.Fab", 0.6)
-bay_c = [-30.45, -10.15, 10.15, 30.45]   # bay centres, pitch 20.30 (card drawing)
-n = 0
-for bi, bc in enumerate(bay_c[::-1]):     # A1 at the +x end (drawing: A1 mark at right)
-    for k in range(28):
-        xx = bc + 8.1 - k * 0.6
-        n += 1
-        b += smd(f"A{n}", xx, -1.425, 0.35, 1.20)
-        b += smd(f"B{n}", xx, 1.425, 0.35, 1.20)
+# fp3a (2026-10-01): real contact layout from the Amphenol card drawing. Top view with the A row toward
+# local -y (screen up): contact A1 is at local -x (the fp3 placeholder had A1 at +x, which no real part has).
+# Contact x = -(finger offset from datum C): A1 -38.96 .. A28 -22.76 | key F at +... | B row +0.27 toward A112.
+def _offA(n):
+    bay = (n - 1) // 28; k = (n - 1) % 28
+    return [38.96, 17.85, -2.36, -22.575][bay] - 0.6 * k
+for n in range(1, 113):
+    xx = -_offA(n)
+    b += smd(f"A{n}", xx, -1.425, 0.35, 1.20)
+    b += smd(f"B{n}", xx + 0.27, 1.425, 0.35, 1.20)
 b += npth(-41.47, 0.0, 1.10)
 b += npth(41.47, 0.0, 1.10)
 for (xx, yy) in [(-42.2, -1.9), (-42.2, 1.9), (42.2, -1.9), (42.2, 1.9)]:
     b += pth("BL", xx, yy, 1.10, 1.6)
 fp("MP62_CPULINK_MiniCoolEdge_224P_Vertical_SMT_PLACEHOLDER",
-   "PLACEHOLDER. Amphenol Mini Cool Edge 0.60 mm 224-pos vertical SMT (ME1022410103011, board lock). Outer dims per Amphenol drawing CME102241010301X rev A: 85.56 overall, 83.76 body, keep-out 85.86 x 6.30. Pad rows/bay offsets approximate. Side A (row toward +y on disc) = CPU-TX lanes on L1, side B = CPU-RX lanes via to L6.",
+   "PLACEHOLDER. Amphenol Mini Cool Edge 0.60 mm 224-pos vertical SMT (ME1022410103011, board lock). Outer dims per Amphenol drawing CME102241010301X rev A: 85.56 overall, 83.76 body, keep-out 85.86 x 6.30. Pad rows/bay offsets approximate. fp3a: A1 at local -x with the A row at local -y (real layout); placed at 180 deg on the BP so A1 is at disc +x and the A row (host TX) faces the PSU side; host RX (B, core side) on L1, host TX via to L6.",
    b, ref_y=-5.5, val_y=5.5)
 
 # 6. Optional PCIe 5.0 linear redriver area: TI DS320PR810 (8 ch, WQFN-64 10 x 5.5 mm) + decoupling/straps.
@@ -155,3 +157,32 @@ area("MP62_AREA_Redriver_DS320PR810_12x8_PLACEHOLDER", 12, 8,
      ["OPTION (Gen5 build): DS320PR810", "8-ch linear redriver, WQFN-64 10x5.5", "flow-through, 3V3 1.3 W"],
      "PLACEHOLDER area for an optional TI DS320PR810 PCIe 5.0 linear redriver (8 one-direction channels = one x4 link, 4 TX + 4 RX; x16 needs 4 devices) plus decoupling. Not populated in the Gen4 baseline build.")
 print("ok2")
+
+
+# 7. MCIO 124 RIGHT-ANGLE SMT receptacle (Molex 2173463021 / Amphenol G97R24332HR / TE 2323321-1 / JPC class).
+#    Mating face toward local -y (screen up). Body 45.0 x 12.0 [ESTIMATE: drawing not retrieved], plug + cable-exit
+#    zone 13.1 deep in front (Amphenol straight plug L = 13.10 mm, mated horizontally). Low profile: plug lies flat
+#    (Amphenol straight plug thickness 8.68 mm) => ~9-10 mm above the BP [ESTIMATE].
+b = ""
+b += rect(-22.5, -6.0, 22.5, 6.0, "F.Fab")
+b += rect(-22.375, -19.1, 22.375, -6.0, "F.Fab", 0.08)
+b += rect(-22.75, -19.4, 22.75, 6.5, "F.CrtYd", 0.05)
+b += rect(-22.65, -6.1, 22.65, 6.4, "F.SilkS", 0.12)
+b += text("PLACEHOLDER: MCIO 124P RIGHT-ANGLE SMT (Molex 2173463021 / Amphenol G97R24332HR class)", 0, 0, "F.Fab", 0.55)
+b += text("plug + cable exit zone (straight plug, horizontal, ~9-10 mm high)", 0, -12.5, "F.Fab", 0.55)
+xs = [-20.25 + i * 0.6 for i in range(37)] + [5.85 + i * 0.6 for i in range(25)]
+for i, xx in enumerate(xs):
+    b += smd(f"A{i+1}", xx, 3.4, 0.35, 1.20)
+    b += smd(f"B{i+1}", xx, 5.2, 0.35, 1.20)
+b += npth(-21.3, 0.0, 1.30)
+b += npth(21.3, 0.0, 1.30)
+fp("MP62_MCIO_124P_RightAngle_SMT_PLACEHOLDER",
+   "PLACEHOLDER right-angle MCIO 124 receptacle (Molex 2173463021, Amphenol G97R24332HR, TE 2323321-1, JPC MCIO 16X 124 RA). Body depth, pad rows and peg positions are ESTIMATES (vendor drawing not retrieved); courtyard includes the straight-plug zone (13.1 mm) in front of the mating face.",
+   b, ref_y=8.0, val_y=-21.0)
+print("ok3")
+
+# 8. SFF-TA-1016 RA MCIO 124 footprint shared with the face template (ICD 2026-10-02, face spec C-2): copied verbatim.
+import shutil as _sh
+_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "macpro62-face-template", "MP62_Face.pretty", "MP62_MCIO_124P_RA_SFF-TA-1016.kicad_mod")
+if os.path.exists(_src): _sh.copy(_src, os.path.join(LIB, "MP62_MCIO_124P_RA_SFF-TA-1016.kicad_mod"))
+print("ok4 (SFF-TA-1016 RA footprint copied from the face template)")

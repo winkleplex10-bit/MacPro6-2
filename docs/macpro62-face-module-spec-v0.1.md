@@ -69,7 +69,7 @@
 
 ![System diagram](macpro62-face/macpro62-face-v0.1-system.png)
 
-- **Host** = CPU board (CC, COM-HPC carrier) + round base board (**BP**, Ø122, 6 layers) + CPU module. The BP is the PCIe hub. It routes **x16 to J9 (Face P)** and **x4 to J10 (Face S)**, both MCIO 124 right-angle receptacles [Sourced: BP KiCad `backplane.kicad_pcb`, J9 (29.8, 22.5) rot −60°, J10 (−29.8, 22.5) rot +60°].
+- **Host** = CPU board (**CB**, own LGA1700 + Z790 board since 2026-10-01; the COM-HPC carrier CC is the archived fallback) + round base board (**BP**, Ø122, 6 layers). The BP is the PCIe hub. It routes **x16 to J9 (Face P)** and **x4 to J10 (Face S)**, both MCIO 124 right-angle receptacles with the SFF-TA-1016 footprint [Sourced: BP KiCad `backplane.kicad_pcb` fp4 (2026-10-02): J9 at s = +8.0 rot −60°, J10 at s = −5.0 rot +60°; see C-2 status in §13].
 - **IOB** = the new rear I/O board. Planned rear ports: 2 × DP 1.4 + 1 × HDMI 2.1 from the GPU, and 4 × USB-C, 2 of them with DP alt-mode through a mux [Proposal, user brief].
 - **Module frame (normative).** Origin at the bottom-left corner of the outline's bounding box, **seen from the core side**. +X runs along the bottom edge. +Y points up toward the fan. The bottom edge faces the BP.
   - **Core side = KiCad F (top) layer.** Outer side (toward the enclosure shell) = KiCad B (bottom) layer.
@@ -629,6 +629,7 @@ Sideband (AUX ±, HPD, presence):
 > - Links 0–4 are used: link 0 → C1 (4-lane), link 1 → C2 (4-lane), link 2 → HDMI via TDP158 (DP++ to TMDS, HDMI 2.0 class), link 3 → C3 (2-lane), link 4 → C4 (2-lane).
 > - The TUSB1046A mux plus TPS65994AD PD handle USB-C. HPD0/1 come from PD #1, HPD3/4 from PD #2, HPD2 from the TDP158.
 > - See `/workspace/macpro62-io-board-plan.md` §5.2.
+> - **IOB-end contact table (2026-10-02, ICD):** `kicad/macpro62-io-board/docs/mp62-iob-j2_mcio74_displaylink_iob-end.csv` = §9.3 with rows A/B exchanged; IOB J2 is wired to it.
 
 - HDMI 2.1 retimer on Link 2 (TI TDP2004-class [Unverified]); ESD on every port.
 - DP_PWR and HDMI 5 V with current limit.
@@ -751,6 +752,14 @@ Full design: `macpro62-storage-board-plan.md` and `kicad/macpro62-storage-face/`
 | **C-19** | KO-B1 forbids all parts under the stock X-bracket, and §11.3 originally assumed 4 × M.2 on the outer side. With the bracket fitted, only ≈ 2 × 2280 + 1 × 2260 fit (update 3 layout study). | **Bracketless modules may release KO-B1** (§3.4), keeping KO-B2. **SM-1 is bracketless (Aidan approved, 2026-10-01 ≈ 20:27 ET):** 4 × 2280 fitted; the module is held by 4 **low-head screws** straight into the bosses (wafer / ultra-thin head, **head + washer ≤ 1.6 mm**, so any 2280 SSD may pass over KO-B2); the switch couples through a gap pad (no preload). | MF-13: thread and length → low-head screw part number. MF-4 not needed for SM-1. |
 | **C-20** | §10 "every part > 2 W sits under a pad" vs M.2 SSDs (2–8 W) on the outer side. | Exception for removable, self-throttling socketed devices on the outer side; air-cooled with optional heatsinks within h(x). | MF-14: outer-gap airflow/temperature under load. |
 | **C-21** | §10 throttle: "the module shall cut its power by ≥ 25 % within 100 ms". A storage module without an MCU cannot change NVMe power states itself. | Storage modules without an MCU: the host OS/firmware applies the NVMe power limit on THERM_ALERT#; the SSDs throttle themselves; THERM_TRIP# is hardware (TMP1075 POR comparator). | Host firmware/OS tooling (MCU EC + macOS helper). |
+
+**Host status of the CRs (2026-10-02, `/workspace/macpro62-interface-control.md`):**
+- **C-2 / CR-2 — partly applied.** The BP now uses the SFF-TA-1016 RA footprint. J9 sits at s = +8.0 (0.5 mm short of +8.5 because of the S5 keep-out, CR-BP-1). **J10 cannot reach s = +8.5:** for s > −4.6 its courtyard enters the G1 gold-hole keep-out (6 mm), and moving it inward to r_c ≤ 24 collides with J1. J10 stays at s = −5.0, so the Face S cable needs a **13.5 mm in-plane jog** (open decision ICD O-1: jog cable / vertical receptacle at J10 / move J_PCIE to X 52 on all modules, which gives ≈ 5 mm jogs on both faces).
+- **C-3 — applied** on the host side: no USB2 on the MCIO; USB2 for each face is on AUX 13/14 from the CB PCH (CPU-LINK USB2_FACEP / USB2_FACES).
+- **C-4 — applied:** BP J3/J4 are GH15 (**BM15B-GHS-TBT vertical** on the BP; the module uses SM15B-GHS-TB RA; same GHR-15V-S cable housing), `face_aux` stub has MOD_LED_N.
+- **C-5 — applied** in the architecture spec §5.3 / §7.8 (superseded note).
+- **C-6 — holds for sustained load only** (≈ 330–345 W). The CB PL2 worst case with all USB ports loaded is ≈ 431 W (> 405 W rule); ICD O-2.
+
 
 ## 14. Open questions and measurements [v0.1]
 

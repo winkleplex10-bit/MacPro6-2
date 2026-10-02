@@ -55,9 +55,8 @@ J7    B x    3.0..  10.0 y   24.3.. 166.9 in-board              J7 CH-A DIMM2 fa
 J9    B x  137.0.. 144.1 y   24.3.. 166.9 in-board              J9 CH-B DIMM1 near DDR5 UDIMM
 J10   B x  146.3.. 153.4 y   24.3.. 166.9 in-board              J10 CH-B DIMM2 far DDR5 UDIMM
 J8    B x   37.5.. 126.0 y   13.3..  36.3 in-board              J8 M.2 2280 boot (PCH x4)
-J3    B x   55.7.. 100.3 y  153.7.. 166.3 in-board              J3 IOB-HS MCIO RA
-BT1   B x   58.7..  81.3 y  119.7.. 136.3 in-board              BT1 CR2032
+J3    B x   55.7.. 100.3 y  153.7.. 166.3 in-board              J3 IOB-HS MCIO 124 RA (host end, docs/mp62-cb-j3_mcio124_host-end.csv)
+BT1   B x   58.7..  81.3 y  119.7.. 136.3 in-board              BT1 CR2032 DNP (VBAT_RTC from the IOB via J3 B26)
 CB1   B x   19.7..  36.3 y   39.7..  70.3 in-board              12V bulk L
 CB2   B x  120.2.. 136.8 y   39.7..  70.3 in-board              12V bulk R
-U13   B x  100.7.. 111.3 y  142.7.. 153.3 in-board              U13 i226-V
 U14   B x   40.7..  51.3 y  114.7.. 125.3 in-board              U14 ALC897 DNP

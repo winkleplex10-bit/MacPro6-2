@@ -336,6 +336,7 @@ These follow once the ASM2824 ball map and the LOTES drawing are in hand.
 | **M2c** | Face angle (C-18) | No SM-1 impact. Module frame is face-relative |
 | **M5 / M5b** | Lug polarity / site per face | Both sites are fitted |
 | G | Core gap per unit (±0.05) | Gap-pad thickness |
+| **ICD O-1 (2026-10-02)** | BP J10 cannot move to s = +8.5 (G1 hole keep-out); it sits at s = −5.0, so the SM-1 J1 (X 43.5) cable needs a **13.5 mm lateral jog** | Cable choice/length (M4, C-9). No SM-1 change unless the spec moves J_PCIE (`macpro62-interface-control.md`) |
 | OQ-7 | Will a future host give Face S x8? | Already wired on the module |
 | OQ-S1 | ASM2824 datasheet access (ASMedia FAE / JLC) | R-S1 |
 | OQ-S2 | Which SSDs? Single-sided Gen3/Gen4 ≤ 7 W preferred | Thermal and power |
