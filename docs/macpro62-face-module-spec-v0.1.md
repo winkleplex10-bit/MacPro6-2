@@ -625,6 +625,11 @@ Sideband (AUX ±, HPD, presence):
 
 ### 9.6 IOB side (informative, host-side spec)
 
+> **IOB rev A0 (2026-10-01):**
+> - Links 0–4 are used: link 0 → C1 (4-lane), link 1 → C2 (4-lane), link 2 → HDMI via TDP158 (DP++ to TMDS, HDMI 2.0 class), link 3 → C3 (2-lane), link 4 → C4 (2-lane).
+> - The TUSB1046A mux plus TPS65994AD PD handle USB-C. HPD0/1 come from PD #1, HPD3/4 from PD #2, HPD2 from the TDP158.
+> - See `/workspace/macpro62-io-board-plan.md` §5.2.
+
 - HDMI 2.1 retimer on Link 2 (TI TDP2004-class [Unverified]); ESD on every port.
 - DP_PWR and HDMI 5 V with current limit.
 - USB-C: a DP alt-mode mux (TUSB1046-class) + PD controller, which takes Link 3/4 and the USB data.

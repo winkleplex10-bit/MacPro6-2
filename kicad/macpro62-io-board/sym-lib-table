@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MP62_IO")(type "KiCad")(uri "${KIPRJMOD}/MP62_IO.kicad_sym")(options "")(descr "MP62 I/O board symbols"))
+)

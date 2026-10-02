@@ -1,0 +1,346 @@
+{
+ "params": {
+  "outline": {
+   "centre": [
+    53.19,
+    77.07
+   ],
+   "w": 51.9,
+   "h": 163.1,
+   "r": 11.5
+  },
+  "case_r": 82.0,
+  "land_t": 1.0,
+  "clip": {
+   "t": 1.2,
+   "w": 5.0,
+   "l": 6.0,
+   "hook": 0.5
+  },
+  "skin": 1.2,
+  "rim_h": 3.0,
+  "rim_w": 1.2,
+  "tilt_ax_deg": 0.0,
+  "tilt_ay_deg": 0.0,
+  "tilt_ref": [
+   53.2,
+   65.45
+  ],
+  "collar_l0": 1.0,
+  "clearance_per_side": 0.3
+ },
+ "features": [
+  {
+   "id": "LAND_C_H",
+   "kind": "LAND",
+   "x": 42.6,
+   "y": 65.45,
+   "w": 10.6,
+   "h": 24.5,
+   "note": "flat land z=-1.55 (crown=0); boss 11.8 x 25.7; inboard pocket depth 1.38"
+  },
+  {
+   "id": "LAND_C_O",
+   "kind": "LAND",
+   "x": 63.9,
+   "y": 65.45,
+   "w": 10.6,
+   "h": 24.5,
+   "note": "flat land z=-1.58 (crown=0); boss 11.8 x 25.7; inboard pocket depth 1.40"
+  },
+  {
+   "id": "LAND_A_H",
+   "kind": "LAND",
+   "x": 43.3,
+   "y": 37.675,
+   "w": 15.6,
+   "h": 18.15,
+   "note": "flat land z=-1.93 (crown=0); boss 16.8 x 19.3; inboard pocket depth 1.90"
+  },
+  {
+   "id": "LAND_A_O",
+   "kind": "LAND",
+   "x": 64.05,
+   "y": 37.675,
+   "w": 15.6,
+   "h": 18.15,
+   "note": "flat land z=-2.15 (crown=0); boss 16.8 x 19.3; inboard pocket depth 2.09"
+  },
+  {
+   "id": "LAND_ETH1",
+   "kind": "LAND",
+   "x": 63.5,
+   "y": 92.3,
+   "w": 14.2,
+   "h": 11.9,
+   "note": "flat land z=-1.87 (crown=0); boss 15.4 x 13.1; inboard pocket depth 1.81"
+  },
+  {
+   "id": "LAND_HDMI",
+   "kind": "LAND",
+   "x": 42.4,
+   "y": 107.4,
+   "w": 16.6,
+   "h": 7.2,
+   "note": "flat land z=-2.25 (crown=0); boss 17.8 x 8.4; inboard pocket depth 2.22"
+  },
+  {
+   "id": "LAND_AUD_H",
+   "kind": "LAND",
+   "x": 43.4,
+   "y": 19.1,
+   "w": 7.0,
+   "h": 7.0,
+   "note": "flat land z=-1.08 (crown=0); boss 8.2 x 8.2; inboard pocket depth 0.84"
+  },
+  {
+   "id": "LAND_AUD_O",
+   "kind": "LAND",
+   "x": 64.65,
+   "y": 19.4,
+   "w": 7.0,
+   "h": 7.0,
+   "note": "flat land z=-1.38 (crown=0); boss 8.2 x 8.2; inboard pocket depth 0.99"
+  },
+  {
+   "id": "C1",
+   "kind": "USBC",
+   "x": 42.6,
+   "y": 75.2,
+   "w": 9.6,
+   "h": 4.0,
+   "note": "on LAND_C_H; connector mouth at z=1.55 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "C4",
+   "kind": "USBC",
+   "x": 63.9,
+   "y": 75.2,
+   "w": 9.6,
+   "h": 4.0,
+   "note": "on LAND_C_O; connector mouth at z=1.58 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "C2",
+   "kind": "USBC",
+   "x": 42.6,
+   "y": 65.45,
+   "w": 9.6,
+   "h": 4.0,
+   "note": "on LAND_C_H; connector mouth at z=1.55 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "C5",
+   "kind": "USBC",
+   "x": 63.9,
+   "y": 65.45,
+   "w": 9.6,
+   "h": 4.0,
+   "note": "on LAND_C_O; connector mouth at z=1.58 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "C3",
+   "kind": "USBC",
+   "x": 42.6,
+   "y": 55.7,
+   "w": 9.6,
+   "h": 4.0,
+   "note": "on LAND_C_H; connector mouth at z=1.55 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "C6",
+   "kind": "USBC",
+   "x": 63.9,
+   "y": 55.7,
+   "w": 9.6,
+   "h": 4.0,
+   "note": "on LAND_C_O; connector mouth at z=1.58 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "A1",
+   "kind": "USBA",
+   "x": 43.3,
+   "y": 42.75,
+   "w": 13.6,
+   "h": 6.0,
+   "note": "on LAND_A_H; connector face at z=3.13 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "A2",
+   "kind": "USBA",
+   "x": 43.3,
+   "y": 32.6,
+   "w": 13.6,
+   "h": 6.0,
+   "note": "on LAND_A_H; connector face at z=3.13 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "A3",
+   "kind": "USBA",
+   "x": 64.05,
+   "y": 42.75,
+   "w": 13.6,
+   "h": 6.0,
+   "note": "on LAND_A_O; connector face at z=3.35 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "A4",
+   "kind": "USBA",
+   "x": 64.05,
+   "y": 32.6,
+   "w": 13.6,
+   "h": 6.0,
+   "note": "on LAND_A_O; connector face at z=3.35 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "ETH1",
+   "kind": "RJ45",
+   "x": 63.5,
+   "y": 92.3,
+   "w": 13.0,
+   "h": 10.7,
+   "note": "on LAND_ETH1; connector face at z=3.07 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "HDMI",
+   "kind": "HDMI",
+   "x": 42.4,
+   "y": 107.4,
+   "w": 15.4,
+   "h": 6.0,
+   "note": "on LAND_HDMI; connector face at z=3.45 below the crown (board-to-crown distance D0 from M-IOF2 minus this = required height)"
+  },
+  {
+   "id": "AC",
+   "kind": "AC",
+   "x": 52.08,
+   "y": 129.95,
+   "w": 34.55,
+   "h": 24.65,
+   "note": "through (no land)"
+  },
+  {
+   "id": "AUD_H",
+   "kind": "ROUND",
+   "x": 43.4,
+   "y": 19.1,
+   "w": 4.8,
+   "h": 4.8,
+   "note": "through"
+  },
+  {
+   "id": "AUD_O",
+   "kind": "ROUND",
+   "x": 64.65,
+   "y": 19.4,
+   "w": 4.8,
+   "h": 4.8,
+   "note": "through"
+  },
+  {
+   "id": "PWR_BTN",
+   "kind": "ROUND",
+   "x": 63.02,
+   "y": 108.03,
+   "w": 12.4,
+   "h": 12.4,
+   "note": "through"
+  },
+  {
+   "id": "LP_HDMI",
+   "kind": "LIGHTPIPE",
+   "x": 46.2,
+   "y": 115.6,
+   "w": 2.2,
+   "h": 2.2,
+   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.50"
+  },
+  {
+   "id": "LP_ETH",
+   "kind": "LIGHTPIPE",
+   "x": 52.95,
+   "y": 92.9,
+   "w": 2.2,
+   "h": 2.2,
+   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+  },
+  {
+   "id": "LP_USBC_U",
+   "kind": "LIGHTPIPE",
+   "x": 53.25,
+   "y": 70.4,
+   "w": 2.2,
+   "h": 2.2,
+   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+  },
+  {
+   "id": "LP_USBC_L",
+   "kind": "LIGHTPIPE",
+   "x": 53.25,
+   "y": 62.6,
+   "w": 2.2,
+   "h": 2.2,
+   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+  },
+  {
+   "id": "LP_USB",
+   "kind": "LIGHTPIPE",
+   "x": 53.7,
+   "y": 49.4,
+   "w": 2.2,
+   "h": 2.2,
+   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+  },
+  {
+   "id": "LP_AUDIO",
+   "kind": "LIGHTPIPE",
+   "x": 53.8,
+   "y": 21.0,
+   "w": 2.2,
+   "h": 2.2,
+   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+  }
+ ],
+ "clips": [
+  [
+   31.0,
+   140.0,
+   "x-"
+  ],
+  [
+   28.2,
+   90.0,
+   "x-"
+  ],
+  [
+   29.6,
+   30.3,
+   "x-"
+  ],
+  [
+   75.38,
+   140.0,
+   "x+"
+  ],
+  [
+   78.17999999999999,
+   90.0,
+   "x+"
+  ],
+  [
+   76.78,
+   30.3,
+   "x+"
+  ],
+  [
+   44.1,
+   2.7,
+   "y-"
+  ],
+  [
+   62.279999999999994,
+   2.7,
+   "y-"
+  ]
+ ]
+}

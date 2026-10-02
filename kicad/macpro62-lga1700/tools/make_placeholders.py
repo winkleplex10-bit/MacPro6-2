@@ -161,11 +161,11 @@ fp("MP62_CB_CoreMountHole_D5.0_Pad9", "Stock MacPro6,2 CPU-board heatsink/therma
 b = npth(0, 0, 3.4) + circ(0, 0, 2.9, "F.CrtYd", 0.05) + circ(0, 0, 2.8, "F.Fab") + circ(0, 0, 2.8, "B.Fab")
 fp("MP62_CB_FrameSeatScrew_D3.4_NPTH", "MP62 contact-frame seating screw (M3 / #6-32) clearance D3.4 NPTH into a PEM nut in the MP62 backplate. Own pattern (free).", b, attr="", ref_y=-3.6, val_y=3.6)
 b = smd("1", 0, 0, 8.0, 6.0) + smd("1", 0, 0, 8.0, 6.0, side="B")
-for xx in (-2.5, 0, 2.5):
-    for yy in (-1.5, 1.5):
+for xx in (-2.25, 2.25):                 # stock lug = U-shaped copper strip, 2 x 2 soldered pins per lug (back photo 2026-10-01) [Estimate]
+    for yy in (-1.35, 1.35):
         b += pth("1", xx, yy, 1.3, 2.0)
-b += rect(-4.3, -3.3, 4.3, 3.3, "F.CrtYd", 0.05) + text("12V LUG (stock bus-bar) - type/polarity TBD", 0, -4.0, "F.Fab", 0.6)
-fp("MP62_CB_BusBarLug_8x6_PLACEHOLDER", "PLACEHOLDER 12 V bus-bar lug landing at the stock lug positions. Lug type/polarity TBD (M-CC7).", b, attr="", ref_y=4.3, val_y=5.6)
+b += rect(-4.3, -3.3, 4.3, 3.3, "F.CrtYd", 0.05) + text("12V/GND LUG (stock bus-bar, single left entry) - polarity TBD", 0, -4.0, "F.Fab", 0.6)
+fp("MP62_CB_BusBarLug_8x6_PLACEHOLDER", "PLACEHOLDER 12 V / GND bus-bar lug landing at the stock positions (one pair, top-left, CPU-side view; photo 2026-10-01). 2x2 pins [Estimate]. Polarity TBD (M-CC7).", b, attr="", ref_y=4.3, val_y=5.6)
 
 # 8. M.2 2280 M-key (back) - same as the carrier placeholder.
 b = rect(-2.5, -11.0, 2.5, 11.0, "F.Fab") + rect(2.5, -11.0, 2.5 + 80.0, 11.0, "F.Fab")
@@ -194,7 +194,7 @@ A = [
  ("MP62_AREA_VDD2_Buck_14x8", 14, 8, ["VDD2 1.1 V DDR5 MC", "4 A (non-ECC) / 4.5 A ECC", "743844 Table 83"], "VDD2 CPU memory-controller rail buck (DDR5 1.1 V, IccMax 4 A non-ECC)."),
  ("MP62_AREA_5V_SODIMM_VINBULK_14x8", 14, 8, ["5V VIN_BULK for 2x DDR5", "SO-DIMM PMIC (on module)", "12V -> 5V buck ~4 A"], "12 V -> 5 V buck for the DDR5 SO-DIMM on-module PMICs (VIN_BULK)."),
  ("MP62_AREA_5V_DIMM_VINBULK_14x8", 14, 8, ["5V VIN_BULK for 4x DDR5 UDIMM", "PMIC on module (5 V in)", "12V -> 5V buck ~6 A"], "12 V -> 5 V buck for the 4 DDR5 UDIMM on-module PMICs (VIN_BULK), ~6 A [Estimate]."),
- ("MP62_AREA_eFuse_TPS25985_14x12", 14, 12, ["12V eFuse TPS259851", "per lug pair, ILIM ~15 A", "+ TVS, IMON -> EC ADC"], "TI TPS259851 eFuse + TVS + ILIM/DVDT, one per lug pair (same as the carrier)."),
+ ("MP62_AREA_eFuse_TPS25985_14x12", 14, 12, ["12V eFuse TPS259851 (whole CB)", "single entry, ILIM ~25 A", "+ TVS, IMON -> EC ADC"], "TI TPS259851 eFuse + TVS + ILIM/DVDT at the single 12 V entry (stock lug pair, top-left)."),
  ("MP62_AREA_Bulk12V_Back_16x30", 16, 30, ["12V bulk (BACK)", "4x 470uF 16V polymer", "(too tall for the front)"], "12 V bulk polymer capacitors - on the back because 16 V polymer cans exceed the 6.0 mm front limit."),
  ("MP62_AREA_EC_RP2350_14x12", 14, 12, ["EC: RP2350 QFN-60 7x7", "(LCSC C42411118) + QSPI + 12M", "power sequencing / fan / SMBus", "RSMRST#, PWRBTN#, SLP_Sx#, PWROKs"], "Embedded controller RP2350 (no eSPI; GPIO sequencing), its QSPI flash and 12 MHz crystal."),
  ("MP62_AREA_BIOS_SPI_W25Q256_10x8", 10, 8, ["BIOS SPI 32 MB", "W25Q256JV class", "+ SOIC clip / TC2050"], "PCH SPI0 flash 256 Mbit (descriptor + ME + coreboot/EDK2/OpenCore) and an external programming header."),

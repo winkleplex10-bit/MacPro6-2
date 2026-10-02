@@ -1,0 +1,13 @@
+(footprint "MP62_IO_MountHole_D3.8_Pad7.5"
+  (version 20241229)
+  (generator "mp62_io")
+  (layer "F.Cu")
+  (descr "Stock I/O-board mounting hole: plated, drill 3.8 (stock 3.8-4.3 est.), pad 7.5 (stock pads 7.2-7.8). GND/chassis. Keep Ø8 clear both sides.")
+  (tags "mount hole")
+  (property "Reference" "REF**" (at 0 -1 0) (layer "F.SilkS") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (property "Value" "MP62_IO_MountHole_D3.8_Pad7.5" (at 0 1 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.1))))
+  (attr through_hole)
+  (pad "1" thru_hole circle (at 0.000 0.000) (size 7.500 7.500) (drill 3.800) (layers "*.Cu" "*.Mask"))
+  (fp_circle (center 0.000 0.000) (end 4.000 0.000) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+  (fp_circle (center 0.000 0.000) (end 4.000 0.000) (stroke (width 0.05) (type solid)) (fill no) (layer "B.CrtYd"))
+)

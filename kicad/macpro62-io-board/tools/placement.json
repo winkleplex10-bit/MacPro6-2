@@ -1,0 +1,1584 @@
+{
+"R30": {
+"side": "B",
+"xb": [
+13.49,
+14.52
+],
+"y": [
+133.53,
+135.47
+],
+"value": "1k VBAT series",
+"fp": "MP62_IO:R_0402_1005Metric",
+"dnp": false
+},
+"D30": {
+"side": "B",
+"xb": [
+13.01,
+15.0
+],
+"y": [
+129.36,
+132.64
+],
+"value": "BAT54WS VBAT no-charge diode",
+"fp": "MP62_IO:D_SOD-323",
+"dnp": false
+},
+"SW2": {
+"side": "B",
+"xb": [
+12.21,
+20.8
+],
+"y": [
+111.45,
+117.55
+],
+"value": "DIAG button",
+"fp": "MP62_IO:SW_SPST_TL3342",
+"dnp": false
+},
+"D8": {
+"side": "B",
+"xb": [
+29.53,
+31.08
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 8 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D7": {
+"side": "B",
+"xb": [
+27.13,
+28.68
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 7 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D6": {
+"side": "B",
+"xb": [
+24.73,
+26.28
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 6 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D5": {
+"side": "B",
+"xb": [
+22.33,
+23.88
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 5 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D4": {
+"side": "B",
+"xb": [
+19.93,
+21.48
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 4 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D3": {
+"side": "B",
+"xb": [
+17.53,
+19.08
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 3 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D2": {
+"side": "B",
+"xb": [
+15.13,
+16.68
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 2 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D1": {
+"side": "B",
+"xb": [
+12.73,
+14.28
+],
+"y": [
+119.47,
+122.53
+],
+"value": "Diag LED 1 (stock #1-#8 set)",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"L44": {
+"side": "B",
+"xb": [
+76.01,
+80.0
+],
+"y": [
+107.11,
+109.89
+],
+"value": "i226 SVR inductor",
+"fp": "MP62_IO:L_1008_2520Metric",
+"dnp": false
+},
+"U84": {
+"side": "B",
+"xb": [
+78.91,
+83.1
+],
+"y": [
+120.25,
+123.75
+],
+"value": "74LVC1G07 PD_INT -> IOB_INT_N",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U83": {
+"side": "B",
+"xb": [
+71.78,
+78.23
+],
+"y": [
+119.2,
+122.8
+],
+"value": "TCA9517 I2C buffer (I2C_SYS <-> PD bus)",
+"fp": "MP62_IO:MSOP-8_3x3mm_P0.65mm",
+"dnp": false
+},
+"U82": {
+"side": "B",
+"xb": [
+82.76,
+88.25
+],
+"y": [
+111.75,
+119.25
+],
+"value": "BL24C64A IOB ID EEPROM @0x51",
+"fp": "MP62_IO:SOIC-8_3.9x4.9mm_P1.27mm",
+"dnp": false
+},
+"U81": {
+"side": "B",
+"xb": [
+77.71,
+80.3
+],
+"y": [
+114.2,
+116.8
+],
+"value": "LIS2DH12 accelerometer (rotate-to-light, optional)",
+"fp": "MP62_IO:LGA-12_2x2mm_P0.5mm",
+"dnp": false
+},
+"U80": {
+"side": "B",
+"xb": [
+63.36,
+73.65
+],
+"y": [
+106.61,
+114.39
+],
+"value": "TLC59116 16-ch I2C LED driver (diag x8, power, light pipes)",
+"fp": "MP62_IO:TSSOP-28_4.4x9.7mm_P0.65mm",
+"dnp": false
+},
+"U71": {
+"side": "B",
+"xb": [
+12.28,
+18.73
+],
+"y": [
+101.2,
+104.8
+],
+"value": "PAM8302A mono class-D 2.5 W (speaker)",
+"fp": "MP62_IO:MSOP-8_3x3mm_P0.65mm",
+"dnp": false
+},
+"Y5": {
+"side": "B",
+"xb": [
+28.71,
+32.3
+],
+"y": [
+19.85,
+24.15
+],
+"value": "12 MHz (CM108B)",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"U70": {
+"side": "B",
+"xb": [
+32.81,
+43.2
+],
+"y": [
+16.81,
+27.19
+],
+"value": "C-Media CM108B USB audio codec (UAC1)",
+"fp": "MP62_IO:LQFP-48_7x7mm_P0.5mm",
+"dnp": false
+},
+"U61": {
+"side": "B",
+"xb": [
+18.76,
+22.25
+],
+"y": [
+105.91,
+110.09
+],
+"value": "1V1 LDO (TDP158 core)",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U60": {
+"side": "B",
+"xb": [
+25.26,
+31.75
+],
+"y": [
+104.75,
+111.25
+],
+"value": "TDP158 HDMI 2.0 retimer (GPU link 2)",
+"fp": "MP62_IO:MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER",
+"dnp": false
+},
+"U51": {
+"side": "B",
+"xb": [
+83.26,
+88.75
+],
+"y": [
+93.25,
+100.75
+],
+"value": "i226-V NVM SPI flash (size per Intel)",
+"fp": "MP62_IO:SOIC-8_3.9x4.9mm_P1.27mm",
+"dnp": false
+},
+"Y4": {
+"side": "B",
+"xb": [
+83.86,
+88.15
+],
+"y": [
+102.7,
+106.3
+],
+"value": "25 MHz (i226-V)",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"U50": {
+"side": "B",
+"xb": [
+73.76,
+82.25
+],
+"y": [
+96.75,
+105.25
+],
+"value": "i226-V 2.5GbE (PCIe x1 from HS1)",
+"fp": "MP62_IO:MP62_Intel_i226V_QFN-56_7x7_P0.4_PLACEHOLDER",
+"dnp": false
+},
+"Y3": {
+"side": "B",
+"xb": [
+16.86,
+21.15
+],
+"y": [
+45.6,
+49.19
+],
+"value": "12 MHz hub crystal",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"Y2": {
+"side": "B",
+"xb": [
+51.36,
+55.65
+],
+"y": [
+87.2,
+90.8
+],
+"value": "12 MHz hub crystal",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"Y1": {
+"side": "B",
+"xb": [
+51.46,
+55.75
+],
+"y": [
+44.81,
+48.4
+],
+"value": "12 MHz hub crystal",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"U33": {
+"side": "B",
+"xb": [
+16.26,
+21.75
+],
+"y": [
+50.25,
+55.75
+],
+"value": "CH334R hub H2 (A1-A4) <- IOB-LINK USB2",
+"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U32": {
+"side": "B",
+"xb": [
+50.76,
+56.25
+],
+"y": [
+81.75,
+87.25
+],
+"value": "CH334R hub H1b (C4-C6 + codec)",
+"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U34": {
+"side": "B",
+"xb": [
+50.76,
+56.25
+],
+"y": [
+49.25,
+54.75
+],
+"value": "CH334R hub H1a (C1-C3 + H1b) <- HS1 USB2",
+"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U28": {
+"side": "B",
+"xb": [
+84.26,
+87.75
+],
+"y": [
+30.5,
+34.69
+],
+"value": "USB-A A4 VBUS switch 1.5 A (SY6280/TPS2553 class)",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U27": {
+"side": "B",
+"xb": [
+84.26,
+87.75
+],
+"y": [
+40.66,
+44.84
+],
+"value": "USB-A A3 VBUS switch 1.5 A (SY6280/TPS2553 class)",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U26": {
+"side": "B",
+"xb": [
+17.26,
+20.75
+],
+"y": [
+30.5,
+34.69
+],
+"value": "USB-A A2 VBUS switch 1.5 A (SY6280/TPS2553 class)",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U25": {
+"side": "B",
+"xb": [
+22.26,
+25.75
+],
+"y": [
+41.41,
+45.59
+],
+"value": "USB-A A1 VBUS switch 1.5 A (SY6280/TPS2553 class)",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U24": {
+"side": "B",
+"xb": [
+74.76,
+80.25
+],
+"y": [
+29.85,
+35.34
+],
+"value": "TUSB1002A A4 10G redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1002A_WQFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U23": {
+"side": "B",
+"xb": [
+74.76,
+80.25
+],
+"y": [
+40.0,
+45.5
+],
+"value": "TUSB1002A A3 10G redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1002A_WQFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U22": {
+"side": "B",
+"xb": [
+26.26,
+31.75
+],
+"y": [
+29.85,
+35.34
+],
+"value": "TUSB1002A A2 10G redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1002A_WQFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U21": {
+"side": "B",
+"xb": [
+26.26,
+31.75
+],
+"y": [
+40.0,
+45.5
+],
+"value": "TUSB1002A A1 10G redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1002A_WQFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U7": {
+"side": "B",
+"xb": [
+82.26,
+87.75
+],
+"y": [
+71.75,
+79.25
+],
+"value": "PD #3 config SPI flash",
+"fp": "MP62_IO:SOIC-8_3.9x4.9mm_P1.27mm",
+"dnp": false
+},
+"U6": {
+"side": "B",
+"xb": [
+50.76,
+56.25
+],
+"y": [
+71.75,
+79.25
+],
+"value": "PD #2 config SPI flash",
+"fp": "MP62_IO:SOIC-8_3.9x4.9mm_P1.27mm",
+"dnp": false
+},
+"U4": {
+"side": "B",
+"xb": [
+15.76,
+21.25
+],
+"y": [
+75.25,
+82.75
+],
+"value": "PD #1 config SPI flash (W25Q80 class, 8 Mbit)",
+"fp": "MP62_IO:SOIC-8_3.9x4.9mm_P1.27mm",
+"dnp": false
+},
+"U16": {
+"side": "B",
+"xb": [
+73.76,
+81.25
+],
+"y": [
+52.96,
+58.44
+],
+"value": "TUSB1046A C6 alt-mode mux/redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U13": {
+"side": "B",
+"xb": [
+25.26,
+32.75
+],
+"y": [
+52.96,
+58.44
+],
+"value": "TUSB1046A C3 alt-mode mux/redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U15": {
+"side": "B",
+"xb": [
+73.76,
+81.25
+],
+"y": [
+62.71,
+68.19
+],
+"value": "TUSB1046A C5 alt-mode mux/redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U12": {
+"side": "B",
+"xb": [
+25.26,
+32.75
+],
+"y": [
+62.71,
+68.19
+],
+"value": "TUSB1046A C2 alt-mode mux/redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U14": {
+"side": "B",
+"xb": [
+73.76,
+81.25
+],
+"y": [
+72.45,
+77.94
+],
+"value": "TUSB1046A C4 alt-mode mux/redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U11": {
+"side": "B",
+"xb": [
+25.26,
+32.75
+],
+"y": [
+72.45,
+77.94
+],
+"value": "TUSB1046A C1 alt-mode mux/redriver",
+"fp": "MP62_IO:MP62_TI_TUSB1046A_WQFN-40_4x6_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U3": {
+"side": "B",
+"xb": [
+81.26,
+88.75
+],
+"y": [
+62.25,
+69.75
+],
+"value": "TPS65994AD PD #3 (C5, C6)",
+"fp": "MP62_IO:MP62_TI_TPS65994AD_QFN-48_6x6_P0.4_PLACEHOLDER",
+"dnp": false
+},
+"U2": {
+"side": "B",
+"xb": [
+49.76,
+57.25
+],
+"y": [
+62.75,
+70.25
+],
+"value": "TPS65994AD PD #2 (C3, C4)",
+"fp": "MP62_IO:MP62_TI_TPS65994AD_QFN-48_6x6_P0.4_PLACEHOLDER",
+"dnp": false
+},
+"U1": {
+"side": "B",
+"xb": [
+14.76,
+22.25
+],
+"y": [
+66.25,
+73.75
+],
+"value": "TPS65994AD PD #1 (C1, C2)",
+"fp": "MP62_IO:MP62_TI_TPS65994AD_QFN-48_6x6_P0.4_PLACEHOLDER",
+"dnp": false
+},
+"J6": {
+"side": "B",
+"xb": [
+68.36,
+91.65
+],
+"y": [
+8.66,
+15.34
+],
+"value": "IOB-LINK GH15 <- BP J6",
+"fp": "MP62_IO:JST_GH_BM15B-GHS-TBT_1x15-1MP_P1.25mm_Vertical",
+"dnp": false
+},
+"J5": {
+"side": "B",
+"xb": [
+47.88,
+65.13
+],
+"y": [
+11.15,
+21.01
+],
+"value": "PSU pass-through -> BP J2 (12V, 11V_SB, PS_ON#, PWR_OK)",
+"fp": "MP62_IO:Molex_Micro-Fit_3.0_43045-0812_2x04_P3.00mm_Vertical",
+"dnp": false
+},
+"J4": {
+"side": "B",
+"xb": [
+3.41,
+14.1
+],
+"y": [
+1.96,
+8.04
+],
+"value": "Stock PSU signal 6P (UNCONFIRMED pinout)",
+"fp": "MP62_IO:MP62_StockPSU_SIG_6P_P1.25_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J3": {
+"side": "B",
+"xb": [
+14.16,
+37.05
+],
+"y": [
+-0.04,
+11.65
+],
+"value": "Stock PSU DC-out 12P (UNCONFIRMED pinout)",
+"fp": "MP62_IO:MP62_StockPSU_DC_12P_P1.5_Shrouded_PLACEHOLDER",
+"dnp": false
+},
+"J2": {
+"side": "B",
+"xb": [
+60.21,
+89.8
+],
+"y": [
+145.66,
+170.02
+],
+"value": "DISPLAY-LINK MCIO 74 RA <- Face P (GPU links 0-4)",
+"fp": "MP62_IO:MP62_MCIO_74P_RA_SFF-TA-1016",
+"dnp": false
+},
+"J1": {
+"side": "B",
+"xb": [
+13.21,
+59.8
+],
+"y": [
+153.06,
+177.42
+],
+"value": "IOB-HS1 MCIO 124 RA <- CB J3 (10 x USB3, i226 PCIe x1, 2 x DDI, USB2, VBAT)",
+"fp": "MP62_IO:MP62_MCIO_124P_RA_SFF-TA-1016",
+"dnp": false
+},
+"L43": {
+"side": "F",
+"xb": [
+89.51,
+93.5
+],
+"y": [
+97.61,
+100.39
+],
+"value": "0.47uH 2520",
+"fp": "MP62_IO:L_1008_2520Metric",
+"dnp": false
+},
+"U43": {
+"side": "F",
+"xb": [
+86.26,
+88.75
+],
+"y": [
+98.0,
+100.0
+],
+"value": "TLV62585 3V3 (3 A) from 5V_SYS",
+"fp": "MP62_IO:SOT-563",
+"dnp": false
+},
+"C53": {
+"side": "F",
+"xb": [
+92.81,
+95.2
+],
+"y": [
+128.66,
+133.34
+],
+"value": "22uF 25V buck input",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C52": {
+"side": "F",
+"xb": [
+92.81,
+95.2
+],
+"y": [
+110.16,
+114.84
+],
+"value": "22uF 25V buck input",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C51": {
+"side": "F",
+"xb": [
+89.81,
+92.2
+],
+"y": [
+110.16,
+114.84
+],
+"value": "22uF 25V buck input",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C50": {
+"side": "F",
+"xb": [
+89.81,
+92.2
+],
+"y": [
+128.66,
+133.34
+],
+"value": "22uF 25V buck input",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C47": {
+"side": "F",
+"xb": [
+85.81,
+88.2
+],
+"y": [
+108.16,
+112.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C46": {
+"side": "F",
+"xb": [
+82.81,
+85.2
+],
+"y": [
+108.16,
+112.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C45": {
+"side": "F",
+"xb": [
+79.81,
+82.2
+],
+"y": [
+108.16,
+112.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C44": {
+"side": "F",
+"xb": [
+76.81,
+79.2
+],
+"y": [
+108.16,
+112.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C43": {
+"side": "F",
+"xb": [
+85.81,
+88.2
+],
+"y": [
+129.16,
+133.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C42": {
+"side": "F",
+"xb": [
+82.81,
+85.2
+],
+"y": [
+129.16,
+133.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C41": {
+"side": "F",
+"xb": [
+79.81,
+82.2
+],
+"y": [
+129.16,
+133.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"C40": {
+"side": "F",
+"xb": [
+76.81,
+79.2
+],
+"y": [
+129.16,
+133.84
+],
+"value": "47uF 10V output bulk",
+"fp": "MP62_IO:C_1206_3216Metric",
+"dnp": false
+},
+"L42": {
+"side": "F",
+"xb": [
+74.96,
+88.05
+],
+"y": [
+114.7,
+125.3
+],
+"value": "1.5uH 10x10 (5V_A)",
+"fp": "MP62_IO:L_Bourns_SRP1038C_10.0x10.0mm",
+"dnp": false
+},
+"U42": {
+"side": "F",
+"xb": [
+88.51,
+93.5
+],
+"y": [
+116.5,
+121.5
+],
+"value": "TPS56C215 5V_A buck (USB-A VBUS + 5V_SYS, 12 A)",
+"fp": "MP62_IO:MP62_TI_RNN0018A_VQFN-HR-18_3.5x3.5mm_PLACEHOLDER",
+"dnp": false
+},
+"L41": {
+"side": "F",
+"xb": [
+74.96,
+88.05
+],
+"y": [
+135.2,
+145.8
+],
+"value": "1.5uH 10x10 (5V_C)",
+"fp": "MP62_IO:L_Bourns_SRP1038C_10.0x10.0mm",
+"dnp": false
+},
+"U41": {
+"side": "F",
+"xb": [
+88.51,
+93.5
+],
+"y": [
+134.5,
+139.5
+],
+"value": "TPS56C215 5V_C buck (USB-C VBUS, 12 A)",
+"fp": "MP62_IO:MP62_TI_RNN0018A_VQFN-HR-18_3.5x3.5mm_PLACEHOLDER",
+"dnp": false
+},
+"U40": {
+"side": "F",
+"xb": [
+88.33,
+93.68
+],
+"y": [
+101.33,
+106.67
+],
+"value": "TPS259824ON eFuse 12 V in (15 A, ILIM ~10 A)",
+"fp": "MP62_IO:Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm",
+"dnp": false
+},
+"HBR": {
+"side": "F",
+"xb": [
+92.41,
+100.51
+],
+"y": [
+14.55,
+22.64
+],
+"value": "Stock mount hole BR",
+"fp": "MP62_IO:MP62_IO_MountHole_D3.8_Pad7.5",
+"dnp": false
+},
+"HBL": {
+"side": "F",
+"xb": [
+0.06,
+8.16
+],
+"y": [
+14.75,
+22.84
+],
+"value": "Stock mount hole BL",
+"fp": "MP62_IO:MP62_IO_MountHole_D3.8_Pad7.5",
+"dnp": false
+},
+"HMR": {
+"side": "F",
+"xb": [
+92.62,
+100.71
+],
+"y": [
+73.8,
+81.89
+],
+"value": "Stock mount hole MR",
+"fp": "MP62_IO:MP62_IO_MountHole_D3.8_Pad7.5",
+"dnp": false
+},
+"HML": {
+"side": "F",
+"xb": [
+0.02,
+8.11
+],
+"y": [
+73.92,
+82.01
+],
+"value": "Stock mount hole ML",
+"fp": "MP62_IO:MP62_IO_MountHole_D3.8_Pad7.5",
+"dnp": false
+},
+"HTR": {
+"side": "F",
+"xb": [
+92.57,
+100.67
+],
+"y": [
+142.35,
+150.45
+],
+"value": "Stock mount hole TR",
+"fp": "MP62_IO:MP62_IO_MountHole_D3.8_Pad7.5",
+"dnp": false
+},
+"HTL": {
+"side": "F",
+"xb": [
+0.09,
+8.18
+],
+"y": [
+142.71,
+150.8
+],
+"value": "Stock mount hole TL",
+"fp": "MP62_IO:MP62_IO_MountHole_D3.8_Pad7.5",
+"dnp": false
+},
+"U31": {
+"side": "F",
+"xb": [
+70.03,
+73.98
+],
+"y": [
+102.25,
+105.75
+],
+"value": "Hall B (DRV5032 class) - position TBD M-IOH1",
+"fp": "MP62_IO:SOT-23",
+"dnp": false
+},
+"U30": {
+"side": "F",
+"xb": [
+70.03,
+73.98
+],
+"y": [
+110.25,
+113.75
+],
+"value": "Hall A (DRV5032 class) - position TBD M-IOH1",
+"fp": "MP62_IO:SOT-23",
+"dnp": false
+},
+"D26": {
+"side": "F",
+"xb": [
+53.03,
+54.58
+],
+"y": [
+19.47,
+22.53
+],
+"value": "Light-pipe LED: audio icons",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D25": {
+"side": "F",
+"xb": [
+52.93,
+54.48
+],
+"y": [
+47.88,
+50.93
+],
+"value": "Light-pipe LED: USB icon",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D24": {
+"side": "F",
+"xb": [
+52.48,
+54.03
+],
+"y": [
+61.07,
+64.12
+],
+"value": "Light-pipe LED: USB-C icon lower",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D23": {
+"side": "F",
+"xb": [
+52.48,
+54.03
+],
+"y": [
+68.88,
+71.93
+],
+"value": "Light-pipe LED: USB-C icon upper",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D22": {
+"side": "F",
+"xb": [
+52.18,
+53.73
+],
+"y": [
+91.38,
+94.42
+],
+"value": "Light-pipe LED: ETH icon",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"D21": {
+"side": "F",
+"xb": [
+45.43,
+46.98
+],
+"y": [
+114.08,
+117.12
+],
+"value": "Light-pipe LED: HDMI label",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"H13": {
+"side": "F",
+"xb": [
+50.74,
+56.03
+],
+"y": [
+55.73,
+61.03
+],
+"value": "I/O-frame centre screw standoff (stock TB-bar point), height M-IOF2",
+"fp": "MP62_IO:MP62_Frame_Standoff_M2_SMT_PLACEHOLDER",
+"dnp": false
+},
+"J29": {
+"side": "F",
+"xb": [
+14.86,
+20.75
+],
+"y": [
+98.75,
+104.05
+],
+"value": "Speaker 2P (stock lead; pitch verify 1.0)",
+"fp": "MP62_IO:JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical",
+"dnp": false
+},
+"H12": {
+"side": "F",
+"xb": [
+17.56,
+22.45
+],
+"y": [
+36.55,
+41.45
+],
+"value": "M1.6 x 1.5 SMT nut SMTSO1615MTJ (C2928168) - speaker",
+"fp": "MP62_IO:MP62_SMT_Nut_M1.6_H1.5_SMTSO1615",
+"dnp": false
+},
+"H11": {
+"side": "F",
+"xb": [
+17.56,
+22.45
+],
+"y": [
+91.45,
+96.35
+],
+"value": "M1.6 x 1.5 SMT nut SMTSO1615MTJ (C2928168) - speaker",
+"fp": "MP62_IO:MP62_SMT_Nut_M1.6_H1.5_SMTSO1615",
+"dnp": false
+},
+"BT1": {
+"side": "F",
+"xb": [
+8.09,
+31.92
+],
+"y": [
+126.26,
+147.34
+],
+"value": "CR2032/BR2032 holder (stock spot) -> VBAT_RTC over HS1",
+"fp": "MP62_IO:BatteryHolder_Keystone_3034_1x20mm",
+"dnp": false
+},
+"J28": {
+"side": "F",
+"xb": [
+33.46,
+68.35
+],
+"y": [
+7.16,
+13.65
+],
+"value": "Stock audio module connector (PLACEHOLDER)",
+"fp": "MP62_IO:MP62_StockAudio_EdgeCard_50P_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"D20": {
+"side": "F",
+"xb": [
+61.48,
+64.53
+],
+"y": [
+102.53,
+104.08
+],
+"value": "Power/sleep LED (white) under button cap",
+"fp": "MP62_IO:LED_0603_1608Metric",
+"dnp": false
+},
+"J31": {
+"side": "F",
+"xb": [
+76.2,
+89.41
+],
+"y": [
+5.06,
+13.04
+],
+"value": "I/O-wall (821-2222) flex ZIF 14P 0.5: power button + port illumination (HX FPC 0.5-14P HYH2.0, C7502869; land pattern = FH12 placeholder, verify)",
+"fp": "MP62_IO:Hirose_FH12-14S-0.5SH_1x14-1MP_P0.50mm_Horizontal",
+"dnp": false
+},
+"J30": {
+"side": "F",
+"xb": [
+53.56,
+59.45
+],
+"y": [
+101.86,
+107.14
+],
+"value": "Optional stock/remote power button 2P (parallel to SW1)",
+"fp": "MP62_IO:JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical",
+"dnp": false
+},
+"SW1": {
+"side": "F",
+"xb": [
+60.13,
+65.92
+],
+"y": [
+106.14,
+109.92
+],
+"value": "Power button on the IOB behind the plate opening (printed cap); stock button is NOT on the stock IOB",
+"fp": "MP62_IO:SW_SPST_PTS810",
+"dnp": false
+},
+"J27": {
+"side": "F",
+"xb": [
+33.76,
+51.05
+],
+"y": [
+103.66,
+111.14
+],
+"value": "HDMI (GPU link 2 via TDP158)",
+"fp": "MP62_IO:MP62_HDMI_A_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J26": {
+"side": "F",
+"xb": [
+34.16,
+50.85
+],
+"y": [
+84.75,
+99.25
+],
+"value": "ETH2 rev B AQC107 10GbE (DNP rev A; frame slot 15.6: jack set back)",
+"fp": "MP62_IO:MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER",
+"dnp": true
+},
+"J25": {
+"side": "F",
+"xb": [
+55.16,
+71.85
+],
+"y": [
+85.06,
+99.55
+],
+"value": "ETH1 i226-V 2.5GbE (roomy frame side)",
+"fp": "MP62_IO:MP62_RJ45_Mag_2G5_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J24": {
+"side": "F",
+"xb": [
+56.41,
+71.7
+],
+"y": [
+29.16,
+36.04
+],
+"value": "USB-A A4 10G",
+"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J23": {
+"side": "F",
+"xb": [
+56.41,
+71.7
+],
+"y": [
+39.31,
+46.19
+],
+"value": "USB-A A3 10G",
+"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J22": {
+"side": "F",
+"xb": [
+35.66,
+50.95
+],
+"y": [
+29.16,
+36.04
+],
+"value": "USB-A A2 10G",
+"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J21": {
+"side": "F",
+"xb": [
+35.66,
+50.95
+],
+"y": [
+39.31,
+46.19
+],
+"value": "USB-A A1 10G",
+"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J16": {
+"side": "F",
+"xb": [
+58.86,
+68.95
+],
+"y": [
+52.25,
+59.15
+],
+"value": "C6 iGPU DDI-C",
+"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J13": {
+"side": "F",
+"xb": [
+37.56,
+47.65
+],
+"y": [
+52.25,
+59.15
+],
+"value": "C3 GPU DP L3 (2-lane)",
+"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J15": {
+"side": "F",
+"xb": [
+58.86,
+68.95
+],
+"y": [
+62.0,
+68.9
+],
+"value": "C5 iGPU DDI-B",
+"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J12": {
+"side": "F",
+"xb": [
+37.56,
+47.65
+],
+"y": [
+62.0,
+68.9
+],
+"value": "C2 GPU DP L1 (4-lane)",
+"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J14": {
+"side": "F",
+"xb": [
+58.86,
+68.95
+],
+"y": [
+71.75,
+78.64
+],
+"value": "C4 GPU DP L4 (2-lane)",
+"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"dnp": false
+},
+"J11": {
+"side": "F",
+"xb": [
+37.56,
+47.65
+],
+"y": [
+71.75,
+78.64
+],
+"value": "C1 GPU DP L0 (4-lane)",
+"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"dnp": false
+}
+}

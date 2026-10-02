@@ -45,12 +45,9 @@ U9    F x   58.7..  73.3 y  133.7.. 146.3 in-board  UNDER PLATE U9 EC RP2350
 U10   F x   76.7..  87.3 y  122.7.. 131.3 in-board  UNDER PLATE U10 BIOS SPI 32MB
 J4    F x   61.7..  72.3 y  122.7.. 129.3 in-board  UNDER PLATE J4 SPI TPM
 J5    F x   59.7..  72.3 y  151.2.. 156.8 in-board  UNDER PLATE J5 debug UART/SWD
-U11   F x   28.7..  43.3 y  139.7.. 152.3 in-board  UNDER PLATE eFuse L (VCCCORE VR)
-U12   F x  126.7.. 141.3 y  139.7.. 152.3 in-board  UNDER PLATE eFuse R (rest)
-LUG1  F x   26.2..  34.8 y  156.5.. 163.1 in-board  UNDER PLATE LUG1 GND?
-LUG2  F x   37.9..  46.5 y  156.5.. 163.1 in-board  UNDER PLATE LUG2 12V?
-LUG3  F x  111.4.. 120.0 y  156.5.. 163.1 in-board  UNDER PLATE LUG3 12V?
-LUG4  F x  123.9.. 132.5 y  156.5.. 163.1 in-board  UNDER PLATE LUG4 GND?
+U11   F x   28.7..  43.3 y  139.7.. 152.3 in-board  UNDER PLATE U11 eFuse 12V IN (whole CB)
+LUG1  F x   23.6..  32.3 y  156.5.. 163.1 in-board  UNDER PLATE LUG1 GND?
+LUG2  F x   36.4..  45.1 y  156.5.. 163.1 in-board  UNDER PLATE LUG2 12V?
 J1    F x   38.0.. 118.0 y    1.5..  13.0 in-board              J1 CPU-LINK 224 fingers
 CAC1  F x   44.7.. 115.3 y   14.7..  23.3 in-board  UNDER PLATE PCIe AC caps
 J6    B x   12.3..  19.3 y   24.3.. 166.9 in-board              J6 CH-A DIMM1 near DDR5 UDIMM

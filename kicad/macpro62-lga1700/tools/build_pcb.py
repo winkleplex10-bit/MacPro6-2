@@ -220,6 +220,10 @@ for k in range(7):
 place("CIN1", L, "MP62_AREA_12V_InCaps_5x66", 5.5, 69.0, value="12V in caps")
 place("COUT1", L, "MP62_AREA_VCCCORE_OutCaps_5x66", 33.5, 69.0, value="VCCCORE/GT out caps")
 place("U3", L, "MP62_AREA_VRctrl_RT3628AE_8x8", 14.0, 108.0, value="U3 RT3628AE (C3249940)")
+txt("12V SINGLE ENTRY (stock): LUG1/2 top-left", 3.0, 136.0, C, 0.6, left=True)
+txt("-> U11 eFuse -> 12V plane L5+L6 >= 20 mm", 3.0, 134.4, C, 0.6, left=True)
+txt("down the left edge to CIN1/VRM (~13 A pk);", 3.0, 132.8, C, 0.6, left=True)
+txt(">= 8 mm across the top band to the right rails", 3.0, 131.2, C, 0.6, left=True)
 txt("VCCCORE 6 phases + VCCGT 1 phase (7 x SiC654 50 A + FP4 0.15 uH h5.0), 120 A IccMax (35 W) / 160 A (65 W 6P+8E)", 20.0, 34.0, C, 0.7)
 place("U4", L, "MP62_AREA_VCCIN_AUX_2ph_28x22", 134.0, 45.0, value="VCCIN_AUX 2ph")
 place("U5", L, "MP62_AREA_VCC1P05_1P8_PROC_28x14", 134.0, 66.0, value="VCC1P05/1P8_PROC")
@@ -232,14 +236,23 @@ place("U9", L, "MP62_AREA_EC_RP2350_14x12", 66.0, 140.0, value="U9 EC RP2350")
 place("U10", L, "MP62_AREA_BIOS_SPI_W25Q256_10x8", 82.0, 127.0, value="U10 BIOS SPI 32MB")
 place("J4", L, "MP62_AREA_TPM_Header_10x6", 67.0, 126.0, value="J4 SPI TPM")
 place("J5", L, "MP62_AREA_DebugHdr_12x5", 66.0, 154.0, value="J5 debug UART/SWD")
-place("U11", L, "MP62_AREA_eFuse_TPS25985_14x12", 36.0, 146.0, value="eFuse L (VCCCORE VR)")
-place("U12", L, "MP62_AREA_eFuse_TPS25985_14x12", 134.0, 146.0, value="eFuse R (rest)")
-LUGS = [("LUG1", 30.5, "GND?"), ("LUG2", 42.2, "12V?"), ("LUG3", 115.7, "12V?"), ("LUG4", 128.2, "GND?")]
+place("U11", L, "MP62_AREA_eFuse_TPS25985_14x12", 36.0, 146.0, value="U11 eFuse 12V IN (whole CB)")
+# Stock 12 V entry = ONE lug pair at the top-left (CPU-side view), Aidan + photo 2026-10-01: legs x 24.0-31.9 / 36.9-44.7
+# (photo homography on the 4 core holes, corrected by the notch walls 24/48; +-0.8). No lugs on the right.
+LUGS = [("LUG1", 27.95, "GND?"), ("LUG2", 40.75, "12V?")]
 for ref, x, pol in LUGS:
     f_ = place(ref, L, "MP62_CB_BusBarLug_8x6_PLACEHOLDER", x, 159.8, center=False, value="%s %s" % (ref, pol))
     ni = pcbnew.NETINFO_ITEM(board, "LUG_" + ref); board.Add(ni)
     for pd in f_.Pads(): pd.SetNet(ni)
     txt("%s %s" % (ref, pol), x, 155.4, C, 0.7)
+# Right notch (x 108-132, y 163.5-169.5) = pass-through for the GPU power bus bars/lugs (Aidan 2026-10-01 ~21:19 ET);
+# the CB has NO lugs there. Keep-out = notch + 3 mm margin [Proposal]: no parts, pads, tracks, vias or pour, both sides.
+GPU_KO = (105.0, 160.5, 135.0, 169.5)
+rule_area("GPU_BUSBAR_PASSTHROUGH", [(GPU_KO[0], GPU_KO[1]), (GPU_KO[2], GPU_KO[1]), (GPU_KO[2], GPU_KO[3]), (GPU_KO[0], GPU_KO[3])],
+          ALLCU, fp=True, vias=True, tracks=True, pads=True, pour=True)
+rect(*GPU_KO, C, 0.15)
+txt("GPU BUS-BAR PASS-THROUGH (no CB lugs)", 120.0, 158.6, C, 0.6)
+txt("keep-out notch +3 mm, all layers, both sides", 120.0, 157.4, C, 0.5)
 place("J1", L, "MP62_CPULINK_MiniCoolEdge224_CardEdge_Fingers", XC, T, center=False, value="J1 CPU-LINK 224 fingers")
 place("CAC1", L, "MP62_AREA_PEG_ACcaps_70x8", 80.0, 19.0, value="PCIe AC caps")
 rule_area("TAB_FINGERS_NO_VIAS", [(XL - 0.5, 0.0), (XR + 0.5, 0.0), (XR + 0.5, 6.0), (XL - 0.5, 6.0)], ALLCU, vias=True, pour=True)
@@ -288,6 +301,7 @@ NOTES = [
  "3  VRM front-left: 6 + 1 phases SiC654 (x 11.15, vias in the back corridor between J7/J6) + Eaton FP4 (5.0 mm); RT3628AE.",
  "4  U2 PCH (Z790, 28 x 25, 0.5 pitch) front top-right, under the plate (thermal pad to the core plate, 6 W).",
  "5  BACK: 4 x DDR5 UDIMM vertical (UMAX 90414 short latch) at the stock centrelines, 2DPC; M.2 bottom; J3 top; backplate centre.",
+ "5b 12V: ONE stock lug pair at the top-left (LUG1 x 27.95, LUG2 x 40.75; photo 2026-10-01) -> one eFuse U11; no right-side lugs.",
  "6  Front height limit 6.0 (5.5 rec.) everywhere under the plate (x 16.2-140.4, y 22.5-164.4): no polymer cans, no MCIO on the front.",
  "7  Stackup JLC 10L 1.6: L1 S / L2 G / L3 S / L4 G / L5 P / L6 P / L7 G / L8 S / L9 G / L10 S; POFV via-in-pad; 85/90/100 ohm.",
  "8  PLACEHOLDERS: real outer dims where sourced (FP4, SiC654, PCH, LGA, M.2, DIMM socket C-90414); pads approximate; no nets.",

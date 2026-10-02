@@ -1,6 +1,6 @@
 # MacPro6,2 — own LGA1700 CPU board ("CB"): feasibility study and plan
 
-Version fl2, 2026-10-01 (~18:30 ET; fl2 = 4 × DDR5 UDIMM vertical in the stock DIMM strips, §4, after Aidan's question and correction ~18:10 ET; fl1 = 2 × SO-DIMM, kept as the fallback variant). Status: **[Proposal]**. Tags are the same as in the spec: [Sourced] with a link, [Estimate], [Inference], [Unverified], TBD.
+Version fl2.1, 2026-10-01 (~21:15 ET, right-notch note ~21:21 ET; fl2.1 = single 12 V entry at the left lug pair, from Aidan's stock-board photos ~21:03 ET, right notch = GPU bus-bar pass-through ~21:19 ET, §6; fl2 = 4 × DDR5 UDIMM vertical in the stock DIMM strips, §4, after Aidan's question and correction ~18:10 ET; fl1 = 2 × SO-DIMM, kept as the fallback variant). Status: **[Proposal]**. Tags are the same as in the spec: [Sourced] with a link, [Estimate], [Inference], [Unverified], TBD.
 
 **Decision (Aidan, 2026-10-01 ~17:30 ET):** skip the COM-HPC module. The first CPU board is our own LGA1700 socket board (the former stretch goal P6, spec §6.8). The COM-HPC carrier (`/workspace/kicad/macpro62-cpu-carrier/`) stays as an **archived fallback**. It is not deleted.
 
@@ -221,7 +221,11 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 - **VCCIN_AUX:** 2-phase (2 × SiC654 + 2 × FP4), with a controller that takes the PCH VID pins. Candidate TBD: MSI uses a separate small multiphase controller. Placed front-right, below the PCH-rail block.
 - **VCC1P05/1P8_PROC, VDD2, PCH 0.82 V (15 A), 1.8 V, 3.3 V, DSW, 5 V VIN_BULK** (the DDR5 module PMICs need 5 V; 4 UDIMMs ≈ 6 A budget [Estimate]): JLC-stocked bucks. Part selection is a schematic task (TPS546/TPS56xxx/MPS class).
 - **Standby:** 5V_SBY (6 pins) and 3V3_SB (2 pins) come from the BP over CPU-LINK (spec §3.8). They power the PCH primary/DSW wells, the RP2350 and the RTC in S5 (≈ 1–3 W [Estimate]); check against the BP 5V_SBY budget.
-- **12 V input:** LUG1–4 → 2 × TPS259851 eFuse (as on the carrier) → VCCCORE VR (left pair) and the rest (right pair). Sustained ≈ 92 W PL2 + 25 W other ≈ 10 A at 12 V [Estimate].
+- **12 V input (fl2.1, single entry):** the stock board takes 12 V **only at the left lug pair** (LUG1/LUG2, top-left next to the VRM; Aidan's photos, §6.1). LUG1/LUG2 → **one** TPS259851 eFuse U11 (36, 146) (ILIM ≈ 25 A, TVS, IMON → EC ADC) → 12 V plane → VCCCORE/GT VR input caps (CIN1) and every other rail. U12 and the right-hand pair are gone.
+  - Load [Estimate]: 92 W PL2 + 6 W PCH + ≈ 20 W for 4 DDR5 DIMMs (PMIC from 5 V) + i226/EC/misc ≈ 125 W → ≈ 142 W in at ≈ 88 % → **≈ 12 A sustained at 12 V; design for 20 A peak** (PL2/turbo transients, DIMM inrush). The stock board fed a 130 W Xeon E5 plus 4 DIMMs through the same pair, so one pair is enough.
+  - Lug pins: each lug lands on 2 × 2 PTH (back photo), so ≈ 3 A per pin at 12 A, ≈ 5 A per pin at 20 A. Use ≥ 1.6 mm drilled, ≥ 2.6 mm annular pads, all 10 layers tied to the 12 V / GND planes [Estimate].
+  - **Copper [Estimate, IPC-2221 internal]:** 13 A at 10 °C rise needs ≈ 1,460 mil² ≈ 27 mm of 1 oz on one layer. **12 V on L5 + L6 (1 oz), ≥ 20 mm wide** from U11 down the left edge to CIN1 / the VRM column (≈ 60 mm, ≈ 0.75 mΩ, ≈ 10 mV and 0.13 W at 13 A), plus **≥ 8 mm across the top band** to the right-side rails (VCCIN_AUX, 5 V / 3.3 V bucks, ≈ 4–5 A). If JLC's 10L inner layers are 0.5 oz, double the widths or add a third 12 V layer. GND return: L2/L4/L7/L9 solid, stitched at the GND lug.
+  - Short path: the entry, U11 and the VCCCORE input caps are all at the top-left, so the high-current path is short and stays on the left; only ≈ 4–5 A travels to the right.
 
 ---
 
@@ -334,7 +338,14 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
   - The backplate is 81.5 × 67 on the back, with a window for the socket-cavity MLCCs.
   - Core clamping: 4 spring-loaded shoulder screws, ≈ 450–600 N, with the safety sleeve at ≥ 6.3 mm (unchanged).
 - **Socket position:** centred on the measured pedestal (78.41, 73.25). The pedestal (40.6 × 41.1) covers the IHS.
-- **Bus-bar lugs:** LUG1–4 at x 30.5 / 42.2 / 115.7 / 128.2, y 159.8 (front view). Polarity TBD (M-CC7).
+- **Bus-bar lugs (fl2.1): only LUG1 / LUG2, left notch.** Centres **x 27.95 / 40.75** (legs 24.05–31.85 / 36.85–44.65), feet at y ≈ 157, footprint centre y 159.8, front (CPU-side) view, ±0.8 mm (photo, §6.1). Footprint: 8 × 6 pad + 2 × 2 PTH each [Estimate]. Pair spacing 12.8. Polarity TBD (M-CC7): placeholder LUG1 = GND?, LUG2 = 12 V?. The right notch (x 108–132) stays in the outline but has **no CB lugs**.
+  - **Right notch = GPU bus-bar pass-through (Aidan, ~21:19 ET):** the notch at x 108–132 (y 163.5–169.5) carries the GPU power bus bars/lugs past the CPU board; the CB has no lugs there. KiCad rule area `GPU_BUSBAR_PASSTHROUGH` = notch + 3 mm (x 105–135, y 160.5–169.5), all copper layers, both sides: no footprints, pads, tracks, vias or pour. **Required clearance [Proposal]:** ≥ 3 mm from the notch walls to any CB copper or part (electrically 12 V needs only ≈ 0.1–0.6 mm, IPC-2221; the 3 mm covers the bar's position tolerance, lug screw heads, insulation sleeve and assembly by hand). Confirm the bar width, thickness and offset in the notch with M5 (bus-bar positions and cross-sections). The earlier LUG1–4 at 30.5 / 42.2 / 115.7 / 128.2 (two pairs, 85.6 apart, with a 5 mm bus-bar jog to the PSU's 74.7) are void.
+- **Stock photo check (fl2.1, Aidan's photos 2026-10-01 ~21:03 ET, `/workspace/mp62-spec-refs/photos/`).** Method: a homography from the 4 core holes (photo → board frame); outline edges land within ≈ 1 mm (left edge 0.9, top 171 vs 169.5, notch walls 23.2 / 47.3 vs 24 / 48 → +0.75 mm x correction).
+  - **12 V entry:** 2 copper lugs at the top-left, in the left notch, next to the VRM. The back photo shows each lug soldered with 2 × 2 pins and **nothing at the right notch**. → single entry, above.
+  - **Sides:** the back photo shows the **4 DIMM slots and the socket backplate on the back**. fl2 already has J6/J7/J9/J10 on B (all 288 SMD pads on B.Cu) and U1, the VRM (Q/L) and the lugs on F. **No side change was needed.**
+  - **Stock VRM along the top:** 7 inductors at y ≈ 119–131 across x ≈ 46–120, controller near (46, 152), a row of polymer input caps (OS-CON-type, 16 V) at y ≈ 157–168, x ≈ 49–108. **Ours differs on purpose:** a left column at x 11.15 (LGA1700 VCCCORE/VCCGT lands sit on the left / bottom edges of the package, R-L11) with the lugs and U11 right above it, so the single left entry still gives a short path. The top band carries the eFuse, bucks, EC and debug.
+  - **Frame and holes:** the large stock frame on 4 outer holes agrees with our 4 core holes (43.25 / 112.75, 46 / 101); the 4 stock ILM holes are dropped as before.
+  - **Conflicts found:** (1) ~~the old outline scan shows 4 eyelet tabs (both notches), the photo only 2~~ **closed (Aidan, ~21:19 ET):** the scan's right-hand tab pair belongs to the GPU power path passing through the right notch, not to the CPU board. (2) The photo lug centres match the scan's LUG1/LUG2 taken **unmirrored** (23.8–31.8 / 36.2–44.4) better than the mirrored LUG4/LUG3 we had used (30.5 / 42.2, 1.5–2.5 mm off). That fits a CPU-side scan, but the spec says the scan shows the back (§6.1 "View (fp2)"). The outline, holes and notches are symmetric and the stock tab is replaced, so only the lug x positions depend on it. Caliper check: M-CC16. The tab is out of frame in the photo, so the stock key could not be checked. (3) The stock polymer caps at y ≈ 157–168 are cans (height not measured; ≈ 6–8 mm is typical for this class [Estimate]) inside our assumed flat black-plate zone (y ≤ 164.4), so the plate must have a relief or a larger gap there → M-CC11 / M-CC2. Our board puts no tall part there, so this only changes the plate model, not the layout.
 - **Height rule:**
   - Front ≤ **6.0 mm** (5.5 recommended) everywhere under the plate (x 16.2–140.4, y 22.5–164.4). That excludes polymer cans, the MCIO receptacle and memory sockets from the front.
   - The back holds J3 (MCIO RA), the 4 DIMM sockets, the M.2, BT1 and the bulk caps. **M-CC3 / M-CC15 (back clearance to the PSU) is a gating measurement** for J3, the M.2 and the DIMMs (≤ 33.25 mm, ≈ 1–2 mm above the stock DDR3 envelope, §4.2).
@@ -412,8 +423,8 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | U8 | VDD2 1.1 V | F | (62, 110) |
 | **U2** | **PCH Z790 FCBGA 28 × 25, 1045 balls from the Intel ballout** | F | (110, 133) |
 | Y1, U9, U10, J4, J5 | crystals, **RP2350 EC**, 32 MB SPI, TPM header, debug | F | top band x 59–94 |
-| U11, U12 | eFuses | F | (36, 146), (134, 146) |
-| LUG1–4 | bus-bar lugs | F | y 159.8 |
+| U11 | eFuse, whole CB (U12 removed in fl2.1) | F | (36, 146) |
+| LUG1, LUG2 | bus-bar lugs, single 12 V entry (no right pair) | F | (27.95, 159.8), (40.75, 159.8) |
 | J1, CAC1 | CPU-LINK fingers, host TX AC caps | F/B | tab, y 15–23 |
 | **J6, J7 / J9, J10** | **DDR5 UDIMM vertical sockets** (UMAX 90414 short latch): CH-A near/far, CH-B near/far | **B** | centrelines x 15.8 / 6.5 / 140.55 / 149.85, y 24.3–166.9 (courtyard 142.5 × 7.0); latch-open keep-out 152 on Dwgs |
 | CB1, CB2 | 12 V bulk polymer (moved out of the strips in fl2) | B | x 19.7–36.3 / 120.2–136.8, y 39.7–70.3 |
@@ -466,6 +477,7 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | R-L9 | **Firmware effort** (new coreboot mainboard, EC sequencing, VBT, OpenCore embedding) | High (time) | P6-0 on the real MSI board first; reuse ms7d25; OpenCore from the SATA SSD in rev A |
 | R-L10 | **Back clearance to the PSU** for J3 (MCIO RA), the M.2 and the **4 vertical DIMMs (≤ 33.25 mm, ≈ +1–2 mm over stock DDR3)** (M-CC3 / M-CC15) | Medium | Measure; DIMMs → VLP 18.75 mm UDIMMs or fl1 SO-DIMMs; J3 → low-profile alternative |
 | R-L14 | **DIMM socket variant**: the LCSC stock part is the long latch (does not fit the outer slots); short-latch availability unverified; open latches swing ≤ 2.1 / 4.4 mm past the outline | Low-Med | Order the UMAX short latch (or Amphenol DDR504/506 ≤ 142, TE 2355626); single-fixed-latch option; optional MP62 DIMM retainer bar |
+| R-L15 | **Single 12 V entry** (fl2.1): ≈ 12 A sustained / 20 A peak through one lug pair (4 pins per lug) and one eFuse; lug x from a photo (±0.8 mm); which PSU pair feeds the CB unknown | Low-Med | Stock board did the same with a 130 W Xeon; L5+L6 12 V ≥ 20 mm; ILIM ≈ 25 A; M-CC16 caliper + continuity check before the footprint is frozen; right notch kept clear for the GPU bus bars (§6) |
 | R-L11 | **Ballout orientation / socket footprint** (Intel X/Y view, Foxconn pad sizes) | Medium | Foxconn drawing; check the pin-1 corner against the package drawing (743844 vol 1 mechanical section) before routing |
 | R-L12 | **Gen5 x16 over the CPU-LINK + BP + MCIO** | Low (policy Gen4) | Spec §3.6 unchanged: Gen4 default, optional BP redrivers |
 | R-L13 | macOS lifetime (Tahoe is the last Intel macOS) | Accepted | Windows/Linux long-term; OpenCore until then |
@@ -475,7 +487,7 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
   - **G1 Firmware on the reference:** a used MSI PRO Z690-A DDR5 (or Z790-P). Build Dasharo from source; build the ME/descriptor with MFIT (HAP); boot OpenCore → Tahoe from SATA; test embedding OpenCore in the payload; test the iGPU/PEG primary-display options. Dump the RT3628 configuration and measure the sequencing.
   - **G2 Sourcing:** buy 3–5 Z790s from two sellers; inspect; confirm JLC consignment and BGA handling in writing; get an instant 10L quote and a DFM opinion on the PCH fan-out.
   - **G3 Schematic + routing study:** the PCH escape on 10L at JLC rules, plus DDR5 2DPC to J6/J7 and J9/J10 (use the fl2 floorplan).
-  - **G4 Measurements:** M-CC3 / **M-CC15 (back clearance, now incl. the DIMM top ≤ 33.25 + float and the latch swing)**, M-CC7 (lug polarity), M-CC8 (boss thread).
+  - **G4 Measurements:** M-CC3 / **M-CC15 (back clearance, now incl. the DIMM top ≤ 33.25 + float and the latch swing)**, M-CC7 (lug polarity), M-CC8 (boss thread), **M-CC16 (lug x by caliper, scan view, which PSU pair feeds the CB; right-tab part closed)**.
 - **Gate G-A (rev-A order): CONDITIONAL GO** if G1 boots Tahoe with our own build, G2 yields authentic unfused PCHs and a JLC yes, and G3 shows the PCH and DDR5 routable.
   - **No-go triggers:** no ME/descriptor path; PCHs fused or fake; VR controller not configurable. In that case, fall back to the archived COM-HPC carrier (Size A) or memory-down variants.
 - **Honest summary:**
@@ -499,8 +511,9 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 
 ---
 
-## 12. Sources (also added to the spec as N84–N124)
+## 12. Sources (also added to the spec as N84–N125)
 
+- Aidan's stock CPU-board photos (2026-10-01 ~21:03 ET), CPU side and back with the 4 DIMM slots: `/workspace/mp62-spec-refs/photos/stock_cb_cpu_side.jpg`, `stock_cb_back_dimms.jpg` (homography `H_cpu.npy`, crops alongside) [spec N125].
 - [N84] Intel 700 Series Chipset Family PCH Datasheet vol 1, 743835-004 (+ attachments 743835_001_Ballout / GPIO / Electr_Therm_Spec xlsx): https://cdrdv2-public.intel.com/743835/743835-004.pdf
 - [N85] Intel 13th/14th Gen Core desktop datasheet vol 1, 743844-015 (+ 743844-001_S_LGA_Ballout.xlsx): https://cdrdv2-public.intel.com/743844/743844-015.pdf
 - [N86] Intel B760 ordering/spec (RCP $31): https://www.intel.com/content/www/us/en/products/sku/229719/intel-b760-chipset/ordering.html

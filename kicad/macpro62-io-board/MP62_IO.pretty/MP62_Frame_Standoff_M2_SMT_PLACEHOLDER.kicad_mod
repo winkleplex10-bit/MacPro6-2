@@ -1,0 +1,13 @@
+(footprint "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER"
+  (version 20241229)
+  (generator "mp62_io")
+  (layer "F.Cu")
+  (descr "SMT M2 threaded standoff for the I/O-frame centre screw (stock TB-bar screw point). Height = M-IOF2 (TBD), thread TBD (stock screw). YIYUAN SMTSO-M2 class. Pad D5.0 over a 2.6 plated hole.")
+  (tags "frame standoff")
+  (property "Reference" "REF**" (at 0 -1 0) (layer "F.SilkS") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (property "Value" "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER" (at 0 1 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.1))))
+  (attr smd)
+  (pad "1" thru_hole circle (at 0 0) (size 5.000 5.000) (drill 2.600) (layers "*.Cu" "F.Paste" "*.Mask"))
+  (fp_circle (center 0.000 0.000) (end 2.600 0.000) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+  (fp_circle (center 0.000 0.000) (end 2.500 0.000) (stroke (width 0.1) (type solid)) (fill no) (layer "F.Fab"))
+)

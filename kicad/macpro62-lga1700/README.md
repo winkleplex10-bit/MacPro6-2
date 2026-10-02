@@ -1,4 +1,4 @@
-# MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl2 (4 x DDR5 UDIMM)
+# MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl2.1 (4 x DDR5 UDIMM, single 12 V entry)
 
 Primary CPU board since 2026-10-01 (Aidan: skip COM-HPC; the carrier `/workspace/kicad/macpro62-cpu-carrier/` is the archived fallback).
 Plan / feasibility study: `/workspace/macpro62-lga1700-board-plan.md`. Spec: `macpro62-architecture-spec-v0.2.md` §6.
@@ -30,6 +30,13 @@ Contents (no nets, not routed):
   Module top <= 33.25 mm off the back (stock DDR3 30.0 + seat) -> M-CC15. Stock DIMM-pair bodies drawn on Eco2.
   VRM power stages at x 11.15 so their vias fall in the corridor between the J7/J6 pad rows (Eco2). 12 V bulk CB1/CB2
   moved to x 19.7-36.3 / 120.2-136.8, y 39.7-70.3. Also M.2 2280, J3 MCIO RA (IOB-HS incl. 2 x DDI), BT1.
+- 12 V (fl2.1, 2026-10-01 ~21:15 ET, from Aidan's stock photos): single entry at the LEFT lug pair only.
+  LUG1 (x 27.95) / LUG2 (x 40.75), y 159.8, front, +-0.8 mm from the photo; 2 x 2 PTH per lug [Estimate];
+  polarity TBD (M-CC7). LUG3/LUG4 and eFuse U12 removed; U11 TPS259851 (36, 146) feeds the whole CB (ILIM ~25 A).
+  12 V plane L5+L6 >= 20 mm down the left edge to the VRM, >= 8 mm across the top band (Cmts notes at x 3, y 131-136).
+  Right notch (x 108-132) = GPU bus-bar pass-through (Aidan ~21:19 ET), no CB lugs: rule area GPU_BUSBAR_PASSTHROUGH
+  x 105-135, y 160.5-169.5 (notch + 3 mm [Proposal]), all copper layers, no footprints/pads/tracks/vias/pour.
+  Sides re-checked against the back photo: DIMMs J6/J7/J9/J10 on B (288 SMD pads on B.Cu), U1/VRM/lugs on F.
 - fl1 (2 x DDR5 SO-DIMM UMAX 90415-4015SR, lying flat in the strips) is the documented fallback:
   docs/fl1_sodimm_variant/ (render, fit check, build script; the SO-DIMM footprint stays in the library).
 - Keep-outs: D12 around H1-H4 (no tracks/vias), backplate zone on B (no footprints), tab y < 6 (no vias/pour).

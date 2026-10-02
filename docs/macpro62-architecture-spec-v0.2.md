@@ -33,6 +33,20 @@
 18. **Scan measurements (2026-10-01, ~18:30 ET), new §3.13.** Base board traced: Ø122.07, holes ∓49.13 (pitch 98.25), hole axis 0.6 off the disc centre; **M2b resolved: stock CPU slot at −12.5 ± 0.3, J1 at (0, −12.6) stays**; six small holes S1–S6 → **change request CR-BP-1** (Ø6 keep-outs, move U4: S2 inside its courtyard) — backplane KiCad not edited; stock GPU connector axes ±46.6° → face-angle hypothesis 42°/138° (M2c). Core standoff screws at G1/G2 protrude 18.4 ± 1.5 mm (BP seats on the tips; M1b partial, M8 mostly answered; face spec C-16 vs M1 → M1c). Mirrored GPU lugs → dual lug sites on every face module (MP62-FACE v0.1 update 1). PSU board, I/O plate, I/O-plate carrier frame and the PSU-side I/O-board carrier frame traced (§3.13, §8.2); new M2c, M1c, M5b, M-IOF1, M-IOF2.
 19. **Storage face module SM-1 (2026-10-01, ~20:20 ET; Aidan: "go for the SSD board").** Face S = CPU PEG60 Gen4 x4, which cannot bifurcate, so the module uses an **ASMedia ASM2824** Gen3 switch (x8 upstream wired to J_PCIE lanes 0–7, 4 × x4 down; JLC C9900092023, price TBD) on the die pad with a 3 mm gap pad. **4 × M.2 2280 on the outer side**: 3 columns + 1 across the top, LOTES APCI0107-P001A H4.2. This needs a **bracketless** module (screws + washers; face spec C-19) and J_AUX moved to (16.5, 20.5). Power: lugs → LM74700 reverse block → TPS259824 eFuse 5 A → TPS56C215 12 A → 3V3_SSD; ≈ 35.6 W worst sustained / 41.5 W 10 ms peak, declared 40 W Class 1. Bandwidth Gen3 x4 ≈ 3.5 GB/s shared (≈ 7 GB/s if the host later gives x8, OQ-7). **RAID:** no driverless, macOS-bootable hardware RAID part is orderable (Marvell 88NR2241 is NDA-only; macOS unverified). Boot from one SSD (each is individually bootable behind the switch); use AppleRAID/SoftRAID for data; a future SM-1R variant is possible. Cost for 5 PCBs / 2 assembled ≈ $330–600 [Estimate]. Plan `/workspace/macpro62-storage-board-plan.md`; KiCad `/workspace/kicad/macpro62-storage-face/` (floorplan DRC 0/0, schematic ERC 0/0, not routed); face spec update 3 (§11.3, C-19–C-21, MF-13/14). No host change: BP J10 stays x4 in rev A.
 20. **SM-1 bracketless approved (Aidan, 2026-10-01, ~20:27 ET).** D1: no X-bracket on Face S; 4 × M.2 2280 fitted; the module is secured to the core with low-head screws (wafer / ultra-thin head, **head + washer ≤ 1.6 mm**, so the SSD0/SSD2 edges clear the heads with any 2280 SSD; D4 resolved). Face spec C-19 updated (update 3a). The screw part number follows once MF-13 gives the thread and length. No host change.
+21. **CB single 12 V entry + side check from stock photos (Aidan, 2026-10-01 ~21:03 ET; rev ~21:15 ET; plan fl2.1).** Aidan: the stock CPU board takes 12 V **only on the left side** (CPU-side view), at the two copper lugs top-left next to the VRM. Lug positions measured on his photo (homography on the 4 core holes, outline check ≈ 1 mm): **LUG1 centre x 27.95 (legs 24.05–31.85), LUG2 centre x 40.75 (legs 36.85–44.65), feet y ≈ 157, footprint y 159.8, ±0.8 mm**; 2 × 2 soldered pins per lug (back photo); no lugs at the right notch. KiCad: LUG3/LUG4 and eFuse U12 removed, U11 TPS259851 feeds the whole CB (ILIM ≈ 25 A), 12 V plane L5+L6 ≥ 20 mm from U11 down the left to the VRM, ≥ 8 mm across the top band (≈ 12 A sustained / 20 A peak, [Estimate]); DRC 0 / 0. The **two-pair assumption (85.6 vs the PSU's 74.7, 5 mm jog) is void**: one CB pair (12.8) matches one PSU terminal pair (12.75 / 12.55) directly (§3 PSU board). **Sides confirmed:** the back photo shows the 4 DIMM slots and the socket backplate on the back; fl2 already had the DIMMs on B and socket/VRM on F (no fix). Stock core side: VRM along the top (7 inductors y ≈ 119–131), polymer input caps at y ≈ 157–168, frame on the 4 outer holes. Our left-column VRM is intentional (LGA1700 land groups); holes agree. **Open:** M-CC16 (scan shows 4 tabs vs 2 in the photo; photo matches the scan's left lugs unmirrored although §6.1 calls the scan a back view; which PSU pair feeds the CB), M-CC7 polarity, M-CC11 plate relief over the stock cap row. Photos: [N125].
+22. **CB right notch = GPU bus-bar pass-through (Aidan, 2026-10-01 ~21:19 ET; rev ~21:21 ET).** The CPU board's right-hand notch (x 108–132, y 163.5–169.5) has no lugs; it only lets the GPU power bus bars/lugs pass. The outline scan's right-hand tab pair is therefore part of the GPU power path → **that part of M-CC16 is closed**. KiCad: rule area `GPU_BUSBAR_PASSTHROUGH` (notch + 3 mm, x 105–135, y 160.5–169.5, all copper layers, both sides; no footprints, pads, tracks, vias or pour); DRC 0 / 0. Required clearance [Proposal]: ≥ 3 mm from the notch walls to any CB copper or part (mechanical/tolerance margin; 12 V itself needs ≈ 0.1–0.6 mm), bar cross-section and offset to confirm under M5. **Still open:** which PSU terminal pair feeds the CB and what the other pair feeds (M-CC16), lug polarity (M-CC7), scan view (M-CC16).
+23. **IOB rev A0 + I/O plate v2 (2026-10-01, ~22:20 ET; plan `/workspace/macpro62-io-board-plan.md`).**
+    - **Ports:** stock layout kept. 6 × USB-C with DP alt mode (3 per old Thunderbolt rectangle), 4 × USB-A 10 G, HDMI (Face P link 2 via TDP158), 1 × 2.5GbE (i226-V moves from the CB to the IOB). ETH2 is a DNP site for the rev-B AQC107. The stock audio jack flex runs on a CM108B; the stock speaker on a PAM8302A. The coin cell sits in the stock spot.
+    - **Display:** C1/C2 = Face P links 0/1 (4-lane); C3/C4 = links 3/4 (2-lane). C5/C6 = iGPU DDI-B/DDI-C, each on its own USB-C. This supersedes the CB 2:1 DP mux idea in §8: no HD3SS215 needed.
+    - **Board:** 6-layer JLC06161H-2116, 113 footprints, DRC 0 / ERC 0. Not routed yet.
+    - **CR-CB-IO1:** new CB J3 (MCIO 124) pinout: 10 × USB3, i226 PCIe x1 plus REFCLK/sideband, 2 × DDI, 1 × USB2, VBAT_RTC from the IOB. CB BT1 becomes DNP; USB2 on J3 goes from 4 to 1. **Z790 is required** for 10 × 10 G.
+    - **CR-BP-IOB:** IOB-LINK GH15 pinout fixed (IOB plan §5.5). PSU signals pass through IOB J5 (Micro-Fit 2×4) to BP J2.
+    - **Power budget:** IOB worst case ≈ 116–126 W at 12 V. The USB-C 5 V pool is capped at 45–60 W by BP firmware (D-IO1).
+    - **Ports are angled about 7° per column**, fanning outward to follow the case cylinder. They are handled by straight connectors and a curved printed plate with flat port lands; the metal frame is unchanged (D-IO6).
+    - **Power button:** it is on the I/O-wall flex 821-2222 (14P 0.5 mm ZIF, shared with the port illumination; pins provisional). The IOB adds J31 (C7502869) at the stock spot plus an on-board SW1.
+    - **Stock connectors identified:** the stock 6-pin is the PSU data cable. CONN_C is the fan/AirPort interposer ribbon and is not reproduced in rev A (D-IO9; fan via BP J5).
+    - **Port lights:** motion-triggered through the LIS2DH12 INT1 → BP MCU.
+    - **Open decisions:** D-IO1–D-IO11. Pinouts of the PSU headers, audio flex and I/O-wall flex are UNCONFIRMED; see the IOB plan §9 for probing.
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
 **v0.1 (2026-09-30):** first draft (card-edge architecture).
@@ -555,8 +569,8 @@ All traces are in `/workspace/bracket/<part>/`, each with a DXF, an overlay PNG 
 - **The lug/12 V output end is the CAD +y end** (top tab, holes at y 59). An earlier stage had it end-for-end.
 - 6 holes at x ≈ ±47.6, y −69.8 / −5.1 / 59.1.
 - **12 V output terminals:** 4 terminals of 2 × 2 pins in 2 rows (y 70.9 / 65.4), centres x −42.95 / −30.2 / 31.8 / 44.35.
-  - In-pair spacing 12.75 / 12.55 matches the CPU-board lug pairs (12.5 / 11.7).
-  - Pair centres are 74.7 apart against the CPU board's 85.6, so the bus bars jog ≈ 5 mm per side.
+  - In-pair spacing 12.75 / 12.55 matches the CPU board's **single** lug pair (12.8, CB LUG1/LUG2 at x 27.95 / 40.75, change 21).
+  - **Void (change 21):** "pair centres 74.7 vs the CPU board's 85.6, bus bars jog ≈ 5 mm per side". The CPU board has only one (left) pair, so one PSU pair feeds it straight. Which PSU pair (x −42.95/−30.2 or 31.8/44.35) feeds the CB, what the other pair feeds, and the polarity are open (M-CC16, M-CC7).
   - This assumes the CAD is a component-side view; otherwise x flips.
 - **Harness:**
   - A 22.6 × 7.4 body with ≈10 wires, 1.41–1.5 pitch (Pico-SPOX / ZH class, possibly 1.25).
@@ -908,6 +922,7 @@ Other rules:
 | iGPU / display | UHD 770 **enabled**: **DDI-B → IOB native DP**, **DDI-C → IOB 2:1 DP mux with the Face P GPU's DP → USB-C DP-alt**, HBR2 (HBR3 needs a retimer). Firmware: primary display **Auto (PEG first, iGPU fallback)** via ONBOARD_VGA_IS_PRIMARY-style priority + a setup option {Auto, iGPU, iGPU off}; own VBT. **macOS: no Xe iGPU support at all** (no display, no QuickSync) → hide it (`class-code` / `-wegnoigpu`); the iGPU serves bring-up, firmware UI and Windows/Linux | [N85][N110]–[N112] |
 | IOB link J3 | MCIO 124 RA on the **back** (too tall for the front): USB3 × 4 (8 pairs) + USB2 × 4 (4) + i226 MDI (4) + 2 × DDI (10) = **26 of 32 pairs**; HPD × 2 and the mux select on sideband | [Proposal] |
 | Front height | **≤ 6.0 mm (5.5 rec.)** under the plate x 16.2–140.4, y 22.5–164.4; no polymer cans, MCIO or memory sockets on the front | §6.8 |
+| 12 V input | **Single entry (change 21):** LUG1 / LUG2 only, left notch, centres x 27.95 / 40.75, y 159.8 (photo ±0.8) → one TPS259851 U11 (36, 146), ILIM ≈ 25 A → 12 V on L5+L6 (≥ 20 mm down the left to the VRM, ≥ 8 mm across the top band); ≈ 12 A sustained / 20 A peak; polarity M-CC7, PSU pair M-CC16. Right notch: GPU bus-bar pass-through, keep-out x 105–135, y 160.5–169.5, all layers, both sides, ≥ 3 mm clearance [Proposal] (change 22) | [Sourced: photo N125; Aidan] positions; [Estimate] current |
 
 **Land-group layout (from the public ballout, drawn on Dwgs.User):** DDR0/DDR1 at the top edge (→ J6/J7 left/right), PCIe x16 + x4 bottom-right (→ J1 directly below), DMI right (→ PCH top-right), DDI bottom-left, VCCGT left and VCCCORE left/bottom of the cavity (→ VRM front-left). Orientation assumes a top-view ballout. **Verify** (R28).
 
@@ -926,7 +941,7 @@ KiCad project: `/workspace/kicad/macpro62-cpu-carrier/` (`cpu_carrier.kicad_pro/
   - Board 156 × 167.8 (tip → top) and 156 wide.
   - Shoulder flat at y 12.982 from x 19.69 to 136.31.
   - Lower chamfers run from (0, 26.5) to (18.0, 13.0) at a 3:4 slope, with R7.5 / R5 fillets (mirrored on the right).
-  - Top lug notches: x 24–48 and x 108–132, from y 163.5 to 169.5. Top corners R5.
+  - Top lug notches: x 24–48 and x 108–132, from y 163.5 to 169.5. Top corners R5. **CB (changes 21/22):** left notch = CB 12 V lugs LUG1/LUG2; right notch = **GPU bus-bar pass-through, no CB lugs**, kept clear (notch + 3 mm keep-out, all layers, both sides).
   - Thickness: the CAD model is 2.0 mm. **The carrier is 1.6 mm**, which the 224 card needs (1.57 ± 0.13).
   - **View (fp2):** the scan behind this outline shows the board **back** (raised DIMM housings, LGA2011 backplate). In the carrier frame (front = core side) x → 156 − x. Every outline feature is symmetric about x = 78 except the stock key notch (86.97 → **69.03**); the Xeon scan shows the finger gap at x 68.6 in the front view, which confirms this [N79].
 - **Stock tab (removed):** x 44.979–110.636 front view (45.364–111.021 in the back-view scan; 65.66 wide), 11.26 deep. Key notch 2.12 wide centred at x **69.03 (front view; 86.97 in the back-view scan)**, round end at y ≈ 8.7.
@@ -1069,7 +1084,7 @@ The pedestal is **flush** with the flat black plate, so the core presents **one 
 |---|---|---|---|
 | Module connectors | **P1, P2: Samtec ASP-214802-01** (5 mm stack, $42.65; 10 mm: ASP-209948-01, $48.01) [N71][LO-45b] | P1 (58, 126.3) = mates module J1 (rows A–D); P2 (58, 20.3) = mates module J2 (rows E–H) | Body 68.62 × 8.75, 4 × 100 BGA at 0.635. Row/pin-1 orientation from the COM.0 R1.x drawing [M-CC9] |
 | CPU-LINK | **J1 fingers** (§6.2) | tab, x 38.055–117.945 | PEG lanes from P2 run ≤ 20 mm to bays 1–2 |
-| 12 V input | **LUG1–LUG4** (stock bus-bar lug landings, 8 × 6 pad + 6 PTH) | x **30.5 / 42.2 / 115.7 / 128.2** (fp2: mirrored to the front view), y 159.8 | Polarity [Assumption]: LUG2/LUG3 = 12 V, LUG1/LUG4 = GND [M-CC7] |
+| 12 V input | **LUG1–LUG4** (stock bus-bar lug landings, 8 × 6 pad + 6 PTH) | x **30.5 / 42.2 / 115.7 / 128.2** (fp2: mirrored to the front view), y 159.8. **Superseded by change 21 (archived CC-F, KiCad not changed):** the stock board has only the left pair, at x 27.95 / 40.75; LUG3/LUG4 do not exist | Polarity [Assumption]: LUG2/LUG3 = 12 V, LUG1/LUG4 = GND [M-CC7] |
 | Protection | **U1, U2: TI TPS259851RQPR eFuse** (4.5–16 V, 0.59 mΩ, 60 A RMS, OVP 16.7 V fixed, 4.5 × 5 VQFN-HR) [N75] + TVS + bulk CB1/CB2 | (34, 147.5), (120, 147.5) | One per lug pair, ILIM ≈ 15 A each. Module ≤ ≈ 120 W peak at 12 V ≈ 10 A. PG gates VIN_PWR_OK; IMON for telemetry |
 | Standby | **none required**: 5V_SBY (6 pins) and 3V3_SB (2 pins) arrive from the BP over CPU-LINK | U5 = DNP 3V3 LDO option | Module VCC_5V_SBY optional (2 A inrush, ccAS) |
 | IOB high-speed | **J3: MCIO 124 right-angle** (placeholder, Molex 2173463021 class), MP62 pinout TBD | (78, 143), plug exits toward the top edge | Direct carrier → IOB cable per §6.3 rule: USB3 × 4, USB2 × 4, DDI0/1, i226 MDI. [OD-18] |
@@ -1399,6 +1414,12 @@ v0.1's 12V_EDGE (card-edge 12 V) is gone: anything above 3 W uses 12V_BUS.
 
 ## 8. I/O board (IOB) and I/O plate: deferred
 
+> **IOB rev A0 update (2026-10-01, ~22:20 ET):** the IOB is now designed. See `/workspace/macpro62-io-board-plan.md` and `kicad/macpro62-io-board/`.
+> - It supersedes §8.1 "type TBD": the high-speed link is the CB J3 MCIO 124 under CR-CB-IO1.
+> - DDI-B and DDI-C each feed their own USB-C port (C5/C6). The DP mux in the CB update below is not needed.
+> - Audio is CM108B (UAC1) for rev A, with CM6646 deferred (D-IO5).
+> - Power budget: ≈ 116–126 W worst case at 12 V, with the USB-C pool capped at 45–60 W.
+
 > **CB update (2026-10-01):** the IOB high-speed link from the CB (J3, MCIO 124 RA, back side) now also carries **2 × CPU DDI** (DDI-B native DP, DDI-C into a 2:1 DP mux with the Face P GPU's DP in front of the USB-C DP-alt path): 26 of 32 pairs used (§6.0). The IOB needs the DP mux (TI HD3SS215 class [Unverified]) and the DP++ receptacle.
 
 ### 8.1 Status [Proposal]
@@ -1617,7 +1638,7 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | A10 | Class 2 = 130 W per face | Class 3 after P3 |
 | A12 | **CB: JLC 10L 1.6 mm**, POFV via-in-pad, impedance control (CC-F fallback: JLC 8L) | 8L for CB rev B after routing |
 | A13 | **CB: own LGA1700 board** (Z790, i5-14500T, 4 × DDR5 UDIMM vertical back (2DPC), RT3628AE 6 + 1, RP2350 EC, coreboot/Dasharo) — §6.0. *(Old A13, archived for CC-F: CC: Kontron COMh-ccAS **Size C at option C1** (centred, CPU −4.6 mm vs the measured pedestal) is still the drawn baseline; **fp2 recommends Size A** (OD-15). Samtec **ASP-214802-01 5 mm stack**, no vendor HSP, Cu spacer per §6.4)* | CC-F COM-HPC carrier (Size A/C) |
-| A14 | CC 12 V: stock bus-bar lugs → **2 × TPS259851** eFuse → module VCC; standby from the BP | 8-pin EPS input (OD-9) |
+| A14 | CC 12 V: stock bus-bar lugs → **2 × TPS259851** eFuse → module VCC; standby from the BP. **CB (change 21): single left lug pair → 1 × TPS259851 → whole board** | 8-pin EPS input (OD-9) |
 | A15 | CB iGPU **enabled**: DDI-B native DP + DDI-C → IOB USB-C DP-alt mux, HBR2; primary display Auto (PEG first); hidden in macOS | iGPU off |
 | A16 | CB memory: **4 × DDR5 UDIMM vertical, 2DPC daisy chain, non-ECC** (fl2; gated on M-CC15) | VLP 18.75 mm UDIMMs; 2 × DDR5 SO-DIMM 1DPC (fl1); 4 × DDR4 UDIMM (separate variant); memory-down; W680 + ECC |
 | A17 | CB OpenCore: from the BP SATA SSD | embedded in the EDK2 payload FV |
@@ -1683,15 +1704,16 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | **M-CC4** | Housing inner radius at the CPU-board edges (top and bottom); base-fillet profile at the two lower corners | Size C overhang/corner clash (R18, R21) | **1** |
 | M-CC5 | Stock card seating: tab tip height above the BP top, shoulder gap; Mini Cool Edge 224 seating | Tab tip y (§6.2) | 2 |
 | M-CC6 | Guide posts → identified (fp2) as core-flange guide pins; remaining depth question moved to M-CC12 | OD-19 | done |
-| M-CC7 | Lug geometry (base footprint, plating, soldered/press-fit), screw size, **bus-bar polarity** | LUG1–4 footprint, eFuse wiring | 2 |
+| M-CC7 | Lug geometry (base footprint, plating, soldered/press-fit; photo: 2 × 2 soldered pins per lug), screw size, **bus-bar polarity** | LUG1–4 (CB: LUG1/2 only) footprint, eFuse wiring | 2 |
 | M-CC8 | Stock heatsink standoff/boss height and thread | Adapter plate (OD-17) | 2 |
 | M-CC9 | ccAS exact connector, hole and CPU coordinates (PICMG COM.0 R1.x drawing / Kontron 3D model) | P1/P2/MH placement | 2 |
 | M-CC10 | ccAS support for the 5 mm stack with its CPU backplate (backplate height) | Stack choice, F keep-out | 2 |
-| **M-CC11** | **Black plate**: material, thickness, separable from the core (screws?); **flange rails** (x ≈ −2.3…1.5 / 152…157.9): height relative to the plate plane | OD-16 (b), Size C overhang (R23) | **1** |
+| **M-CC11** | **Black plate**: material, thickness, separable from the core (screws?); **flange rails** (x ≈ −2.3…1.5 / 152…157.9): height relative to the plate plane; **relief or gap over the stock polymer-cap row** (photo, change 21: caps at x ≈ 49–108, y ≈ 157–168, inside the assumed flat zone y ≤ 164.4) | OD-16 (b), Size C overhang (R23) | **1** |
 | **M-CC12** | **Guide pins**: diameter, head, distance of the pin axis from the stock board front; do they enter the BP Ø4 holes at ±49? | OD-19, Size B/C bottom edge (R23), board-plane position (M2b) | **2** |
 | **M-CC13** | Chosen module's top-side heights (SO-DIMM sockets, VRM, die/IHS) from the vendor 3D model (cRLP / caRP / ccAS) | Δ and Cu spacer thickness (§6.4) | **1** |
 | M-CC14 | ccAS contact-frame fit: parts inside the ≈ 54 × 71 frame seat, ILM screw positions/thread and backplate inserts (Kontron 3D model), screw length through the 2 mm module PCB, Kontron warranty stance | OD-21 | 2 |
 | **M-CC15** | **CB back clearance to the PSU** at the DIMM strips (x 2.5–18.5 / 137–153): **need ≥ 34.5 mm** for vertical DDR5 UDIMMs (top ≤ 33.25 + ≤ 1.0 spring float); also measure a stock DDR3 module top above the stock board (seat + 30.0) and check that open latches (keep-out 152, ≤ 2.1 mm past the top edge, ≤ 4.4 mm past the bottom chamfer) clear the enclosure. Plus J3 (top centre, MCIO RA ≈ 7–8 mm [Estimate]) and the M.2 (bottom), with the board in the stock plane | CB memory option (OD-24) and back-side parts (§6.0) | **1** |
+| **M-CC16** | **CB 12 V entry (changes 21/22):** caliper the lug x from the left board edge (photo: legs 24.05–31.85 / 36.85–44.65 ±0.8); whether the outline scan is a back or CPU-side view (photo matches the scan's left lugs unmirrored); **which PSU terminal pair feeds the CB and what the other pair feeds**. ~~Why the scan shows 4 tabs~~ **closed (Aidan, ~21:19 ET): the right pair is the GPU power path through the right notch**; GPU bar cross-section/offset in the notch → M5 | LUG1/LUG2 footprint, U11, PSU bus bars, right-notch keep-out | 2 |
 
 ### 11.4 Donor/bench TBDs kept from v0.1
 
@@ -1841,6 +1863,7 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 - [N122] Apple HT6064 Mac Pro (Late 2013) memory: https://web.archive.org/web/20140228151020/http:/support.apple.com/kb/HT6064 ; Micron DDR3 RDIMM 30 mm: https://file.icallin.com/r/datasheets/microntechnologyinc-mt18jsf1g72pdz1g6d1-datasheets-0683.pdf
 - [N123] DDR5 VLP UDIMM 18.75 mm: https://www.apacer.com/en/product/industrial-product/detail/industrial_dram/ddr5_vlp_udimm ; https://www.cervoz.com/products/ddr5-vlp-dimm/lists/unbuffered/standard-temp ; https://www.innodisk.com/en/products/dram-modules/ddr5/ddr5-ecc-udimm-vlp
 - [N124] UMAX 90411 DDR4 vertical SMT socket: https://www.lcsc.com/product-detail/C5889263.html ; https://www.lcsc.com/product-detail/C5889264.html
+- [N125] Aidan's stock CPU-board photos, 2026-10-01 ~21:03 ET (CPU side; back with the 4 DIMM slots): `/workspace/mp62-spec-refs/photos/stock_cb_cpu_side.jpg`, `stock_cb_back_dimms.jpg`; homography `H_cpu.npy` and crops in the same folder.
 
 > **URL note:** v0.1's note applies. New in v0.2: N39/N41 are TE DocumentDelivery links (the 1-2381578-9 drawing itself returned 403); N42 was read from the JPC PDF; N43, N46, N49 and N51 are landing/product pages; N44 is superseded by N62; N65/N66 are listings without heights. **Re-check all links before publishing.**
 
