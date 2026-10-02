@@ -1,0 +1,337 @@
+{
+ "calibration": {
+  "bottom": {
+   "SX": 3.9508820125871416,
+   "SY": 3.934757615121624,
+   "aniso_pct": 0.40979391979698576,
+   "unc_pct": 0.21897303779637084
+  },
+  "top": {
+   "SX": 3.951298522290765,
+   "SY": 3.9349381622989896,
+   "aniso_pct": 0.4157717178004283,
+   "unc_pct": 0.2202520001469095
+  }
+ },
+ "frame": "BP frame, top view. Origin = midpoint of the two gold \u00d84 holes; +x toward G2 (key end of the CPU socket); +y toward the GPU connectors (core); -y = PSU side",
+ "disc": {
+  "D_bottom_by_threshold": {
+   "60": 121.74,
+   "90": 122.07,
+   "115": 122.35
+  },
+  "D": 122.07,
+  "sd": 0.157,
+  "max_dev": 0.41,
+  "centre_bottom": [
+   0.0,
+   -0.74
+  ],
+  "centre_top": [
+   0.05,
+   -0.52
+  ],
+  "D_top_by_threshold": {
+   "60": 120.13,
+   "90": 121.57,
+   "115": 122.99
+  }
+ },
+ "holes": {
+  "G1": {
+   "bp": [
+    -49.13,
+    -0.0
+   ],
+   "r": 49.13,
+   "ang": -180.0,
+   "pad_or_ring_d": 8.06,
+   "hole_d": 4.39
+  },
+  "G2": {
+   "bp": [
+    49.13,
+    -0.0
+   ],
+   "r": 49.13,
+   "ang": -0.0,
+   "pad_or_ring_d": 8.53,
+   "hole_d": 3.96
+  },
+  "S1": {
+   "bp": [
+    -52.64,
+    13.81
+   ],
+   "r": 54.42,
+   "ang": 165.3,
+   "pad_or_ring_d": 3.32,
+   "hole_d": null
+  },
+  "S2": {
+   "bp": [
+    -26.57,
+    -46.65
+   ],
+   "r": 53.69,
+   "ang": -119.7,
+   "pad_or_ring_d": 3.32,
+   "hole_d": null
+  },
+  "S3": {
+   "bp": [
+    26.49,
+    -46.64
+   ],
+   "r": 53.64,
+   "ang": -60.4,
+   "pad_or_ring_d": 3.35,
+   "hole_d": null
+  },
+  "S4": {
+   "bp": [
+    -18.12,
+    50.7
+   ],
+   "r": 53.85,
+   "ang": 109.7,
+   "pad_or_ring_d": 3.21,
+   "hole_d": null
+  },
+  "S5": {
+   "bp": [
+    18.49,
+    50.72
+   ],
+   "r": 53.99,
+   "ang": 70.0,
+   "pad_or_ring_d": 3.31,
+   "hole_d": null
+  },
+  "S6": {
+   "bp": [
+    52.8,
+    13.88
+   ],
+   "r": 54.59,
+   "ang": 14.7,
+   "pad_or_ring_d": 3.3,
+   "hole_d": null
+  }
+ },
+ "hole_pitch": 98.25,
+ "registration": {
+  "rms_mm": 0.42,
+  "residuals": {
+   "S6": [
+    0.19,
+    0.53
+   ],
+   "G2": [
+    0.09,
+    0.19
+   ],
+   "S3": [
+    0.07,
+    0.44
+   ],
+   "S2": [
+    0.06,
+    -0.27
+   ],
+   "G1": [
+    0.39,
+    -0.1
+   ],
+   "S1": [
+    -0.14,
+    -0.6
+   ],
+   "S4": [
+    -0.38,
+    -0.07
+   ],
+   "S5": [
+    -0.28,
+    -0.13
+   ]
+  }
+ },
+ "cpu_socket": {
+  "top_frame": {
+   "centre": [
+    -0.04,
+    -12.14
+   ],
+   "L": 78.69,
+   "W": 12.95,
+   "by_threshold": {
+    "65": [
+     [
+      -0.0,
+      -12.33
+     ],
+     78.88,
+     13.44
+    ],
+    "75": [
+     [
+      -0.04,
+      -12.14
+     ],
+     78.69,
+     12.95
+    ],
+    "85": [
+     [
+      -0.12,
+      -12.18
+     ],
+     78.44,
+     12.74
+    ]
+   }
+  },
+  "top_slot": {
+   "centre": [
+    -0.02,
+    -12.57
+   ],
+   "L": 68.43,
+   "W": 4.86
+  },
+  "key_crossbar_x": 8.94,
+  "bottom_pegs": {
+   "PEG_A1": {
+    "bp": [
+     -35.93,
+     -16.04
+    ],
+    "d": 2.39
+   },
+   "PEG_A2": {
+    "bp": [
+     -35.53,
+     -9.01
+    ],
+    "d": 3.47
+   },
+   "PEG_K1": {
+    "bp": [
+     9.07,
+     -15.72
+    ],
+    "d": 2.46
+   },
+   "PEG_K2": {
+    "bp": [
+     9.02,
+     -8.68
+    ],
+    "d": 2.33
+   },
+   "PEG_B1": {
+    "bp": [
+     35.48,
+     -15.95
+    ],
+    "d": 2.71
+   },
+   "PEG_B2": {
+    "bp": [
+     35.71,
+     -8.95
+    ],
+    "d": 3.44
+   }
+  },
+  "centre_from_end_pegs": [
+   -0.07,
+   -12.49
+  ],
+  "end_peg_span": 71.32,
+  "key_pegs_x": 9.05,
+  "axis_deg_vs_hole_axis": 0.06
+ },
+ "connector_fields": {
+  "GPU_L (stock GPU link, -x side)": {
+   "centre": [
+    -35.75689970042976,
+    31.894506340871384
+   ],
+   "L": 39.34,
+   "W": 12.89,
+   "long_axis_deg": 46.52,
+   "n_pads": 202,
+   "nn_pitch": 1.24,
+   "r_centre": 47.91,
+   "ang_centre": 138.27,
+   "axis_line_dist_from_origin": 47.89,
+   "note": "extent of pad CENTRES (add ~1 mm for the pad field edge)"
+  },
+  "GPU_R (stock GPU link, +x side)": {
+   "centre": [
+    35.62616804995182,
+    32.26000436078203
+   ],
+   "L": 38.42,
+   "W": 13.01,
+   "long_axis_deg": -46.69,
+   "n_pads": 247,
+   "nn_pitch": 1.24,
+   "r_centre": 48.06,
+   "ang_centre": 42.16,
+   "axis_line_dist_from_origin": 48.05,
+   "note": "extent of pad CENTRES (add ~1 mm for the pad field edge)"
+  },
+  "PSU_SIDE (stock link, -y side)": {
+   "centre": [
+    -1.728959340524479,
+    -48.7359107896904
+   ],
+   "L": 44.26,
+   "W": 17.27,
+   "long_axis_deg": 0.65,
+   "n_pads": 139,
+   "nn_pitch": 1.25,
+   "r_centre": 48.77,
+   "ang_centre": -92.03,
+   "axis_line_dist_from_origin": 48.71,
+   "note": "extent of pad CENTRES (add ~1 mm for the pad field edge)"
+  }
+ },
+ "other_features": {
+  "dark_round_part_-y_rim": [
+   -0.1,
+   -59.7
+  ],
+  "dark_round_part_+y": [
+   0.2,
+   50.5
+  ],
+  "dark_square_bottom_-x": [
+   -45.2,
+   -14.2
+  ],
+  "small_dim_pad_+y": [
+   -7.0,
+   56.7
+  ],
+  "bottom_IC_~8x8": [
+   31.0,
+   -35.0
+  ],
+  "tall_part_+x_-y (white block)": [
+   45.7,
+   -35.0
+  ],
+  "top_IC_under_tweezers_~10x12 (+-2)": [
+   1.0,
+   20.0
+  ]
+ },
+ "scale_check_pad_pitch_mm": {
+  "x": 1.2719429857464366,
+  "y": 1.264316079019755
+ }
+}

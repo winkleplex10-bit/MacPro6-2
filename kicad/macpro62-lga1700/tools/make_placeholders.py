@@ -113,6 +113,31 @@ b += text("DDR5 SO-DIMM RA socket UMAX 90415-4015SR (H 4.0), module 69.6 x 30", 
 b += text("envelope 78 x 32 incl. latches = ESTIMATE; pads approximate", 0, -12.2, "F.Fab", 0.8)
 fp("MP62_SODIMM_DDR5_262P_RA_UMAX_90415-4015SR", "PLACEHOLDER DDR5 SO-DIMM 262P right-angle SMT socket, UMAX 90415-4015SR (LCSC C19267513, H 4.0). Module 69.6 x 30 (JEDEC). Pads/latch envelope approximate.", b, ref_y=-28.5, val_y=6.5)
 
+# 5b. DDR5 UDIMM 288P VERTICAL SMT socket, UMAX 90414 series (drawing C-90414 rev 3, LCSC datasheet of C2922443).
+#     0.85 pitch, 2 rows; key 1.425 right of the socket centre; pins 1..75 / 145..219 left of the key (1.85 + 74 x 0.85 = 64.75),
+#     76..144 / 220..288 right (4.10 + 68 x 0.85 = 61.90). Boardlock pegs D2.45 at key -70.40 / +67.55.
+#     Body width 6.30 (6.5 max), height 21.30 max, module seating plane <= 2.0 -> module top <= 2.0 + 31.25 = 33.25.
+#     Latch envelope (sheet 4): SHORT latch closed 142.0 / open 151.5 / keep-out 152.0; LONG (LCSC C2922443 = -21) 147.5 / 158.5 / 162.0.
+#     Row-to-row 3.0 (TE 1-2355626-1 data); pad 0.52 x 2.05 (UMAX detail A). Local: long axis = x, centre = body centre.
+b = ""
+KEY = 1.425
+for k in range(75):
+    x = KEY - 1.85 - (74 - k) * 0.85
+    b += smd(str(k + 1), x, 1.5, 0.52, 2.05) + smd(str(k + 145), x, -1.5, 0.52, 2.05)
+for k in range(69):
+    x = KEY + 4.10 + k * 0.85
+    b += smd(str(k + 76), x, 1.5, 0.52, 2.05) + smd(str(k + 220), x, -1.5, 0.52, 2.05)
+b += npth(KEY - 70.40, 0, 2.45) + npth(KEY + 67.55, 0, 2.45)
+b += rect(-70.85, -3.15, 70.85, 3.15, "F.Fab", 0.12)                 # body 141.7 x 6.30
+b += rect(-71.0, -3.25, 71.0, 3.25, "F.SilkS", 0.12)                 # short latch closed 142.0 x 6.5 max
+b += rect(-71.25, -3.5, 71.25, 3.5, "F.CrtYd", 0.05)
+b += rect(-76.0, -3.25, 76.0, 3.25, "Dwgs.User", 0.08)               # latch-open keep-out (DIM A short = 152)
+b += rect(-66.675, -2.025, 66.675, 2.025, "F.Fab", 0.08)             # module 133.35 x 4.05 max thick (MO-329 / C-90414 sheet 2)
+b += line(KEY, -3.25, KEY, 3.25, "F.Fab", 0.1)
+b += text("DDR5 UDIMM 288P VERT SMT, UMAX 90414 short latch (closed 142 / open 152)", 0, -5.0, "F.Fab", 0.9)
+b += text("module 133.35 x 31.25 (x 4.05 max) stands 33.25 max off the board; key", KEY + 9, 0, "F.Fab", 0.6)
+fp("MP62_DIMM_DDR5_288P_Vert_UMAX_90414_ShortLatch", "DDR5 UDIMM 288-pin 0.85 mm vertical SMT socket, UMAX 90414 series (drawing C-90414 rev 3): body 141.7 x 6.30, height 21.3, seating plane <= 2.0. Short latch: closed 142.0, open 151.5, keep-out 152.0 (Dwgs). LCSC stocks the long-latch C2922443 (90414-15011-21, closed 147.5) - order the short-latch code. Pads per drawing detail A (0.52 x 2.05), rows +-1.5.", b, ref_y=-6.5, val_y=6.5)
+
 # 6. CPU-LINK fingers (identical to the carrier; Amphenol CME102241010301X rev A p.2). See carrier make_placeholders.py.
 def offA(n):
     bay = (n - 1) // 28; k = (n - 1) % 28
@@ -168,6 +193,7 @@ A = [
  ("MP62_AREA_PCH_Rails_28x18", 28, 18, ["PCH VCCPRIM_CORE 0.82 V ~12 A buck", "+ 1.8 V (~2.3 A), 1.05, 3.3 primary", "DSW 3.3, RTC (CR2032 via diode)", "743835 Electr_Therm Icc sheet"], "PCH rails per 743835 'Power Rail Icc' (0.82 V core 11.2 A S0 + HSIO adders; 1.8 V; 3.3 V; DSW; RTC)."),
  ("MP62_AREA_VDD2_Buck_14x8", 14, 8, ["VDD2 1.1 V DDR5 MC", "4 A (non-ECC) / 4.5 A ECC", "743844 Table 83"], "VDD2 CPU memory-controller rail buck (DDR5 1.1 V, IccMax 4 A non-ECC)."),
  ("MP62_AREA_5V_SODIMM_VINBULK_14x8", 14, 8, ["5V VIN_BULK for 2x DDR5", "SO-DIMM PMIC (on module)", "12V -> 5V buck ~4 A"], "12 V -> 5 V buck for the DDR5 SO-DIMM on-module PMICs (VIN_BULK)."),
+ ("MP62_AREA_5V_DIMM_VINBULK_14x8", 14, 8, ["5V VIN_BULK for 4x DDR5 UDIMM", "PMIC on module (5 V in)", "12V -> 5V buck ~6 A"], "12 V -> 5 V buck for the 4 DDR5 UDIMM on-module PMICs (VIN_BULK), ~6 A [Estimate]."),
  ("MP62_AREA_eFuse_TPS25985_14x12", 14, 12, ["12V eFuse TPS259851", "per lug pair, ILIM ~15 A", "+ TVS, IMON -> EC ADC"], "TI TPS259851 eFuse + TVS + ILIM/DVDT, one per lug pair (same as the carrier)."),
  ("MP62_AREA_Bulk12V_Back_16x30", 16, 30, ["12V bulk (BACK)", "4x 470uF 16V polymer", "(too tall for the front)"], "12 V bulk polymer capacitors - on the back because 16 V polymer cans exceed the 6.0 mm front limit."),
  ("MP62_AREA_EC_RP2350_14x12", 14, 12, ["EC: RP2350 QFN-60 7x7", "(LCSC C42411118) + QSPI + 12M", "power sequencing / fan / SMBus", "RSMRST#, PWRBTN#, SLP_Sx#, PWROKs"], "Embedded controller RP2350 (no eSPI; GPIO sequencing), its QSPI flash and 12 MHz crystal."),

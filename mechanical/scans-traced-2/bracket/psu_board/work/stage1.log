@@ -1,0 +1,204 @@
+{
+ "calibration": {
+  "SX": 3.9506919591435765,
+  "SY": 3.934780094666144,
+  "aniso_pct": 0.40439018432063545,
+  "unc_pct": 0.2239443531030985
+ },
+ "registration_rms_mm": 0.55,
+ "frame": "CAD frame (psu_board_outline.dxf), viewed from the solder side as scanned; +y = top tab end; bottom tab = lug-pad end",
+ "edges": {
+  "left": {
+   "scan": -51.25,
+   "cad": -51.5,
+   "delta": 0.25,
+   "p10_p90": 4.38
+  },
+  "right": {
+   "scan": 51.0,
+   "cad": 51.456,
+   "delta": -0.46,
+   "p10_p90": 4.73
+  },
+  "top_main_L": {
+   "scan": 70.12,
+   "cad": 75.966,
+   "delta": -5.84,
+   "p10_p90": 7.0
+  },
+  "top_main_R": {
+   "scan": 71.56,
+   "cad": 75.966,
+   "delta": -4.4,
+   "p10_p90": 9.68
+  },
+  "top_tab": {
+   "scan": 80.81,
+   "cad": 79.966,
+   "delta": 0.85,
+   "p10_p90": 12.12
+  },
+  "bot_main_L": {
+   "scan": -75.62,
+   "cad": -72.55,
+   "delta": -3.08,
+   "p10_p90": 3.1
+  },
+  "bot_main_R": {
+   "scan": -74.75,
+   "cad": -72.952,
+   "delta": -1.8,
+   "p10_p90": 11.99
+  },
+  "bot_tab": {
+   "scan": -79.0,
+   "cad": -79.05,
+   "delta": 0.05,
+   "p10_p90": 8.8
+  },
+  "bot_tab_L_side": {
+   "scan": -41.75,
+   "cad": -39.5,
+   "delta": -2.25,
+   "p10_p90": 3.45
+  },
+  "bot_tab_R_side": {
+   "scan": 38.0,
+   "cad": 39.456,
+   "delta": -1.46,
+   "p10_p90": 1.88
+  },
+  "top_tab_L_side": {
+   "scan": -33.88,
+   "cad": -28.0,
+   "delta": -5.88,
+   "p10_p90": 0.0
+  },
+  "top_tab_R_side": {
+   "scan": 33.88,
+   "cad": 27.956,
+   "delta": 5.92,
+   "p10_p90": 0.0
+  }
+ },
+ "width": 102.25,
+ "height_incl_tabs": 159.81,
+ "cad_width": 102.956,
+ "cad_height": 159.016,
+ "holes": {
+  "L-top": {
+   "scan_head_centre": [
+    -47.36,
+    59.61
+   ],
+   "head_d": 5.92,
+   "cad": [
+    -48.0,
+    58.95
+   ],
+   "delta": [
+    0.64,
+    0.66
+   ],
+   "hough_res": [
+    0.43,
+    0.41
+   ]
+  },
+  "L-mid": {
+   "scan_head_centre": [
+    -47.77,
+    -5.06
+   ],
+   "head_d": 6.73,
+   "cad": [
+    -48.0,
+    -5.05
+   ],
+   "delta": [
+    0.23,
+    -0.01
+   ],
+   "hough_res": [
+    0.23,
+    -0.09
+   ]
+  },
+  "L-bot": {
+   "scan_head_centre": [
+    -47.6,
+    -69.09
+   ],
+   "head_d": 5.99,
+   "cad": [
+    -48.0,
+    -69.05
+   ],
+   "delta": [
+    0.4,
+    -0.04
+   ],
+   "hough_res": [
+    0.34,
+    -0.53
+   ]
+  },
+  "R-top": {
+   "scan_head_centre": [
+    47.39,
+    59.14
+   ],
+   "head_d": 6.76,
+   "cad": [
+    47.956,
+    58.548
+   ],
+   "delta": [
+    -0.57,
+    0.6
+   ],
+   "hough_res": [
+    -0.26,
+    0.72
+   ]
+  },
+  "R-mid": {
+   "scan_head_centre": [
+    47.57,
+    -5.03
+   ],
+   "head_d": 6.63,
+   "cad": [
+    47.956,
+    -5.452
+   ],
+   "delta": [
+    -0.39,
+    0.42
+   ],
+   "hough_res": [
+    -0.27,
+    -0.29
+   ]
+  },
+  "R-bot": {
+   "scan_head_centre": [
+    47.56,
+    -69.33
+   ],
+   "head_d": 6.51,
+   "cad": [
+    47.956,
+    -69.452
+   ],
+   "delta": [
+    -0.4,
+    0.13
+   ],
+   "hough_res": [
+    -0.47,
+    -0.22
+   ]
+  }
+ }
+}

@@ -1,6 +1,6 @@
 # MacPro6,2 — own LGA1700 CPU board ("CB"): feasibility study and plan
 
-Version fl1, 2026-10-01 (~18:00 ET). Status: **[Proposal]**. Tags are the same as in the spec: [Sourced] with a link, [Estimate], [Inference], [Unverified], TBD.
+Version fl2, 2026-10-01 (~18:30 ET; fl2 = 4 × DDR5 UDIMM vertical in the stock DIMM strips, §4, after Aidan's question and correction ~18:10 ET; fl1 = 2 × SO-DIMM, kept as the fallback variant). Status: **[Proposal]**. Tags are the same as in the spec: [Sourced] with a link, [Estimate], [Inference], [Unverified], TBD.
 
 **Decision (Aidan, 2026-10-01 ~17:30 ET):** skip the COM-HPC module. The first CPU board is our own LGA1700 socket board (the former stretch goal P6, spec §6.8). The COM-HPC carrier (`/workspace/kicad/macpro62-cpu-carrier/`) stays as an **archived fallback**. It is not deleted.
 
@@ -21,7 +21,7 @@ Deliverables:
 | Firmware | **coreboot + Dasharo** (upstream `msi/ms7d25` port as the template). Public RPL-S FSP. ME = CSME 16.1 Consumer region built with MFIT, HAP bit set. EDK2 (Dasharo UefiPayloadPkg) payload. OpenCore is first loaded from the BP SATA SSD (rev A); embedding it in the payload FV is the stretch goal. | medium (ME/FIT legal grey area) |
 | EC | **RP2350 on the CB** as a GPIO "EC": power sequencing, PWRBTN#, RSMRST#, PWROKs, fan/thermal, SMBus. No SuperIO, no eSPI device. Console on the PCH UART. | medium |
 | VRM | **RT3628AE** (LCSC C3249940) with **6 + 1 phases**: 7 × Vishay SiC654 50 A plus 2 for VCCIN_AUX, and Eaton FP4 0.15 µH 5.0 mm inductors. All on the front, ≤ 6.0 mm, and thermally padded to the core plate. | medium (controller config tools are NDA) |
-| Memory | **2 × DDR5 SO-DIMM** (UMAX 90415-4015SR, 4.0 mm), one per channel, **on the back in the stock DIMM strips**. That zone has proven Z room toward the PSU. | medium-high |
+| Memory | **fl2: 4 × DDR5 UDIMM, vertical, like the stock Mac Pro** (UMAX 90414 short-latch SMT sockets at the stock card centrelines x 6.5 / 15.8 and 140.55 / 149.85, back side), **2DPC daisy chain**, DDR5-4000 (4 × 1R) / 3600 (4 × 2R) / 4400 (2 DIMMs), up to 4 × 48 GB. Same topology as the Dasharo reference MSI PRO Z690-A (2DPC). **Gate: M-CC15** (DIMM top ≤ 33.25 mm off the back vs stock DDR3 ≈ 30 + seat). Fallbacks: VLP 18.75 mm UDIMMs in the same sockets, or fl1 2 × SO-DIMM. | medium |
 | PCB | **JLC 10-layer, 1.6 mm, ENIG + hard-gold bevelled fingers, POFV via-in-pad, impedance control** | high (capability); PCH 0.5 mm fan-out is the tight spot |
 | Socket | **Foxconn PE17007-11NK0-1H**, LCSC C38520273, $5.79 @ 1, 32 in stock (2026-10-01) | high |
 | iGPU | **Enabled** (UHD 770): DDI-1 native DP + DDI-2 into the IOB USB-C DP-alt mux. Bring-up and fallback for Windows/Linux only. **macOS cannot use it at all** (§7). | high |
@@ -70,7 +70,7 @@ Deliverables:
   - B760 is pin-compatible (same ballout), so it is a later BOM swap, not a redesign.
 - **W680 / ECC:**
   - Only W680 enables ECC with Core i5/i7/i9 12th–14th gen. The ASRock Rack W680 WS lists the i5-14500T [N89].
-  - Costs: CSME **Corporate** (a different ME image and a different Dasharo baseline; no W680 Dasharo reference found), **no loose-chip source found**, and ECC SO-DIMMs.
+  - Costs: CSME **Corporate** (a different ME image and a different Dasharo baseline; no W680 Dasharo reference found), **no loose-chip source found**, and ECC UDIMMs.
   - Recommendation: **no ECC in rev A** (decision D2).
 - **HSIO / Flex-I/O lane muxing** (which PCH HSIO lanes are PCIe vs USB3 vs SATA) is set by the PCH soft straps. The rule: **use the PCH lanes the same way the MSI PRO Z790-P does** (its M.2_x slot for the boot SSD, its LAN lane for the i226-V, an x4 slot group for the AQC107). Then the Z790-P descriptor straps can be reused ([Inference]; map the lanes from the coreboot `ms7d25` devicetree and the board manual before layout).
 
@@ -127,7 +127,7 @@ Deliverables:
 - **Port path:**
   1. Copy `src/mainboard/msi/ms7d25`.
   2. Rewrite gpio.c from our schematic, rewrite the devicetree (root ports, CLKSRC, USB port map, DDI config, HDA off), drop the NCT6687D SuperIO, and add the RP2350 EC interface (GPIO/SMBus only).
-  3. Set the memory topology to 2 × SO-DIMM 1DPC.
+  3. Keep the ms7d25 memory config as is: `BOARD_TYPE_DESKTOP_2DPC`, `MEM_TOPO_DIMM_MODULE`, SPD 0x50/0x51 (CH-A) and 0x52/0x53 (CH-B), `dq_pins_interleaved = true` [N121]. (The fl1 SO-DIMM fallback would need a 1DPC board type and a new SPD map.)
   4. Write a new VBT (§7.3) and a new ME/descriptor (§2.3).
 - **First run on the real MSI board:** start with a used **MSI PRO Z690-A DDR5** (or Z790-P). Build Dasharo from source, add OpenCore, boot Tahoe, and only then change things for our board. That de-risks ~80 % of the firmware without our hardware (phase P6-0, §10).
 
@@ -135,7 +135,7 @@ Deliverables:
 
 - Public binary plus headers: intel/FSP `RaptorLakeFspBinPkg/Client/RaptorLakeS`. The AlderLake-S paths are symlinks to it [N97].
 - License: redistribution of the binary is allowed (per the FSP license in the repo).
-- Memory-init UPDs for SO-DIMM DDR5 1DPC exist on the client platforms; we use SPD from the modules.
+- Memory init: FSP-M with SPD from the modules; the 4-DIMM 2DPC desktop topology is exactly what the ms7d25 port already sets up (DDR5 and DDR4 variants) [N121].
 
 ### 2.3 Intel ME / CSME and the descriptor
 
@@ -211,34 +211,91 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
   - Lower option: Coilmaster SEP0603ER15MLF (0.15 µH, 45 A, 3.0 mm) or SEP0603EBR22MLF (0.22 µH, 40 A) [N105]; no LCSC price found.
 - **Output caps:** polymer ≤ 2.8 mm (7343 tantalum-polymer class) plus MLCC; **no tall polymer cans on the front.** 12 V bulk polymers go on the back (CB1/CB2).
 - **Side:** **front**, left of the socket, because the VCCCORE and VCCGT lands sit at the left and bottom of the land field (`fitcheck_floorplan.txt`). Shortest path; no vias carrying 120 A.
-  - Back-side VRM rejected: the back strips hold the SO-DIMMs and the centre holds the backplate.
+  - Back-side VRM rejected: the back strips hold the DIMM sockets and the centre holds the backplate.
+  - fl2: the power stages moved from x 12.0 to **x 11.15** so their through vias land in the 4.2 mm corridor between the back pad rows of J7 (outer) and J6 (inner) (x 9.05–13.25).
 - **Cooling (bonus):** the plate sits 6.3–7.5 mm above the board, so the 5.0 mm inductor tops are 1.3–2.5 mm below it. A **soft thermal pad (≤ 30 Shore 00) from the inductors / power stages / PCH to the black plate** makes the core the VRM heatsink [Inference].
   - The pad force adds to the CPU clamp load; size the pads so they add < 50 N [Estimate].
 
 ### 3.3 Other rails [Proposal]
 
 - **VCCIN_AUX:** 2-phase (2 × SiC654 + 2 × FP4), with a controller that takes the PCH VID pins. Candidate TBD: MSI uses a separate small multiphase controller. Placed front-right, below the PCH-rail block.
-- **VCC1P05/1P8_PROC, VDD2, PCH 0.82 V (15 A), 1.8 V, 3.3 V, DSW, 5 V VIN_BULK** (the DDR5 SO-DIMM PMICs need 5 V): JLC-stocked bucks. Part selection is a schematic task (TPS546/TPS56xxx/MPS class).
+- **VCC1P05/1P8_PROC, VDD2, PCH 0.82 V (15 A), 1.8 V, 3.3 V, DSW, 5 V VIN_BULK** (the DDR5 module PMICs need 5 V; 4 UDIMMs ≈ 6 A budget [Estimate]): JLC-stocked bucks. Part selection is a schematic task (TPS546/TPS56xxx/MPS class).
 - **Standby:** 5V_SBY (6 pins) and 3V3_SB (2 pins) come from the BP over CPU-LINK (spec §3.8). They power the PCH primary/DSW wells, the RP2350 and the RTC in S5 (≈ 1–3 W [Estimate]); check against the BP 5V_SBY budget.
 - **12 V input:** LUG1–4 → 2 × TPS259851 eFuse (as on the carrier) → VCCCORE VR (left pair) and the rest (right pair). Sustained ≈ 92 W PL2 + 25 W other ≈ 10 A at 12 V [Estimate].
 
 ---
 
-## 4. Memory
+## 4. Memory (fl2: 4 × full-size DIMM, stock-like) [Proposal; Aidan question + correction 2026-10-01 ~18:10 ET]
 
-| Option | Fits? | Pros | Cons | Verdict |
+**Stock reference.** The Mac Pro 6,1 has 4 full-length 240-pin DDR3 ECC DIMMs (UDIMM or RDIMM, 1866), 2 per side, and "DIMMs with heatsinks are not supported" [N122]. Per Aidan's correction they **stand vertically** off the back of the riser in normal-style sockets; Apple's socket assembly only tilts to release them. Scan geometry (`/workspace/bracket/cpu_board/`): card centrelines **x 6.5 / 15.8 and 140.55 / 149.85** (9.3 mm pitch), pair bodies x 2.5–18.5 / 137.0–153.0, **y 22.5–168.2 (145.7 long)**. A DDR3 RDIMM is **30.0 mm** tall (29.85–30.50, Micron) [N122], so the proven envelope toward the PSU is ≈ 30 mm + the stock seating plane (≈ 31–32.5 mm in total, matching Aidan's "about 31 mm").
+
+### 4.1 Sockets: vertical 288-pin, buyable
+
+| Part | Type | Key dims | Availability / price (2026-10-01) | Use |
 |---|---|---|---|---|
-| **DDR5 SO-DIMM × 2, back, stock DIMM strips** | **Yes**: x 2.5–34.5 and 121.5–153.5, y 36.5–114.5 (back), clear of the backplate (x 37.25–118.75) | Stock DIMMs lived in these strips, so the Z room toward the PSU is proven. Socket 4.0 mm (UMAX 90415-4015SR, **LCSC C19267513, $2.74, 96 in stock**). Up to 2 × 48 GB. PMIC is on the module (we only supply 5 V). | DDR channels leave the package's **+Y (top) edge** and must turn left/right (byte swizzle allowed, ~50–80 mm). Max ~DDR5-4800/5600 1DPC [Estimate] | **Recommended** |
-| DDR5 SO-DIMM on the front | Height 4.0 + module ≈ 5–6 mm under a 6.0 limit | — | No margin; it blocks the VRM/PCH area | Reject |
-| Full DDR5 UDIMM (stock-like vertical) | Possibly in the strips (DDR3 DIMMs did) | Cheapest RAM | 133 mm slot length + latches in a 133 mm strip; tall | Not for rev A |
-| Soldered DDR5 (memory-down) | Yes | Lowest profile | 8–16 BGA DRAMs + PMIC/SPD on our board, FSP memory-down config, no upgrade, much harder SI | Fallback only |
-| DDR4 SO-DIMM | Yes | Cheaper RAM; the Z690-A DDR4 Dasharo variant exists | The 14th-gen platform is moving to DDR5; DDR4 needs 1.2 V VDDQ and VPP rails on our board | No |
+| **UMAX 90414-xx011-x1 series** (drawing C-90414 rev 3) | DDR5 UDIMM, vertical SMT, 0.85 mm, tab or boardlock | body 141.7 × 6.30, height 21.3, **seat ≤ 2.0**; latch: **short 142.0 closed / 151.5 open / 152 keep-out**, middle 145.5/156/156, long 147.5/158.5/162 | **LCSC C2922443 = 90414-15011-21 (long latch, tab): $4.44, 72 in stock**; short-latch code = "…-11" per the ordering table, not seen at LCSC [Unverified] | **Recommended family; order the short latch** (the long latch does not fit the outer slots, below) [N117] |
+| UMAX 90413-15011-21 | DDR5 DIMM, vertical SMT | (drawing not read) | LCSC C2922442, $4.10, 3 in stock | alternative [N117] |
+| **Amphenol DDR504xxx (standard latch) / DDR506xxx (narrow latch)** | DDR5, vertical SMT | **length ≤ 142, width ≤ 6.5, height ≤ 21.3, seat ≤ 2.0**; also a **single-fixed-latch** option (one end fixed, left or right) | distributors / sample (not checked) | second source; the single-latch version saves ≈ 5 mm of latch swing [N118] |
+| TE 1-/2-/8-2355626-1, 8-2355632-1 | DDR5 DIMM, vertical SMT | profile 21.3, row-to-row 3.0 | Digi-Key 2-2355626-1 ≈ $7.38 (stock not read) | second source [N119] |
+| **UMAX 90411-151231 / -151131** | **DDR4** UDIMM, vertical SMT, 0.85 mm | DDR4 family envelope (drawing not read) | **LCSC C5889263 $2.47, 205 in stock; C5889264 $2.44, 24 in stock** | only if the DDR4 board variant is chosen [N124] |
+| Molex 151080-0101 (25°) | DDR4, angled THT | — | Digi-Key 470 @ $49.36 | **not needed** any more (the stock DIMMs were vertical); no angled DDR5 UDIMM socket was found |
 
-- **Channel naming:** CH-A = J6 (left strip), CH-B = J7 (right strip). The connector row sits on the inner edge, toward the CPU; the module extends outward.
-- **Height on the back:** confirm M-CC3 / M-CC15 (gap to the PSU at the strips with the board in the stock plane). The stock DIMMs stood here, so this is low risk.
-- **Back-strip vias vs front VRM:** VCCCORE thermal vias under the power stages (x 9–15) land under the SO-DIMM module body (allowed; tented). They must stay clear of the connector pad rows (x ≈ 30–35).
+- **Tilt/latch release:** no catalogue socket copies Apple's tilting socket cradle; it is Apple's own mechanism, and a hinged cradle on a rigid 10-layer board would need flexible interconnect (not reasonable). **Standard short ejector latches** are the answer.
+  - Open-latch envelope (152, centred at y 95.6) = y 19.6–171.6. The latch tips swing above the board and pass the outline by **≤ 2.1 mm at the top edge** and **≤ 4.4 mm at the bottom chamfer of the outer slots**. That only matters if the enclosure is in the way when DIMMs are changed. Check it with M-CC15.
+  - If it collides, use a **single-fixed-latch** socket (Amphenol option) with the fixed end at the bottom chamfer. Or add the simple **MP62 DIMM retainer**: a 1 mm stainless or 3D-printed bar across the two module tops per strip, two M2.5 screws into standoffs at the strip ends (y ≈ 20 / 170, inside the old stock end-cap zone). That bar also holds the modules against shock in the vertical-board orientation. It is optional and needs no board change except two holes.
+- **Long latch (the LCSC stock part) does not fit the outer slots:** closed 147.5 must span y ≈ 21.7–169.2, and at x 3.35 the bottom chamfer is at y ≈ 24.0. It does fit the inner slots. Use the short latch for all four (one BOM line).
 
----
+### 4.2 Mechanical fit (vertical, toward the PSU)
+
+| Item | Value | Source |
+|---|---|---|
+| DDR5 UDIMM (JEDEC MO-329) | **133.35 × 31.25**, thickness **≤ 4.05** (incl. PMIC/DRAM, no heat spreader) | C-90414 sheet 2 [N117] |
+| Socket seat | ≤ 2.0 above the board | [N117][N118] |
+| **DIMM top above the CB back** | **≤ 33.25 mm** | 2.0 + 31.25 |
+| Stock DDR3 top | 30.0 (29.85–30.50) + stock seat (≈ 1–2.5, not measured) ≈ 31–32.5 | [N122], scan |
+| **Difference** | **≈ +0.75 … +2.25 mm** (nominal ≈ +1.25: the DDR4/DDR5 module is 1.25 mm taller than DDR3) | [Inference] |
+| CB float on the springs | IHS Z range 6.53–7.53 → the board plane moves ≤ 1.0 mm | §6 |
+| **Requirement M-CC15** | back-to-PSU gap at the strips **≥ 34.5 mm** (33.25 + 1.0 float, + margin), plus the latch-swing check | [Proposal] |
+| Fallback if the gap is 21–34.5 mm | **DDR5 VLP UDIMM 18.75 mm** in the same sockets (top ≤ 20.75): Apacer, Cervoz, Innodisk, 16/32 GB, 4800/5600, industrial pricing | [N123] |
+| Lengthwise | short latch closed 142.0 at y 24.6–166.6 (centre 95.6) inside the stock 22.5–168.2 | fl2 fit check |
+| Pitch | stock 9.3 → **3.0 mm** between the socket bodies (6.3) and **5.25 mm** between bare modules (4.05) | — |
+| Heat spreaders | modules ≤ 7 mm thick still clear each other; tall "gaming" spreaders do not fit the height. Use JEDEC-height bare modules, as Apple requires | [N122] |
+
+**Result: 4 vertical DDR5 UDIMMs fit the stock strips in x and y like stock.** The only open item is the ≈ 1–2 mm of extra height and the latch swing (M-CC15).
+
+### 4.3 Electrical
+
+- **Topology:** 2 DPC per channel, **daisy chain** (CPU → near slot → far slot). Intel requires the **far slot to be populated first** when a channel has one DIMM [N120], which is the daisy-chain convention; Intel client DDR5 boards do not use T-topology [Inference]. fl2: **J6 = CH-A DIMM1 (inner, near, x 15.8), J7 = CH-A DIMM2 (outer, far, x 6.5); J9 = CH-B DIMM1 (x 140.55), J10 = CH-B DIMM2 (x 149.85)**. Populate J7 + J10 first.
+- **Speed (Intel 743844 vol 1, Processor SKU Support Matrix, S Refresh UDIMM) [N120]:**
+
+| Config | DDR5 | DDR4 |
+|---|---|---|
+| 1DPC board (SO-DIMM fl1, or 2 slots) | 5600 (1R and 2R) | 3200 |
+| 2DPC board, 1 DIMM per channel | **4400** | 3200 |
+| 2DPC board, 2 × 1R per channel | **4000** | 3200 |
+| 2DPC board, 2 × 2R per channel | **3600** | 3200 |
+
+  - Bandwidth (2 channels): DDR5-5600 89.6 GB/s · 4400 70.4 · 4000 64.0 · 3600 57.6 · DDR4-3200 51.2.
+  - Capacity: RPL supports 16 and 24 Gb DDR5 dies → 48 GB UDIMMs → **4 × 48 = 192 GB** (= the i5-14500T maximum) vs 2 × 48 = 96 GB on SO-DIMMs; DDR4 4 × 32 = 128 GB.
+- **Routing:**
+  - The DDR lands leave the **+Y package edge** (y 78–91). Each channel runs ≈ 45–60 mm sideways to its strip and then spreads along the 128 mm pin field (pins span ± 63.3 from the socket centre): **≈ 60–125 mm CPU → near slot, + 9.3 mm to the far slot** [Estimate]. That is longer than an ATX board (DIMMs parallel to the DDR edge), but a 2DPC channel only runs at 3600–4400, which is more forgiving than the SO-DIMM fl1 at 5600. Byte-lane skew between bytes is trained (write leveling / read training); match within a byte only.
+  - The socket's 0.85 mm double row is easier to escape than the SO-DIMM's 0.5 mm. Each signal now visits two sockets (≈ 2 × 130 nets [Estimate], short stubs between the rows).
+  - **Layer count stays at 10.** DDR5 on L3/L8 striplines. Under the front VCCCORE switch nodes (left strip), use L8 (shielded by L7/L9 GND) and keep L3 out of the SW-node footprints.
+  - **VRM via corridor:** the left strip lies under the front VRM. The power stages moved to x 11.15 so their vias land between the J7 and J6 pad rows (x 9.05–13.25, drawn on Eco2 in fl2).
+- **Power:** DDR5 modules carry their own PMIC: the CB supplies only **5 V VIN_BULK** (U7, ≈ 6 A budget for 4 modules [Estimate]) and 3.3 V for the SPD hub. CPU VDD2 1.1 V unchanged. Each slot straps its SPD-hub address with the HSA pin resistor → 0x50/0x51/0x52/0x53 [Inference, JEDEC DDR5 SPD hub].
+  - DDR4 would instead need VDDQ 1.2 V (≈ 6–10 A for 4 DIMMs [Estimate]), VPP 2.5 V, a VTT 0.6 V sink/source regulator and VREFCA on our board, and VDD2 becomes 1.2 V.
+- **coreboot / FSP:** the reference MSI PRO Z690-A (ms7d25) is itself a 4-DIMM 2DPC board. Its upstream `romstage_fsp_params.c` sets `UserBd = BOARD_TYPE_DESKTOP_2DPC`, `MEM_TOPO_DIMM_MODULE`, SPD 0x50/0x51/0x52/0x53, `dq_pins_interleaved = true` and `ect = true`, for **both DDR4 and DDR5** variants [N121]. **fl2 matches it 1:1**, so no memory-config change is needed. The fl1 SO-DIMM board would have to change it.
+
+### 4.4 Options and recommendation
+
+| Option | Speed (all slots full) | Max capacity | Height / mech | Board effort | Firmware | Verdict |
+|---|---|---|---|---|---|---|
+| **A. 4 × DDR5 UDIMM vertical (fl2)** | 4000 (1R) / 3600 (2R); 4400 with 2 DIMMs | **192 GB** | ≤ 33.25 mm, ≈ +1.25 mm over stock → **M-CC15**; latch swing check | 4 sockets $4.4 each; only 5 V for the PMICs | **= ms7d25 (2DPC)** | **Recommended** (stock-like, max capacity, reference parity) |
+| B. 4 × DDR4 UDIMM vertical | 3200 (no 2DPC derating) | 128 GB | same envelope (31.25) | + VDDQ/VPP/VTT/VREF rails; sockets $2.47 (C5889263) | = ms7d25 DDR4 (the first Dasharo variant) | Only for cheap used DDR4; 20–30 % less bandwidth than A, more rails |
+| C. 2 × DDR5 SO-DIMM (fl1) | **5600** | 96 GB | 4 mm sockets + modules lying flat, ≤ ≈ 8 mm → no PSU question | 2 sockets $2.74 | new 1DPC config | **Fallback** if M-CC15 fails and VLP is unwanted |
+| A-VLP. Option A with 18.75 mm VLP UDIMMs | as A | 4 × 32 GB = 128 GB (VLP sizes seen) | ≤ 20.75 mm | as A | as A | fallback for A without a board change |
+
+**Decision D3 (new):** take A as the rev-A baseline (fl2 is drawn that way) and keep C as the documented fallback (`docs/fl1_sodimm_variant/`). The board is DDR5 **or** DDR4, never both. The DDR4 variant would be a separate board revision.
 
 ## 5. PCB technology, stackup, socket
 
@@ -279,8 +336,8 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 - **Socket position:** centred on the measured pedestal (78.41, 73.25). The pedestal (40.6 × 41.1) covers the IHS.
 - **Bus-bar lugs:** LUG1–4 at x 30.5 / 42.2 / 115.7 / 128.2, y 159.8 (front view). Polarity TBD (M-CC7).
 - **Height rule:**
-  - Front ≤ **6.0 mm** (5.5 recommended) everywhere under the plate (x 16.2–140.4, y 22.5–164.4). That excludes polymer cans, the MCIO receptacle and SO-DIMMs from the front.
-  - The back holds J3 (MCIO RA), the SO-DIMMs, the M.2, BT1 and the bulk caps. **M-CC3 (back clearance to the PSU) is now a gating measurement** for J3 and the M.2 (the SO-DIMMs are in the proven strips).
+  - Front ≤ **6.0 mm** (5.5 recommended) everywhere under the plate (x 16.2–140.4, y 22.5–164.4). That excludes polymer cans, the MCIO receptacle and memory sockets from the front.
+  - The back holds J3 (MCIO RA), the 4 DIMM sockets, the M.2, BT1 and the bulk caps. **M-CC3 / M-CC15 (back clearance to the PSU) is a gating measurement** for J3, the M.2 and the DIMMs (≤ 33.25 mm, ≈ 1–2 mm above the stock DDR3 envelope, §4.2).
 
 ---
 
@@ -358,14 +415,15 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | U11, U12 | eFuses | F | (36, 146), (134, 146) |
 | LUG1–4 | bus-bar lugs | F | y 159.8 |
 | J1, CAC1 | CPU-LINK fingers, host TX AC caps | F/B | tab, y 15–23 |
-| **J6, J7** | **DDR5 SO-DIMM CH-A / CH-B** (UMAX 90415-4015SR) | **B** | x 2.5–34.5 / 121.5–153.5, y 36.5–114.5 |
+| **J6, J7 / J9, J10** | **DDR5 UDIMM vertical sockets** (UMAX 90414 short latch): CH-A near/far, CH-B near/far | **B** | centrelines x 15.8 / 6.5 / 140.55 / 149.85, y 24.3–166.9 (courtyard 142.5 × 7.0); latch-open keep-out 152 on Dwgs |
+| CB1, CB2 | 12 V bulk polymer (moved out of the strips in fl2) | B | x 19.7–36.3 / 120.2–136.8, y 39.7–70.3 |
 | J8 | M.2 2280 boot (PCH x4) | B | y 13–36 |
 | J3 | IOB-HS MCIO 124 RA (USB3/USB2/MDI/**2 × DDI**) | B | (78, 160), exits toward the top edge |
 | U13, U14, BT1, CB1/CB2 | i226-V, ALC897 (DNP), CR2032, 12 V bulk | B | top |
 | — | backplate keep-out | B | x 37.25–118.75, y 40–107 |
 
 **Land-group check** (from the public ballout, drawn on Dwgs.User):
-- DDR0/DDR1 exit the top edge (y 78–91) and fan out to J6/J7.
+- DDR0/DDR1 exit the top edge (y 78–91): CH-A to J6 → J7 (left), CH-B to J9 → J10 (right), daisy chain.
 - PCIe x16 + x4 are bottom-right (x 77–99, y 56–71) and run straight down to J1.
 - DMI x8 is on the right edge, running toward U2.
 - The DDI lands are bottom-left.
@@ -381,13 +439,13 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | PCB 10L 156 × 170, 1.6 mm, ENIG, POFV, impedance, hard-gold bevel, 5 pcs | $450–1,000 | $450–1,000 | 2022 JLC 10L promo ¥1,000 / 5 pcs / 10 × 10 [N107] × 2.65 area + extras; **instant quote needed** |
 | PCBA setup, stencil, double-sided, BGA X-ray, consignment handling, extended-part fees (~40 unique × $3) | $250–450 | $350–600 | JLC price page [N113]; per-joint cost is small (~5k joints/board) |
 | **PCH** Z790 loose (+3 spares) | 5 × $50–55 = $250–275 | 8 × $50–55 = $400–440 | €45–48 listings [N90]; authenticity risk |
-| Socket ($5.79), RT3628AE ($2.18), 9 × SiC654 ($1.02), 2 × SO-DIMM socket ($2.74), RP2350 ($1.30) | 2 × ≈ $27 | 5 × ≈ $27 | LCSC 2026-10-01 [N102][N108][N114][N115] |
+| Socket ($5.79), RT3628AE ($2.18), 9 × SiC654 ($1.02), 4 × DDR5 DIMM socket (≈ $4.44, long-latch LCSC price as a proxy for the short latch), RP2350 ($1.30) | 2 × ≈ $27 | 5 × ≈ $27 | LCSC 2026-10-01 [N102][N108][N114][N115] |
 | 9 × FP4 inductors, eFuses, bucks, SPI flash, i226-V, crystals, M.2 socket, ~1,500–2,500 passives | 2 × $100–180 | 5 × $100–180 | [Estimate]; no prices sourced for FP4/i226-V |
 | Contact frame (CNC 7075) + steel backplate + springs/screws (2–5 sets) | $100–250 | $200–400 | JLC CNC/sheet-metal [Estimate] |
 | Shipping, customs/duties | $100–200 | $150–250 | [Estimate] |
 | **Subtotal (boards)** | **≈ $1.5k–2.6k** | **≈ $2.6k–4.4k** | |
 | CPU i5-14500T tray | $254–300 each | | Aztek $253.91, SHI $283, Neutron $300.23 (2026-10-01) [N116] |
-| DDR5 SO-DIMM 2 × 16–32 GB, NVMe | per user | | not sourced |
+| DDR5 UDIMM 2–4 × 16–48 GB (JEDEC height, no heat spreader), NVMe | per user | | not sourced |
 | **De-risk kit (P6-0):** used MSI PRO Z690-A DDR5 / Z790-P, CH341A/SOIC clip, spare 14th-gen CPU (if needed) | $150–350 + tools | | [Estimate] |
 | **Respin (rev B)** | budget a further ≈ 70–100 % of the rev-A subtotal | | first-spin success for a hobby LGA board is unlikely |
 
@@ -403,10 +461,11 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 | R-L4 | **VR controller configuration** (RT3628AE datasheet/GUI under NDA; IMVP 9.1 load line) | **High** | Ask the Richtek FAE (hobby projects are often refused); read MSI's RT3628 configuration from its board (PMBus/I²C dump) [Inference]; alternative controller with public docs (TBD); 35 W CPU = big margin |
 | R-L5 | **PCH 0.5 mm fan-out on JLC through-via POFV**; 10L SI | Med-High | JLC DFM review before the order; test coupon; 0.565 neighbour gaps; 8 → 10 layers already |
 | R-L6 | **BGA/LGA assembly yield and rework** (two large BGAs, consigned PCH) | Medium | JLC X-ray; local BGA rework shop; spare PCHs; order 5 PCBs, assemble 2 first |
-| R-L7 | **DDR5 routing to two side strips** (channels exit one edge) | Medium | Byte/bit swizzle per DDR5 rules; DDR5-4800 1DPC; FSP memory training; memory-down as plan B |
+| R-L7 | **DDR5 2DPC routing to two side strips** (channels exit one edge; ≈ 60–125 mm + 9.3 mm daisy chain, under the VRM on the left) | Medium | Intel 2DPC speeds are low (3600–4400); intra-byte matching only; L8 under the VRM; FSP training; fallback fl1 SO-DIMM 1DPC or memory-down |
 | R-L8 | **Front height ≤ 6.0** under the plate (inductors 5.0, caps ≤ 2.8) + thermal pads loading the board | Medium | FP4 / SEP0603 parts; height check per BOM line; soft pads with a force budget |
 | R-L9 | **Firmware effort** (new coreboot mainboard, EC sequencing, VBT, OpenCore embedding) | High (time) | P6-0 on the real MSI board first; reuse ms7d25; OpenCore from the SATA SSD in rev A |
-| R-L10 | **Back clearance to the PSU** for J3 (MCIO RA) and the M.2 (M-CC3) | Medium | Measure; SO-DIMMs already in the proven strips; J3 → low-profile alternative if needed |
+| R-L10 | **Back clearance to the PSU** for J3 (MCIO RA), the M.2 and the **4 vertical DIMMs (≤ 33.25 mm, ≈ +1–2 mm over stock DDR3)** (M-CC3 / M-CC15) | Medium | Measure; DIMMs → VLP 18.75 mm UDIMMs or fl1 SO-DIMMs; J3 → low-profile alternative |
+| R-L14 | **DIMM socket variant**: the LCSC stock part is the long latch (does not fit the outer slots); short-latch availability unverified; open latches swing ≤ 2.1 / 4.4 mm past the outline | Low-Med | Order the UMAX short latch (or Amphenol DDR504/506 ≤ 142, TE 2355626); single-fixed-latch option; optional MP62 DIMM retainer bar |
 | R-L11 | **Ballout orientation / socket footprint** (Intel X/Y view, Foxconn pad sizes) | Medium | Foxconn drawing; check the pin-1 corner against the package drawing (743844 vol 1 mechanical section) before routing |
 | R-L12 | **Gen5 x16 over the CPU-LINK + BP + MCIO** | Low (policy Gen4) | Spec §3.6 unchanged: Gen4 default, optional BP redrivers |
 | R-L13 | macOS lifetime (Tahoe is the last Intel macOS) | Accepted | Windows/Linux long-term; OpenCore until then |
@@ -415,8 +474,8 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 - **GO now for P6-0 "de-risk"** (≈ 3–6 weeks, ≈ $400–900):
   - **G1 Firmware on the reference:** a used MSI PRO Z690-A DDR5 (or Z790-P). Build Dasharo from source; build the ME/descriptor with MFIT (HAP); boot OpenCore → Tahoe from SATA; test embedding OpenCore in the payload; test the iGPU/PEG primary-display options. Dump the RT3628 configuration and measure the sequencing.
   - **G2 Sourcing:** buy 3–5 Z790s from two sellers; inspect; confirm JLC consignment and BGA handling in writing; get an instant 10L quote and a DFM opinion on the PCH fan-out.
-  - **G3 Schematic + routing study:** the PCH escape on 10L at JLC rules, plus DDR5 to J6/J7 (use the existing floorplan).
-  - **G4 Measurements:** M-CC3 (back clearance), M-CC7 (lug polarity), M-CC8 (boss thread).
+  - **G3 Schematic + routing study:** the PCH escape on 10L at JLC rules, plus DDR5 2DPC to J6/J7 and J9/J10 (use the fl2 floorplan).
+  - **G4 Measurements:** M-CC3 / **M-CC15 (back clearance, now incl. the DIMM top ≤ 33.25 + float and the latch swing)**, M-CC7 (lug polarity), M-CC8 (boss thread).
 - **Gate G-A (rev-A order): CONDITIONAL GO** if G1 boots Tahoe with our own build, G2 yields authentic unfused PCHs and a JLC yes, and G3 shows the PCH and DDR5 routable.
   - **No-go triggers:** no ME/descriptor path; PCHs fused or fake; VR controller not configurable. In that case, fall back to the archived COM-HPC carrier (Size A) or memory-down variants.
 - **Honest summary:**
@@ -429,8 +488,8 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 ## 11. Decisions for Aidan
 
 1. **D1 Chipset:** Z790 (recommended; reference parity) or B760 (RCP $26 lower, loose listings only ≈ €3–6 lower; DMI x4)?
-2. **D2 ECC:** no (recommended) or W680 + ECC SO-DIMMs (CSME Corporate, no loose source found)?
-3. **D3 Memory:** 2 × DDR5 SO-DIMM on the back strips (recommended) or memory-down?
+2. **D2 ECC:** no (recommended) or W680 + ECC UDIMMs (CSME Corporate, no loose source found)?
+3. **D3 Memory:** **4 × DDR5 UDIMM vertical, stock-like (fl2, recommended, gated on M-CC15)**, 4 × DDR4 UDIMM (separate board variant), or 2 × DDR5 SO-DIMM (fl1 fallback)?
 4. **D4 CPU class:** design the VR for the 35 W T-series 6P+8E (120–160 A, 6 + 1 phases; recommended) or reserve 8 phases for 65 W 8P+16E?
 5. **D5 ME approach:** MFIT build from the CSME kit (Win-Raid) vs the vendor-image ME region (both grey) with HAP; OK to proceed for personal use?
 6. **D6 P6-0:** OK to buy a used MSI PRO Z690-A DDR5 / Z790-P as the firmware reference and 3–5 loose Z790s now?
@@ -440,7 +499,7 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 
 ---
 
-## 12. Sources (also added to the spec as N84–N116)
+## 12. Sources (also added to the spec as N84–N124)
 
 - [N84] Intel 700 Series Chipset Family PCH Datasheet vol 1, 743835-004 (+ attachments 743835_001_Ballout / GPIO / Electr_Therm_Spec xlsx): https://cdrdv2-public.intel.com/743835/743835-004.pdf
 - [N85] Intel 13th/14th Gen Core desktop datasheet vol 1, 743844-015 (+ 743844-001_S_LGA_Ballout.xlsx): https://cdrdv2-public.intel.com/743844/743844-015.pdf
@@ -476,3 +535,11 @@ The CPU has **no separate VCCSA land**: SA is supplied internally from VCCIN_AUX
 - [N115] UMAX 90415-4015SR DDR5 SO-DIMM socket, LCSC C19267513: https://www.lcsc.com/product-detail/C19267513.html
 - [N116] i5-14500T tray prices: https://www.aztekcomputers.com/cm8071505092904-core-i5-14500t-up-to-4-80ghz-tray-intel/p ; https://www.shi.com/product/47566241/Intel-Core-i5-i5-14500T ; https://www.neutronusa.com/prod.cfm/5149012
 - Realtek ALC897-VA2-CG, LCSC C5884442: https://www.lcsc.com/product-detail/C5884442.html
+- [N117] UMAX 90414 DDR5 UDIMM vertical SMT socket, drawing C-90414 rev 3 (LCSC datasheet): https://datasheet.lcsc.com/datasheet/pdf/28cf2deacb4c13dfe1244a30de7ae951.pdf?productCode=C2922443 ; LCSC C2922443 (90414-15011-21): https://www.lcsc.com/product-detail/C2922443.html ; C2922442 (90413-15011-21): https://www.lcsc.com/product-detail/C2922442.html
+- [N118] Amphenol DDR5 product presentation (vertical DDR5 DIMM: length ≤ 142, width ≤ 6.5, height ≤ 21.3, seat ≤ 2.0; DDR504/DDR506; single fixed latch): https://cdn.amphenol-cs.com/media/wysiwyg/files/documentation/customerpresentation/ddr5_productpresentation.pdf
+- [N119] TE DDR5 DIMM vertical SMT 1-2355626-1 / 8-2355632-1 datasheets: https://atta.szlcsc.com/upload/public/pdf/source/20241028/3906346FCF571F42CD4305C9D13F8559.pdf ; https://pdf.htelec.com/pdf/te/product-8-2355632-1.datasheet.pdf ; Digi-Key 2-2355626-1: https://www.digikey.com/en/products/result?keywords=2-2355626-1
+- [N120] Intel 743844 vol 1, Processor SKU Support Matrix (DDR5 S Refresh UDIMM 1DPC 5600; 2DPC: 1 DIMM 4400 / 2 × 1R 4000 / 2 × 2R 3600; DDR4 3200; "far memory slot to be populated" for 1 DIMM on 2DPC): https://edc.intel.com/content/www/us/en/design/products/platforms/details/raptor-lake-s/13th-generation-core-processors-datasheet-volume-1-of-2/014/processor-sku-support-matrix/
+- [N121] coreboot msi/ms7d25 `romstage_fsp_params.c` (BOARD_TYPE_DESKTOP_2DPC, SPD 0x50–0x53, DDR4 + DDR5): https://github.com/coreboot/coreboot/blob/main/src/mainboard/msi/ms7d25/romstage_fsp_params.c
+- [N122] Apple HT6064 Mac Pro (Late 2013) memory specifications (4 slots, full-length DDR3 ECC, no heat sinks): https://web.archive.org/web/20140228151020/http:/support.apple.com/kb/HT6064 ; Micron 8 GB DDR3 RDIMM, module height 30 mm (29.85–30.50): https://file.icallin.com/r/datasheets/microntechnologyinc-mt18jsf1g72pdz1g6d1-datasheets-0683.pdf
+- [N123] DDR5 VLP UDIMM 18.75 mm: Apacer https://www.apacer.com/en/product/industrial-product/detail/industrial_dram/ddr5_vlp_udimm ; Cervoz https://www.cervoz.com/products/ddr5-vlp-dimm/lists/unbuffered/standard-temp ; Innodisk https://www.innodisk.com/en/products/dram-modules/ddr5/ddr5-ecc-udimm-vlp
+- [N124] UMAX 90411 DDR4 vertical SMT socket: LCSC C5889263 https://www.lcsc.com/product-detail/C5889263.html ; C5889264 https://www.lcsc.com/product-detail/C5889264.html

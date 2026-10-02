@@ -34,8 +34,8 @@ try:
 except Exception:
     pass
 tb = board.GetTitleBlock()
-tb.SetTitle("MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl1")
-tb.SetRevision("A-fl1"); tb.SetDate("2026-10-01"); tb.SetCompany("MacPro6,2 / Aidan Winkler")
+tb.SetTitle("MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl2 (4 x DDR5 UDIMM)")
+tb.SetRevision("A-fl2"); tb.SetDate("2026-10-01"); tb.SetCompany("MacPro6,2 / Aidan Winkler")
 tb.SetComment(0, "Edge.Cuts: stock riser outline (cpu_board_outline_corrected.dxf) + Mini Cool Edge 224 tab 79.89 wide at x=78 (as the CC carrier)")
 tb.SetComment(1, "Stackup: JLC 10L 1.6 mm: L1 S / L2 G / L3 S / L4 G / L5 P / L6 P / L7 G / L8 S / L9 G / L10 S, ENIG + hard-gold fingers, POFV")
 tb.SetComment(2, "U1 LGA1700 (Foxconn PE17007) under the measured pedestal (78.41, 73.25); U2 PCH Z790 FCBGA 28x25; lands/balls from Intel public ballouts")
@@ -215,7 +215,7 @@ for k, pts in grp.items():
 for k in range(7):
     y = 42.0 + 9.0 * k
     nm = "GT" if k == 6 else "C%d" % (k + 1)
-    place("Q%d" % (k + 1), L, "MP62_PowerStage_SiC654_MLP55-31L_5x5", 12.0, y, value="PS %s SiC654" % nm)
+    place("Q%d" % (k + 1), L, "MP62_PowerStage_SiC654_MLP55-31L_5x5", 11.15, y, value="PS %s SiC654" % nm)
     place("L%d" % (k + 1), L, "MP62_IND_Eaton_FP4_10.2x6.8x5.0", 24.5, y, value="L %s FP4-150-R" % nm)
 place("CIN1", L, "MP62_AREA_12V_InCaps_5x66", 5.5, 69.0, value="12V in caps")
 place("COUT1", L, "MP62_AREA_VCCCORE_OutCaps_5x66", 33.5, 69.0, value="VCCCORE/GT out caps")
@@ -224,7 +224,7 @@ txt("VCCCORE 6 phases + VCCGT 1 phase (7 x SiC654 50 A + FP4 0.15 uH h5.0), 120 
 place("U4", L, "MP62_AREA_VCCIN_AUX_2ph_28x22", 134.0, 45.0, value="VCCIN_AUX 2ph")
 place("U5", L, "MP62_AREA_VCC1P05_1P8_PROC_28x14", 134.0, 66.0, value="VCC1P05/1P8_PROC")
 place("U6", L, "MP62_AREA_PCH_Rails_28x18", 134.0, 86.0, value="PCH rails")
-place("U7", L, "MP62_AREA_5V_SODIMM_VINBULK_14x8", 127.0, 104.0, value="5V VIN_BULK")
+place("U7", L, "MP62_AREA_5V_DIMM_VINBULK_14x8", 127.0, 104.0, value="5V VIN_BULK 4x UDIMM")
 place("U8", L, "MP62_AREA_VDD2_Buck_14x8", 62.0, 110.0, value="VDD2 1.1V")
 place("U2", L, "MP62_PCH700_FCBGA1045_28x25_IntelBallout", 110.0, 133.0, value="U2 PCH Z790 FH82Z790")
 place("Y1", L, "MP62_AREA_CLK_XTAL_10x6", 89.0, 140.0, value="Y1/Y2 38.4M + 32k")
@@ -245,13 +245,26 @@ place("CAC1", L, "MP62_AREA_PEG_ACcaps_70x8", 80.0, 19.0, value="PCIe AC caps")
 rule_area("TAB_FINGERS_NO_VIAS", [(XL - 0.5, 0.0), (XR + 0.5, 0.0), (XR + 0.5, 6.0), (XL - 0.5, 6.0)], ALLCU, vias=True, pour=True)
 
 # ---------------- back side ----------------
-place("J6", L, "MP62_SODIMM_DDR5_262P_RA_UMAX_90415-4015SR", 18.5, 75.5, rot=-90, side="B", value="J6 SO-DIMM CH-A (DDR5)")
-place("J7", L, "MP62_SODIMM_DDR5_262P_RA_UMAX_90415-4015SR", 137.5, 75.5, rot=90, side="B", value="J7 SO-DIMM CH-B (DDR5)")
+# 4 x DDR5 UDIMM vertical in the stock DIMM strips (stock card centrelines x 6.5 / 15.8 and 140.55 / 149.85, 9.3 pitch;
+# stock strip y 22.5-168.2). 2DPC daisy chain: CPU -> inner (near, DIMM1) -> outer (far, DIMM2; populate first).
+DIMM_YC = 95.6
+DIMMS = [("J6", 15.8, "CH-A DIMM1 near"), ("J7", 6.5, "CH-A DIMM2 far"), ("J9", 140.55, "CH-B DIMM1 near"), ("J10", 149.85, "CH-B DIMM2 far")]
+for ref, x, nm in DIMMS:
+    f_ = place(ref, L, "MP62_DIMM_DDR5_288P_Vert_UMAX_90414_ShortLatch", x, DIMM_YC, rot=90, side="B", value="%s %s DDR5 UDIMM" % (ref, nm))
+    f_.Reference().SetLayer(pcbnew.B_Fab)          # 9.3 pitch leaves no room for silk refs between the sockets
+for (x1, x2) in ((2.5, 18.5), (137.0, 153.0)):
+    rect(x1, 22.5, x2, 168.2, E2, 0.1)                                       # stock DIMM-pair body (scan)
+txt("STOCK DDR3 PAIR 22.5-168.2", 10.5, 20.5, E2, 0.55); txt("STOCK DDR3 PAIR 22.5-168.2", 145.0, 20.5, E2, 0.55)
+txt("BACK: 4 x DDR5 UDIMM vertical, module top <= 33.25 off the back (stock DDR3 30.0 + seat) -> confirm M-CC15; CH-A J6 near / J7 far", 1.0, 172.0, E2, 0.6, left=True)
+txt("CH-B J9 near / J10 far", 128.0, 172.0, E2, 0.6, left=True)
+for y in range(40, 104, 9):
+    rect(9.05, y - 2.6, 13.25, y + 2.6, E2, 0.08)                            # via corridor under each power stage
+txt("VRM via corridor x 9.05-13.25 (between the J7/J6 pad rows)", 11.15, 112.5, E2, 0.5, angle=90)
 place("J8", L, "MP62_CB_M2_2280_MKey_PLACEHOLDER", 123.0, 24.8, side="B", center=False, value="J8 M.2 2280 boot (PCH x4)")
 place("J3", L, "MP62_AREA_J3_MCIO_RA_IOB_44x12", 78.0, 160.0, side="B", value="J3 IOB-HS MCIO RA")
 place("BT1", L, "MP62_AREA_BT1_CR2032_22x16", 70.0, 128.0, side="B", value="BT1 CR2032")
-place("CB1", L, "MP62_AREA_Bulk12V_Back_16x30", 12.0, 140.0, side="B", value="12V bulk L")
-place("CB2", L, "MP62_AREA_Bulk12V_Back_16x30", 144.0, 140.0, side="B", value="12V bulk R")
+place("CB1", L, "MP62_AREA_Bulk12V_Back_16x30", 28.0, 55.0, side="B", value="12V bulk L")
+place("CB2", L, "MP62_AREA_Bulk12V_Back_16x30", 128.5, 55.0, side="B", value="12V bulk R")
 place("U13", L, "MP62_AREA_i226V_10x10", 106.0, 148.0, side="B", value="U13 i226-V")
 place("U14", L, "MP62_AREA_HDA_ALC897_DNP_10x10", 46.0, 120.0, side="B", value="U14 ALC897 DNP")
 BPZ = (37.25, 40.0, 118.75, 107.0)
@@ -259,27 +272,26 @@ rule_area("MP62_BACKPLATE_B", [(BPZ[0], BPZ[1]), (BPZ[2], BPZ[1]), (BPZ[2], BPZ[
 rect(*BPZ, E2, 0.25)
 txt("BACK: MP62 steel backplate 81.5 x 67 (insulated; PEM nuts for the frame seat screws; window for socket-cavity MLCCs)", 78.0, BPZ[1] + 1.5, E2, 0.7)
 rect(96.0, 120.5, 124.0, 145.5, E2, 0.12); txt("BACK: PCH decoupling field (keep free)", 110.0, 118.8, E2, 0.6)
-txt("BACK side strips = stock DIMM zones (proven Z room toward the PSU)", 18.5, 116.0, E2, 0.6)
-txt("BACK side strips = stock DIMM zones", 137.5, 116.0, E2, 0.6)
 
 # ---------------- routing intent arrows/notes (Cmts) ----------------
-txt("DDR0/DDR1 exit the +Y package edge -> fan out left (CH-A J6) and right (CH-B J7) on L3/L8, byte-swizzled", CX, 96.0, C, 0.65)
+txt("DDR0/DDR1 exit the +Y package edge -> left (CH-A J6 near, J7 far) / right (CH-B J9 near, J10 far), daisy chain on L3/L8", CX, 96.0, C, 0.65)
 txt("PEG x16 Gen5 + CPU x4 Gen4 -> down to J1 (Face P / Face S)", CX, 30.0, C, 0.7)
 txt("DMI x8 -> PCH (right, up)", 107.0, 112.0, C, 0.65)
 txt("DDI A-E lands (bottom-left of the package): DDI-1 (native DP) + DDI-2 (USB-C DP-alt) -> J3 IOB (sec. 7 of the plan)", CX, 50.5, C, 0.6)
 txt("PCH x4 Gen4 -> J8 M.2 (back)", 78.0, 38.0, C, 0.65)
 
 NOTES = [
- "MP62 LGA1700 CPU BOARD (CB) rev A floorplan fl1 - frame: x right, y up from the board bottom, FRONT = socket/core side",
+ "MP62 LGA1700 CPU BOARD (CB) rev A floorplan fl2 - frame: x right, y up from the board bottom, FRONT = socket/core side",
  "1  U1 LGA1700 (Foxconn PE17007-11NK0-1H) centred under the measured pedestal (78.41, 73.25); package X (45) along board x.",
  "   Lands from Intel 743844-001 ballout (public). Orientation assumes the ballout is a top view - VERIFY (pin-1 corner).",
  "2  MP62 contact frame 71 x 54 x <= 6.0 + 4 ears on the FIXED 69.5 x 55 core holes; 4 own seat screws (H5-H8) into the backplate.",
- "3  VRM front-left: 6 + 1 phases SiC654 + Eaton FP4 (5.0 mm); RT3628AE. Inductor tops 1.3-2.5 mm under the plate -> thermal pads.",
+ "3  VRM front-left: 6 + 1 phases SiC654 (x 11.15, vias in the back corridor between J7/J6) + Eaton FP4 (5.0 mm); RT3628AE.",
  "4  U2 PCH (Z790, 28 x 25, 0.5 pitch) front top-right, under the plate (thermal pad to the core plate, 6 W).",
- "5  BACK: 2 x DDR5 SO-DIMM (UMAX 90415-4015SR, 4 mm) in the stock DIMM strips; M.2 2280 bottom; J3 MCIO RA top; backplate centre.",
+ "5  BACK: 4 x DDR5 UDIMM vertical (UMAX 90414 short latch) at the stock centrelines, 2DPC; M.2 bottom; J3 top; backplate centre.",
  "6  Front height limit 6.0 (5.5 rec.) everywhere under the plate (x 16.2-140.4, y 22.5-164.4): no polymer cans, no MCIO on the front.",
  "7  Stackup JLC 10L 1.6: L1 S / L2 G / L3 S / L4 G / L5 P / L6 P / L7 G / L8 S / L9 G / L10 S; POFV via-in-pad; 85/90/100 ohm.",
- "8  PLACEHOLDERS: real outer dims where sourced (FP4, SiC654, PCH, LGA, M.2, SO-DIMM module); pads approximate; no nets.",
+ "8  PLACEHOLDERS: real outer dims where sourced (FP4, SiC654, PCH, LGA, M.2, DIMM socket C-90414); pads approximate; no nets.",
+ "9  DIMM top <= 33.25 mm off the back (seat 2.0 + 31.25) vs stock DDR3 30.0 + seat: confirm M-CC15; VLP 18.75 UDIMM = fallback.",
 ]
 for i, n in enumerate(NOTES):
     txt(n, 162.0, 168.0 - i * 3.2, pcbnew.User_1, 1.3 if i == 0 else 1.1, left=True)

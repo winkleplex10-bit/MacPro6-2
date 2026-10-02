@@ -1,4 +1,4 @@
-# MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl1
+# MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl2 (4 x DDR5 UDIMM)
 
 Primary CPU board since 2026-10-01 (Aidan: skip COM-HPC; the carrier `/workspace/kicad/macpro62-cpu-carrier/` is the archived fallback).
 Plan / feasibility study: `/workspace/macpro62-lga1700-board-plan.md`. Spec: `macpro62-architecture-spec-v0.2.md` §6.
@@ -24,5 +24,12 @@ Contents (no nets, not routed):
 - H1-H4 core holes D5 (69.5 x 55, fixed), H5-H8 contact-frame seat screws (own pattern), MP62 contact frame on Eco1.User.
 - VRM: 7 x SiC654 (5x5) + 7 x Eaton FP4 (10.2 x 6.8 x 5.0) = 6 core + 1 GT phases, RT3628AE area; VCCIN_AUX, 1P05/1P8, PCH rails,
   VDD2, 5 V VIN_BULK areas.
-- Back: 2 x DDR5 SO-DIMM (UMAX 90415-4015SR) in the stock DIMM strips, M.2 2280, J3 MCIO RA (IOB-HS incl. 2 x DDI), BT1, bulk 12 V.
+- Back (fl2, 2026-10-01 ~18:30 ET): 4 x DDR5 UDIMM VERTICAL sockets (UMAX 90414 short latch, drawing C-90414 rev 3:
+  body 141.7 x 6.3, seat <= 2.0, closed 142 / open-latch keep-out 152 on Dwgs.User) at the stock card centrelines
+  x 6.5 / 15.8 / 140.55 / 149.85, y centre 95.6; 2DPC daisy chain J6 -> J7 (CH-A near -> far), J9 -> J10 (CH-B).
+  Module top <= 33.25 mm off the back (stock DDR3 30.0 + seat) -> M-CC15. Stock DIMM-pair bodies drawn on Eco2.
+  VRM power stages at x 11.15 so their vias fall in the corridor between the J7/J6 pad rows (Eco2). 12 V bulk CB1/CB2
+  moved to x 19.7-36.3 / 120.2-136.8, y 39.7-70.3. Also M.2 2280, J3 MCIO RA (IOB-HS incl. 2 x DDI), BT1.
+- fl1 (2 x DDR5 SO-DIMM UMAX 90415-4015SR, lying flat in the strips) is the documented fallback:
+  docs/fl1_sodimm_variant/ (render, fit check, build script; the SO-DIMM footprint stays in the library).
 - Keep-outs: D12 around H1-H4 (no tracks/vias), backplate zone on B (no footprints), tab y < 6 (no vias/pour).

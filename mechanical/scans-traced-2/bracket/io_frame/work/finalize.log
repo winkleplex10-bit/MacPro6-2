@@ -1,0 +1,37 @@
+reg rms 0.22 rot 0.05 [('TALL_R', [0.11, -0.04]), ('SQ_R', [0.12, 0.07]), ('ROUND_R', [-0.33, 0.22]), ('SMALL_R1', [-0.01, -0.06]), ('SMALL_R2', [-0.21, -0.11]), ('TALL_L', [0.15, -0.16]), ('ROUND_L', [0.17, 0.08])]
+{"cx": 52.93583788951791, "cy": 76.34469608565928, "w": 51.6587770100637, "h": 164.0171986813399, "R": 11.834728215037519, "angle_deg_in_board_frame": 1.277653787671909, "fit_res_sd_mm": 0.17314853133042588, "x_range": [25.7884643963161, 79.81552485768441], "y_range": [-6.4457770429552, 158.49278190936593]}
+BIG_L {'cx': 55.46, 'cy': 120.19, 'w': 37.58, 'h': 58.72, 'area_mm2': 1521.43, 'eq_d': 44.01, 'x_range_top': (35.404839873654154, 68.56086622249721), 'x_range_low': (54.42512912426001, 71.13053271573244), 'step_y': 115.48}
+SMALL_R1 {'cx': 41.93, 'cy': 107.11, 'w': 18.28, 'h': 8.99, 'area_mm2': 152.4, 'eq_d': 13.93}
+SMALL_R2 {'cx': 42.41, 'cy': 91.5, 'w': 15.58, 'h': 13.03, 'area_mm2': 193.27, 'eq_d': 15.69}
+TALL_L {'cx': 63.7, 'cy': 66.2, 'w': 12.17, 'h': 30.16, 'area_mm2': 353.36, 'eq_d': 21.21}
+TALL_R {'cx': 42.56, 'cy': 65.72, 'w': 12.36, 'h': 30.18, 'area_mm2': 358.18, 'eq_d': 21.36}
+SQ_L {'cx': 67.05, 'cy': 37.99, 'w': 22.68, 'h': 20.11, 'area_mm2': 438.32, 'eq_d': 23.62}
+SQ_R {'cx': 43.06, 'cy': 37.36, 'w': 17.58, 'h': 20.03, 'area_mm2': 337.35, 'eq_d': 20.72}
+ROUND_L {'cx': 64.48, 'cy': 19.34, 'w': 6.36, 'h': 6.38, 'area_mm2': 32.16, 'eq_d': 6.4}
+ROUND_R {'cx': 43.74, 'cy': 18.88, 'w': 6.36, 'h': 6.39, 'area_mm2': 31.8, 'eq_d': 6.36}
+BOTTOM {'cx': 54.32, 'cy': 3.24, 'w': 46.89, 'h': 10.43, 'area_mm2': 423.43, 'eq_d': 23.22}
+HOLE_C1 {'cx': 52.93, 'cy': 75.41, 'w': 3.07, 'h': 3.08, 'area_mm2': 7.91, 'eq_d': 3.17}
+HOLE_C2 {'cx': 53.38, 'cy': 58.38, 'w': 4.85, 'h': 4.85, 'area_mm2': 18.36, 'eq_d': 4.84}
+CORNER_TL {'cx': 73.39, 'cy': 149.63, 'w': 3.06, 'h': 3.08, 'area_mm2': 7.85, 'eq_d': 3.16}
+CORNER_TR {'cx': 29.2, 'cy': 148.43, 'w': 3.31, 'h': 3.34, 'area_mm2': 9.0, 'eq_d': 3.39}
+CORNER_BL {'cx': 76.55, 'cy': 14.22, 'w': 3.31, 'h': 3.32, 'area_mm2': 8.55, 'eq_d': 3.3}
+CORNER_BR {'cx': 32.36, 'cy': 13.08, 'w': 3.32, 'h': 3.58, 'area_mm2': 9.65, 'eq_d': 3.5}
+PIN_C3 {'cx': 54.49, 'cy': 19.23, 'w': 3.0, 'h': 3.0, 'eq_d': 3.0, 'area_mm2': 7.1, 'note': 'dark ring with bright centre between the audio holes (pin/LED?), manual +-0.5'}
+{"rail_scan_left": {"x_mean": 84.07711066704613, "x_sd": 1.1078955259457057, "y_range": [-2.3489303894057514, 154.69338502140053], "ends_px_y": [252, 905], "ends_mm": [[84.00838359228672, 159.26922335964804], [84.145627567265, -6.670613298708048]]}, "rail_scan_right": {"x_mean": 22.22106826330684, "x_sd": 1.0322122808579637, "y_range": [-2.4004258464750023, 154.6425175577102], "ends_px_y": [252, 905], "ends_mm": [[22.152341188547425, 159.21806404006048], [22.2895851635257, -6.721772618295603]]}}
+{'plate': 'AC', 'frame': 'BIG_L', 'min_margin_mm': -0.06}
+{'plate': 'POWER_BUTTON', 'frame': 'BIG_L', 'min_margin_mm': 1.65}
+{'plate': 'ETH_O1', 'frame': 'BIG_L', 'min_margin_mm': 0.59}
+{'plate': 'HDMI', 'frame': 'SMALL_R1', 'min_margin_mm': 1.17}
+{'plate': 'ETH_H1', 'frame': 'SMALL_R2', 'min_margin_mm': 0.65}
+{'plate': 'TB_H1', 'frame': 'TALL_R', 'min_margin_mm': 1.48}
+{'plate': 'TB_H2', 'frame': 'TALL_R', 'min_margin_mm': 1.63}
+{'plate': 'TB_H3', 'frame': 'TALL_R', 'min_margin_mm': 1.46}
+{'plate': 'TB_O1', 'frame': 'TALL_L', 'min_margin_mm': 1.24}
+{'plate': 'TB_O2', 'frame': 'TALL_L', 'min_margin_mm': 1.53}
+{'plate': 'TB_O3', 'frame': 'TALL_L', 'min_margin_mm': 1.63}
+{'plate': 'USB_H1', 'frame': 'SQ_R', 'min_margin_mm': 1.59}
+{'plate': 'USB_H2', 'frame': 'SQ_R', 'min_margin_mm': 1.7}
+{'plate': 'USB_O1', 'frame': 'SQ_L', 'min_margin_mm': 1.64}
+{'plate': 'USB_O2', 'frame': 'SQ_L', 'min_margin_mm': 1.48}
+{'plate': 'AUDIO_H', 'frame': 'ROUND_R', 'min_margin_mm': 0.41}
+{'plate': 'AUDIO_O', 'frame': 'ROUND_L', 'min_margin_mm': 0.61}
