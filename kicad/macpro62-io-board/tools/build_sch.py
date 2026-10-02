@@ -389,7 +389,8 @@ dec("3V3_SB", ["1uF", "100nF"])
 for i in range(8): add("D%d" % (i + 1), "LED", "Diag LED %d (stock #1-#8 set) 0603" % (i + 1), {"1": "LED%d_K" % (i + 1), "2": "3V3_SB"})
 add("D20", "LED", "Power/sleep LED white 0603 (under button cap)", {"1": "LED_PWR_K", "2": "3V3_SB"})
 for i, t in enumerate(["HDMI label", "ETH icon", "USB-C icon upper", "USB-C icon lower", "USB icon", "audio icons"]):
-    add("D%d" % (21 + i), "LED", "Light-pipe LED white 0603: " + t, {"1": "LEDP%d_K" % (i + 1), "2": "3V3_SB"})
+    add("D%d" % (21 + i), "LED", "DNP (2026-10-02: port lighting via the 821-2222 flex on J31; the metal frame centre bar blocks board-side light pipes) light-pipe LED 0603: " + t,
+        {"1": "LEDP%d_K" % (i + 1), "2": "3V3_SB"}, dnp=True)
 add("U81", "LIS2DH12", "LIS2DH12TR @0x18 (optional rotate-to-light)", {"SCL": "I2C_SYS_SCL", "SDA": "I2C_SYS_SDA", "SA0": "GND", "CS": "3V3_SB", "VDD": "3V3_SB",
     "VDD_IO": "3V3_SB", "GND": "GND", "INT1": "IOB_INT_N"})
 dec("3V3_SB", ["100nF"])

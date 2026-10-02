@@ -54,6 +54,12 @@
     - **Cost:** about +$9–14 per board (≈ $115 parts). IOB power +≈ 1 W.
     - **Checks:** DRC 0 / ERC 0, 117 footprints.
     - **Open items:** HR913790A is not stocked at LCSC (global sourcing or consign). M-IOF2 must confirm the jack set-back (D0 ≥ 16.9 + frame-back depth + 0.3).
+25. **IOB plate v2 reworked for the stock I/O-wall flex 821-2222; D0 re-estimated (Aidan photos, 2026-10-02 ~08:34–08:43 ET; rev ~09:10 ET; IOB plan §4.5, §4.7).**
+    - **Plate:** constant 1.2 wall (inner face concentric). Flat lands stay, with their bosses ramped 60–72° inboard. 0.2 glue pocket for the traced 821-2222 outline; foam allowance 1.0 (TO MEASURE). Light windows over the six flex light-guide pads. Locating pins at frame HOLE_C1 / PIN_C3. Rim notch for the flex neck. No collars or light-pipe bosses; one mirrored clip dropped. Flex trace `flex_821-2222_trace.dxf`.
+    - **D-IO10 revised:** port lighting comes from the flex on J31. D21–D26 are DNP, because the metal frame centre bar blocks 5 of the 6 board-side pipe positions. J31 stays the primary path for button and lights; SW1/D20 are the no-flex fallback.
+    - **D-IO12 (new):** the ports clear the flex cut-outs in plan view; the USB-C shells are marginal (−0.11…+0.32; shift ≈ 0.25 inboard if confirmed). The land bosses stand 1.2–2.0 proud and overlap the flex rims, so the stock flex can only be fit-tested gently. The fix is an A1 replacement flex (same outline, cut-outs = bosses + 0.3), ≈ $40–90 for 5.
+    - **D-IO13 (new):** no insulating shroud. Use the stock 1 mm foam, or a 0.25 Formex/foam die-cut from `io_flex_foam_insulator_A0.dxf`.
+    - **M-IOF2 [Estimate]:** stock board ≈ 2.0 thick; stock port stack ≈ 20–23 above the board, so D0 ≈ 22–25. The ETH jacks then sit ≈ 1.8–4.8 behind the frame back plane (gate passes) and ≈ 3.2–6.2 below the land. **New top risk:** the required vertical-connector heights (USB-C ≈ 20.5–23.5) exceed typical parts. Caliper D0 before any connector choice.
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
 **v0.1 (2026-09-30):** first draft (card-edge architecture).
@@ -1427,6 +1433,7 @@ v0.1's 12V_EDGE (card-edge 12 V) is gone: anything above 3 W uses 12V_BUS.
 > - Audio is CM108B (UAC1) for rev A, with CM6646 deferred (D-IO5).
 > - Power budget: ≈ 116–126 W worst case at 12 V, with the USB-C pool capped at 45–60 W.
 > - **2026-10-02 (item 24):** 2 × 2.5GbE (2 × i226-V on PCH RP3/RP4). DDI-C on J3 is now 2-lane; k14 carries i226 #2.
+> - **2026-10-02 (item 25):** plate v2 carries the stock 821-2222 flex (port lights via J31, D21–D26 DNP). D0 is re-estimated at 22–25 mm, which puts the vertical-connector heights at risk (IOB plan §4.7).
 
 > **CB update (2026-10-01):** the IOB high-speed link from the CB (J3, MCIO 124 RA, back side) now also carries **2 × CPU DDI** (DDI-B native DP, DDI-C into a 2:1 DP mux with the Face P GPU's DP in front of the USB-C DP-alt path): 26 of 32 pairs used (§6.0). The IOB needs the DP mux (TI HD3SS215 class [Unverified]) and the DP++ receptacle.
 

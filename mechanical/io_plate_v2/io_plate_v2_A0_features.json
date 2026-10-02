@@ -26,9 +26,454 @@
    53.2,
    65.45
   ],
-  "collar_l0": 1.0,
-  "clearance_per_side": 0.3
+  "collar_l0": 0.0,
+  "clearance_per_side": 0.3,
+  "flex": {
+   "mode": "stock",
+   "flex_t": 0.12,
+   "psa_t": 0.05,
+   "foam_t": 1.0,
+   "pocket": 0.2,
+   "pocket_clr": 0.3,
+   "neck_notch": [
+    74.6,
+    27.6,
+    81.5,
+    46.7
+   ]
+  }
  },
+ "bosses": {
+  "LAND_C_H": {
+   "boss_w": 11.8,
+   "boss_h": 25.7,
+   "proud_of_inner_skin": 1.22,
+   "ramp_deg": 59.5,
+   "ramp_run": 0.72,
+   "land_z": -1.55,
+   "boss_bottom_z": -2.55
+  },
+  "LAND_C_O": {
+   "boss_w": 11.8,
+   "boss_h": 25.7,
+   "proud_of_inner_skin": 1.24,
+   "ramp_deg": 59.9,
+   "ramp_run": 0.72,
+   "land_z": -1.58,
+   "boss_bottom_z": -2.58
+  },
+  "LAND_A_H": {
+   "boss_w": 16.8,
+   "boss_h": 19.35,
+   "proud_of_inner_skin": 1.72,
+   "ramp_deg": 68.4,
+   "ramp_run": 0.68,
+   "land_z": -1.93,
+   "boss_bottom_z": -2.93
+  },
+  "LAND_A_O": {
+   "boss_w": 16.8,
+   "boss_h": 19.35,
+   "proud_of_inner_skin": 1.91,
+   "ramp_deg": 70.7,
+   "ramp_run": 0.67,
+   "land_z": -2.15,
+   "boss_bottom_z": -3.15
+  },
+  "LAND_ETH1": {
+   "boss_w": 15.4,
+   "boss_h": 13.1,
+   "proud_of_inner_skin": 1.63,
+   "ramp_deg": 67.2,
+   "ramp_run": 0.68,
+   "land_z": -1.87,
+   "boss_bottom_z": -2.87
+  },
+  "LAND_HDMI": {
+   "boss_w": 17.8,
+   "boss_h": 8.4,
+   "proud_of_inner_skin": 2.03,
+   "ramp_deg": 71.9,
+   "ramp_run": 0.67,
+   "land_z": -2.25,
+   "boss_bottom_z": -3.25
+  },
+  "LAND_AUD_H": {
+   "boss_w": 7.0,
+   "boss_h": 7.0,
+   "proud_of_inner_skin": 0.59,
+   "ramp_deg": 52.7,
+   "ramp_run": 0.45,
+   "land_z": -1.04,
+   "boss_bottom_z": -2.04
+  },
+  "LAND_AUD_O": {
+   "boss_w": 7.0,
+   "boss_h": 7.0,
+   "proud_of_inner_skin": 0.73,
+   "ramp_deg": 60.7,
+   "ramp_run": 0.41,
+   "land_z": -1.32,
+   "boss_bottom_z": -2.32
+  },
+  "LAND_ETH2": {
+   "boss_w": 14.8,
+   "boss_h": 12.4,
+   "proud_of_inner_skin": 1.64,
+   "ramp_deg": 70.9,
+   "ramp_run": 0.57,
+   "land_z": -1.91,
+   "boss_bottom_z": -2.91
+  }
+ },
+ "flex_check": [
+  {
+   "port": "C1",
+   "flex_cutout": {
+    "cx": 42.74,
+    "cy": 75.33,
+    "w": 9.08,
+    "h": 6.43
+   },
+   "offset": [
+    -0.14,
+    -0.13
+   ],
+   "through": "receptacle shell (mouth flush with the land, so it crosses the flex plane)",
+   "through_size": [
+    8.94,
+    3.26
+   ],
+   "through_min_margin": -0.07,
+   "plate_opening_min_margin": -0.4,
+   "boss": "LAND_C_H",
+   "boss_overlap_max": 1.5,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.22
+  },
+  {
+   "port": "C4",
+   "flex_cutout": {
+    "cx": 63.59,
+    "cy": 75.47,
+    "w": 9.46,
+    "h": 6.31
+   },
+   "offset": [
+    0.31,
+    -0.27
+   ],
+   "through": "receptacle shell (mouth flush with the land, so it crosses the flex plane)",
+   "through_size": [
+    8.94,
+    3.26
+   ],
+   "through_min_margin": -0.05,
+   "plate_opening_min_margin": -0.38,
+   "boss": "LAND_C_O",
+   "boss_overlap_max": 1.48,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.24
+  },
+  {
+   "port": "C2",
+   "flex_cutout": {
+    "cx": 42.86,
+    "cy": 65.43,
+    "w": 9.23,
+    "h": 6.3
+   },
+   "offset": [
+    -0.26,
+    0.02
+   ],
+   "through": "receptacle shell (mouth flush with the land, so it crosses the flex plane)",
+   "through_size": [
+    8.94,
+    3.26
+   ],
+   "through_min_margin": -0.11,
+   "plate_opening_min_margin": -0.44,
+   "boss": "LAND_C_H",
+   "boss_overlap_max": 1.54,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.22
+  },
+  {
+   "port": "C5",
+   "flex_cutout": {
+    "cx": 63.7,
+    "cy": 65.5,
+    "w": 9.72,
+    "h": 6.36
+   },
+   "offset": [
+    0.2,
+    -0.05
+   ],
+   "through": "receptacle shell (mouth flush with the land, so it crosses the flex plane)",
+   "through_size": [
+    8.94,
+    3.26
+   ],
+   "through_min_margin": 0.19,
+   "plate_opening_min_margin": -0.14,
+   "boss": "LAND_C_O",
+   "boss_overlap_max": 1.24,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.24
+  },
+  {
+   "port": "C3",
+   "flex_cutout": {
+    "cx": 42.97,
+    "cy": 55.65,
+    "w": 9.46,
+    "h": 6.13
+   },
+   "offset": [
+    -0.37,
+    0.05
+   ],
+   "through": "receptacle shell (mouth flush with the land, so it crosses the flex plane)",
+   "through_size": [
+    8.94,
+    3.26
+   ],
+   "through_min_margin": -0.11,
+   "plate_opening_min_margin": -0.44,
+   "boss": "LAND_C_H",
+   "boss_overlap_max": 1.54,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.22
+  },
+  {
+   "port": "C6",
+   "flex_cutout": {
+    "cx": 63.8,
+    "cy": 55.85,
+    "w": 9.78,
+    "h": 5.77
+   },
+   "offset": [
+    0.1,
+    -0.15
+   ],
+   "through": "receptacle shell (mouth flush with the land, so it crosses the flex plane)",
+   "through_size": [
+    8.94,
+    3.26
+   ],
+   "through_min_margin": 0.32,
+   "plate_opening_min_margin": -0.01,
+   "boss": "LAND_C_O",
+   "boss_overlap_max": 1.11,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.24
+  },
+  {
+   "port": "A1",
+   "flex_cutout": {
+    "cx": 43.18,
+    "cy": 42.23,
+    "w": 14.28,
+    "h": 6.49
+   },
+   "offset": [
+    0.12,
+    0.52
+   ],
+   "through": "plug (receptacle face sits behind the flex plane)",
+   "through_size": [
+    12.0,
+    4.5
+   ],
+   "through_min_margin": 0.47,
+   "plate_opening_min_margin": -0.28,
+   "boss": "LAND_A_H",
+   "boss_overlap_max": 1.38,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.72
+  },
+  {
+   "port": "A2",
+   "flex_cutout": {
+    "cx": 43.39,
+    "cy": 32.27,
+    "w": 14.33,
+    "h": 6.26
+   },
+   "offset": [
+    -0.09,
+    0.33
+   ],
+   "through": "plug (receptacle face sits behind the flex plane)",
+   "through_size": [
+    12.0,
+    4.5
+   ],
+   "through_min_margin": 0.55,
+   "plate_opening_min_margin": -0.2,
+   "boss": "LAND_A_H",
+   "boss_overlap_max": 1.33,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.72
+  },
+  {
+   "port": "A3",
+   "flex_cutout": {
+    "cx": 64.05,
+    "cy": 42.38,
+    "w": 14.73,
+    "h": 6.32
+   },
+   "offset": [
+    0.0,
+    0.37
+   ],
+   "through": "plug (receptacle face sits behind the flex plane)",
+   "through_size": [
+    12.0,
+    4.5
+   ],
+   "through_min_margin": 0.54,
+   "plate_opening_min_margin": -0.21,
+   "boss": "LAND_A_O",
+   "boss_overlap_max": 1.04,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.91
+  },
+  {
+   "port": "A4",
+   "flex_cutout": {
+    "cx": 64.17,
+    "cy": 32.33,
+    "w": 14.71,
+    "h": 6.47
+   },
+   "offset": [
+    -0.12,
+    0.27
+   ],
+   "through": "plug (receptacle face sits behind the flex plane)",
+   "through_size": [
+    12.0,
+    4.5
+   ],
+   "through_min_margin": 0.71,
+   "plate_opening_min_margin": -0.04,
+   "boss": "LAND_A_O",
+   "boss_overlap_max": 1.16,
+   "flex_bars_on_boss": true,
+   "boss_proud": 1.91
+  },
+  {
+   "port": "ETH1",
+   "flex_cutout": {
+    "cx": 63.17,
+    "cy": 91.49,
+    "w": 14.27,
+    "h": 11.13
+   },
+   "offset": [
+    0.33,
+    0.81
+   ],
+   "through": "plug body [latch excluded]",
+   "through_size": [
+    11.7,
+    8.2
+   ],
+   "through_min_margin": 0.66,
+   "plate_opening_min_margin": -0.59,
+   "boss": "LAND_ETH1",
+   "boss_overlap_max": 1.8,
+   "flex_bars_on_boss": false,
+   "boss_proud": 1.63
+  },
+  {
+   "port": "ETH2",
+   "flex_cutout": {
+    "cx": 42.64,
+    "cy": 91.3,
+    "w": 13.45,
+    "h": 11.86
+   },
+   "offset": [
+    -0.14,
+    0.7
+   ],
+   "through": "plug body [latch excluded]",
+   "through_size": [
+    11.7,
+    8.2
+   ],
+   "through_min_margin": 0.73,
+   "plate_opening_min_margin": -0.12,
+   "boss": "LAND_ETH2",
+   "boss_overlap_max": 0.97,
+   "flex_bars_on_boss": false,
+   "boss_proud": 1.64
+  },
+  {
+   "port": "HDMI",
+   "flex_cutout": {
+    "cx": 41.74,
+    "cy": 107.41,
+    "w": 15.79,
+    "h": 6.23
+   },
+   "offset": [
+    0.66,
+    -0.01
+   ],
+   "through": "plug (receptacle face behind the flex plane)",
+   "through_size": [
+    13.9,
+    4.45
+   ],
+   "through_min_margin": 0.29,
+   "plate_opening_min_margin": -0.46,
+   "boss": "LAND_HDMI",
+   "boss_overlap_max": 1.66,
+   "flex_bars_on_boss": false,
+   "boss_proud": 2.03
+  },
+  {
+   "port": "AUD_H",
+   "flex_cutout": {
+    "cx": 43.36,
+    "cy": 19.33,
+    "d": 7.41
+   },
+   "offset": [
+    0.04,
+    -0.23
+   ],
+   "through": "3.5 mm plug / \u00d84.8 opening",
+   "through_min_margin": 1.07,
+   "boss": "LAND_AUD_H",
+   "boss_overlap_max": 0.03,
+   "boss_proud": 0.59
+  },
+  {
+   "port": "AUD_O",
+   "flex_cutout": {
+    "cx": 64.33,
+    "cy": 19.25,
+    "d": 7.54
+   },
+   "offset": [
+    0.32,
+    0.15
+   ],
+   "through": "3.5 mm plug / \u00d84.8 opening",
+   "through_min_margin": 1.02,
+   "boss": "LAND_AUD_O",
+   "boss_overlap_max": 0.08,
+   "boss_proud": 0.73
+  }
+ ],
  "features": [
   {
    "id": "LAND_C_H",
@@ -37,7 +482,7 @@
    "y": 65.45,
    "w": 10.6,
    "h": 24.5,
-   "note": "flat land z=-1.55 (crown=0); boss 11.8 x 25.7; inboard pocket depth 1.38"
+   "note": "flat land z=-1.55 (crown=0); boss 11.8 x 25.7; inboard pocket depth 1.38; boss stands 1.22 proud of the inner skin at its inboard edge; inboard ramp 60 deg"
   },
   {
    "id": "LAND_C_O",
@@ -46,7 +491,7 @@
    "y": 65.45,
    "w": 10.6,
    "h": 24.5,
-   "note": "flat land z=-1.58 (crown=0); boss 11.8 x 25.7; inboard pocket depth 1.40"
+   "note": "flat land z=-1.58 (crown=0); boss 11.8 x 25.7; inboard pocket depth 1.40; boss stands 1.24 proud of the inner skin at its inboard edge; inboard ramp 60 deg"
   },
   {
    "id": "LAND_A_H",
@@ -55,7 +500,7 @@
    "y": 37.675,
    "w": 15.6,
    "h": 18.15,
-   "note": "flat land z=-1.93 (crown=0); boss 16.8 x 19.3; inboard pocket depth 1.90"
+   "note": "flat land z=-1.93 (crown=0); boss 16.8 x 19.3; inboard pocket depth 1.90; boss stands 1.72 proud of the inner skin at its inboard edge; inboard ramp 68 deg"
   },
   {
    "id": "LAND_A_O",
@@ -64,7 +509,7 @@
    "y": 37.675,
    "w": 15.6,
    "h": 18.15,
-   "note": "flat land z=-2.15 (crown=0); boss 16.8 x 19.3; inboard pocket depth 2.09"
+   "note": "flat land z=-2.15 (crown=0); boss 16.8 x 19.3; inboard pocket depth 2.09; boss stands 1.91 proud of the inner skin at its inboard edge; inboard ramp 71 deg"
   },
   {
    "id": "LAND_ETH1",
@@ -73,7 +518,7 @@
    "y": 92.3,
    "w": 14.2,
    "h": 11.9,
-   "note": "flat land z=-1.87 (crown=0); boss 15.4 x 13.1; inboard pocket depth 1.81"
+   "note": "flat land z=-1.87 (crown=0); boss 15.4 x 13.1; inboard pocket depth 1.81; boss stands 1.63 proud of the inner skin at its inboard edge; inboard ramp 67 deg"
   },
   {
    "id": "LAND_HDMI",
@@ -82,25 +527,25 @@
    "y": 107.4,
    "w": 16.6,
    "h": 7.2,
-   "note": "flat land z=-2.25 (crown=0); boss 17.8 x 8.4; inboard pocket depth 2.22"
+   "note": "flat land z=-2.25 (crown=0); boss 17.8 x 8.4; inboard pocket depth 2.22; boss stands 2.03 proud of the inner skin at its inboard edge; inboard ramp 72 deg"
   },
   {
    "id": "LAND_AUD_H",
    "kind": "LAND",
    "x": 43.4,
    "y": 19.1,
-   "w": 7.0,
-   "h": 7.0,
-   "note": "flat land z=-1.08 (crown=0); boss 8.2 x 8.2; inboard pocket depth 0.84"
+   "w": 6.4,
+   "h": 6.4,
+   "note": "flat land z=-1.04 (crown=0); boss 7.0 x 7.0; inboard pocket depth 0.77; boss stands 0.59 proud of the inner skin at its inboard edge; inboard ramp 53 deg"
   },
   {
    "id": "LAND_AUD_O",
    "kind": "LAND",
    "x": 64.65,
    "y": 19.4,
-   "w": 7.0,
-   "h": 7.0,
-   "note": "flat land z=-1.38 (crown=0); boss 8.2 x 8.2; inboard pocket depth 0.99"
+   "w": 6.4,
+   "h": 6.4,
+   "note": "flat land z=-1.32 (crown=0); boss 7.0 x 7.0; inboard pocket depth 0.90; boss stands 0.73 proud of the inner skin at its inboard edge; inboard ramp 61 deg"
   },
   {
    "id": "LAND_ETH2",
@@ -109,7 +554,7 @@
    "y": 92.0,
    "w": 13.8,
    "h": 11.4,
-   "note": "flat land z=-1.91 (crown=0); boss 14.8 x 12.4; inboard pocket depth 1.82"
+   "note": "flat land z=-1.91 (crown=0); boss 14.8 x 12.4; inboard pocket depth 1.82; boss stands 1.64 proud of the inner skin at its inboard edge; inboard ramp 71 deg"
   },
   {
    "id": "C1",
@@ -208,7 +653,7 @@
    "y": 92.3,
    "w": 13.0,
    "h": 10.7,
-   "note": "on LAND_ETH1 (land z=-1.87); plug passes the plate and the frame slot; HR913790A jack face SET BACK behind the frame back plane (face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)"
+   "note": "on LAND_ETH1 (land z=-1.87); plug passes the plate, the flex cut-out and the frame slot; HR913790A jack face SET BACK behind the frame back plane (face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)"
   },
   {
    "id": "ETH2",
@@ -217,7 +662,7 @@
    "y": 92.0,
    "w": 13.0,
    "h": 10.7,
-   "note": "on LAND_ETH2 (land z=-1.91); plug passes the plate and the frame slot; HR913790A jack face SET BACK behind the frame back plane (face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)"
+   "note": "on LAND_ETH2 (land z=-1.91); plug passes the plate, the flex cut-out and the frame slot; HR913790A jack face SET BACK behind the frame back plane (face depth >= frame-back depth from M-IOF2 + 0.3; both ETH jacks share one height, so D0 - 16.9 sets it)"
   },
   {
    "id": "HDMI",
@@ -265,58 +710,94 @@
    "note": "through"
   },
   {
-   "id": "LP_HDMI",
-   "kind": "LIGHTPIPE",
-   "x": 46.2,
-   "y": 115.6,
-   "w": 2.2,
-   "h": 2.2,
-   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.50"
+   "id": "CLIP_DROPPED",
+   "kind": "CLIP",
+   "x": 76.78,
+   "y": 30.3,
+   "w": 1.2,
+   "h": 5.0,
+   "note": "mirrored clip collides with the 821-2222 flex/neck -> removed"
   },
   {
-   "id": "LP_ETH",
-   "kind": "LIGHTPIPE",
-   "x": 52.95,
-   "y": 92.9,
-   "w": 2.2,
-   "h": 2.2,
-   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+   "id": "FLEX_POCKET",
+   "kind": "GLUE",
+   "x": 53.19,
+   "y": 77.07,
+   "w": 0,
+   "h": 0,
+   "note": "821-2222 glue pocket 0.20 deep (outline + 0.30), wall left 1.00; foam allowance 1.00 (TO MEASURE) behind the flex; rim notched for the neck X 74.6-81.5, Y 27.6-46.7"
   },
   {
-   "id": "LP_USBC_U",
-   "kind": "LIGHTPIPE",
-   "x": 53.25,
-   "y": 70.4,
-   "w": 2.2,
-   "h": 2.2,
-   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+   "id": "W_HDMI",
+   "kind": "LIGHT_WINDOW",
+   "x": 41.54,
+   "y": 113.7,
+   "w": 7.0,
+   "h": 1.6,
+   "note": "through window over the flex light-guide pad (stock LEDs light it)"
   },
   {
-   "id": "LP_USBC_L",
-   "kind": "LIGHTPIPE",
-   "x": 53.25,
-   "y": 62.6,
-   "w": 2.2,
-   "h": 2.2,
-   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+   "id": "W_ETH",
+   "kind": "LIGHT_WINDOW",
+   "x": 52.53,
+   "y": 91.9,
+   "w": 3.0,
+   "h": 5.0,
+   "note": "through window over the flex light-guide pad (stock LEDs light it)"
   },
   {
-   "id": "LP_USB",
-   "kind": "LIGHTPIPE",
-   "x": 53.7,
-   "y": 49.4,
-   "w": 2.2,
-   "h": 2.2,
-   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+   "id": "W_TB",
+   "kind": "LIGHT_WINDOW",
+   "x": 52.92,
+   "y": 66.26,
+   "w": 3.0,
+   "h": 5.0,
+   "note": "through window over the flex light-guide pad (stock LEDs light it)"
   },
   {
-   "id": "LP_AUDIO",
-   "kind": "LIGHTPIPE",
-   "x": 53.8,
-   "y": 21.0,
-   "w": 2.2,
-   "h": 2.2,
-   "note": "boss OD 4.4, 2.0 mm below the inner face at z=-1.20"
+   "id": "W_USB",
+   "kind": "LIGHT_WINDOW",
+   "x": 53.51,
+   "y": 36.54,
+   "w": 3.0,
+   "h": 6.0,
+   "note": "through window over the flex light-guide pad (stock LEDs light it)"
+  },
+  {
+   "id": "W_AUD_H",
+   "kind": "LIGHT_WINDOW",
+   "x": 43.4,
+   "y": 13.03,
+   "w": 4.0,
+   "h": 2.4,
+   "note": "through window over the flex light-guide pad (stock LEDs light it)"
+  },
+  {
+   "id": "W_AUD_O",
+   "kind": "LIGHT_WINDOW",
+   "x": 63.85,
+   "y": 13.45,
+   "w": 4.0,
+   "h": 2.4,
+   "note": "through window over the flex light-guide pad (stock LEDs light it)"
+  },
+  {
+   "id": "PIN_C1",
+   "kind": "PIN",
+   "x": 52.93,
+   "y": 75.41,
+   "w": 2.7,
+   "h": 2.7,
+   "note": "locating pin \u00d82.7 x 2.5 into the frame hole (frame scan \u00d83.0-3.1), through the flex hole"
+  },
+  {
+   "id": "PIN_C3",
+   "kind": "PIN",
+   "x": 54.49,
+   "y": 19.23,
+   "w": 2.7,
+   "h": 2.7,
+   "note": "locating pin \u00d82.7 x 2.5 into the frame hole (frame scan \u00d83.0-3.1), through the flex hole"
   }
  ],
  "clips": [
@@ -343,11 +824,6 @@
   [
    78.17999999999999,
    90.0,
-   "x+"
-  ],
-  [
-   76.78,
-   30.3,
    "x+"
   ],
   [

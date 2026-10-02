@@ -2,7 +2,7 @@
 
 | Item | Value |
 |---|---|
-| Date | 2026-10-01, written ≈ 22:15 ET; **rev 2026-10-02 ≈ 08:30 ET: D-IO2 resolved, 2 × 2.5GbE (2 × i226-V) on rev A0** |
+| Date | 2026-10-01, written ≈ 22:15 ET; **rev 2026-10-02 ≈ 08:30 ET: D-IO2 resolved, 2 × 2.5GbE (2 × i226-V) on rev A0**; **≈ 09:10 ET: stock edge/plate/flex photos → plate v2 reworked for the 821-2222 flex, D0 re-estimated (§4.7)** |
 | Owner | Aidan Winkler (MacPro6,2 project) |
 | Board | **IOB rev A0** replaces the stock I/O board. It is 101.0 × 173.6 mm, uses the 6 stock holes and the stock bosses, and keeps the stock port layout: AC, power button, HDMI, 2 × RJ45, 6 × USB-C in the old Thunderbolt slots, 4 × USB-A, 2 audio jacks. |
 | Plate | **New plastic I/O plate v2**. The metal I/O frame stays. The plate is curved to the case, with flat port lands for straight connectors. It is ready to print as STEP + STL. |
@@ -38,7 +38,8 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 4. **The 6-pin is the PSU data cable** [Sourced: iFixit IO-board guide step 22 + comment]. Two further connectors are now identified:
    - **CONN_C** (fine pitch, 2 threaded standoffs at the top edge): the **fan-assembly ribbon** from the interposer (fan + AirPort card). It is held by the bracket with the 2 captive T8 screws.
    - The long front socket: the **audio-jack ribbon**.
-5. **Port lights on motion.** LIS2DH12 (U81) motion interrupt → IOB_INT_N → BP MCU fades the LEDs on for about 5 s. This drives the TLC59116 light-pipe LEDs and/or the stock I/O-wall LED MCUs on I²C through J31, whichever is populated.
+5. **Port lights on motion.** LIS2DH12 (U81) motion interrupt → IOB_INT_N → BP MCU fades the LEDs on for about 5 s.
+   - **Since 2026-10-02 the lights come from the I/O-wall flex 821-2222 on J31** (its own LEDs, light-guide pads and LED MCUs, glued to the plate as stock). The board-side light pipes D21–D26 are **DNP**: the metal I/O frame's centre bar sits right over 5 of the 6 pipe positions (§4.7).
 6. **Power.** 12 V from the stock PSU DC-out header → TPS259824 eFuse → 2 × TPS56C215 (5V_C for USB-C, 5V_A for USB-A and the system) → TLV62585 3V3.
    - Every port gets 5 V / 3 A at attach.
    - The USB-C total is capped at **45–60 W** by firmware (D-IO1).
@@ -60,7 +61,9 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO7** | C5/C6 from the iGPU | Keep them (Windows/Linux displays; USB works in macOS) | Make them USB-only and drop U15/U16 mux functions. |
 | **D-IO8** | Stackup | 6 layers, JLC06161H-2116 | 4 layers: loses the solid reference planes for 10 G + HBR3. |
 | **D-IO9** | Fan + AirPort ribbon (CONN_C) | Rev A: **not reproduced.** The fan gets its own harness to BP J5 (spec §4.6). The CONN_C standoff positions are kept free. | Reproduce CONN_C on the IOB (needs M-IOC1) to keep the stock fan/AirPort blind-mate path. |
-| **D-IO10** | Port illumination | **Populate both**: TLC59116 light pipes (new plate) and J31 for the stock I/O-wall flex | Stock wall flex only: drop D21–D26 and use the stock LED MCUs (I²C address unknown). |
+| **D-IO10** | Port illumination | **Revised 2026-10-02: the flex on J31 only.** D21–D26 DNP, plate light pipes removed, light windows over the flex pads. TLC59116 stays (D20, diag LEDs, and the A1 flex below). | Board light pipes: need Ø2.5 holes drilled in the frame centre bar (5 of 6 positions blocked). |
+| **D-IO12** | Which flex on the plate | **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
+| **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
 | **D-IO11** | Plate process | **MJF PA12, dyed black** (JLC3DP or PCBWay) | SLA black resin: nicer surface, but the clips are brittle. CNC: best fit, ≈ 10× the price. |
 
 ---
@@ -131,7 +134,7 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 | AC | Stock window, 34.55 × 24.65 | |
 | Audio | Ø4.8 | |
 | Button | Ø12.4 | |
-| Light pipes | Ø2.2 bores, Ø4.4 × 2 bosses | Six bores for Ø2.0 PMMA rods over D21–D26: HDMI label (46.2, 115.6), ETH icon (52.95, 92.9), USB-C icons (53.25, 70.4 / 62.6), USB icon (53.7, 49.4), audio (53.8, 21.0). |
+| Light windows (since 2026-10-02) | Rounded slots through the skin | Over the flex light-guide pads: HDMI 7.0 × 1.6 at (41.5, 113.7), ETH 3 × 5 at (52.5, 91.9), TB 3 × 5 at (52.9, 66.3), USB 3 × 6 at (53.5, 36.5), audio 4 × 2.4 at (43.4, 13.0) / (63.9, 13.5). VERIFY against the stock icon art. The old Ø2.2 light-pipe bores are gone (`--flex none` rebuilds them). |
 
 ### 4.3 In-plane alignment
 
@@ -210,14 +213,19 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 
 ### 4.5 Plate v2 CAD (`mechanical/io_plate_v2/`)
 
-- Outline 51.9 × 163.1, R 11.5, at (53.19, 77.07).
-- Skin 1.2. Perimeter rim 1.2 × 3.0.
-- Outer face is a cylinder, `CASE_R` 82 (set to None for flat).
-- The eight lands are listed in §4.4. Collars are 1.0 wall × 1.0 long behind the USB-A, RJ45 and HDMI lands.
-- 8 snap clips at the stock clip points and their mirror images (VERIFY): (31.0, 140), (28.2, 90), (29.6, 30.3), (44.1, 2.7).
-- Frame-screw relief Ø6 × 0.6.
-- **ETH2 is open** (rev A0 default since 2026-10-02) with its own land 13.8 × 11.4 and a 0.8-wall collar sized for the 15.6 × 13.0 H-side slot. `ETH_GUIDE_L` lengthens that collar into a plug guide toward the set-back jack once M-IOF2 is known. `--eth2 blank` still builds the old blank variant.
-- One solid, ≈ 10.2 cm³, bounding box 52.2 × 163.1 × 11.1.
+- Outline 51.9 × 163.1, R 11.5, at (53.19, 77.07). Perimeter rim 1.2 × 3.0.
+- **Constant 1.2 wall:** the outer face is a cylinder (`CASE_R` 82; None = flat) and the inner face is the concentric cylinder R0 − 1.2, as on the stock plate.
+- **Flat port lands** (§4.4) are pockets on the outside, backed by bosses on the inside. The bosses stand 0.6–2.0 proud of the inner skin at their inboard edge. Since 2026-10-02 that inboard edge is **ramped 60–72°** (steep enough to keep ≥ 0.8 under the land edge), so a flex can drape over it.
+- **821-2222 flex seat (`FLEX = "stock"`, default):**
+  - Glue pocket 0.20 deep over the traced flex outline + 0.3 (1.0 wall left). `FOAM_T` = 1.0 allowance behind the flex (TO MEASURE).
+  - Rim notch at the flex neck: X 74.6–81.5, Y 27.6–46.7. The neck runs to the IC tab (3 LED MCUs) beside the O column, then to the ZIF.
+  - Locating pins Ø2.7 × 2.5 at the frame holes HOLE_C1 (52.93, 75.41) and PIN_C3 (54.49, 19.23). They pass the flex holes and locate both plate and flex. Length VERIFY.
+  - No collars (they would pierce the flex rims) and no light-pipe bosses. Six light windows sit over the flex pads (§4.2).
+  - Audio bosses shrunk to Ø7.0 (land Ø6.4) so they pass the flex's Ø7.4 audio holes.
+  - The mirrored clip at (76.8, 30.3) collides with the flex neck and is dropped, leaving 7 clips. The stock clip points stay.
+  - `--flex none` rebuilds the pre-flex variant with collars and light pipes.
+- Frame-screw relief Ø6 × 0.6. ETH2 open by default (`--eth2 blank` for the single-Ethernet variant).
+- One solid, ≈ 9.0 cm³, bounding box 52.2 × 163.1 × 11.1.
 
 | File | Content |
 |---|---|
@@ -225,7 +233,10 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 | `io_plate_v2_A0_eth2blank.step` / `.stl` | Old variant with ETH2 blank (single-Ethernet build) |
 | `io_plate_v2_A0_openings_backview.dxf`, `…_frontview.dxf` | Planform. The front view is in the KiCad x frame. |
 | `io_plate_v2_A0_features.json` | Per-feature report |
-| `io_plate_v2_A0_preview.png`, `…_iso_inner.png`, `…_section.png` | Previews |
+| `io_plate_v2_A0_preview.png`, `…_iso_inner.png`, `…_section.png` | Previews. The section now shows the constant wall, ramped bosses, flex, foam and a schematic frame. |
+| `flex_821-2222_trace.dxf` / `.json` | **Flex trace** (plate-facing side, back view): outline, port cut-outs, frame holes, light-guide pads, LED chips, button dome, tail (approx.), plus reference layers (plate openings, our bosses, windows) and `A1_FLEX_CUTOUTS_PROPOSED` |
+| `flex_821-2222_check.png` | Flex trace against our ports, bosses and frame slots, with the clearance numbers |
+| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut: flex outline, minus our bosses + 0.3, frame holes + 0.5 and the button ring + 0.5 |
 | `build_plate.py`, `section_plot.py` | Parametric sources |
 
 ### 4.6 Ordering the plate (JLC3DP or PCBWay) [D-IO11]
@@ -242,7 +253,7 @@ All new connectors are **straight**: their mating axis is normal to the board. B
 **Design rules applied** (vendor rules quoted from memory; check them on the order page) [Unverified]:
 
 - **Walls:**
-  - MJF minimum wall ≈ 0.8 mm (1.0 recommended). The plate uses: skin 1.2, rim 1.2, collars 1.0, land under-thickness 1.0, light-pipe boss wall 1.1, clip tabs 1.2.
+  - MJF minimum wall ≈ 0.8 mm (1.0 recommended). The plate uses: skin 1.2 (1.0 under the flex glue pocket), rim 1.2, land under-thickness 1.0 (≥ 0.8 at the ramped boss edges), locating pins Ø2.7, clip tabs 1.2. Collars and light-pipe bosses only in the `--flex none` variant.
   - SLA minimum ≈ 0.6–0.8 mm.
 - **Tolerances:** MJF ≈ ±0.2–0.3 mm or ±0.3 %, so ±0.5 mm over the 163 mm length. Openings carry ≥ 0.3 mm per side, which covers this. The USB-C opening (9.6 × 4.0 for an 8.94 × 3.26 shell) is the tightest fit.
 - **Holes:** MJF holes come out ≈ 0.1–0.2 small, so the bores are Ø2.2 for Ø2.0 rods. Ream to size if needed.
@@ -256,6 +267,89 @@ All new connectors are **straight**: their mating axis is normal to the board. B
   - Upload `io_plate_v2_A0.stl` (or the STEP). Material MJF PA12, colour dyed black, quantity 2, finish standard (bead-blast).
   - Add the button cap: clear SLA, polished. Its CAD is a simple Ø12.0 × 3 cap on a Ø6 stem and is a **TODO**.
   - **Not ordered.** Ordering is Aidan's call after M-IOT2 and M-IOF2.
+
+### 4.7 Stock photos 2026-10-02: board edge, plate inside, 821-2222 flex (≈ 09:10 ET)
+
+Sources: two edge-on photos of the stock I/O board (one with a cm ruler), the stock plate seen from inside, and the 821-2222 flex laid flat next to a cm ruler. Photo analysis is in `bracket/io_stock_photos/`.
+
+**Edge photos [Estimate; perspective-corrected, ±10–15 %]**
+
+| Item | Estimate | How |
+|---|---|---|
+| Stock board thickness | **≈ 2.0 mm (1.8–2.2)**, not 1.6 | 30 px at 14.6 px/mm (ruler, photo 2). 70 px against a Ø6.3 cap can (≈ 33–35 px/mm, photo 1). |
+| Black plastic shroud over the port group | ≈ 13–15 mm above the board top, ≈ 85–95 mm long (USB-A…HDMI span) | Photo 2 corrected for the shroud sitting ≈ 30 mm behind the front edge |
+| Metal cover on top | ≈ 5.5–6 mm side wall | Both photos agree |
+| **Stack top above the board top** | **≈ 20–23 mm** | – |
+| Tall parts in front of the shroud | Polymer cans Ø6.3 × ≈ 5.5–6 (with base); 2 grey blocks (inductor/module) ≈ 4–6 tall, ≈ 9 and ≈ 12 wide; SMD ≤ 1.5 | Photo 1 |
+
+**M-IOF2 refined [Estimate].**
+- The stock port faces sit at about the stack top. So **D0 (board top to plate crown) ≈ 22–25 mm**: the stack, plus about 1.5 for the USB-C mouth depth under the crown. Before these photos, D0 was only bounded below (≥ 20.5).
+- The frame back plane sits ≈ D0 − 3.3: skin 1.2 + flex 0.12 + foam 1.0 + frame ≈ 1.0 (TO MEASURE). That puts it ≈ 18.7–21.7 above the board.
+- **ETH set-back:** the HR913790A face (16.9) sits **≈ 1.8–4.8 behind the frame back plane**, so the 0.3 gate passes over the whole range. It sits **≈ 3.2–6.2 below the plate land** (D0 − 1.9 − 16.9). The plug stands ≈ 8 out of the jack face, so ≈ 1.8–4.8 of it remains outside the land.
+  - Fine up to D0 ≈ 24.
+  - Above that, the latch gets hard to reach. Raise both jacks on a 2–3 mm spacer, or stay with the 5 mm limit in §10.
+- **New top mechanical risk:** required heights become USB-C ≈ D0 − 1.55 = **20.5–23.5**, USB-A ≈ 18.7–21.9, HDMI ≈ 18.6–21.6. Typical vertical receptacles are much shorter [Unverified: catalogue check pending].
+  - USB-C plugs need the mouth within ≈ 0.6 of the land.
+  - **Measure D0 by caliper before any connector or footprint choice** (§12).
+  - If D0 is confirmed, the options are tall/extended vertical parts or a raised port carrier. Both need a separate decision.
+- **Board thickness:** our stackup is 1.6. If the board is located on the stock bosses from the B side, F sits 0.4 lower than stock and every required height grows by 0.4. Either order 2.0 mm or add 0.4 to the heights; VERIFY which face touches the bosses.
+
+**Plate inside (stock).**
+- The inner face is curved, concentric with the outside.
+- Every opening has a raised collar.
+- Round bosses sit at the frame holes HOLE_C1 / PIN_C3.
+- The flex is glued along the inside, with its IC tab peeled up beside the O column.
+
+The new plate copies all of this except the collars (see below).
+
+**821-2222 flex trace (`flex_821-2222_trace.dxf/.json`, `flex_821-2222_check.png`).**
+- **Method:** homography fitted to 16 stock port and frame-hole centres, rms 0.41 mm. Scale 18.3–18.6 px/mm, which matches the ruler (17.9–18.7). Positions ±0.4, sizes ±0.3; **VERIFY by caliper** (M-IOW1).
+- The photo shows the **plate-facing side**: no mirror, so the LEDs and silver light guides face the plate.
+- **Shape:** frame-shaped, 51.7 × 106.8 (X 28.3–80.0, Y 9.9–116.7). Port cut-outs follow the stock layout.
+  - HDMI 15.8 × 6.2.
+  - ETH 13.5 × 11.9 (H) and 14.3 × 11.1 (O).
+  - TB 9.1–9.8 × 5.8–6.4.
+  - USB-A 14.3–14.7 × 6.3–6.5.
+  - Audio Ø7.4 / Ø7.5.
+  - Frame-hole clearances Ø3.4 / Ø4.5 / Ø4.6.
+- **Lighting parts:**
+  - About 30 bright chips around the three silver light-guide frames (ETH, TB, USB-A). Most are side-view LEDs (≈ 4.7 × 1.1); a few may be reflector tabs.
+  - 6 light-guide pads: HDMI (41.5, 113.7); ETH (52.5, 91.9); TB (52.9, 66.3); USB (53.5, 36.5); audio (43.4, 13.0) and (63.9, 13.5).
+- **Button:** dome Ø4.5 in an Ø11.8 ring at (62.25, 107.7), with two LEDs flanking it. That is the stock power LED, so D20 is redundant when a flex is fitted.
+- **Neck and tail:** the neck (X 75–80.5, Y 28–46) runs to the rigid IC tab with the 3 LED MCUs (X ≈ 77–94, Y ≈ 32–68, beside the plate). The tail then goes to J31.
+- **Light holes:** the plate windows sit on the pad centres. **Recommendation (D-IO10): drop the TLC59116 light pipes D21–D26** (now DNP in the schematic). The flex lights every group and icon, and **the frame centre bar blocks 5 of the 6 old pipe positions**: ETH, both TB, USB and audio sit on solid frame, and HDMI is on a slot edge. J31 stays the primary path for button and lights.
+
+**Our ports against the flex cut-outs.**
+
+| Port | Through-part | Min margin per side | Note |
+|---|---|---|---|
+| USB-C C1 / C2 / C3 | Shell 8.94 × 3.26 | −0.07 / −0.11 / −0.11 | Flex holes sit ≈ 0.25 inboard of our X 42.6 / 63.9 |
+| USB-C C4 / C5 / C6 | Shell 8.94 × 3.26 | −0.05 / +0.19 / +0.32 | Same |
+| USB-A ×4 | Plug 12.0 × 4.5 (the face is behind the flex) | +0.47 … +0.71 | OK |
+| ETH1 / ETH2 | Plug 11.7 × 8.2 | +0.66 / +0.73 | Our centres are 0.7–0.8 higher in Y; the flex edge shows ≤ 0.6 inside the opening (cosmetic) |
+| HDMI | Plug 13.9 × 4.45 | +0.29 | X offset 0.66 |
+| Audio ×2 | Ø4.8 opening | +1.0 | OK |
+| Button | Dome inside our Ø12.4 | 0.85 off centre | OK |
+
+- **Plan view:** everything clears except the USB-C shells, which are marginal (≤ 0.11 interference, inside the trace accuracy). Cheapest fix if the caliper confirms: **shift both USB-C columns ≈ 0.25 inboard** (X 42.85 / 63.65). Frame-slot margins stay ≥ 1.0.
+- **The real conflict is in Z.** Our land bosses exist because straight connectors sit in a curved plate. They are 1.0–1.8 per side larger than the flex cut-outs, and the TB / USB-A bars between ports lie across them. They stand **1.2 (USB-C), 1.6 (ETH), 1.7–1.9 (USB-A) and 2.0 (HDMI)** proud of the inner skin. A stock flex glued flat would have to fold that far into each frame slot, with only ≈ 0.25–0.4 of run at the slot edge.
+  - The plate ramps the boss edges at 60–72°, which helps but does not remove the fold.
+  - Shifting ports cannot fix this.
+  - Trimming the flex means 1.0–1.8 per side plus the bars, cutting into the margins where LED traces run. That is irreversible on an obsolete part; **not recommended**.
+- **Recommendation (D-IO12):**
+  - Rev A0 plate as built: glue pocket, windows, pins, ramps, rim notch. Gently fit-test the stock flex, and stop if it does not lie flat.
+  - Plan an **A1 replacement flex**: 2-layer polyimide with the stock outline and cut-outs = our bosses + 0.3 (DXF layer `A1_FLEX_CUTOUTS_PROPOSED`). Side-view LEDs and pads at the traced positions, a dome at the button, and a 14P 0.5 tail into J31 with our own pinout (PWRBTN, GND, 3V3_SB, LED anode, LED channels from U80).
+  - Cost ≈ $40–90 for 5 plus parts [Estimate]. It also removes the unknown stock LED-MCU protocol.
+- **Button:** with any flex fitted, the dome sits behind the Ø12.4 opening, so the cap presses the dome (J31) and cannot reach SW1. SW1 / D20 remain the no-flex fallback. **The dome needs a backstop** (stock: unknown, M-IOW3).
+
+**Insulation (D-IO13).**
+- The stock black shroud with its metal cover is Apple's port housing / EMI can. Our board has none.
+- Nothing of ours comes near the frame except the port shells, which should touch it (chassis GND), and the ETH jack tops, which have grounded shields and sit ≥ 1.8 below the frame.
+- The PA12 plate is itself an insulator. The only metal-to-circuit interface is the flex LED side against the frame, and the stock **1 mm foam** covers it.
+- **So: no printed shroud.** Reuse the stock foam, or cut a new one from `io_flex_foam_insulator_A0.dxf`:
+  - 1.0 closed-cell PE/PORON with PSA, ≈ $2–5 laser-cut; or
+  - 0.25 Formex GK-10 / fish paper (UL94 V-0), ≈ $3–8 one-off, < $1 in volume [Estimate].
+- Add Kapton dots only if a caliper check finds anything < 0.5 from the frame.
 
 ---
 
@@ -397,12 +491,14 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   - **DNP until probed:** P1/2/11/13/14 → GND, P4/5 → 3V3_SB, P7/8 → I2C_SYS SCL/SDA, P9 → IOB_INT_N, P10 → 5V_A, P12 → 3V3.
   - Probing (§9.5) decides which links to fit. That is a rework of 0402s; no re-spin.
 - **SW1:** PTS810 tact switch at the button centre, behind the plate's Ø12.4, with a printed clear cap. It is wired-OR with J31 to PWRBTN_IN_N. D31 is an ESD TVS and C has 100 nF debounce; the pull-up is on the BP.
+  - **Since 2026-10-02 SW1 is the no-flex fallback.** With the 821-2222 (or the A1 flex) on the plate, its dome sits right behind the Ø12.4 opening. The cap then presses the dome, and J31 is the button path (§4.7). The dome needs a backstop (M-IOW3).
+- **Port lights:** from the flex on J31 (D-IO10). D21–D26 are DNP; U80 keeps D20, the diag LEDs and the A1 flex channels.
 - **J30** (DNP, JST SH 2P at (56.5, 104.5) F): optional remote or stock button in parallel.
 - **Behaviour (BP MCU firmware):**
   - PWRBTN_IN_N falling edge → pulse PWRBTN# 400 ms (S5→S0, or the OS sleep request in S0). A 4 s hold forces off.
   - Power/sleep LED D20 on TLC59116 OUT8: on in S0, breathing in sleep.
   - **Port lights:** LIS2DH12 (U81, 0x18) runs at 10 Hz low power with an INT1 wake-up threshold of ≈ 63 mg / 1 sample. INT1 → IOB_INT_N.
-  - The MCU reads INT1_SRC and fades in the six light-pipe LEDs (TLC59116 OUT9–14) and/or commands the stock wall LED MCUs. It holds them for 5 s after the last motion, then fades out over 1 s.
+  - The MCU reads INT1_SRC and commands the stock wall-flex LED MCUs over I²C on J31 (since 2026-10-02 the primary path), or fades in U80 OUT9–14 for the A1 flex (D21–D26 DNP). It holds them for 5 s after the last motion, then fades out over 1 s.
   - This works in S0 and S5 because U80, U81 and the LEDs are on 3V3_SB.
   - Hall interlock U30/U31 → HALL_A_N/HALL_B_N. With the case off, the lights stay on while the case is open (stock-like service light).
 
@@ -420,7 +516,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | HDMI | TDP158 U60 + 1V1 LDO U61; 0.5 A PTC on +5V; DDC 1.8 k pull-ups | |
 | Audio | CM108B U70 + Y5. HP_L/R → J28; line-in L+R mixed into the mono ADC; S/PDIF TX to J28; optical RX not supported | CM6646 is the upgrade path. |
 | Speaker | PAM8302A U71 (mono sum); SD# from CM108B GPIO3; J29 | |
-| Management | TLC59116 U80 (diag D1–D8, power D20, light pipes D21–D26); LIS2DH12 U81; ID EEPROM BL24C64A U82 (0x51); Halls U30/U31; SW2 DIAG | |
+| Management | TLC59116 U80 (diag D1–D8, power D20; D21–D26 DNP since 2026-10-02); LIS2DH12 U81; ID EEPROM BL24C64A U82 (0x51); Halls U30/U31; SW2 DIAG | |
 | RTC | BT1 → R30 1 k → D30 BAT54WS → VBAT_RTC (HS1 A26) | |
 | Power | §7 | |
 
@@ -515,6 +611,8 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | i226-V availability (now 2 per board) | Ethernet missing | Check JLC/LCSC stock (KTI226V C26159200) for 2 × qty. |
 | **HR913790A not stocked at LCSC** | Assembly delay | JLC global sourcing or consign; fallback Amphenol RJMG2V1SLN12W5R (LCSC C6647577, vertical shielded, 2.5G rating unverified) or a non-magnetic vertical jack + discrete 2.5G transformer. |
 | **ETH jack set-back** (both jacks behind the frame plane) | Jack hits the frame, or plug latch/boot hard to reach | M-IOF2 must show D0 ≥ 16.9 + frame-back depth + 0.3. The plug protrudes ≈ 8 mm from the jack face; set-back ≤ ≈ 5 mm keeps the latch reachable [Estimate]. Some snagless boots may touch the plate. |
+| **D0 ≈ 22–25 mm from the edge photos (§4.7)** | Standard vertical USB-C/USB-A/HDMI sit 5–15 mm too deep; USB-C plugs cannot mate | Caliper D0 first (M-IOF2); then tall parts or a raised port carrier (new decision). Board 2.0 vs 1.6 adds 0.4. |
+| **Stock flex vs land bosses (§4.7)** | Flex rims must fold 1.2–2.0 into the frame slots; USB-C shell margin −0.11…+0.32 | Gentle fit test only; A1 replacement flex (D-IO12); shift USB-C columns ≈ 0.25 inboard if the caliper confirms. |
 | macOS USB / i226 support | Driver issues, now on 2 ports | USBMap; AppleIGC caveat (spec §8.4); the AQC107 variant is the macOS-native fallback. |
 
 ---
@@ -529,6 +627,9 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | **Total parts** | **≈ $115** (was ≈ $105; **+ ≈ $9–14 per board** for i226 #2, its NVM/crystal/inductor/passives and the second jack) |
 | 5 × 6-layer PCBs + 2 assembled (JLC turnkey, extended-part fees) | ≈ $720–930 total (+ ≈ $20–30 for 2 assembled boards; no new unique part types, so no new extended-part fees; HR913790A needs global sourcing for both jacks) |
 | Plate, MJF PA12 × 2 + clear SLA button cap | ≈ $25–45 plus shipping |
+| D21–D26 light-pipe LEDs + PMMA rods | Now DNP / not bought: ≈ −$1 per board |
+| Foam or 0.25 Formex insulator (from `io_flex_foam_insulator_A0.dxf`) | ≈ $2–8 one-off (only if the stock foam is unusable) |
+| A1 replacement flex (if the stock flex does not fit) | ≈ $40–90 for 5 + LEDs/dome, one-time [Estimate] |
 
 ---
 
@@ -539,7 +640,10 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | **M-IOT1** | Port-face angle per column with a phone inclinometer (zeroed on the PCB), plus caliper inboard/outboard face heights (§4.4). |
 | **M-IOT2** | Plate outer-face curvature: steel rule plus feeler gauges at the centre bar and at each column → `CASE_R`. |
 | M-IOF1 | Back depth from the board B side to the PSU frame window. |
-| M-IOF2 | Plate thickness; frame depth; board-to-plate-crown distance D0 (sets the connector heights); standoff height H13; frame centre-screw head height. **Also the frame back-plane depth at the ETH slots: the HR913790A (16.9 tall) face must sit ≥ 0.3 behind it (gating for J26).** |
+| **M-IOF2 (first)** | **D0 by caliper**: stock board top to the plate crown, installed (photo estimate 22–25, §4.7). Also: stock port-face heights above the board (stack top ≈ 20–23 est.), frame thickness and back-plane depth, plate-to-frame gap at the centre bar, H13 standoff height, centre-screw head height. ETH gate: HR913790A face ≥ 0.3 behind the frame back plane (≈ 1.8–4.8 est.). |
+| **M-IOW1** | 821-2222 flex by caliper: outline, the 15 port cut-outs (especially the TB holes: is the 8.94 USB-C shell clear?), frame-hole holes, LED and pad positions; check against `flex_821-2222_trace.dxf`. |
+| **M-IOW2** | Foam thickness, free and compressed, plus flex thickness with PSA (`FOAM_T`, `FLEX_T`, `FLEX_POCKET`). |
+| **M-IOW3** | What backs the stock button dome (bracket, frame tab, shroud?), and the dome travel/force. Is the rigid IC tab glued, free or clipped? |
 | M-IOF3 | Front height envelope outside the plate for the power stage (U40–U42, L41/L42). |
 | M-IOF4 | HS1 (J1) and J2 plug clearance over the psu_frame top bead (Y ≈ 163) and window top (Y ≈ 160). |
 | M-IOH1 | Hall sensor positions and magnet polarity (stock: magnet ≈ 1 inch right of the power button overrides the interlock). |
@@ -549,7 +653,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | PSU | §9.1 (also confirm the 11/12 contact count). |
 | Audio | §9.2. |
 | Speaker | §9.3. |
-| Board | Stock board thickness (expected 1.6). |
+| Board | Stock board thickness by caliper (photo estimate **≈ 2.0**, §4.7), and which face sits on the case bosses. |
 
 ---
 
@@ -558,5 +662,5 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | Path | Content |
 |---|---|
 | `kicad/macpro62-io-board/` | KiCad project, `MP62_IO.pretty` (footprints), `MP62_IO.kicad_sym`, `tools/` (make_fps, build_pcb, build_sch, postprocess, floorplan, io_geom.json, placement.json), `docs/` (HS1 pinout CSV, netlist summary), DRC/ERC reports, renders |
-| `mechanical/io_plate_v2/` | Plate STEP/STL ×2, DXF ×2, features JSON, previews, sources, README |
+| `mechanical/io_plate_v2/` | Plate STEP/STL ×2, DXF ×2, features JSON, previews, sources, README; **flex trace DXF/JSON + check PNG, foam/insulator DXF** |
 | `macpro62-io-board.zip` | Everything above plus this plan |
