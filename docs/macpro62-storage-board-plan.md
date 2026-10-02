@@ -7,7 +7,7 @@
 | Module | **SM-1 rev A0**: 4 × M.2 2280 NVMe behind an **ASMedia ASM2824** PCIe Gen3 switch, for Face S (BP J10). It also fits Face P. |
 | Spec basis | MP62-FACE v0.1 update 2 (`macpro62-face-module-spec-v0.1.md`), architecture spec v0.2, CPU board plan §1.2 |
 | KiCad | `kicad/macpro62-storage-face/`, KiCad 9. **Floorplan:** outline, holes, keep-outs, stackup, every IC, connector, socket, standoff, inductor and bulk capacitor placed. DRC **0 / 0**. Schematic: all symbols with labelled connectivity, ERC **0 errors, 0 warnings**. **Routing has not started.** |
-| Status | **Plan for review. Nothing ordered.** Three land patterns are PLACEHOLDERS (M.2 socket, ASM2824 BGA, TPS56C215). The ASM2824 datasheet is under NDA (§9). |
+| Status | **Plan for review. D1 approved, D4 resolved (2026-10-01, ≈ 20:27 ET). Nothing ordered.** Three land patterns are PLACEHOLDERS (M.2 socket, ASM2824 BGA, TPS56C215). The ASM2824 datasheet is under NDA (§9). |
 
 Tags: **[Sourced]** = from a datasheet, distributor page or our own spec; **[Estimate]**; **[Inference]**; **[Unverified]**; **TBD** / **TO MEASURE**.
 
@@ -37,10 +37,10 @@ Tags: **[Sourced]** = from a datasheet, distributor page or our own spec; **[Est
 
 | # | Decision | Recommendation | Consequence of the other option |
 |---|---|---|---|
-| **D1** | Drop the X-bracket on Face S (screws plus washers, gap pad on the switch) | **Yes**: this is the only way to fit 4 × 2280 | Keep it: 2 × 2280 + 1 × 2260 (3 SSDs), or wait for MF-4 (bracket height) |
+| **D1** | Drop the X-bracket on Face S (low-head screws straight into the bosses, gap pad on the switch) | **APPROVED by Aidan (2026-10-01, ≈ 20:27 ET):** no bracket, 4 × 2280 fitted, module secured with flatter low-head screws | (Rejected: keep the bracket → 2 × 2280 + 1 × 2260) |
 | **D2** | Gen3 ASM2824 (≈ 3.5 GB/s total on x4) vs a Gen4 switch (PM40028 / PEX88024, $164–323, NDA, 26+ weeks) | **ASM2824** | Gen4 would give 7.9 GB/s on x4, but costs ≈ 8× more, needs 8+ layers, and has no stock |
 | **D3** | Accept J_AUX moved 6 mm down (Y 26.5 → 20.5; the spec says "should") | **Yes** | Otherwise the first SSD column moves and a 2280 no longer fits |
-| **D4** | Accept screw heads under the edges of SSD0/SSD2: low-profile screws or single-sided SSDs in those slots | **Yes**, once MF-13 is measured | Otherwise the columns get narrower and the M.2 sockets collide |
+| **D4** | Screw heads under the edges of SSD0/SSD2 | **RESOLVED (2026-10-01): low-head screws, head + washer ≤ 1.6 mm** (wafer / ultra-thin head, §3.3). Any 2280 SSD (single- or double-sided) can go in any slot. Concrete part follows once MF-13 gives the thread | (Rejected: single-sided SSDs only in SSD0/SSD2, or narrower columns) |
 | **D5** | 6-layer rev A (template stackup) vs 4 layers | **6 layers** for rev A; try 4 layers as a cost-down once the ball map is known | 4 layers saves ≈ $40–90 per order, but risks a respin |
 | **D6** | RAID: no hardware RAID; boot from one SSD; AppleRAID/SoftRAID for data | **Yes** (§8) | Hardware RAID would need the Marvell 88NR2241 (variant SM-1R), which can't be bought |
 
@@ -100,9 +100,15 @@ Tags: **[Sourced]** = from a datasheet, distributor page or our own spec; **[Est
 
 ### 3.3 Retention and cooling
 
-- **No X-bracket (D-S1).** Use the 4 stock screws with ≈ 1.5 mm washers (or spacer rings in place of the bracket eyelet thickness), into the core bosses.
+- **No X-bracket (D-S1, D1 approved).** 4 **low-head screws** go straight through the Ø5.0 holes into the core bosses. No spacer under the head.
   - The board sits on the 4.5 mm bosses as on any module.
-  - Screw-head height plus washer must be **≤ 1.6 mm** under the outer edges of SSD0/SSD2, which pass over the KO-B2 circles at X 15/89, or those two slots take single-sided SSDs. Example: an ISO 7380 M3 button head is 1.65 mm. **TO MEASURE MF-13** (thread, head Ø/height).
+  - **Rule (D4 resolved):** screw head + washer **≤ 1.6 mm** above the outer surface. The outer edges of SSD0/SSD2 pass over the KO-B2 circles at X 15/89, about 2.15 mm above the board (the lowest point under a double-sided card: card bottom ≈ 3.5 mm minus 1.35 mm of bottom parts), which leaves ≥ 0.5 mm margin. Any 2280 SSD can go in any slot.
+  - **Screw type (part number after MF-13):**
+    - **Wafer / ultra-thin-head machine screw:** head ≈ 0.8–1.0 mm tall, Ø ≈ 6–7 mm (bears on the Ø9 pad, inside KO-B2 Ø12), Torx or cross recess, steel 8.8+ or A2 stainless.
+    - Either no washer, or one DIN 433 / ISO 7092 small thin washer (≈ 0.5 mm for M3). That totals ≈ 1.3–1.5 mm.
+    - Too tall: ISO 7380 button head (M3 k = 1.65 mm) and ISO 14583 / DIN 7985 pan heads (≈ 2+ mm). Head heights are typical catalogue values [verify on the vendor drawing].
+  - **Length:** stock screw length minus the bracket eyelet thickness, to keep the same thread engagement in the boss (MF-13).
+  - **Torque:** wafer heads have shallow drives. Tighten snug (≈ 0.5–0.8 N·m [Estimate]) with removable thread-locker, not the stock 1.2 N·m.
   - SSDs come out before the module is removed.
 - **Switch heat path:** U1 → 3.0 mm soft gap pad (≥ 6 W/m·K, ≤ Shore 00-40) → die pad.
   - Gap 4.5 − ≈ 1.6 = 2.9 mm, so a 3.0 mm pad is ≈ 3–20 % compressed across the tolerance. With ±0.5 tolerance, use a 3.5 mm pad if G measures high.
@@ -313,7 +319,7 @@ These follow once the ASM2824 ball map and the LOTES drawing are in hand.
 | R-S2 | ASM2824 price and stock (the JLC part shows no price; "prices skyrocketed") | Medium | Check C9900092023 at order time. The ASM2812 is pin-compatible as a fallback (2 × x4 or 4 × x2) |
 | R-S3 | MCIO 124 RA at 0 stock | Medium | Spec C-8: global sourcing or consign; allow equivalents |
 | R-S4 | Outer-gap airflow too weak for 4 SSDs | Medium | Heatsinks; MF-14 test; SSDs self-throttle; prefer efficient drives |
-| R-S5 | Screw heads collide with SSD0/SSD2 | Medium | MF-13; low-head screws; single-sided SSDs in those slots |
+| R-S5 | Screw heads collide with SSD0/SSD2 | Low (D4 resolved) | Low-head screws, head + washer ≤ 1.6 mm (§3.3); part number after MF-13 |
 | R-S6 | Placeholder land patterns (M.2, BGA, RNN) | Medium | Replace from the LOTES / ASMedia / TI drawings before routing (DRC is meaningless until then) |
 | R-S7 | macOS / firmware booting behind the switch | Low–Medium | Sonnet precedent; test T-S3 |
 | R-S8 | THERM_ALERT# throttle rule cannot be met by a module without an MCU (C-21) | Low | The host applies NVMe power states. Spec change proposed |
@@ -323,8 +329,8 @@ These follow once the ASM2824 ball map and the LOTES drawing are in hand.
 
 | ID | Item | Why |
 |---|---|---|
-| **MF-4** | Bracket height / does the ring touch the board? | Only matters if D1 = keep the bracket |
-| **MF-13 (new)** | Stock screw thread, head Ø and height; usable washer/spacer stack without the bracket | D-S1: screw heads under SSD0/SSD2 (≤ 1.6 mm) |
+| ~~MF-4~~ | ~~Bracket height~~ | **Not needed for SM-1** (D1 approved: no bracket) |
+| **MF-13 (new)** | Stock screw thread (M3? pitch), length, and bracket eyelet thickness | Picks the low-head screw part number and length (D4, §3.3) |
 | **MF-14 (new)** | Air temperature/flow in the board-to-shell gap: thermocouple on a dummy SSD during a 10 min load | SSD cooling (C-20) |
 | **M1c** | Base-board standoff spacing (C-16) | No SM-1 impact. The J1 position follows the spec. Nothing locked here depends on C-16 |
 | **M2c** | Face angle (C-18) | No SM-1 impact. Module frame is face-relative |
