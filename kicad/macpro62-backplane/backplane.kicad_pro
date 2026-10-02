@@ -269,8 +269,7 @@
         "track_width": 0.35,
         "via_diameter": 0.6,
         "via_drill": 0.3,
-        "wire_width": 6,
-        "description": "PCIe Gen4/5 85 ohm diff, L1/L6 microstrip over In1/In4 GND (0.2234 mm). START VALUE from IPC-2141 estimate; confirm with JLC impedance calculator before routing"
+        "wire_width": 6
       },
       {
         "bus_width": 12,
@@ -288,8 +287,7 @@
         "track_width": 0.3,
         "via_diameter": 0.6,
         "via_drill": 0.3,
-        "wire_width": 6,
-        "description": "USB2 90 ohm / SATA 85-100 ohm diff, L1/L6 microstrip. START VALUE; confirm with JLC calculator"
+        "wire_width": 6
       }
     ],
     "meta": {

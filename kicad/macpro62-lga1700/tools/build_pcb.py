@@ -35,7 +35,7 @@ except Exception:
     pass
 tb = board.GetTitleBlock()
 tb.SetTitle("MacPro6,2 LGA1700 CPU board (CB) - rev A part-level floorplan fl2 (4 x DDR5 UDIMM)")
-tb.SetRevision("A-fl2"); tb.SetDate("2026-10-01"); tb.SetCompany("MacPro6,2 / Aidan Winkler")
+tb.SetRevision("A-fl2.3"); tb.SetDate("2026-10-02"); tb.SetCompany("MacPro6,2 / Aidan Winkler")
 tb.SetComment(0, "Edge.Cuts: stock riser outline (cpu_board_outline_corrected.dxf) + Mini Cool Edge 224 tab 79.89 wide at x=78 (as the CC carrier)")
 tb.SetComment(1, "Stackup: JLC 10L 1.6 mm: L1 S / L2 G / L3 S / L4 G / L5 P / L6 P / L7 G / L8 S / L9 G / L10 S, ENIG + hard-gold fingers, POFV")
 tb.SetComment(2, "U1 LGA1700 (Foxconn PE17007) under the measured pedestal (78.41, 73.25); U2 PCH Z790 FCBGA 28x25; lands/balls from Intel public ballouts")
@@ -237,6 +237,8 @@ place("U10", L, "MP62_AREA_BIOS_SPI_W25Q256_10x8", 82.0, 127.0, value="U10 BIOS 
 place("J4", L, "MP62_AREA_TPM_Header_10x6", 67.0, 126.0, value="J4 SPI TPM")
 place("J5", L, "MP62_AREA_DebugHdr_12x5", 66.0, 154.0, value="J5 debug UART/SWD")
 place("U11", L, "MP62_AREA_eFuse_TPS25985_14x12", 36.0, 146.0, value="U11 eFuse 12V IN (whole CB)")
+# ICD rev 2 (live power target): CB 12 V telemetry for the BP MCU (I2C0 0x45) + fast alert on CPU-LINK A105 PWR_ALERT#
+place("U15", L, "MP62_AREA_PwrMon_INA228_10x6", 51.0, 146.0, value="U15 INA228 + RS1 0.5 mOhm (12V in, I2C0 0x45)")
 # Stock 12 V entry = ONE lug pair at the top-left (CPU-side view), Aidan + photo 2026-10-01: legs x 24.0-31.9 / 36.9-44.7
 # (photo homography on the 4 core holes, corrected by the notch walls 24/48; +-0.8). No lugs on the right.
 LUGS = [("LUG1", 27.95, "GND?"), ("LUG2", 40.75, "12V?")]

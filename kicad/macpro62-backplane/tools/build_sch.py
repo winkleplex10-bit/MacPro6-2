@@ -18,7 +18,7 @@ SHEETS = [
  ("Power input, standby rails, safety gate", "power.kicad_sch", [
    "J2 PSU-IN Micro-Fit 3.0 2x4: 12V x2, GND x3, 11V_SB, PS_ON#, PWR_OK (stock PSU pinout TBD, adapter harness)",
    "11V_SB -> 3V3_SB (MCU, EEPROMs, face aux in S5); 11V_SB -> 5V_SBY (COM-HPC suspend well)",
-   "12V_MAIN -> 3V3_BP buck (S0); input TVS + fuse; INA-class monitor on I2C_SYS (12V_MAIN / 11V_SB stay inside this sheet)",
+   "12V_MAIN -> 3V3_BP buck (S0); input TVS + fuse; INA228 power monitor 0x40 on I2C_SYS, ALERT -> PWR_ALERT_BP_N (12V_MAIN / 11V_SB stay inside this sheet)",
    "BP 12 V load ~1 A (3V3_BP incl. Gen5 redrivers); fan moved to IOB CONN_C, CB / faces / IOB 12 V by their own PSU leads",
    "HW gate: PS_ON = INTERLOCK_OK AND PS_ON_REQ AND NOT THERM_LATCH (discrete logic, 3V3_SB)",
    "THERM_LATCH set by MOD_THERMTRIP_N / FACE_x_THERM_TRIP_N; cleared by AC cycle (TBD)",
@@ -26,12 +26,14 @@ SHEETS = [
   [("3V3_SB", O), ("5V_SBY", O), ("3V3_BP", O), ("PSU_PWR_OK", O),
    ("PS_ON_REQ", I), ("IOB_HALL_A_N", I), ("IOB_HALL_B_N", I), ("BENCH_UNLOCK", I), ("INTERLOCK_OK", O),
    ("MOD_THERMTRIP_N", I), ("FACE_P_THERM_TRIP_N", I), ("FACE_S_THERM_TRIP_N", I), ("THERM_LATCH", O),
-   ("I2C_SYS_SCL", B), ("I2C_SYS_SDA", B)]),
+   ("I2C_SYS_SCL", B), ("I2C_SYS_SDA", B), ("PWR_ALERT_BP_N", O)]),
  ("Management MCU (RP2350A)", "mcu.kicad_sch", [
    "U1 RP2350A (LCSC C42411118) + U2 16 MB QSPI flash + 12 MHz crystal; SWD (J8), BOOTSEL (SW1)",
    "USB FS composite device to the host (HID sensors + vendor HID) via CPU-LINK USB2",
-   "Power sequencing (S5/S0 only in rev A), face power policy, dynamic 12 V budget (ICD 2026-10-02)",
-   "Fan: reads the CB demand (MOD_FAN_PWMOUT) and drives the IOB EMC2101 (I2C_SYS 0x4C, IOB CONN_C); BP J5 removed",
+   "Power sequencing (S5/S0 only in rev A), face power policy; LIVE POWER TARGET (arch spec 5.5 / ICD 13.2): 445 W ceiling, 10 Hz loop",
+   "LPT telemetry: INA228 BP 0x40 + IOB 0x41 (I2C_SYS), CB 0x45 (MOD_I2C0), faces 0x40 (FACE_x_SMB); alerts: PWR_ALERT_BP_N, MOD_PWR_ALERT_N, IOB_INT_N, FACE_x_SMB_ALERT_N",
+   "LPT actuators: EC (UART0: PL1/PL2/PL4, ratio cap) + MOD_CARRIER_HOT_N (PROCHOT#), FACE_x_THERM_ALERT_N (fast cap), face power-target register, PD pool via I2C_PD",
+   "Fan: reads the CB demand (MOD_FAN_PWMOUT) and drives the IOB EMC2101 (0x4C on I2C_PD behind TCA9517); reloads LUT + TCRIT at every S0 entry (fail-safe)",
    "Owns FACE_P/FACE_S SMBus segments (ID EEPROM 0x50, temp sensor 0x48)",
    "I2C_SYS: INA 0x40, TMP1075 U3 0x48 / U4 0x49, BP EEPROM 0x50; IOB: LIS2DH12 0x18, EMC2101 0x4C, EEPROM 0x51, TLC59116 0x60",
    "MOD_I2C0 (CPU-LINK B90/B92) = CB ID EEPROM 0x57; MOD_SMB = PCH SMBus (DIMM SPD) -> BP leaves it isolated (DNP) by default",
@@ -39,7 +41,7 @@ SHEETS = [
   [("3V3_SB", I), ("USB_MCU_DP", B), ("USB_MCU_DN", B), ("PS_ON_REQ", O), ("PSU_PWR_OK", I), ("INTERLOCK_OK", I),
    ("THERM_LATCH", I), ("BENCH_UNLOCK", O), ("PWRBTN_IN_N", I), ("I2C_SYS_SCL", B), ("I2C_SYS_SDA", B),
    ("MOD_PWRBTN_N", O), ("MOD_SUS_S3_N", I), ("MOD_SUS_S5_N", I), ("MOD_RSMRST_N", I), ("MOD_VIN_PWR_OK", O),
-   ("MOD_PLTRST_N", I), ("MOD_CARRIER_HOT_N", O), ("MOD_FAN_PWMOUT", I), ("MOD_FAN_TACHIN", O),
+   ("MOD_PLTRST_N", I), ("MOD_CARRIER_HOT_N", O), ("MOD_FAN_PWMOUT", I), ("MOD_FAN_TACHIN", O), ("MOD_PWR_ALERT_N", I), ("PWR_ALERT_BP_N", I),
    ("MOD_SMB_SCL", B), ("MOD_SMB_SDA", B), ("MOD_I2C0_SCL", B), ("MOD_I2C0_SDA", B), ("IOB_INT_N", I), ("IOB_PRSNT_N", I),
    ("FACE_P_MOD_LED_N", I), ("FACE_S_MOD_LED_N", I),
    ("FACE_P_PWR_EN", O), ("FACE_P_PWR_GOOD", I), ("FACE_P_RDY", O), ("FACE_P_PRSNT_N", I), ("FACE_P_THERM_ALERT_N", B),
@@ -56,12 +58,13 @@ SHEETS = [
    "PCIe HUB: J1 x16 -> J9 MCIO 124 (Face P), J1 x4 -> J10 MCIO 124 (Face S), REFCLK P/S; 85 ohm L1 (TX) / L6 (RX)",
    "Optional Gen5 build: U10-U13 (Face P) + U14 (Face S) TI DS320PR810 linear redrivers + 220 nF output AC caps",
    "Gen4 build: no redrivers, no AC caps on BP (host-TX caps on module/CPU board, device-TX caps on face)",
+   "PWR_ALERT# (A-row bay 4, was RSVD_LS1): CB INA228 0x45 ALERT + U11 FLT#, OD, BP 10k pull-up (live power target)",
    "Also carries: power/state sideband (COM-HPC names, CB = Z790 PCH + EC), fan PWMOUT/TACHIN (demand only), SMBus, I2C0, USB2 x4, SATA0, 5V_SBY x6, 3V3_SB x2, GND x80",
    "USB2 x4 = MCU (BP MCU), FACEP / FACES (face AUX pins 13/14), SPARE -> IOB-LINK J6 13/14 (IOB hub H2: USB-A A1-A4 + Bluetooth)",
    "BP makes PERST#_x = PLTRST# AND FACE_x_RDY (MCU asserts after FACE_x_PWR_GOOD); CLKREQ#_x end on BP; WAKE#_x ORed to WAKE0#",
    "12 V main for the CPU board does NOT pass through J1 (CB LUG1/LUG2 single 12 V entry, U11 eFuse)"],
   [("5V_SBY", O), ("3V3_SB", O), ("MOD_PWRBTN_N", I), ("MOD_SUS_S3_N", O), ("MOD_SUS_S5_N", O), ("MOD_RSMRST_N", O),
-   ("MOD_VIN_PWR_OK", I), ("MOD_PLTRST_N", O), ("MOD_THERMTRIP_N", O), ("MOD_CARRIER_HOT_N", I), ("MOD_FAN_PWMOUT", O),
+   ("MOD_VIN_PWR_OK", I), ("MOD_PLTRST_N", O), ("MOD_THERMTRIP_N", O), ("MOD_CARRIER_HOT_N", I), ("MOD_PWR_ALERT_N", O), ("MOD_FAN_PWMOUT", O),
    ("MOD_FAN_TACHIN", I), ("MOD_SMB_SCL", B), ("MOD_SMB_SDA", B), ("FACE_P_RDY", I), ("FACE_S_RDY", I),
    ("USB_MCU_DP", B), ("USB_MCU_DN", B), ("FACE_P_USB_DP", B), ("FACE_P_USB_DN", B), ("FACE_S_USB_DP", B), ("FACE_S_USB_DN", B),
    ("IOB_USB_DP", B), ("IOB_USB_DN", B), ("MOD_I2C0_SCL", B), ("MOD_I2C0_SDA", B),
@@ -69,7 +72,7 @@ SHEETS = [
  ("I/O board low-speed link", "iob_link.kicad_sch", [
    "J6 JST GH 15P (BM15B vertical) <-> IOB J6, 1:1 GH 15P cable (ICD 2026-10-02, pinout = IOB plan 5.3):",
    "1,2 3V3_SB (BP -> IOB) | 3,7,12,15 GND | 4 PWRBTN_IN_N | 5 HALL_A_N | 6 HALL_B_N | 8 I2C_SYS_SCL | 9 I2C_SYS_SDA",
-   "10 IOB_INT_N (OD, IOB -> BP, BP pull-up) | 11 IOB_PRSNT_N (IOB ties to GND; BP 10k pull-up to 3V3_SB) | 13/14 USB2_LINK D+/D- (CPU-LINK USB2_SPARE)",
+   "10 IOB_INT_N (OD, IOB -> BP, BP pull-up; PD IRQs + LIS2DH12 + IOB INA228 0x41 ALERT) | 11 IOB_PRSNT_N (IOB ties to GND; BP 10k pull-up to 3V3_SB) | 13/14 USB2_LINK D+/D- (CPU-LINK USB2_SPARE)",
    "IOB high-speed (USB3 x10, DDI, 2x i226 PCIe, VBAT) runs CB J3 -> IOB HS1 directly; 12 V via the IOB 12P PSU header, not the BP"],
   [("PWRBTN_IN_N", O), ("IOB_HALL_A_N", O), ("IOB_HALL_B_N", O), ("I2C_SYS_SCL", B), ("I2C_SYS_SDA", B),
    ("IOB_INT_N", O), ("IOB_PRSNT_N", O), ("IOB_USB_DP", B), ("IOB_USB_DN", B), ("3V3_SB", I)]),
@@ -81,7 +84,7 @@ SHEETS = [
 ]
 FACE_DESC = [
   "J3 (Face P) / J4 (Face S): JST GH 15P (BM15B vertical) AUX cable BP -> face J_AUX; pinout = MP62-FACE v0.1 aux_gh15.csv (1:1)",
-  "FACE_PWR_EN / FACE_PWR_GOOD, PRSNT#, SMBus (ID EEPROM 0x50, TMP1075 0x48, extra 0x49-0x4F), THERM_ALERT#, THERM_TRIP#, USB2 (primary), MOD_LED# (pin 15), 3V3_AUX",
+  "FACE_PWR_EN / FACE_PWR_GOOD, PRSNT#, SMBus (ID EEPROM 0x50, TMP1075 0x48, extra 0x49-0x4F, INA228 12 V monitor 0x40, power-target agent 0x58), THERM_ALERT#, THERM_TRIP#, USB2 (primary), MOD_LED# (pin 15), 3V3_AUX",
   "3V3_AUX: load switch from 3V3_SB (S5, <=50 mW) / 3V3_BP (S0, <=3.3 W); SMBus isolated until FACE_PWR_GOOD",
   "Face main 12 V: bus bar / lug (not on this cable). PCIe + REFCLK + PERST# + CLKREQ# + WAKE#: MCIO from CPU board"]
 FP, FS = [i for i, sh in enumerate(SHEETS) if sh[1] == "face_aux.kicad_sch"]

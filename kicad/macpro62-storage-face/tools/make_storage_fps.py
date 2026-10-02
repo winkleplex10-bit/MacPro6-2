@@ -102,7 +102,7 @@ m2_socket(); m2_standoff(); bga()
 qfn_ph("MP62_TI_RNN0018A_VQFN-HR-18_3.5x3.5mm_PLACEHOLDER", 3.5, 3.5, (5, 4, 5, 4), 0.5, None,
        "PLACEHOLDER outline for TI TPS56C215RNNR (VQFN-HR 18, 3.5 x 3.5, LCSC C473372). HotRod pads are NOT generic: replace with the TI RNN0018A land pattern.")
 for lib, n in [("Package_DFN_QFN", "Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm"),
-               ("Package_TO_SOT_SMD", "SOT-23-6"), ("Package_TO_SOT_SMD", "SOT-23"), ("Package_TO_SOT_SMD", "SOT-563"), ("Package_TO_SOT_SMD", "SOT-363_SC-70-6"),
+               ("Package_SO", "VSSOP-10_3x3mm_P0.5mm"), ("Resistor_SMD", "R_2512_6332Metric"), ("Package_TO_SOT_SMD", "SOT-23-6"), ("Package_TO_SOT_SMD", "SOT-23"), ("Package_TO_SOT_SMD", "SOT-563"), ("Package_TO_SOT_SMD", "SOT-363_SC-70-6"),
                ("Package_TO_SOT_SMD", "TDSON-8-1"), ("Package_SO", "SOIC-8_3.9x4.9mm_P1.27mm"),
                ("Package_SON", "Texas_DSG0008A_WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm"),
                ("Crystal", "Crystal_SMD_3225-4Pin_3.2x2.5mm"), ("Inductor_SMD", "L_Bourns_SRP1038C_10.0x10.0mm"),

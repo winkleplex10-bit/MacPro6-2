@@ -2,7 +2,7 @@
 
 | Item | Value |
 |---|---|
-| Date | 2026-10-01 (written ≈ 20:15 ET) |
+| Date | 2026-10-01 (written ≈ 20:15 ET); **rev 2026-10-02 ≈ 13:15 ET (ICD rev 2): U13 INA228 12 V monitor + R520 shunt, live power target via NVMe power states, face angle 45° (no SM-1 impact)** |
 | Owner | Aidan Winkler (MacPro6,2 project) |
 | Module | **SM-1 rev A0**: 4 × M.2 2280 NVMe behind an **ASMedia ASM2824** PCIe Gen3 switch, for Face S (BP J10). It also fits Face P. |
 | Spec basis | MP62-FACE v0.1 update 2 (`macpro62-face-module-spec-v0.1.md`), architecture spec v0.2, CPU board plan §1.2 |
@@ -135,7 +135,7 @@ Tags: **[Sourced]** = from a datasheet, distributor page or our own spec; **[Est
 ### 4.1 Block diagram
 
 ```
-Lugs J20/J22 (+12V_IN) ─ Q1 + U3 LM74700 (reverse block) ─ U2 TPS259824 eFuse 5 A ─ +12V_SW ─ U4 TPS56C215 12 A ─ L1 ─ 3V3_SSD (≈ 10 A peak)
+Lugs J20/J22 (+12V_IN) ─ Q1 + U3 LM74700 (reverse block) ─ +12V_PROT ─ R520 2 mΩ (U13 INA228) ─ +12V_PROT_S ─ U2 TPS259824 eFuse 5 A ─ +12V_SW ─ U4 TPS56C215 12 A ─ L1 ─ 3V3_SSD (≈ 10 A peak)
                                                                      │ PG                                   │ PGOOD
                                                                      └──────────────── EN ──────────────────┘     └─ U5 TLV62585 EN ─ VDD_CORE ─ PG_ALL ─ FACE_PWR_GOOD
 J1 MCIO lanes 0-7 RX (A row) ───────────────────────► U1 ASM2824 UP RX0-7
@@ -159,7 +159,7 @@ J3 AUX: 3V3_AUX ─ U6 EEPROM 0x50, U7 TMP1075 0x48 (THERM_ALERT#), U11 TMP1075 
 | PCIe SMBus (A8/A9) | Not connected in rev A. The M.2 SMBus is **1.8 V**, and all 4 NVMe-MI endpoints share 0x6A, so it would need a level shifter plus a PCA9546-class mux. That can be a later option | [Sourced: M.2 1.8 V SMBus] |
 | WAKE0#, PEWAKE#, SUSCLK, DEVSLP, PEDET, ALERT# | NC | |
 | Activity | Each SSD's DAS/DSS# → its own LED (D1–D4, 1k to 3V3_SSD). Wired-OR through BAT54A (D6/D7) → MOD_LED# (OD, ≤ 5 mA). D5 = 3V3_SSD power LED | [Proposal] |
-| Management | AUX SMBus (3V3_AUX): EEPROM 0x50 (WP strapped high, DNP 0R to program), TMP1075 0x48 → THERM_ALERT#, TMP1075 0x49 → THERM_TRIP#. FACE_PRSNT# tied to GND. FACE_PWR_EN has a 100k pull-down. eFuse FLT# → FACE_SMB_ALERT# | [Sourced: spec §5, §8] |
+| Management | AUX SMBus (3V3_AUX): EEPROM 0x50 (WP strapped high, DNP 0R to program), TMP1075 0x48 → THERM_ALERT#, TMP1075 0x49 → THERM_TRIP#. FACE_PRSNT# tied to GND. FACE_PWR_EN has a 100k pull-down. eFuse FLT# → FACE_SMB_ALERT#. **ICD rev 2:** U13 **INA228** at **0x40** (mandatory > 3 W, face spec §6.8) across R520 2 mΩ 2512 (+12V_PROT → +12V_PROT_S, ahead of U2); ALERT (OD) also → FACE_SMB_ALERT#; C520 100 nF | [Sourced: spec §5, §8] |
 | Switch config | SPI NOR (U8). Size and image come from ASMedia (TBD, NDA). Footprint SOIC-8 | TBD |
 
 ### 4.3 Rails
@@ -173,6 +173,10 @@ J3 AUX: 3V3_AUX ─ U6 EEPROM 0x50, U7 TMP1075 0x48 (THERM_ALERT#), U11 TMP1075 
 | 3V3_AUX | From the BP (AUX pins 1–2) | EEPROM + 2 sensors ≈ 1 mA | S5-safe |
 
 **Sequencing:** FACE_PWR_EN → eFuse → EFUSE_PG → 3V3 buck → PG_3V3 → core buck → PG_ALL → FACE_PWR_GOOD (open drain, < 150 ms total) → host releases PERST0# → switch and SSDs out of reset.
+
+### 4.3.1 Live power target (ICD rev 2) [Proposal]
+
+SM-1 has no MCU, so it is **telemetry-only** for the system 445 W loop (spec §5.5): the BP MCU reads U13 (V, I, P, energy) over FACE_S_SMB every 100 ms and sets the INA228 power-over-limit alert to the Face S allocation + 10 %. To reduce storage power, the BP asks the macOS helper (vendor HID) to lower each SSD's **NVMe power state** (Set Features FID 02h). THERM_ALERT# stays the fast hardware path. No power-target agent at 0x58 is fitted.
 
 ### 4.4 Power budget (12 V input, Face S slot max 40 W, Class 1)
 
@@ -243,13 +247,14 @@ These follow once the ASM2824 ball map and the LOTES drawing are in hand.
 | U5 + L2 | TLV62585DRL + 0.47 µH 2520 (rail TBD) | TBD | 1 + 1 | ≈ $0.4 + $0.05 | $0.45 |
 | U6 | BL24C64A-SFRC | C111004 | 1 | $0.19 | $0.19 |
 | U7, U11 | TI TMP1075DSGR | C2870250 | 2 | $0.50 | $1.00 |
+| U13 + R520 | TI INA228AIDGSR (VSSOP-10) + 2 mΩ 2512 shunt (ICD rev 2) | LCSC TBD [Unverified] | 1 + 1 | ≈ $3.5 + $0.2 [Estimate] | $3.70 |
 | U9, U10, U12 | 74LVC2G07 (SC-70-6) | TBD (basic/extended) | 3 | ≈ $0.10 | $0.30 |
 | U8 | SPI NOR 25Q (size TBD) | TBD | 1 | ≈ $0.25 | $0.25 |
 | Y1 | 25 MHz 3225 (only if required) | TBD | 0–1 | ≈ $0.10 | $0.10 |
 | D1–D5, D6–D7 | LED 0603 × 5, BAT54A × 2 | basic parts | 7 | ≈ $0.02 | $0.14 |
 | C/R | ≈ 150 passives: 48 × 220 nF, 6 × 47 µF, 8 × 22 µF 0805, 4 × 22 µF 1206 25 V, decoupling, pull-ups | basic parts | ≈ 150 | — | ≈ $2–4 |
 | — | 3.0 mm soft gap pad ≈ 25 × 25 (not JLC; buy separately) | — | 1 | $3–8 | $3–8 |
-| **Total per board** | | | | | **≈ $45–80** (≈ $42–72 assembled by JLC + gap pad) |
+| **Total per board** | | | | | **≈ $49–84** (≈ $46–76 assembled by JLC + gap pad; +$3.7 for U13/R520, ICD rev 2) |
 
 **Interface kit** (connectors, eFuse, EEPROM, sensor) ≈ $17, matching spec §15.
 
@@ -333,7 +338,7 @@ These follow once the ASM2824 ball map and the LOTES drawing are in hand.
 | **MF-13 (new)** | Stock screw thread (M3? pitch), length, and bracket eyelet thickness | Picks the low-head screw part number and length (D4, §3.3) |
 | **MF-14 (new)** | Air temperature/flow in the board-to-shell gap: thermocouple on a dummy SSD during a 10 min load | SSD cooling (C-20) |
 | **M1c** | Base-board standoff spacing (C-16) | No SM-1 impact. The J1 position follows the spec. Nothing locked here depends on C-16 |
-| **M2c** | Face angle (C-18) | No SM-1 impact. Module frame is face-relative |
+| **M2c** | Face angle (C-18) | **Answered ≈ 45° (Aidan 2026-10-02).** No SM-1 impact: the module frame is face-relative. The BP J10 moved (fp5) and the Face S cable jogs 10.5 mm (face spec §3.6; ICD O-6) |
 | **M5 / M5b** | Lug polarity / site per face | Both sites are fitted |
 | G | Core gap per unit (±0.05) | Gap-pad thickness |
 | **ICD O-1 (2026-10-02)** | BP J10 cannot move to s = +8.5 (G1 hole keep-out); it sits at s = −5.0, so the SM-1 J1 (X 43.5) cable needs a **13.5 mm lateral jog** | Cable choice/length (M4, C-9). No SM-1 change unless the spec moves J_PCIE (`macpro62-interface-control.md`) |

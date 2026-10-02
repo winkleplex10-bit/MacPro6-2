@@ -22,7 +22,7 @@ B = (bay_pairs(["FP_PER%d" % l for l in range(15, 6, -1)]) +
      bay_pairs(["FP_PER%d" % l for l in range(6, -1, -1)] + ["USB2_FACEP", "RSVD_HS_B1"]) +
      bay_pairs(["FS_PER%d" % l for l in range(0, 4)] + ["SATA0_RX", "USB2_MCU", "USB2_FACES", "USB2_SPARE", "RSVD_HS_B2"]))
 lsA = ["PWRBTN#", "RSTBTN#", "SUS_S3#", "SUS_S4_S5#", "RSMRST_OUT#", "VIN_PWR_OK", "PLTRST#", "THERMTRIP#",
-       "CARRIER_HOT#", "WAKE0#", "BIOS_SEL", "GPIO0", "GPIO1", "RSVD_LS1", "5V_SBY", "5V_SBY", "5V_SBY", "5V_SBY"]
+       "CARRIER_HOT#", "WAKE0#", "BIOS_SEL", "GPIO0", "GPIO1", "PWR_ALERT#", "5V_SBY", "5V_SBY", "5V_SBY", "5V_SBY"]
 lsB = ["SMB_CLK", "SMB_DAT", "SMB_ALERT#", "I2C0_CLK", "I2C0_DAT", "UART0_TX", "UART0_RX", "FAN_PWMOUT", "FAN_TACHIN",
        "GPIO2", "GPIO3", "RSVD_LS2", "RSVD_LS3", "RSVD_LS4", "3V3_SB", "3V3_SB", "5V_SBY", "5V_SBY"]
 def ls_bay(lst):
@@ -40,6 +40,7 @@ CB = {
     "PLTRST#": ("PCH PLTRST# (buffered); BP makes PERST#_FP/FS = PLTRST# AND FACE_x_RDY", "out"),
     "THERMTRIP#": ("CPU/PCH THERMTRIP# (OD, wired-OR on the CB)", "out, OD"),
     "CARRIER_HOT#": ("EC GPIO in -> CPU PROCHOT# (OD)", "in, OD"), "WAKE0#": ("PCH WAKE# (faces' WAKE# ORed on the BP)", "in, OD"),
+    "PWR_ALERT#": ("CB 12 V power alert (ICD rev 2, live power target): wired-OR of CB INA228 U15 ALERT (0x45 on I2C0) and U11 eFuse FLT#; BP 10k pull-up to 3V3_SB, BP MCU IRQ", "out, OD"),
     "BIOS_SEL": ("EC GPIO in (optional dual-image select)", "in"), "GPIO0": ("EC GPIO spare", "bi"), "GPIO1": ("EC GPIO spare", "bi"),
     "GPIO2": ("EC GPIO spare", "bi"), "GPIO3": ("EC GPIO spare", "bi"),
     "SMB_CLK": ("PCH SMBus (DIMM SPD/PMIC/TS bus): 0R DNP isolation on the CB by default (avoid multi-master on the DIMM bus) [Proposal]", "bi, OD"),

@@ -92,6 +92,27 @@
 30. **2026-10-02 ≈ 12:30 ET — Inter-board interface audit; interface control document `/workspace/macpro62-interface-control.md` (ICD).** One table per interface (CPU-LINK, IOB-HS1, DISPLAY-LINK, BP → face MCIO, face AUX, IOB-LINK, PSU chain, 12 V entries, CONN_C, J31, I²C map, lane/clock map, power budget, mechanics, ground) plus the unverified list.
     - **Fixed:** IOB J2 DISPLAY-LINK now wired to the row-swapped IOB-end table (was module-end: GPU TX on the wrong row); CB J3 host-end table added (`kicad/macpro62-lga1700/docs/mp62-cb-j3_mcio124_host-end.csv`); IOB EMC2101 moved from I2C_SYS to the I2C_PD segment (VDD is S0-only); BP J3/J4 → GH15 BM15B (C-4); BP J9/J10 → SFF-TA-1016 footprint, J9 s = +8.0 (CR-2); BP J5 fan removed (fan via IOB CONN_C); BP IOB-LINK stub gains IOB_INT_N / IOB_PRSNT_N (pull-up, not GND) / USB2_LINK (= CPU-LINK USB2_SPARE); **CR-BP-1 applied** (Ø6 keep-outs S1–S6, U4 off S2, J6/J3/J4/J8/U3/Y1 moved); BP stub schematic ERC 230 → 0; CPU-LINK CSV gets a CB mapping column; CB U13 i226 removed, BT1 DNP, J3/DDI texts; stale CB plan text (§0, §1.2, §2.4, §7.2, §8); §3.8, §3.9, §4.1–4.8, §5.1–5.4, §7 (superseded by the face spec v0.1; 0x49–0x4F allowed) here.
     - **Open (Aidan):** O-1 J10 cannot reach CR-2 (G1 hole keep-out) → Face S cable jog 13.5 mm, or move J_PCIE to X 52 on all modules; O-2 PL2 worst case ≈ 431 W > 405 W → dynamic budget / PL2 cap; O-3 IOB 3V3_BT default (S5 drain, no wake benefit); plus the ICD unverified list (PSU pinouts, ASM1182e clocks/PERST, TPS65994 addresses, cable lengths, ground strategy).
+31. **2026-10-02 ≈ 12:45 ET — I/O board: swappable flex port modules (D-IO16, Aidan 12:13 / 12:17 ET; IOB plan §4.7.9).**
+    - **What replaces the risers:** each USB-C (×6), USB-A (×4) and HDMI port is its own module. The receptacle is soldered straight to a JLC 2-layer FPC with an FR4 1.0 stiffener (no rigid PCB). The tail C-folds under the module to a DF40C-50DP into DF40C-50DS JM1–JM11 on the IOB F side. The D-IO14 tilted risers are superseded.
+    - **PMI-50 module pinout:**
+      - 12 VBUS / 17 GND.
+      - 4 HS pairs (C: TX1/RX1/TX2/RX2; A: SSTX/SSRX; HDMI: D2/D1/D0/CLK), plus USB2.
+      - CC1/2, SBU1/2 (HDMI DDC), HPD and UTIL.
+      - ID I²C to a 24C02 at 0x50 per slot, through TCA9548A U95/U96 at 0x70/0x71 on I2C_PD.
+      - PRSNT# to TCA9555 U97 (0x27, private segment on U96 ch3, INT# → PD_INT_N), plus 3V3_MOD and LED#.
+    - **Mechanics:**
+      - Push: the stiffener sits on ledges of a printed cradle.
+      - Pull and side: a bonded SUS304 sleeve carries the load through its collar into a screwed clamp plate → M2 SMT standoffs.
+      - The flex and the solder joints carry no plug load.
+      - Port axes are normal to the plate, so plugs seat fully. The stock 12.5° build is kept as a variant (0.7–1.4 mm short of full seating).
+    - **SI:** ≈ 1.4–2.1 dB per lane at 5 GHz after the existing redrivers. No new redrivers.
+    - **Checks:** DRC/ERC 0 (IOB and the 3 module boards).
+    - **Interfaces:** no change at the inter-board interfaces. The ICD I²C table should add 0x70/0x71 on I2C_PD.
+32. **2026-10-02 ≈ 13:15 ET — Aidan's audit decisions applied (ICD rev 2).**
+    - **Power:** the 405 W rule is replaced by a **445 W ceiling** (PSU 450 W); margins recomputed (§5.4). New **§5.5 live power target**: the BP MCU sets CPU PL1/PL2 (EC → SMM mailbox / PECI), the GPU power target (face SMBus agent 0x58), the USB-C PD pool and the storage power states from predicted need; INA228 12 V monitors added on the CB (U15, I2C0 0x45), the IOB (U98, I2C_SYS 0x41), SM-1 (U13, 0x40) and the face template (reference RS1/U5); new CPU-LINK pin **A105 PWR_ALERT#** (was RSVD_LS1).
+    - **Face angle:** M2c answered ≈ **45° / 135°** (Aidan; §3.1). BP fp5: J9 (r_c 31.2, s −5.2), J10 (r_c 31.5, s −2.0), J3 (0, 51.4), J4 (−38.0, 2.5) rot 135°, redrivers / MCU / flash re-packed in the V, SW1 and J8 to the PSU side. DRC 0/0, fit check ALL OK.
+    - **CR-2 closed by the cable:** flat-twinax MCIO 124 jog cable (jogs 13.7 / 10.5 mm), spec in face spec §3.6. The space check shows only ≈ 12–20 mm free cable between plug rears, so the jog's feasibility is an open item (ICD O-6, M4).
+    - **Recommendations approved:** Bluetooth on the S0 rail (IOB R149 fitted, R148 DNP); CB ID EEPROM on I2C0 with the memory SMBus isolated; the BP MCU reloads the EMC2101 settings at every S0 entry.
 
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
@@ -341,7 +362,7 @@ v0.1's Steer-1/Steer-2 (0 Ω / TMUXHS4412) are deleted. If a later module needs 
 - **CPU board tab is free.** Non-standard but off-the-shelf edge connectors are acceptable.
 - **No card edges on face modules.** Faces take MCIO 124 cables (unchanged).
 - **SI target:** Gen4 is the baseline for every link. Gen5 is desired on Face P (and possible on Face S).
-- **Face geometry (measured, Aidan 2026-10-01):** GPU-board planes ≈ **55 mm** from the disc centre (M2), so the face boards' bottom edges sit near the rim (chord 36.8 mm inside R58, 52.8 mm at the R61 disc edge); their bottom edges are ≈ **15 mm** above the base board (M1). Faces P/S are at ±120° from the CPU side (normals at +30° / +150°) **[Assumption: angle, not measured]**. The stock GPU connector fields on the base board run at ±46.6° (§3.13), which hints at normals ≈ 42° / 138° **[Hypothesis, M2c]**.
+- **Face geometry (measured, Aidan 2026-10-01):** GPU-board planes ≈ **55 mm** from the disc centre (M2), so the face boards' bottom edges sit near the rim (chord 36.8 mm inside R58, 52.8 mm at the R61 disc edge); their bottom edges are ≈ **15 mm** above the base board (M1). **Face normals at ≈ 45° / 135° from the hole axis (Aidan 2026-10-02, from the gaps on the bottom of the I/O card; GPU cards presumed the same; M2c answered, change 32)**, matching the stock GPU connector fields at ±46.6° (§3.13). The two GPU boards therefore meet at ≈ 90° (plane triangle apex (0, 77.8), base corners (±90.4, −12.6), incentre (0, 24.8), inradius ≈ 37); the earlier 30° / 150° (±120°) was an assumption.
 - **CPU board plane (slot measured on the base-board scan, §3.13: −12.5 ± 0.3; M2b resolved):** stock CPU riser slot ≈ **12.6 mm** from the hole axis on the PSU side (−y), parallel to the hole axis, centred in x **[Measured ±0.3 on the base-board scan, §3.13; originally estimated ±3 mm from the service-guide photo, §3.12]**. At d = 12.6 the chord is **113.2 mm** inside R58.
 
 ### 3.2 CPU-LINK connector candidates (vertical card edge, 20 lanes + sideband) [Sourced unless tagged]
@@ -403,12 +424,14 @@ KiCad placeholder: `MP62_CPULINK_MiniCoolEdge_224P_Vertical_SMT_PLACEHOLDER` (fa
 
 ### 3.4 Fit check (KiCad, DRC-clean, floorplan fp3) [Estimate]
 
+> **fp5 (change 32, 45° / 135° faces):** 27 parts + 2 holes, all within R58 (max r 57.8, D4) and ≥ 6 mm from a hole centre; J9 rmax 51.8 / hole 6.2 / S-dist 3.8; J10 50.4 / 13.4 / 5.0; J3 55.9 at the apex wedge; J4 49.2 / 6.3. DRC 0/0, `fitcheck_floorplan.txt` ALL OK. The fp3 rows below are history.
+
 | Item | Value |
 |---|---|
 | J1 position | Centre **(0, −12.6)** mm, long axis parallel to the hole axis, on the **estimated stock riser-slot chord** (§3.12). Straight centred tab; no offset or L-shape needed. |
 | J1 courtyard | Corners r = **46.2 mm** (limit 58); **10.6 mm** from the nearest hole centre (courtyard-polygon distance). |
 | Chord margin | 85.86 keep-out vs **113.2 mm** chord at d = 12.6 → 27 mm spare. Max chord offset for the 224: **d ≈ 35.9 mm** (R58) / 40.2 mm (R61). |
-| MCIO outputs | **Right-angle** MCIO 124 (placeholder `MP62_MCIO_124P_RightAngle_SMT_PLACEHOLDER`): J9 Face P at (29.8, 22.5) rot −60°, J10 Face S at (−29.8, 22.5) rot +60° (courtyard centres). Mating faces point radially out along the face normals (+30° / +150°); courtyard incl. 13.1 mm plug zone ends at r ≈ 50 (corners r 57.0), **6.4 mm** from the holes. The cable leaves the plug at ~9–10 mm height **[Estimate]**, passes under the face-board bottom edge (15 mm, M1) at r 55 and turns up on the board's outer side. |
+| MCIO outputs | **Right-angle** MCIO 124 (placeholder `MP62_MCIO_124P_RightAngle_SMT_PLACEHOLDER`): J9 Face P at (29.8, 22.5) rot −60°, J10 Face S at (−29.8, 22.5) rot +60° (courtyard centres). Mating faces point radially out along the face normals (+30° / +150°); courtyard incl. 13.1 mm plug zone ends at r ≈ 50 (corners r 57.0), **6.4 mm** from the holes. The cable leaves the plug at ~9–10 mm height **[Estimate]**, passes under the face-board bottom edge (15 mm, M1) at r 55 and turns up on the board's outer side. | **(Historical fp3; current fp5 positions in §4.9.)**
 | Everything else | All 29 placed parts (plus 2 holes) within R58 (max r 57.9, J3/J4) and ≥ 6 mm from a hole centre. DRC **0 violations, 0 unconnected** (`drc_report.txt`); `fitcheck_floorplan.txt` "ALL OK". The fit script now measures the true courtyard-polygon distance to each hole (fp2 used a bounding box). |
 | Cutouts | **Not needed for fit.** |
 
@@ -593,7 +616,7 @@ All traces are in `/workspace/bracket/<part>/`, each with a DXF, an overlay PNG 
 - **Stock GPU connector fields** (MEG-Array, 1.27 pitch):
   - GPU_L at (−35.76, 31.89), axis 46.5°; GPU_R at (35.63, 32.26), axis −46.7°.
   - Both tangential at r ≈ 48, i.e. at polar angles 138° / 42°.
-  - **Hypothesis:** the GPU face normals are at ≈ 42° / 138°, not the assumed 30° / 150° (§3.1). That would rotate J9/J10 by ≈ 12° each. **Measurement request M2c**; no change made.
+  - **Hypothesis (2026-10-01):** the GPU face normals are at ≈ 42° / 138°, not the assumed 30° / 150° (§3.1). **Resolved by change 32: Aidan ≈ 45°; BP fp5 re-placed J9/J10/J3/J4.**
 - **PSU-side stock field:** (−1.73, −48.74), 44.3 × 17.3 (x −23.4…19.1, y −57.4…−40.2). Probably the I/O-flex / PSU link [Inference].
 
 **Core standoff screws (`bracket/core_photo`, from Aidan's core photo)**
@@ -818,15 +841,15 @@ Other rules:
 | Ref | To | Part (placeholder) | Pins | Notes |
 |---|---|---|---|---|
 | **J1** | CPU board (CPU-LINK) | **Amphenol Mini Cool Edge 224 vertical SMT, ME1022410103011** (board lock) | 224 | MP62 pinout §3.8. Footprint is a **placeholder** with correct outer dimensions. |
-| **J9 / J10** | Face P / Face S PCIe | **MCIO 124 right-angle SMT** (Molex 2173463021 / Amphenol G97R24332HR / TE 2323321-1 class; fp3, §3.12), footprint **`MP62_MCIO_124P_RA_SFF-TA-1016`** (same as the face template, fp4). Fallback: vertical TE 1-2381578-9 + RA plug (13.95 mm) | 124 | x16 / x4 wired; pinout = face spec §5 module-end table with rows A/B exchanged (host end). Mating face radial, toward the face edge. fp4: J9 s = +8.0 (CR-2 asks +8.5), **J10 s = −5.0 (CR-2 blocked by the G1 hole keep-out; 13.5 mm cable jog, open)**. |
+| **J9 / J10** | Face P / Face S PCIe | **MCIO 124 right-angle SMT** (Molex 2173463021 / Amphenol G97R24332HR / TE 2323321-1 class; fp3, §3.12), footprint **`MP62_MCIO_124P_RA_SFF-TA-1016`** (same as the face template, fp4). Fallback: vertical TE 1-2381578-9 + RA plug (13.95 mm) | 124 | x16 / x4 wired; pinout = face spec §5 module-end table with rows A/B exchanged (host end). Mating face radial, toward the face edge. **fp5 (45° / 135°, change 32): J9 r_c 31.2, s −5.2, rot −45°; J10 r_c 31.5, s −2.0, rot +45°; jogs 13.7 / 10.5 mm taken by the flat-twinax jog cable (CR-2 closed by the cable; feasibility ICD O-6).** |
 | U10–U13 / U14 | Face P / Face S | TI DS320PR810 (BP-G5 build only) | 64 | Areas reserved in BP-G4. |
 | **J2** | PSU harness | Molex Micro-Fit 3.0 43045-0812, 2 × 4, THT | 8 | 1–2: 12V_MAIN; 3–5: GND; 6: PS_ON#; 7: 11V_SB; 8: PWR_OK. Adapter harness to the stock PSU (pinout TBD, M6). |
-| **J3 / J4** | Face P / Face S AUX | **JST GH 15-pin (BM15B-GHS-TBT)** (fp4; was GH14) | 15 | Pinout = face spec §6 `aux_gh15.csv` (pin 15 MOD_LED#, pins 13/14 USB2 primary); §7.6 below is superseded. fp4 positions: J3 (0, 51) apex, J4 (−15.9, 14.95) rot 60. |
+| **J3 / J4** | Face P / Face S AUX | **JST GH 15-pin (BM15B-GHS-TBT)** (fp4; was GH14) | 15 | Pinout = face spec §6 `aux_gh15.csv` (pin 15 MOD_LED#, pins 13/14 USB2 primary); §7.6 below is superseded. fp5 positions: J3 (0, 51.4) apex wedge; J4 (−38.0, 2.5) rot 135° beyond J10's lower-left end. |
 | ~~J5~~ | ~~Fan harness~~ | removed in fp4 (change 30) | – | The fan is on the IOB CONN_C / EMC2101. |
 | **J6** | IOB-LINK | JST GH 15-pin (BM15B-GHS-TBT), 1:1 cable to IOB J6 | 15 | 1–2 3V3_SB; 3/7/12/15 GND; 4 PWRBTN_IN_N; 5/6 HALL_A_N/HALL_B_N; 8/9 I2C_SYS SCL/SDA; 10 IOB_INT_N (BP pull-up); **11 IOB_PRSNT_N (IOB grounds it; BP 10k pull-up)**; 13/14 USB2_LINK = CPU-LINK USB2_SPARE. fp4 position (11.4, −48.8). |
 | **J7** | OpenCore SSD | M.2 M-key socket, 2242 (2230 standoff option), SATA-only | 67 | Accepts B+M-key SATA cards. fp3: on the PSU side (under the PSU, height TBD M7b). |
-| **J8** | Debug | JST SH 4-pin SWD (3V3, SWCLK, SWDIO, GND) | 4 | UART on test pads. |
-| SW1 / SW2 | – | BOOTSEL; bench power button | – | |
+| **J8** | Debug | JST SH 4-pin SWD (3V3, SWCLK, SWDIO, GND) | 4 | UART on test pads. fp5: PSU side (−40, −34). |
+| SW1 / SW2 | – | BOOTSEL; bench power button | – | fp5: SW1 (30.5, −34), SW2 (30, −40), PSU side. |
 | D1–D4 | – | 0603 LEDs: 11V_SB, 12V main, S0, FAULT | – | Diagnostics; the 8-LED stock-style set moves to the IOB later. |
 
 ### 4.9 Floorplan and stackup [Proposal]
@@ -841,10 +864,10 @@ Other rules:
 | Zone | Parts (centre, rotation) | Notes |
 |---|---|---|
 | **CPU board plane (y = −12.6, estimated)** | **J1** Mini Cool Edge 224 at (0, −12.6), 0° | Stock riser-slot position (§3.12, M2b). **fp3a: J1 at 180°**: side A row (−y, PSU side) = host TX → via → L6; side B (+y, core side) = host RX → L1. Bays 1–2 (+x) = Face P, bay 3 = Face S + SATA/USB2, bay 4 (−x) = sideband/power. |
-| **Hub trapezoid (core side, y −8…+28)** | Redriver sites U10 (6.75, −3.5), U11 (20.25, −3.5), U12 (1.0, 6.0), U13 (14.5, 6.0) for Face P; U14 (−13.5, −3.5) for Face S; **U1** RP2350A (0, 17.5), **Y1** (−8, 17.5), **U2** flash (0, 26) | Under the open core interior. Redriver sites empty in BP-G4. |
-| **Face sides (+30° / +150°)** | **fp4:** **J9** RA MCIO 124 Face P at face_pos(30°, r_c 36.5, s +8.0) −60°; **J10** RA MCIO 124 Face S at face_pos(150°, r_c 37.2, s −5.0) +60°; footprint SFF-TA-1016 | Mating faces radial; cable passes under the 15 mm face edge at r 55. The module J_PCIE sits at s = +8.5 on both faces (face spec C-2): Face P jog 0.5 mm, **Face S jog 13.5 mm** (G1 hole keep-out; open). Exit zones and J_PCIE ticks drawn on Dwgs. |
-| **Apex (+y)** | **fp4:** **J3** AUX GH15 Face P (0, 51) 0°; **J8** SWD (0, 44.6); **U3** temp sensor (0, 39.8); **SW1** BOOTSEL (0, 33). **J4** AUX GH15 Face S (−15.9, 14.95) 60°, parallel to the J10 inner side; **Y1** (−6.4, 14.0) | Each AUX connector sits at the end of its face where the module J_AUX is (module X 16.5). |
-| **PSU side (y < −16)** | **J7** M.2 2242 (0, −30), 0°; **PS1** standby/safety (−37.3, −24.5); **PS2** main rails (38, −24.5); **J2** PSU-IN Micro-Fit 2×4 (−13, −48); **J6** IOB-LINK GH15 (11.4, −48.8) 180°; **U4** temp sensor (−30, −38) (fp4, off S2); **SW2** bench power (30, −40); **D1–D4** LEDs (37.5, −33…−42); J5 fan removed | Behind the CPU board, under the PSU (heights TBD, M7b). Power, PSU harness and IOB enter on this side. **CR-BP-1:** Ø6 keep-outs at the six small stock holes S1–S6 (rule areas, all layers). |
+| **Hub V (core side, y −8…+27, between J1 and the J9/J10 inner edges; fp5)** | Redriver sites U10 (−6.45, −3.5), U11 (6.45, −3.5), U12 (6.45, 6.0), U13 (19.35, −3.5) for Face P; U14 (−19.35, −3.5) for Face S; **U1** RP2350A (0, 15.3), **U2** flash (−9, 6), **Y1** (−2.6, 6) | Under the open core interior. Redriver sites empty in BP-G4. Lane length estimate fp5: Face P 39–65 mm, Face S 40–43 mm. |
+| **Face sides (45° / 135°, fp5)** | **J9** RA MCIO 124 Face P at face_pos(45°, r_c 31.2, s −5.2) rot −45°; **J10** RA MCIO 124 Face S at face_pos(135°, r_c 31.5, s −2.0) rot +45°; footprint SFF-TA-1016; J9/J10 gap 1.3 mm at the apex | Mating faces radial (n ≈ 43.3 / 43.6); plug (8.2 high) passes under the 15 mm face edge. Module J_PCIE at s = +8.5 on both faces: **jogs 13.7 mm (P) / 10.5 mm (S), taken by the flat-twinax jog cable (CR-2 closed, Aidan; ICD I-4)**. They cannot both reach s = +8.5: with the faces at 90° they collide at the apex, and J10 is bounded by the G1 keep-out; J4 only fits beyond J10's lower-left end if J10 s ≤ −2. |
+| **Apex wedge (+y, fp5)** | **J3** AUX GH15 Face P (0, 51.4) 0° (Face-P s ≈ +36, at Face P's J_AUX end); **U3** temp sensor (0, 41.6). **Lower left (fp5):** **J4** AUX GH15 Face S at Face-S (n 28.6, s +25.1) = (−38.0, 2.5), rot 135° (long axis along the Face S normal), 6.3 mm from G1 | Each AUX connector sits at the end of its face where the module J_AUX is (module X 16.5, s = +35.5). J8 SWD and SW1 BOOTSEL moved to the PSU side. |
+| **PSU side (y < −16)** | **J7** M.2 2242 (0, −30), 0°; **PS1** standby/safety (−37.3, −24.5); **PS2** main rails (38, −24.5); **J2** PSU-IN Micro-Fit 2×4 (−13, −48); **J6** IOB-LINK GH15 (11.4, −48.8) 180°; **U4** temp sensor (−30, −38) (fp4, off S2); **SW2** bench power (30, −40); **SW1** BOOTSEL (30.5, −34) and **J8** SWD (−40, −34) (fp5, from the apex); **D1–D4** LEDs (37.5, −33…−42); J5 fan removed | Behind the CPU board, under the PSU (heights TBD, M7b). Power, PSU harness and IOB enter on this side. **CR-BP-1:** Ø6 keep-outs at the six small stock holes S1–S6 (rule areas, all layers). |
 
 **Drawn on Dwgs.User / Cmts.User:**
 - the CPU board plane (estimated, y = −12.6) and the Face P / Face S board planes at 55 mm (measured), with the 104 mm board width and the 70 mm flat bottom edge
@@ -942,10 +965,70 @@ Other rules:
 | BP (MCU, 3V3_AUX × 2, SATA SSD) | ≈ 10 W (G4) / 17 W (G5) | ≈ 10 W | |
 | Fan (now on IOB CONN_C) | ≤ 10 W (TBD, M-IOC1) | ≈ 3–5 W | |
 | IOB (USB-C pool, 4 × USB-A, logic, AirPort/BT) | ≈ 99 W (pool 60 + USB-A 30 + 9) | ≈ 75 W (pool 45 + USB-A 4 × 4.5 + 9 + 3) | IOB plan §7, D-IO1 |
-| **Total** | **≈ 431 W** (≈ 451 W with Face P at 150 W) | **≈ 330–345 W** | PSU 450 W; rule ≤ 405 W (90 %) |
+| **Total** | **≈ 431 W** (≈ 451 W with Face P at 150 W) | **≈ 330–345 W** | PSU 450 W; **ceiling 445 W** (change 32; was ≤ 405 W) |
 
-- **The worst case breaks the 405 W rule** (≈ 431 W; ≈ 451 W > 450 W with Class 3). Sustained operation is fine. **Open decision (ICD O-2):** (a) BP MCU dynamic budget — while the CB is in PL2 or Face P > 130 W, the MCU lowers the USB-C pool to 45 W and USB-A to 1.5 A/port via the TPS65994 PDOs (≈ 404 W); (b) cap PL2 at ≈ 65 W in firmware; (c) accept a 4 % PSU margin for the 28 s PL2 window only.
-- Face spec C-6 (host total 350–360 W) holds for the sustained column only.
+- **Margins against the 445 W ceiling (change 32, Aidan: PSU 450 W, 445 W pushed is acceptable):**
+
+| Case | 12 V total | Margin to 445 W |
+|---|---|---|
+| Sustained (CPU PL1, pool capped) | ≈ 330–345 W | **100–115 W (22–26 %)** |
+| Static safe allocation (CB PL2 65 W, Face P 130 W, Face S 40 W, BP 17 W, fan 10 W, IOB 99 W) | ≈ 408 W (≈ 428 W with Face P 150 W) | 37 W (17 W) |
+| Face transients (1.3 × for ≤ 10 ms, face spec §6.3) | ≈ 417 W | 28 W |
+| Unmanaged worst case (PL2 92 W, all ports loaded) | ≈ 431 W (438 W with BP-G5) | 14 W (7 W) |
+| Unmanaged worst case with Face P 150 W | ≈ 451 W (458 W with BP-G5) | **−6 W (−13 W) → held by the live power target (§5.5)** |
+
+- Face spec C-6 holds for every case once the live power target (§5.5) is running; the IOB D-IO1 pool cap stays mandatory (U40 ILIM).
+
+### 5.5 Live power target (LPT) [Proposal, change 32]
+
+Aidan (2026-10-02): the PSU is 450 W and 445 W "pushed" is acceptable. The 405 W static rule is replaced by a **445 W ceiling on the measured 12 V total**, held by a live power target. The BP MCU (RP2350) runs the loop; the CB EC applies the CPU limits. Interface details, signals and addresses are in the ICD §13.2.
+
+**Control scheme**
+
+| Item | Value |
+|---|---|
+| Ceiling / loop target / guard | `P_CEIL` = 445 W; `P_TGT` = 430 W (15 W guard for ±1.5 % sensor error and 100 ms loop latency) |
+| Loop | 10 Hz (100 ms): read telemetry → predict each consumer's need for the next 1 s → allocate → push limits |
+| Prediction (per consumer *i*) | `P_pred,i = clip(max(EWMA_1s(P_i) + 2·σ_1s, P_req,i), floor_i, cap_i)`. Demand hints `P_req`: EC (CPU C0 load, turbo request, PL2 Tau state); GPU agent `p_request_w`; new USB-PD contract requests and attach events; storage = measured only |
+| Floors (= static safe allocation) | CB PL1 35 W / PL2 65 W (≈ 112 W at 12 V); Face P declared class (130 W, 150 W after P3); Face S declared (≤ 40 W); USB-C pool 45 W; BP 17 W; fan 10 W; IOB logic 9 W. **Σ ≈ 408 W (428 W with Face P 150 W) ≤ 430 W**, so the floors alone always fit |
+| Headroom `H = P_TGT − Σ P_pred` | H ≥ 0 → grant it by priority: (1) CPU PL2 up to 92 W, (2) GPU up to its class cap, (3) USB-C pool up to 60 W, (4) storage. H < 0 → claw back in reverse order: storage → USB-C pool (renegotiation ≈ 1 s) → CPU PL2 → GPU target, never below the floors |
+| Fast path | Any power alert (INA228 ALERT, eFuse FLT#) → MCU IRQ (< 100 µs) → read the sensors (≤ 2 ms, 4 buses in parallel) → if Σ > 445 W: assert **CARRIER_HOT# (CPU PROCHOT#)** and **FACE_P_THERM_ALERT#** (module "cut ≥ 25 % within 100 ms"), drop the pool to 45 W. Release after 200 ms once Σ < 430 W and the new limits are in place |
+| Fail-safe | Telemetry loss on a bus, or EC/module heartbeat loss > 1 s → that consumer returns to its floor; MCU reset → EC and modules fall back to the floors by themselves (watchdog), so the system never relies on the loop to stay ≤ 445 W in steady state |
+
+**Telemetry**
+
+| Sensor | Bus (master) | Address | Measures | Board / ref |
+|---|---|---|---|---|
+| INA228 | I2C_SYS (BP MCU) | 0x40 | BP 12V_MAIN (≈ 1 A) | BP power sheet (PS2 area) |
+| INA228 | I2C_SYS | 0x41 | IOB 12 V after U40 (USB pool, USB-A, fan, AirPort, logic) | IOB U98 + RS90 1 mΩ |
+| INA228 | CPU-LINK I2C0 | 0x45 | CB 12 V after U11 (whole CB) | CB U15 + RS1 0.5 mΩ |
+| INA228 | FACE_P_SMB / FACE_S_SMB | 0x40 (each segment) | module 12 V | face spec §6.8 (SM-1 U13 + R520 2 mΩ; template RS1/U5) |
+| EC: CPU package power, PL state, temperature | UART0 (EC → MCU) | – | RAPL energy (via PECI or SMM), PROCHOT status | CB EC firmware |
+| TPS65994 ×3 (per-port contract, VBUS) | I2C_PD (behind U83) | TBD (U-10) | negotiated PDO/RDO per port | IOB |
+| PSU PMBus/SMBus (if the 6P data header has it) | I2C_SYS via IOB DNP 0R | unknown (U-1) | PSU output, cross-check only | stock PSU |
+| eFuse IMON (CB U11, IOB U40, modules) | local ADC | – | backup current reading | each board |
+
+INA228 setup: 1052 µs conversions, 16× averaging (≈ 17 ms per V/I sample), energy accumulator read every 100 ms, ALERT on power-over-limit = allocation + 10 % (CB and faces) or the board cap (BP, IOB). Σ of the five 12 V monitors = the PSU 12 V load (PSU losses excluded).
+
+**Actuators**
+
+| Consumer | Knob | Path | Latency |
+|---|---|---|---|
+| CPU | PL1, PL2, Tau, PL4 / ICCMAX, turbo ratio cap | BP MCU → EC (UART0 `LPT_SET`, CRC, 10 Hz heartbeat) → **BIOS mailbox**: EC raises SMI/SCI, the SMM handler writes MSR_PKG_POWER_LIMIT (0x610) + the MCHBAR RAPL mirror, MSR 0x601 (PL4/ICCMAX), MSR 0x1AD (ratio). **PECI** (EC as PECI host) for package power/temperature reads, and for limit writes only if the Raptor Lake client PECI supports them [Unverified] | ≤ 10 ms (SMM) |
+| CPU fast | PROCHOT# | BP MCU → CPU-LINK CARRIER_HOT# → EC → PROCHOT# (hardware path, EC firmware not in the loop) | < 1 ms |
+| Face P GPU | `p_target_w` | FACE_P_SMB → module power-target agent 0x58 (face spec §6.8); module maps it to the GPU power cap / DC-mode / PWR_LEVEL input [GPU-specific, Unverified]; THERM_ALERT# = fast 25 % cut | ≤ 100 ms |
+| USB-C pool (IOB) | per-port source PDOs (3 A / 1.5 A), pool 30–60 W | BP MCU → I2C_SYS → TCA9517 U83 → I2C_PD → TPS65994: rewrite the Transmit Source Capabilities and send the "SSrC" 4CC command | ≈ 0.5–1 s (sink renegotiation) |
+| USB-A | none (fixed ILIM) | FLT# → USB_OC#; budgeted at ILIM | – |
+| Face S storage (SM-1, no MCU) | NVMe power state | BP MCU → vendor HID → macOS helper → NVMe Set Features FID 02h (Power Management) per SSD; THERM_ALERT# backstop | 0.1–1 s |
+| Fan | none (≤ 10 W, counted at its worst case) | – | – |
+
+**Firmware requirements**
+
+- **BP MCU:** the loop above; I2C masters for I2C_SYS, I2C0 and both face segments; INA228 configuration at every 3V3_SB power-up; UART0 link to the EC with a 10 Hz heartbeat; PROCHOT/THERM_ALERT fast path in the IRQ handler; TPS65994 PDO management; event log + telemetry over the vendor HID (IF1). It also **reloads the EMC2101 settings (LUT, TCRIT, PWM frequency, fan-fail behaviour) at every S0 entry** (fan fail-safe, change 32).
+- **CB EC:** `LPT_SET` / `LPT_REPORT` messages; applies limits via the SMM mailbox; reports RAPL power, PL state and PROCHOT; falls back to PL1 35 W / PL2 65 W if the heartbeat stops for > 1 s; passes CARRIER_HOT# to PROCHOT# in hardware.
+- **CB BIOS/SMM:** leaves MSR 0x610 bit 63 (lock) **clear**; provides the SMI handler; boots with the floors (PL2 65 W) until the BP MCU raises them.
+- **Face modules:** face spec §6.8 (INA228 0x40 mandatory > 3 W; agent 0x58 when an MCU exists).
+- **macOS helper:** applies NVMe power states and (optionally) GPU limits on request; reports to the BP over the vendor HID.
 
 ---
 
@@ -1369,7 +1452,7 @@ v0.1's 12V_EDGE (card-edge 12 V) is gone: anything above 3 W uses 12V_BUS.
 
 > **Change 30:** the face spec v0.1 §6.2 classes apply instead (0 ≤ 3 W, 1 ≤ 40 W, 2 ≤ 75 W, 3 ≤ 150 W; Face P slot max 150 W, capped at 130 W until P3; Face S slot max 40 W).
 
-**Host budget rule:** `CB + Face P class + Face S class + BP + IOB (incl. fan) ≤ 405 W` (change 30: see §5.4 — the PL2 worst case needs the dynamic budget, open O-2) (90 % of 450 W). The MCU refuses FACE_PWR_EN for a module that would exceed it and reports why (§5.4).
+**Host budget rule (change 32):** `static safe allocation (CB PL2 65 W + declared face classes + BP + IOB incl. fan) ≤ 445 W`; above it the BP live power target (§5.5) keeps the measured 12 V total ≤ 445 W. (Was ≤ 405 W, changes 30 and earlier.)
 
 ### 7.9 Management bus (per face)
 
@@ -1378,7 +1461,8 @@ v0.1's 12V_EDGE (card-edge 12 V) is gone: anything above 3 W uses 12V_BUS.
   - `0x50`: ID EEPROM (24C32 or 24C64 recommended; 24C02 minimum). Write-protect is strapped on for shipped modules.
   - `0x48`: LM75-compatible temperature sensor (e.g. TI TMP1075 class; part choice is up to the module maker).
 - **Optional:**
-  - `0x40–0x47`: power monitors (INA-class)
+  - `0x40–0x47`: power monitors (INA-class). **Change 32:** an INA228 at `0x40` on the module 12 V input is **required** for modules above 3 W (face spec §6.8; ALERT → FACE_SMB_ALERT#)
+  - `0x58`: LPT power-target agent (change 32; face spec §6.8; required when the module has an MCU that can cap its power)
   - `0x20–0x27`: GPIO expanders
   - `0x60–0x6F`: module management controller
   - `0x49–0x4F`: additional LM75-class temperature sensors (change 30; SM-1 uses a second TMP1075 at 0x49)
@@ -1749,7 +1833,7 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 | **M1b** | **(partly done: core end face ≈ 18.4 above the BP top at the holes, §3.13)** **Core-bottom height above the BP over the centre**, height under the PSU on the −y side, and the **chassis-fillet height profile vs radius** (R58 usable radius, cable bend at r 55–80) | Parts under the core/PSU, cable route | **1** |
 | ~~M2~~ | **Done (Aidan 2026-10-01): GPU-board planes ≈ 55 mm from the centre.** Face angle (±120°) still assumed. | J9/J10 | done |
 | ~~M2b~~ | **Done (base-board scan, §3.13): slot centreline −12.5 ± 0.3 from the hole axis, PSU side, Δx −0.02, parallel → J1 stays at (0, −12.6).** Open: CPU-board plane distance if the new board leaves the stock plane | J1 position | done |
-| **M2c** | **Face angle:** angle of each GPU-board plane normal from the hole axis (stock connector axes suggest ≈ 42° / 138° instead of 30° / 150°) | J9/J10 rotation and position, MCIO cable path | **1** |
+| **M2c** | **Face angle:** answered **≈ 45° / 135°** (Aidan 2026-10-02, I/O-card bottom gaps; change 32). Residual: caliper check of each GPU face. | BP fp5 J9/J10/J3/J4, cable jogs 13.7 / 10.5 mm | Aidan |
 | **M3** | **CPU board shoulder to BP top-surface height** | CPU-LINK tab depth (Mini Cool Edge ≈ 6 mm tall) and allowed component height under the CPU board near the chord | **2** |
 | **M4** | **MCIO cable path** BP J9 → under the Face P edge → outer side → module receptacle (and Face S); outer-side clearance to the case and bend radius | Cable length/order | **2** |
 | **M5** | **Bus-bar lug positions and cross-sections** on the CPU board and both faces | 12 V input design; ampacity at 10.8 A per face | **3** |

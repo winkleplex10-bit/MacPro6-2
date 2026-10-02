@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "1007149e-bc0e-4beb-ba6d-c3c4e09596f9")
+	(uuid "98c39bd5-8730-4ba8-a0d3-3f743c37560a")
 	(paper "A4")
 	(title_block
 		(title "MP62 backplane: Face AUX link (instanced for Face P and Face S)")
@@ -128,79 +128,79 @@
 		(shape input)
 		(at 38.1 30.48 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "4f071244-6764-4e5e-8daf-926a7adb9f59")
+		(uuid "4745da46-897f-4200-b10c-158e9d70854b")
 	)
 	(hierarchical_label "FACE_PWR_GOOD"
 		(shape output)
 		(at 38.1 33.02 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "fc6420e6-f035-4f6d-91c5-ed4ee3bfaa70")
+		(uuid "d4bc281a-efb9-42d6-92c9-5ec6c104c7b9")
 	)
 	(hierarchical_label "FACE_PRSNT_N"
 		(shape output)
 		(at 38.1 35.56 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "23290442-dacc-497d-abb6-b6d9879a2702")
+		(uuid "87c52743-21a1-403b-9cb8-c0a62b3ff73e")
 	)
 	(hierarchical_label "FACE_SMB_SCL"
 		(shape bidirectional)
 		(at 38.1 38.10 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "a5e401d8-c38d-4b32-ac0c-8ed68d2cbb9a")
+		(uuid "6cb5d6ee-81b7-429c-a255-45bfac08a91b")
 	)
 	(hierarchical_label "FACE_SMB_SDA"
 		(shape bidirectional)
 		(at 38.1 40.64 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "f4f6dd46-e841-480c-90a3-c3d10382441e")
+		(uuid "927c51ae-7361-4fbe-af2b-a35ecedf12ae")
 	)
 	(hierarchical_label "FACE_SMB_ALERT_N"
 		(shape output)
 		(at 38.1 43.18 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "e70f7b01-ebc1-4472-a9fc-81804d51911c")
+		(uuid "bf5513ca-d393-44de-8ac4-13b1ea5976e8")
 	)
 	(hierarchical_label "FACE_THERM_ALERT_N"
 		(shape bidirectional)
 		(at 38.1 45.72 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "1433b859-322a-426c-8f69-d79ea1c0890b")
+		(uuid "610f3fa0-14da-4290-9f38-1385aa58f175")
 	)
 	(hierarchical_label "FACE_THERM_TRIP_N"
 		(shape output)
 		(at 38.1 48.26 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "861c2811-e74e-4d26-8e8d-6cf480f7acad")
+		(uuid "ed5bac1e-012a-48df-82ec-e2207d914420")
 	)
 	(hierarchical_label "FACE_USB_DP"
 		(shape bidirectional)
 		(at 38.1 50.80 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "13b687d5-fb8f-4426-8ff2-01b3f413841a")
+		(uuid "17c4db2e-97ac-4583-b246-bdcf5344e2fd")
 	)
 	(hierarchical_label "FACE_USB_DN"
 		(shape bidirectional)
 		(at 38.1 53.34 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "96c3586b-7f07-4ce5-b63c-fe118a08fefc")
+		(uuid "57330126-8bef-40ba-8f3f-e0779c7c7794")
 	)
 	(hierarchical_label "FACE_MOD_LED_N"
 		(shape output)
 		(at 38.1 55.88 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "6d36a2cc-6201-4b8b-aa3e-f831f75af137")
+		(uuid "fd56b962-079d-4880-aeea-6c9b6077b7d6")
 	)
 	(hierarchical_label "3V3_SB"
 		(shape input)
 		(at 38.1 58.42 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "b5e444e2-b194-4cb7-8f68-d45034cadbdb")
+		(uuid "1bb06ca5-1d8d-4ee3-b16d-4dfdcd35d724")
 	)
 	(hierarchical_label "3V3_BP"
 		(shape input)
 		(at 38.1 60.96 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "d5154d99-be36-4063-9f27-7e185ead4879")
+		(uuid "9ae91434-8b14-4326-9e4c-29ea1e0d378d")
 	)
 	(symbol
 		(lib_id "MP62:STUB_FACE_AUX")
@@ -210,7 +210,7 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "6b340819-1b94-4b01-93c0-ff2a22097392")
+		(uuid "199dcaa4-c924-4e39-bfdb-aa1ba5a61bb7")
 		(property "Reference" "#BLK3"
 			(at 40.64 27.94 0)
 			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
@@ -220,51 +220,51 @@
 			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
 		)
 		(pin "1"
-			(uuid "9423318a-363d-4e8b-9f6b-0fcab9317a0f")
+			(uuid "9ae4b3b8-93a3-41c3-8897-7dac92a4ffb2")
 		)
 		(pin "2"
-			(uuid "ac5c0ed6-f69e-4359-86c4-8789f886dfda")
+			(uuid "139ca580-f660-4dba-90b5-712e786ed87b")
 		)
 		(pin "3"
-			(uuid "95612399-a209-4379-87a9-8d73837e184f")
+			(uuid "8b770488-231d-4e66-9471-5da4beef7d86")
 		)
 		(pin "4"
-			(uuid "c6c1fcc1-ca69-4ddc-890a-8f57f2e5c0c6")
+			(uuid "7c82ff67-66e2-4e0c-a5ff-941ca2b93820")
 		)
 		(pin "5"
-			(uuid "0f398406-aad2-48a4-94eb-ddb66d5f6d17")
+			(uuid "b6549258-212f-4252-9515-62aad4954364")
 		)
 		(pin "6"
-			(uuid "4122100d-4922-424c-bfda-9abbbf4dc152")
+			(uuid "5f228bd6-e95d-41bc-9cc9-4674e92fe0b6")
 		)
 		(pin "7"
-			(uuid "42af9ddc-1319-4c7a-b6af-9014affd4f21")
+			(uuid "3767db84-8b21-4da0-93df-eaeefa2bc09d")
 		)
 		(pin "8"
-			(uuid "54552c91-3346-48e4-a205-53eaa1a8d927")
+			(uuid "ee68a39e-bb10-41bd-9bb5-f7781579635e")
 		)
 		(pin "9"
-			(uuid "051aacb6-222b-4e75-a99b-e4f28b3d8c7d")
+			(uuid "5bca356f-b237-4972-a26a-b77e62494f4f")
 		)
 		(pin "10"
-			(uuid "7e78cd22-7247-4ac4-af00-7d0f8545a098")
+			(uuid "8a168de7-f2c5-49ff-adfb-f24b98e3bcd6")
 		)
 		(pin "11"
-			(uuid "3853bbb9-28fe-4f77-88f0-b1ba468f8a80")
+			(uuid "2611a894-faba-45cb-b1ae-d8967bc22ff3")
 		)
 		(pin "12"
-			(uuid "cc75ee1c-3c94-489b-a7da-10cba8577eb6")
+			(uuid "67bd009f-7f8b-4b10-a052-33115def1644")
 		)
 		(pin "13"
-			(uuid "93092fed-16d8-46cc-91f9-b00c116f0813")
+			(uuid "dc0b3b18-2ff1-4b56-a39b-40b6b4a57a22")
 		)
 		(instances
 			(project "backplane"
-				(path "/6a1c2d3e-0000-4000-8000-000000000062/515a069b-42b9-4028-9586-20f17569eacf"
+				(path "/6a1c2d3e-0000-4000-8000-000000000062/90c3c672-f426-496a-b3c2-b6ca9489d7a2"
 					(reference "#BLK3")
 					(unit 1)
 				)
-				(path "/6a1c2d3e-0000-4000-8000-000000000062/934efb3c-edbd-4eaa-b03f-aad22b5c7996"
+				(path "/6a1c2d3e-0000-4000-8000-000000000062/a59d0054-6df6-490c-b4e3-8623e300e706"
 					(reference "#BLK4")
 					(unit 1)
 				)
@@ -275,30 +275,30 @@
 		(exclude_from_sim no)
 		(at 76.20 30.48 0)
 		(effects (font (size 1.5 1.5)) (justify left bottom))
-		(uuid "751eb5c0-1a10-473f-8062-bc1f166fbdd9")
+		(uuid "8bc72864-93f0-44e7-b560-548a87caa04f")
 	)
 	(text "- J3 (Face P) / J4 (Face S): JST GH 15P (BM15B vertical) AUX cable BP -> face J_AUX; pinout = MP62-FACE v0.1 aux_gh15.csv (1:1)"
 		(exclude_from_sim no)
 		(at 76.20 35.56 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "e519abde-60e4-4354-8edd-e0b1ed81c5f6")
+		(uuid "d3217105-5046-4f71-975b-7345f77b2e3f")
 	)
-	(text "- FACE_PWR_EN / FACE_PWR_GOOD, PRSNT#, SMBus (ID EEPROM 0x50, TMP1075 0x48, extra 0x49-0x4F), THERM_ALERT#, THERM_TRIP#, USB2 (primary), MOD_LED# (pin 15), 3V3_AUX"
+	(text "- FACE_PWR_EN / FACE_PWR_GOOD, PRSNT#, SMBus (ID EEPROM 0x50, TMP1075 0x48, extra 0x49-0x4F, INA228 12 V monitor 0x40, power-target agent 0x58), THERM_ALERT#, THERM_TRIP#, USB2 (primary), MOD_LED# (pin 15), 3V3_AUX"
 		(exclude_from_sim no)
 		(at 76.20 39.37 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "aa2f84c6-916e-47de-a793-7c7d0d05c504")
+		(uuid "17ee5ec8-a612-475e-9b2d-a83d2d6bf16e")
 	)
 	(text "- 3V3_AUX: load switch from 3V3_SB (S5, <=50 mW) / 3V3_BP (S0, <=3.3 W); SMBus isolated until FACE_PWR_GOOD"
 		(exclude_from_sim no)
 		(at 76.20 43.18 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "b68c97a4-bc41-4d94-a629-3287e63869f5")
+		(uuid "26b2a42a-f05e-412c-8be5-c0bf86923b0e")
 	)
 	(text "- Face main 12 V: bus bar / lug (not on this cable). PCIe + REFCLK + PERST# + CLKREQ# + WAKE#: MCIO from CPU board"
 		(exclude_from_sim no)
 		(at 76.20 46.99 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "15edb427-4a94-410c-a3af-ff45e57bdbbe")
+		(uuid "84d0a18a-4120-4ce9-9058-c58b0840fe18")
 	)
 )

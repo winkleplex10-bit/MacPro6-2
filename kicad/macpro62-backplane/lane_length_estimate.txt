@@ -1,22 +1,22 @@
-BP lane length estimate fp3 (J1 at y=-12.6 -> redriver area -> RA MCIO pad), octilinear x 1.15, mm
-Face P lane  0:  41.6 mm
-Face P lane  1:  40.0 mm
-Face P lane  2:  39.1 mm
-Face P lane  3:  39.9 mm
-Face P lane  4:  35.7 mm
-Face P lane  5:  36.0 mm
-Face P lane  6:  37.2 mm
-Face P lane  7:  37.8 mm
-Face P lane  8:  61.8 mm
-Face P lane  9:  64.7 mm
-Face P lane 10:  68.9 mm
-Face P lane 11:  73.4 mm
-Face P lane 12:  55.9 mm
-Face P lane 13:  60.2 mm
-Face P lane 14:  65.0 mm
-Face P lane 15:  70.7 mm
-Face S lane  0:  40.7 mm
-Face S lane  1:  39.8 mm
-Face S lane  2:  40.2 mm
-Face S lane  3:  43.9 mm
-Face P: min 35.7 / max 73.4 / mean 51.7 mm;  Face S: min 39.8 / max 43.9 mm
+BP lane length estimate fp5, faces 45/135 deg (J1 at y=-12.6 -> redriver area -> RA MCIO pad), octilinear x 1.15, mm
+Face P lane  0:  60.3 mm
+Face P lane  1:  61.9 mm
+Face P lane  2:  63.8 mm
+Face P lane  3:  65.4 mm
+Face P lane  4:  39.0 mm
+Face P lane  5:  39.3 mm
+Face P lane  6:  40.6 mm
+Face P lane  7:  43.7 mm
+Face P lane  8:  45.4 mm
+Face P lane  9:  45.7 mm
+Face P lane 10:  48.4 mm
+Face P lane 11:  52.3 mm
+Face P lane 12:  47.2 mm
+Face P lane 13:  52.7 mm
+Face P lane 14:  57.5 mm
+Face P lane 15:  63.1 mm
+Face S lane  0:  41.6 mm
+Face S lane  1:  40.4 mm
+Face S lane  2:  39.5 mm
+Face S lane  3:  42.5 mm
+Face P: min 39.0 / max 65.4 / mean 51.6 mm;  Face S: min 39.5 / max 42.5 mm

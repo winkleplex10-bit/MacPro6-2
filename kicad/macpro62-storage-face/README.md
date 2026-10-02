@@ -42,6 +42,9 @@ kicad-cli sch erc --severity-all -o erc_report.txt macpro62-storage-face.kicad_s
 /workspace/cadenv/bin/python tools/floorplan.py   # floorplan_storage_SM1.png
 ```
 
+## ICD rev 2 (2026-10-02)
+- **U13 INA228** (VSSOP-10, FACE_SMB 0x40, ALERT → FACE_SMB_ALERT#) + **R520** 2 mΩ 2512 between +12V_PROT and +12V_PROT_S (ahead of U2) + C520; B side at (51.5, 143) / (44, 143) / (51.5, 140.5). DRC 0/0, ERC 0, 157 schematic instances. Renders not refreshed.
+
 ## Next steps
 1. Get the ASM2824 datasheet and ball map, plus the LOTES drawing.
 2. Replace the placeholders.

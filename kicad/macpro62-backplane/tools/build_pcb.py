@@ -40,7 +40,7 @@ ds.m_SilkClearance = FromMM(0.0)
 
 tb = board.GetTitleBlock()
 tb.SetTitle("MacPro6,2 Backplane (BP) - rev A floorplan " + ("v0.2 HUB" if VARIANT == "hub" else "v0.1 DIRECT (saved variant)"))
-tb.SetRevision("A-fp4-hub" if VARIANT == "hub" else "A-fp1-direct")
+tb.SetRevision("A-fp5-hub" if VARIANT == "hub" else "A-fp1-direct")
 tb.SetDate("2026-10-02")
 tb.SetCompany("MacPro6,2 / Aidan Winkler")
 tb.SetComment(0, "Edge.Cuts: D122 disc + 2x D4 holes at +/-49 mm from Fusion base_board_outline.dxf")
@@ -162,9 +162,10 @@ for nm, sx, sy in S_HOLES:
 if VARIANT == "hub":
     # fp3: M2 measured (Aidan 2026-10-01): GPU boards ~55 mm from the disc centre; bottom edges ~15 mm above the BP (M1).
     # CPU board plane ESTIMATED at 12.6 mm from the service-guide photo of the stock logic-board riser slot (TBD).
-    CHORDS = (("CPU board plane (ESTIMATED from stock slot photo, d~12.6, TBD)", -90.0, 12.6),
-              ("Face P board plane MEASURED ~55 mm (M2), bottom edge ~15 mm above BP (M1)", 30.0, 55.0),
-              ("Face S board plane MEASURED ~55 mm (M2), bottom edge ~15 mm above BP (M1)", 150.0, 55.0))
+    # fp5: face normals 45 / 135 deg (Aidan 2026-10-02, M2c ~45 deg; was assumed 30 / 150). CPU slot measured -12.5 +/- 0.3.
+    CHORDS = (("CPU board plane (slot measured -12.5 +/- 0.3 on the scan, M2b)", -90.0, 12.6),
+              ("Face P board plane ~55 mm (M2) at 45 deg (M2c, Aidan ~45), bottom edge ~15 mm above BP (M1)", 45.0, 55.0),
+              ("Face S board plane ~55 mm (M2) at 135 deg (M2c, Aidan ~45), bottom edge ~15 mm above BP (M1)", 135.0, 55.0))
 else:
     CHORDS = tuple((n, a, 30.0) for n, a in (("CPU face", -90.0), ("Face P (primary)", 30.0), ("Face S (secondary)", 150.0)))
 for name, ang, D_FACE in CHORDS:

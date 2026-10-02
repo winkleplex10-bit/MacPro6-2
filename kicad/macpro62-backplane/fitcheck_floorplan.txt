@@ -1,19 +1,19 @@
 J1   rmax= 46.2 (limit 58)  hole-dist= 10.6 (min 6)  S-dist= 24.6 (min 3)  OK  CPU-LINK: Amphenol Mini Cool Edge 224P vertical (ME1022410103011) at stock riser-slot position (ESTIMATE y=-12.6)
-J9   rmax= 57.8 (limit 58)  hole-dist=  9.3 (min 6)  S-dist=  3.4 (min 3)  OK  MCIO 124 RA OUT -> Face P (x16, REFCLK, PERST#, sideband); cable exits radially under the Face P board edge
-J10  rmax= 56.8 (limit 58)  hole-dist=  6.3 (min 6)  S-dist=  3.2 (min 3)  OK  MCIO 124 RA OUT -> Face S (x4 wired, REFCLK, PERST#, sideband); cable exits radially under the Face S board edge
-J3   rmax= 55.5 (limit 58)  hole-dist= 60.6 (min 6)  S-dist=  6.5 (min 3)  OK  FACE-P AUX: JST GH 15P (MP62-FACE v0.1 J_AUX: PWR_EN, PWR_GOOD, SMBus, THERM, PRSNT, 3V3_AUX, USB2, MOD_LED#)
-J4   rmax= 29.6 (limit 58)  hole-dist= 25.3 (min 6)  S-dist= 24.6 (min 3)  OK  FACE-S AUX: JST GH 15P (same pinout as J3)
-U10  rmax= 15.1 (limit 58)  hole-dist= 36.0 (min 6)  S-dist= 41.2 (min 3)  OK  OPTION Gen5: DS320PR810 #1, Face P lanes 0-3 (TX+RX)
-U11  rmax= 27.6 (limit 58)  hole-dist= 22.5 (min 6)  S-dist= 29.4 (min 3)  OK  OPTION Gen5: DS320PR810 #2, Face P lanes 4-7 (TX+RX)
-U12  rmax= 12.5 (limit 58)  hole-dist= 41.8 (min 6)  S-dist= 42.0 (min 3)  OK  OPTION Gen5: DS320PR810 #3, Face P lanes 8-11 (TX+RX)
-U13  rmax= 23.1 (limit 58)  hole-dist= 28.3 (min 6)  S-dist= 32.3 (min 3)  OK  OPTION Gen5: DS320PR810 #4, Face P lanes 12-15 (TX+RX)
-U14  rmax= 21.2 (limit 58)  hole-dist= 29.3 (min 6)  S-dist= 35.4 (min 3)  OK  OPTION Gen5: DS320PR810 #5, Face S lanes 0-3 (TX+RX)
-U1   rmax= 21.8 (limit 58)  hole-dist= 47.1 (min 6)  S-dist= 32.7 (min 3)  OK  RP2350A (LCSC C42411118)
-U2   rmax= 28.9 (limit 58)  hole-dist= 51.3 (min 6)  S-dist= 26.5 (min 3)  OK  W25Q128 QSPI flash (part TBD)
-Y1   rmax= 17.9 (limit 58)  hole-dist= 42.3 (min 6)  S-dist= 36.3 (min 3)  OK  12 MHz crystal
-U3   rmax= 41.6 (limit 58)  hole-dist= 59.7 (min 6)  S-dist= 17.7 (min 3)  OK  TMP1075 core-base temp sensor #1 (under core bottom, I2C_SYS 0x48)
-SW1  rmax= 36.0 (limit 58)  hole-dist= 54.4 (min 6)  S-dist= 20.7 (min 3)  OK  BOOTSEL
-J8   rmax= 47.4 (limit 58)  hole-dist= 61.6 (min 6)  S-dist= 14.7 (min 3)  OK  SWD (3V3, SWCLK, SWDIO, GND)
+J9   rmax= 51.8 (limit 58)  hole-dist=  6.2 (min 6)  S-dist=  3.8 (min 3)  OK  MCIO 124 RA OUT -> Face P (x16, REFCLK, PERST#, sideband); cable exits radially under the Face P board edge
+J10  rmax= 50.4 (limit 58)  hole-dist= 13.4 (min 6)  S-dist=  5.0 (min 3)  OK  MCIO 124 RA OUT -> Face S (x4 wired, REFCLK, PERST#, sideband); cable exits radially under the Face S board edge
+J3   rmax= 55.9 (limit 58)  hole-dist= 60.9 (min 6)  S-dist=  6.5 (min 3)  OK  FACE-P AUX: JST GH 15P (MP62-FACE v0.1 J_AUX: PWR_EN, PWR_GOOD, SMBus, THERM, PRSNT, 3V3_AUX, USB2, MOD_LED#)
+J4   rmax= 49.2 (limit 58)  hole-dist=  6.3 (min 6)  S-dist=  6.8 (min 3)  OK  FACE-S AUX: JST GH 15P (same pinout as J3)
+U10  rmax= 14.9 (limit 58)  hole-dist= 36.3 (min 6)  S-dist= 41.3 (min 3)  OK  OPTION Gen5: DS320PR810 #1, Face P lanes 0-3 (TX+RX)
+U11  rmax= 14.9 (limit 58)  hole-dist= 36.3 (min 6)  S-dist= 41.3 (min 3)  OK  OPTION Gen5: DS320PR810 #2, Face P lanes 4-7 (TX+RX)
+U12  rmax= 16.3 (limit 58)  hole-dist= 36.3 (min 6)  S-dist= 40.3 (min 3)  OK  OPTION Gen5: DS320PR810 #3, Face P lanes 8-11 (TX+RX)
+U13  rmax= 26.7 (limit 58)  hole-dist= 23.4 (min 6)  S-dist= 30.2 (min 3)  OK  OPTION Gen5: DS320PR810 #4, Face P lanes 12-15 (TX+RX)
+U14  rmax= 26.7 (limit 58)  hole-dist= 23.4 (min 6)  S-dist= 30.0 (min 3)  OK  OPTION Gen5: DS320PR810 #5, Face S lanes 0-3 (TX+RX)
+U1   rmax= 19.6 (limit 58)  hole-dist= 46.5 (min 6)  S-dist= 34.7 (min 3)  OK  RP2350A (LCSC C42411118)
+U2   rmax= 15.0 (limit 58)  hole-dist= 36.9 (min 6)  S-dist= 40.7 (min 3)  OK  W25Q128 QSPI flash (part TBD)
+Y1   rmax=  9.1 (limit 58)  hole-dist= 44.5 (min 6)  S-dist= 45.0 (min 3)  OK  12 MHz crystal
+U3   rmax= 43.4 (limit 58)  hole-dist= 60.9 (min 6)  S-dist= 16.8 (min 3)  OK  TMP1075 core-base temp sensor #1 (under core bottom, I2C_SYS 0x48)
+SW1  rmax= 50.3 (limit 58)  hole-dist= 34.5 (min 6)  S-dist=  9.8 (min 3)  OK  BOOTSEL (fp5: PSU side)
+J8   rmax= 57.1 (limit 58)  hole-dist= 31.8 (min 6)  S-dist= 13.9 (min 3)  OK  SWD (3V3, SWCLK, SWDIO, GND) (fp5: PSU side)
 J7   rmax= 48.6 (limit 58)  hole-dist= 30.1 (min 6)  S-dist=  5.3 (min 3)  OK  OpenCore boot: M.2 M-key socket, SATA0, 2242 card (PSU side; height under PSU TBD M7)
 PS1  rmax= 57.5 (limit 58)  hole-dist= 18.3 (min 6)  S-dist= 15.9 (min 3)  OK  Standby power + HW safety gate
 PS2  rmax= 57.2 (limit 58)  hole-dist= 18.3 (min 6)  S-dist= 15.9 (min 3)  OK  Main-rail power (3V3_BP incl. redrivers ~6.5 W)

@@ -582,12 +582,12 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
 - **Signals (CONN_C is the adapter-board ribbon; its pin order is still UNCONFIRMED, but the signal set now follows the card)**:
   - AirPort PCIe x1: TX ± (host → card PERp/n), RX ± (card PETp/n → host), REFCLK ±, PERST#, CLKREQ#, WAKE#.
   - Bluetooth USB 2.0: D+ / D−.
-  - 3V3_WL (load-switched, 4 pins) for card P1, and 3V3_BT (card P18) fed from 3V3_SB by 0R (DNP alt from S0 3V3) so BT can wake the machine.
+  - 3V3_WL (load-switched, 4 pins) for card P1, and 3V3_BT (card P18). **ICD rev 2 (Aidan 2026-10-02): 3V3_BT is on the S0 rail** — R149 (0R from 3V3) fitted, R148 (0R from 3V3_SB) DNP — because BT had no wake path anyway (the USB2 hubs are S0-only and S3 is unsupported); this saves S5 standby power. Fitting R148 instead of R149 restores the old behaviour.
   - LED_WLAN# (card P2, DNP pull-up, unused). Former W_DISABLE# / BT_DISABLE# / SMBus pins are now NC29 / NC31 / NC33 (the adapter board may still carry parts: M-IOC1).
   - Fan: 12 V (3 pins, 1.5 A PTC), PWM, TACH.
   - ≈ 14 GND.
   - Working pin map: `CONNC` in `tools/build_sch.py`.
-- **Fan control.** EMC2101 (U90, SMBus 0x4C; 0x4C is free on the IOB bus). **Since the ICD (2026-10-02) U90 sits on I2C_PD behind the TCA9517 U83**, because its VDD is 3V3 (S0 only); on the 3V3_SB I2C_SYS segment an unpowered EMC2101 could clamp the bus in S5. The logical address map is unchanged; the fan is off in S5 anyway. The BP MCU must write the EMC2101 fan LUT / TCRIT fail-safe at every S0 entry (the stock "PWM floats → full speed" fail-safe no longer applies, because the 4k7 pull-up is on 3V3 and the EMC2101 drives PWM). PWM is open-drain with a 4k7 pull-up, TACH has a 10k pull-up. Fan power is +12V_IOB → F90. The BP J5 fan harness (spec §4.6) is no longer needed.
+- **Fan control.** EMC2101 (U90, SMBus 0x4C; 0x4C is free on the IOB bus). **Since the ICD (2026-10-02) U90 sits on I2C_PD behind the TCA9517 U83**, because its VDD is 3V3 (S0 only); on the 3V3_SB I2C_SYS segment an unpowered EMC2101 could clamp the bus in S5. The logical address map is unchanged; the fan is off in S5 anyway. The BP MCU must write the EMC2101 fan LUT / TCRIT fail-safe at every S0 entry (**approved, ICD rev 2**: LUT, TCRIT, PWM frequency and fan-fail settings reloaded on every 3V3 power-good, then verified by read-back) (the stock "PWM floats → full speed" fail-safe no longer applies, because the 4k7 pull-up is on 3V3 and the EMC2101 drives PWM). PWM is open-drain with a 4k7 pull-up, TACH has a 10k pull-up. Fan power is +12V_IOB → F90. The BP J5 fan harness (spec §4.6) is no longer needed.
 - **Interconnect budget.** HS1 (MCIO 124) has no spare pins, and IOB-LINK (GH15) cannot carry PCIe. Cheapest fix: **ASM1182e** PCIe Gen2 1:2 switch (U91, ≈ $4–5 + a 25 MHz crystal) on the existing HS1 k14 lane (PCH RP4), with downstream 0 = i226-V #2 and downstream 1 = AirPort.
   - No cable or CB change.
   - Shared Gen2 x1 (≈ 4 Gb/s) for 2.5 GbE + 3 × 3 ac (≈ 0.6–1.3 Gb/s). It only saturates when both run flat-out in the same direction.
@@ -930,7 +930,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 
 ## 7. Power tree and budget
 
-- **Chain:** J3 +12V_MAIN → U40 TPS259824 (ILIM ≈ 10 A, UVLO ≈ 10.5 V) → +12V_IOB, which feeds:
+- **Chain:** J3 +12V_MAIN → U40 TPS259824 (ILIM ≈ 10 A, UVLO ≈ 10.5 V) → +12V_EFUSE_OUT → **RS90 1 mΩ 2512** → +12V_IOB (ICD rev 2), which feeds:
   - U41 TPS56C215 → **5V_C** (USB-C PP5V).
   - U42 TPS56C215 → **5V_A** (USB-A, hubs, codec, amp, HDMI 5 V).
   - U43 TLV62585 → **3V3** (from 5V_A).
@@ -948,6 +948,12 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 - **ICD 2026-10-02:** the unmanaged worst case (≈ 125–140 W ≈ 10.4–11.7 A) exceeds U40's ILIM ≈ 10 A. The D-IO1 pool cap (45–60 W USB-C) keeps it at ≈ 95–110 W. The pool cap is therefore a hard requirement, not just a recommendation, unless ILIM is raised (ampacity of the stock 12P DC pins is unknown, M-CC16).
 
 - **Recommendation (D-IO1):** 5 V / 3 A is advertised at attach, with a 45–60 W USB-C pool. The BP MCU sets the TPS65994 source PDOs over I²C and drops extra ports to 1.5 A.
+
+- **ICD rev 2 (2026-10-02 ≈ 13:15 ET): power monitor + live power target.**
+  - **U98 INA228** (VSSOP-10, I2C_SYS **0x41**: A1 = GND, A0 = VS; VS = 3V3_SB, C990 100 nF) measures the whole IOB 12 V across RS90. ALERT (OD) joins **IOB_INT_N** (IOB-LINK pin 10, wired-OR with the existing sources). The BP MCU reads it in the 10 Hz loop (spec §5.5).
+  - **System ceiling** is now **445 W** at 12 V (PSU 450 W); the IOB's share in the static allocation is the 45 W pool + USB-A at ILIM + fan + logic (≈ 80–90 W). The pool can grow to 60 W only when the BP grants headroom.
+  - **PD-pool actuator:** BP MCU → I2C_SYS → U83 TCA9517 → I2C_PD → TPS65994 (source caps + "SSrC" 4CC, ≈ 0.5–1 s renegotiation [Unverified]). I2C_PD also carries the port-module muxes U95/U96 (0x70/0x71, §4.7.9); the TPS65994 I2C1 targets use 0x20–0x27, so nothing clashes.
+  - **Status:** schematic only (ERC 0). **PCB placement of U98 / RS90 is open (ICD U-18)** — RS90 belongs in the 12 V path right after U40, U98 within 10 mm with a Kelvin pair.
 
 ---
 

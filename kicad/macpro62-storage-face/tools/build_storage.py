@@ -141,6 +141,10 @@ S("U3", "SOT-23-6", 30.0, 157.0, 0, "B", "LM74700-Q1 ideal-diode ctrl")
 S("U2", "Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm", 44.0, 150.0, 0, "B", "TPS259824ONRGER eFuse I_LIM 5 A")
 for k, x in enumerate([38.0, 50.0]):
     S("C%d" % (10 + k), "C_1206_3216Metric", x, 157.0, 90, "B", "10uF 25V")
+# ICD rev 2 live power target: 12 V monitor (face spec 6.8: INA228 @0x40 on FACE_SMB) + 2 mOhm Kelvin shunt ahead of U2
+S("R520", "R_2512_6332Metric", 44.0, 143.0, 0, "B", "2 mOhm 2512 shunt (+12V_PROT -> U2)")
+S("U13", "VSSOP-10_3x3mm_P0.5mm", 51.5, 143.0, 0, "B", "INA228 @0x40 FACE_SMB, ALERT -> FACE_SMB_ALERT#")
+S("C520", "C_0402_1005Metric", 51.5, 140.5, 0, "B", "100nF U13 VS")
 S("U4", "MP62_TI_RNN0018A_VQFN-HR-18_3.5x3.5mm_PLACEHOLDER", 58.0, 148.0, 0, "B", "TPS56C215RNNR 3V3_SSD 12 A buck")
 S("L1", "L_Bourns_SRP1038C_10.0x10.0mm", 70.0, 152.0, 0, "B", "1.0uH 10x10 >=15 A Isat")
 for k, x in enumerate([57.0, 60.0]):

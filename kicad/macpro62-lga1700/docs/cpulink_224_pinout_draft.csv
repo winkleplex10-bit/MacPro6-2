@@ -207,7 +207,7 @@ A103,4,GND,GND,-
 B103,4,GND,GND,-
 A104,4,GPIO1,EC GPIO spare,bi
 B104,4,RSVD_LS3,"reserved, NC on the CB",-
-A105,4,RSVD_LS1,"reserved, NC on the CB",-
+A105,4,PWR_ALERT#,"CB 12 V power alert (ICD rev 2, live power target): wired-OR of CB INA228 U15 ALERT (0x45 on I2C0) and U11 eFuse FLT#; BP 10k pull-up to 3V3_SB, BP MCU IRQ","out, OD"
 B105,4,RSVD_LS4,"reserved, NC on the CB",-
 A106,4,GND,GND,-
 B106,4,GND,GND,-

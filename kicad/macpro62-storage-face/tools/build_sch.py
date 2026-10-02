@@ -68,6 +68,8 @@ addsym("BL24C64A", [("1", "A0", "L"), ("2", "A1", "L"), ("3", "A2", "L"), ("4", 
        "U", "MP62_Storage:SOIC-8_3.9x4.9mm_P1.27mm", "BL24C64A-SFRC 64 kbit I2C EEPROM (LCSC C111004)", w=12)
 addsym("TMP1075DSG", [("1", "SDA", "L"), ("2", "SCL", "L"), ("3", "ALERT", "L"), ("4", "GND", "L"), ("8", "V+", "R"), ("7", "A0", "R"), ("6", "A1", "R"), ("5", "A2", "R"), ("9", "EP", "R")],
        "U", "MP62_Storage:Texas_DSG0008A_WSON-8-1EP_2x2mm_P0.5mm_EP0.9x1.6mm", "TI TMP1075DSGR I2C temperature sensor (LCSC C2870250)", w=12)
+addsym("INA228", [("10", "IN+", "L"), ("9", "IN-", "L"), ("8", "VBUS", "L"), ("6", "VS", "L"), ("7", "GND", "L"), ("5", "SCL", "R"), ("4", "SDA", "R"), ("3", "ALERT", "R"), ("2", "A0", "R"), ("1", "A1", "R")],
+       "U", "MP62_Storage:VSSOP-10_3x3mm_P0.5mm", "TI INA228AIDGSR 20-bit power/energy monitor (pin numbers per DGS package, VERIFY against the datasheet)", w=12)
 addsym("74LVC2G07", [("1", "1A", "L"), ("3", "2A", "L"), ("2", "GND", "L"), ("5", "VCC", "R"), ("6", "1Y(OD)", "R"), ("4", "2Y(OD)", "R")],
        "U", "MP62_Storage:SOT-363_SC-70-6", "74LVC2G07 dual open-drain buffer (SC-70-6)", w=12)
 addsym("SPI_FLASH_SOIC8", [("1", "CS#", "L"), ("2", "DO", "L"), ("3", "WP#", "L"), ("4", "GND", "L"), ("8", "VCC", "R"), ("7", "HOLD#", "R"), ("6", "CLK", "R"), ("5", "DI", "R")],
@@ -207,8 +209,14 @@ add("Q1", "NMOS_DGS", 140, 600, "N-MOSFET 30V <=5mOhm 5x6", {"1": "+12V_IN", "4"
 add("U3", "LM74700", 140, 640, "LM74700-Q1 (DBV)", {"6": "+12V_IN", "3": "+12V_IN", "2": "GND", "4": "+12V_PROT", "5": "RB_GATE", "1": "RB_VCAP"})
 add("C500", "C", 200, 650, "100nF 25V (VCAP)", {"1": "RB_VCAP", "2": "+12V_IN"})
 add("C501", "C", 200, 600, "10uF 25V 1206 (<=47 uF total ahead of eFuse)", {"1": "+12V_PROT", "2": "GND"})
-add("U2", "TPS259824ON", 260, 610, "TPS259824ONRGER (C2155766)", {"1": "+12V_PROT", "2": "EFUSE_EN", "3": "EFUSE_ILIM", "4": "EFUSE_DVDT", "5": "GND",
+add("U2", "TPS259824ON", 260, 610, "TPS259824ONRGER (C2155766)", {"1": "+12V_PROT_S", "2": "EFUSE_EN", "3": "EFUSE_ILIM", "4": "EFUSE_DVDT", "5": "GND",
     "6": "+12V_SW", "7": "EFUSE_PG", "8": "FACE_SMB_ALERT#", "9": "EFUSE_IMON", "10": "GND"})
+# ICD rev 2 (2026-10-02, live power target, face spec 6.8): module 12 V telemetry. Shunt between the eFuse output and the
+# buck input (+12V_SW -> +12V_LOAD would rename the buck nets, so the shunt sits ahead of the eFuse: +12V_PROT side).
+add("R520", "R", 200, 700, "2 mOhm 1% 2512 Kelvin shunt (Face S 12 V, 3.3 A -> 6.6 mV, 22 mW)", {"1": "+12V_PROT", "2": "+12V_PROT_S"}, fp="MP62_Storage:R_2512_6332Metric")
+add("U13", "INA228", 260, 720, "INA228AIDGSR @0x40 (A0 = A1 = GND) on FACE_SMB; ALERT -> FACE_SMB_ALERT# (wired-OR with eFuse FLT#)", {"10": "+12V_PROT", "9": "+12V_PROT_S", "8": "+12V_PROT_S", "6": "3V3_AUX", "7": "GND",
+    "5": "FACE_SMB_CLK", "4": "FACE_SMB_DAT", "3": "FACE_SMB_ALERT#", "2": "GND", "1": "GND"})
+add("C520", "C", 320, 720, "100nF U13 VS", {"1": "3V3_AUX", "2": "GND"})
 add("R500", "R", 320, 640, "1k (EN series; FACE_PWR_EN 3.3 V > EN threshold)", {"1": "FACE_PWR_EN", "2": "EFUSE_EN"})
 add("R501", "R", 320, 652, "ILIM set ~5 A (value per datasheet)", {"1": "EFUSE_ILIM", "2": "GND"})
 add("C502", "C", 320, 664, "dVdt: inrush <= 1 A into ~400 uF (value per datasheet)", {"1": "EFUSE_DVDT", "2": "GND"})

@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "7e5332db-0268-4196-a0dd-67dcc23bc266")
+	(uuid "5f03b648-07ad-44dc-b257-0e81ef91b7ce")
 	(paper "A4")
 	(title_block
 		(title "MP62 backplane: I/O board low-speed link")
@@ -110,61 +110,61 @@
 		(shape output)
 		(at 38.1 30.48 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "23d17c19-67db-4196-bedd-6a36aeaaf5d6")
+		(uuid "a9999cdd-6fbf-4dae-aac5-02239696d979")
 	)
 	(hierarchical_label "IOB_HALL_A_N"
 		(shape output)
 		(at 38.1 33.02 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "cec1571d-37e3-43c6-98f0-7d2b2debaee5")
+		(uuid "a1e9aca7-1149-47fd-b669-f16a1aff955b")
 	)
 	(hierarchical_label "IOB_HALL_B_N"
 		(shape output)
 		(at 38.1 35.56 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "f3aea977-1a04-4fd3-b442-c4bb837348db")
+		(uuid "2d3a324c-d16d-4794-81e4-cff84e387d27")
 	)
 	(hierarchical_label "I2C_SYS_SCL"
 		(shape bidirectional)
 		(at 38.1 38.10 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "5cdecb7e-9d24-497a-845b-6070fda2f056")
+		(uuid "6faeffa6-35b3-476e-ba0e-e17e6f9eee5c")
 	)
 	(hierarchical_label "I2C_SYS_SDA"
 		(shape bidirectional)
 		(at 38.1 40.64 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "906d63e7-db81-448b-9317-9dd4f7ae69fa")
+		(uuid "d1f6a312-496d-41c7-b47b-f73c6f30e3d5")
 	)
 	(hierarchical_label "IOB_INT_N"
 		(shape output)
 		(at 38.1 43.18 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "541a8d2b-6cc6-438e-bb32-e5934ecfcb68")
+		(uuid "6c46938b-ff9a-4442-8a23-87278a1fcb35")
 	)
 	(hierarchical_label "IOB_PRSNT_N"
 		(shape output)
 		(at 38.1 45.72 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "b389e42a-6540-4983-8374-bcc1fc6f7406")
+		(uuid "e7078893-0bd0-4bee-8640-228c21995d06")
 	)
 	(hierarchical_label "IOB_USB_DP"
 		(shape bidirectional)
 		(at 38.1 48.26 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "434f6b65-0bfa-4c5a-bdba-6e4f1bcc1a97")
+		(uuid "99054d95-e674-4eae-a0e6-b4f00dfd607a")
 	)
 	(hierarchical_label "IOB_USB_DN"
 		(shape bidirectional)
 		(at 38.1 50.80 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "61d2696b-43a3-48e3-9087-52539527a1a8")
+		(uuid "5da25978-48f6-4cac-8d1e-22b68086a73f")
 	)
 	(hierarchical_label "3V3_SB"
 		(shape input)
 		(at 38.1 53.34 180)
 		(effects (font (size 1.27 1.27)) (justify right))
-		(uuid "bea8be75-744f-487f-aaab-7414b330102d")
+		(uuid "a9981804-3607-4193-9683-fa75570545bc")
 	)
 	(symbol
 		(lib_id "MP62:STUB_IOB_LINK")
@@ -174,7 +174,7 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "acb16f40-b2b2-426c-a263-e900857bd9ce")
+		(uuid "3f1b3e9d-a437-4bba-b2e0-8c5b987930da")
 		(property "Reference" "#BLK6"
 			(at 40.64 27.94 0)
 			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
@@ -184,38 +184,38 @@
 			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
 		)
 		(pin "1"
-			(uuid "bf694db7-5f96-42f1-9620-872b7b5da6e5")
+			(uuid "7112f1f9-3e21-448c-a4fa-f8756b3fce7a")
 		)
 		(pin "2"
-			(uuid "f6ba737b-dc21-4068-90eb-a5e237403cf5")
+			(uuid "b2ab304c-8461-4586-862d-3da085f8be78")
 		)
 		(pin "3"
-			(uuid "f702a7db-43c6-40a1-90d7-eafdb2b96bed")
+			(uuid "14255816-af22-4578-bab4-43cf82fe2d94")
 		)
 		(pin "4"
-			(uuid "e7bea17c-0dfb-497d-874b-30b9821e5696")
+			(uuid "1d43d939-b37f-4219-9903-5bef6cbeb942")
 		)
 		(pin "5"
-			(uuid "000ce260-4f60-4b04-be98-717921590fc4")
+			(uuid "f335543a-eeea-4d6b-b378-16de120fb8f7")
 		)
 		(pin "6"
-			(uuid "57f6c506-8d1e-4060-8554-573263902265")
+			(uuid "573c279a-6e3b-456e-96e1-569d13c57cdd")
 		)
 		(pin "7"
-			(uuid "c93d555f-9255-4260-87f8-f9c4281dacec")
+			(uuid "62310481-66e7-4332-afe9-a9d5968dce8c")
 		)
 		(pin "8"
-			(uuid "92bba545-2a2b-41c4-9374-d5e864cb9058")
+			(uuid "3d8692a7-a66f-4abf-98ac-f6d8f98b274e")
 		)
 		(pin "9"
-			(uuid "8ab7e22e-59c4-4867-b481-0794b1e484da")
+			(uuid "8cf73fd5-1d20-47a2-bcbc-5b454d442ade")
 		)
 		(pin "10"
-			(uuid "8eb6d3a4-d4d1-4256-b8b9-12f057717af1")
+			(uuid "223b0a8e-b696-4b06-8d3f-627b27294379")
 		)
 		(instances
 			(project "backplane"
-				(path "/6a1c2d3e-0000-4000-8000-000000000062/d310270f-1d7a-44ba-a7bf-682dd6751172"
+				(path "/6a1c2d3e-0000-4000-8000-000000000062/d2853bf2-9194-4765-a7f9-2878ed84dcbe"
 					(reference "#BLK6")
 					(unit 1)
 				)
@@ -226,30 +226,30 @@
 		(exclude_from_sim no)
 		(at 76.20 30.48 0)
 		(effects (font (size 1.5 1.5)) (justify left bottom))
-		(uuid "7f0862c8-dbc3-4eb5-8449-9d7897bcea20")
+		(uuid "e04f97d4-2db6-4712-87d9-9dc85d783497")
 	)
 	(text "- J6 JST GH 15P (BM15B vertical) <-> IOB J6, 1:1 GH 15P cable (ICD 2026-10-02, pinout = IOB plan 5.3):"
 		(exclude_from_sim no)
 		(at 76.20 35.56 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "9ad1ffaf-633d-42fd-b59d-10e1ea711541")
+		(uuid "ed259729-26f2-4b8b-aea2-71725ca33bcc")
 	)
 	(text "- 1,2 3V3_SB (BP -> IOB) | 3,7,12,15 GND | 4 PWRBTN_IN_N | 5 HALL_A_N | 6 HALL_B_N | 8 I2C_SYS_SCL | 9 I2C_SYS_SDA"
 		(exclude_from_sim no)
 		(at 76.20 39.37 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "8a0d9f02-f509-4e7f-99b4-4f54e03d9ee7")
+		(uuid "0e4dfd08-c798-4717-848a-d58415519a11")
 	)
-	(text "- 10 IOB_INT_N (OD, IOB -> BP, BP pull-up) | 11 IOB_PRSNT_N (IOB ties to GND; BP 10k pull-up to 3V3_SB) | 13/14 USB2_LINK D+/D- (CPU-LINK USB2_SPARE)"
+	(text "- 10 IOB_INT_N (OD, IOB -> BP, BP pull-up; PD IRQs + LIS2DH12 + IOB INA228 0x41 ALERT) | 11 IOB_PRSNT_N (IOB ties to GND; BP 10k pull-up to 3V3_SB) | 13/14 USB2_LINK D+/D- (CPU-LINK USB2_SPARE)"
 		(exclude_from_sim no)
 		(at 76.20 43.18 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "2460be3b-6fd7-4923-9591-6041e9b41988")
+		(uuid "786eab21-ffcb-4c27-a9ba-5d10f521f4c6")
 	)
 	(text "- IOB high-speed (USB3 x10, DDI, 2x i226 PCIe, VBAT) runs CB J3 -> IOB HS1 directly; 12 V via the IOB 12P PSU header, not the BP"
 		(exclude_from_sim no)
 		(at 76.20 46.99 0)
 		(effects (font (size 1.27 1.27)) (justify left bottom))
-		(uuid "21c28a34-1a02-4e83-859d-0fd260b6ad44")
+		(uuid "92bcb0d1-1a3f-4f28-930d-6c9bbca0b4b3")
 	)
 )
