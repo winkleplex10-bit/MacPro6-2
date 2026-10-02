@@ -1,4 +1,4 @@
-"""Column riser geometry (D-IO14, rev 2026-10-02 ~12:00 ET, tilt 12.5 deg M-IOT2). Reads the plate stack from build_plate.py's features JSON.
+"""SUPERSEDED 2026-10-02 ~12:45 ET by modules_geom.py (D-IO16 flex port modules). Column riser geometry (D-IO14, rev 2026-10-02 ~12:00 ET, tilt 12.5 deg M-IOT2). Reads the plate stack from build_plate.py's features JSON.
 Each port column sits on one small riser PCB tilted about Y so every port axis is radial (normal to the plate at its opening).
 PCB frame: x' across the riser (in the tilt plane, -x' = outboard edge), y' along board Y. One PCB design per port type; the O-column copy
 is the same PCB rotated 180 deg about its normal. Main-board plan = projection on the board top (back-view frame)."""

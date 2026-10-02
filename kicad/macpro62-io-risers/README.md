@@ -1,3 +1,5 @@
+> **SUPERSEDED 2026-10-02 ≈ 12:45 ET by D-IO16 swappable flex port modules (`/workspace/kicad/macpro62-io-modules/`).** Kept for reference only; the main board no longer has the riser connectors (J11–J16, J21–J24, J27 → JM1–JM11).
+
 # MP62 I/O port risers (D-IO14), rev A0 2026-10-02 ≈ 10:50 ET
 
 Five small tilted riser PCBs carry the I/O-wall ports. Each port axis is radial to the I/O cover (R 111.2 from D0 18.0 / 16.5), and each mouth is tangent to the plate face.

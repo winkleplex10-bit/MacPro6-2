@@ -13,6 +13,48 @@
 "fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
 "dnp": false
 },
+"U97": {
+"side": "B",
+"xb": [
+57.61,
+65.4
+],
+"y": [
+68.81,
+77.19
+],
+"value": "TCA9555 @0x27 on U96 ch3 (private): PRSNT# of the 11 port modules (+5 spare), INT# -> PD_INT_N",
+"fp": "MP62_IO:TSSOP-24_4.4x7.8mm_P0.65mm",
+"dnp": false
+},
+"U96": {
+"side": "B",
+"xb": [
+40.61,
+48.4
+],
+"y": [
+32.31,
+40.69
+],
+"value": "TCA9548A @0x71: module ID I2C ch0-1 = A3-A4, ch2 = HDMI, ch3-7 spare",
+"fp": "MP62_IO:TSSOP-24_4.4x7.8mm_P0.65mm",
+"dnp": false
+},
+"U95": {
+"side": "B",
+"xb": [
+41.61,
+49.4
+],
+"y": [
+63.81,
+72.19
+],
+"value": "TCA9548A @0x70: module ID I2C ch0-5 = C1-C6, ch6-7 = A1-A2",
+"fp": "MP62_IO:TSSOP-24_4.4x7.8mm_P0.65mm",
+"dnp": false
+},
 "U35": {
 "side": "B",
 "xb": [
@@ -1553,438 +1595,312 @@
 "fp": "MP62_IO:MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER",
 "dnp": false
 },
-"H30": {
+"H45": {
 "side": "F",
 "xb": [
-50.29,
-54.79
+49.86,
+52.54
 ],
 "y": [
-109.12,
-113.62
+101.66,
+104.34
 ],
-"value": "RH cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module cradle locating peg D1.5",
+"fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
 "dnp": false
 },
-"H29": {
+"H44": {
 "side": "F",
 "xb": [
-35.29,
-39.79
+34.66,
+37.34
 ],
 "y": [
-109.12,
-113.62
+110.56,
+113.24
 ],
-"value": "RH cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module cradle locating peg D1.5",
+"fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
 "dnp": false
 },
-"JR5": {
+"H43": {
 "side": "F",
 "xb": [
-43.04,
-47.73
+60.56,
+63.24
 ],
 "y": [
-101.62,
-112.51
+36.26,
+38.94
 ],
-"value": "RH riser link (HDMI, ports HDMI, tilt -12.50 deg): DF40C-40DS-0.4V(51) TBC + flex jumper w/ 2 x DF40C-40DP plugs",
-"fp": "MP62_IO:MP62_Hirose_DF40C-40DS-0.4V_PLACEHOLDER",
+"value": "port-module cradle locating peg D1.5",
+"fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
 "dnp": false
 },
-"H28": {
+"H42": {
 "side": "F",
 "xb": [
-59.4,
-63.89
+43.16,
+45.84
 ],
 "y": [
-43.59,
-48.08
+36.26,
+38.94
 ],
-"value": "RA_O cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module cradle locating peg D1.5",
+"fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
 "dnp": false
 },
-"H27": {
+"H41": {
 "side": "F",
 "xb": [
-59.4,
-63.89
+60.56,
+63.24
 ],
 "y": [
-27.09,
-31.58
+59.56,
+62.24
 ],
-"value": "RA_O cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module cradle locating peg D1.5",
+"fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
 "dnp": false
 },
-"JR4": {
+"H40": {
 "side": "F",
 "xb": [
-75.58,
-80.27
+43.16,
+45.84
 ],
 "y": [
-25.14,
-38.03
+69.46,
+72.14
 ],
-"value": "RA_O riser link (A, ports A3/A4, tilt 12.50 deg): DF40C-50DS-0.4V(51) TBC + flex jumper w/ 2 x DF40C-50DP plugs (U-turn jumper from the riser TOP round its outboard edge)",
-"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
-"dnp": false
-},
-"H26": {
-"side": "F",
-"xb": [
-43.0,
-47.49
-],
-"y": [
-43.59,
-48.08
-],
-"value": "RA_H cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module cradle locating peg D1.5",
+"fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
 "dnp": false
 },
 "H25": {
 "side": "F",
 "xb": [
-43.0,
-47.49
+53.36,
+58.65
 ],
 "y": [
-27.09,
-31.58
+108.35,
+113.65
 ],
-"value": "RA_H cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
-"dnp": false
-},
-"JR3": {
-"side": "F",
-"xb": [
-26.61,
-31.3
-],
-"y": [
-25.14,
-38.03
-],
-"value": "RA_H riser link (A, ports A1/A2, tilt -12.50 deg): DF40C-50DS-0.4V(51) TBC + flex jumper w/ 2 x DF40C-50DP plugs (U-turn jumper from the riser TOP round its outboard edge)",
-"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
-"dnp": false
-},
-"PG16": {
-"side": "F",
-"xb": [
-54.15,
-57.43
-],
-"y": [
-60.82,
-64.11
-],
-"value": "RC_O pogo GND, working height 7.38, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG15": {
-"side": "F",
-"xb": [
-65.96,
-69.25
-],
-"y": [
-67.12,
-70.41
-],
-"value": "RC_O pogo GND, working height 4.77, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG14": {
-"side": "F",
-"xb": [
-54.15,
-57.43
-],
-"y": [
-49.22,
-52.51
-],
-"value": "RC_O pogo VBUS_C1, working height 7.38, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG13": {
-"side": "F",
-"xb": [
-65.96,
-69.25
-],
-"y": [
-51.42,
-54.71
-],
-"value": "RC_O pogo VBUS_C1, working height 4.77, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG12": {
-"side": "F",
-"xb": [
-54.15,
-57.43
-],
-"y": [
-67.62,
-70.91
-],
-"value": "RC_O pogo VBUS_C2, working height 7.38, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG11": {
-"side": "F",
-"xb": [
-65.96,
-69.25
-],
-"y": [
-62.72,
-66.01
-],
-"value": "RC_O pogo VBUS_C2, working height 4.77, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG10": {
-"side": "F",
-"xb": [
-54.15,
-57.43
-],
-"y": [
-79.22,
-82.51
-],
-"value": "RC_O pogo VBUS_C3, working height 7.38, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG9": {
-"side": "F",
-"xb": [
-65.96,
-69.25
-],
-"y": [
-77.02,
-80.31
-],
-"value": "RC_O pogo VBUS_C3, working height 4.77, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"value": "port-module clamp post (HDMI): M2 SMT nut, clamp screw through plate + cradle post",
+"fp": "MP62_IO:MP62_Cradle_Nut_M2_SMT_PLACEHOLDER",
 "dnp": false
 },
 "H24": {
 "side": "F",
 "xb": [
-59.26,
-63.75
+41.16,
+46.45
 ],
 "y": [
-78.71,
-83.2
+111.95,
+117.25
 ],
-"value": "RC_O cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module clamp post (HDMI): M2 SMT nut, clamp screw through plate + cradle post",
+"fp": "MP62_IO:MP62_Cradle_Nut_M2_SMT_PLACEHOLDER",
 "dnp": false
 },
 "H23": {
 "side": "F",
 "xb": [
-59.26,
-63.75
+50.55,
+55.84
 ],
 "y": [
-48.53,
-53.02
+22.85,
+28.15
 ],
-"value": "RC_O cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
-"dnp": false
-},
-"JR2": {
-"side": "F",
-"xb": [
-58.82,
-63.51
-],
-"y": [
-56.42,
-75.31
-],
-"value": "RC_O riser link (C, ports C4/C5/C6, tilt 12.50 deg): DF40C-80DS-0.4V(51) C312960 + flex jumper w/ 2 x DF40C-80DP plugs",
-"fp": "MP62_IO:MP62_Hirose_DF40C-80DS-0.4V_PLACEHOLDER",
-"dnp": false
-},
-"PG8": {
-"side": "F",
-"xb": [
-49.34,
-52.63
-],
-"y": [
-67.62,
-70.91
-],
-"value": "RC_H pogo GND, working height 7.41, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG7": {
-"side": "F",
-"xb": [
-37.53,
-40.81
-],
-"y": [
-61.32,
-64.61
-],
-"value": "RC_H pogo GND, working height 4.79, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG6": {
-"side": "F",
-"xb": [
-49.34,
-52.63
-],
-"y": [
-79.22,
-82.51
-],
-"value": "RC_H pogo VBUS_C1, working height 7.41, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG5": {
-"side": "F",
-"xb": [
-37.53,
-40.81
-],
-"y": [
-77.02,
-80.31
-],
-"value": "RC_H pogo VBUS_C1, working height 4.79, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG4": {
-"side": "F",
-"xb": [
-49.34,
-52.63
-],
-"y": [
-60.82,
-64.11
-],
-"value": "RC_H pogo VBUS_C2, working height 7.41, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG3": {
-"side": "F",
-"xb": [
-37.53,
-40.81
-],
-"y": [
-65.72,
-69.01
-],
-"value": "RC_H pogo VBUS_C2, working height 4.79, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG2": {
-"side": "F",
-"xb": [
-49.34,
-52.63
-],
-"y": [
-49.22,
-52.51
-],
-"value": "RC_H pogo VBUS_C3, working height 7.41, length class P-L",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
-"dnp": false
-},
-"PG1": {
-"side": "F",
-"xb": [
-37.53,
-40.81
-],
-"y": [
-51.42,
-54.71
-],
-"value": "RC_H pogo VBUS_C3, working height 4.79, length class P-S",
-"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"value": "port-module clamp post (A): M2 SMT nut, clamp screw through plate + cradle post",
+"fp": "MP62_IO:MP62_Cradle_Nut_M2_SMT_PLACEHOLDER",
 "dnp": false
 },
 "H22": {
 "side": "F",
 "xb": [
-43.02,
-47.52
+50.55,
+55.84
 ],
 "y": [
-78.71,
-83.2
+46.65,
+51.95
 ],
-"value": "RC_H cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module clamp post (C+A): M2 SMT nut, clamp screw through plate + cradle post",
+"fp": "MP62_IO:MP62_Cradle_Nut_M2_SMT_PLACEHOLDER",
 "dnp": false
 },
 "H21": {
 "side": "F",
 "xb": [
-43.02,
-47.52
+50.55,
+55.84
 ],
 "y": [
-48.53,
-53.02
+68.15,
+73.45
 ],
-"value": "RC_H cradle M2 screw (printed PA12 wedge cradle)",
-"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"value": "port-module clamp post (C): M2 SMT nut, clamp screw through plate + cradle post",
+"fp": "MP62_IO:MP62_Cradle_Nut_M2_SMT_PLACEHOLDER",
 "dnp": false
 },
-"JR1": {
+"JM11": {
 "side": "F",
 "xb": [
-43.27,
-47.96
+35.1,
+47.99
 ],
 "y": [
-56.42,
-75.31
+104.72,
+109.41
 ],
-"value": "RC_H riser link (C, ports C1/C2/C3, tilt -12.50 deg): DF40C-80DS-0.4V(51) C312960 + flex jumper w/ 2 x DF40C-80DP plugs",
-"fp": "MP62_IO:MP62_Hirose_DF40C-80DS-0.4V_PLACEHOLDER",
+"value": "MOD-H slot HDMI: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.33 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM10": {
+"side": "F",
+"xb": [
+57.35,
+70.24
+],
+"y": [
+30.19,
+34.88
+],
+"value": "MOD-A slot A4: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.51 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM9": {
+"side": "F",
+"xb": [
+57.35,
+70.24
+],
+"y": [
+40.29,
+44.98
+],
+"value": "MOD-A slot A3: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.51 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM8": {
+"side": "F",
+"xb": [
+36.59,
+49.48
+],
+"y": [
+30.19,
+34.88
+],
+"value": "MOD-A slot A2: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.25 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM7": {
+"side": "F",
+"xb": [
+36.59,
+49.48
+],
+"y": [
+40.29,
+44.98
+],
+"value": "MOD-A slot A1: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.25 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM6": {
+"side": "F",
+"xb": [
+56.04,
+68.93
+],
+"y": [
+53.63,
+58.32
+],
+"value": "MOD-C slot C6: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.47 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM5": {
+"side": "F",
+"xb": [
+56.04,
+68.93
+],
+"y": [
+63.5,
+68.19
+],
+"value": "MOD-C slot C5: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.47 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM4": {
+"side": "F",
+"xb": [
+56.04,
+68.93
+],
+"y": [
+73.41,
+78.1
+],
+"value": "MOD-C slot C4: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.47 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM3": {
+"side": "F",
+"xb": [
+37.81,
+50.7
+],
+"y": [
+53.63,
+58.32
+],
+"value": "MOD-C slot C3: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.27 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM2": {
+"side": "F",
+"xb": [
+37.81,
+50.7
+],
+"y": [
+63.5,
+68.19
+],
+"value": "MOD-C slot C2: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.27 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"JM1": {
+"side": "F",
+"xb": [
+37.81,
+50.7
+],
+"y": [
+73.41,
+78.1
+],
+"value": "MOD-C slot C1: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.27 deg)",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 }
 }

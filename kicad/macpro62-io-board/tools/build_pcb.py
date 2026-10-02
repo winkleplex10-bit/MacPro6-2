@@ -20,7 +20,7 @@ tb = board.GetTitleBlock(); tb.SetTitle("MP62 I/O board IOB rev A0 - FLOORPLAN (
 tb.SetRevision("A0-floorplan"); tb.SetDate("2026-10-02"); tb.SetCompany("MacPro6,2 / Aidan Winkler (open spec)")
 tb.SetComment(0, "Viewed from the FRONT (port side). Coordinates in docs = stock back-view frame (Xb, Y): KiCad x = OX + 101.0 - Xb")
 tb.SetComment(1, "Stackup JLC06161H-2116 6L 1.6 mm (L1 sig, L2 GND, L3 sig, L4 PWR, L5 GND, L6 sig)")
-tb.SetComment(2, "F: ports (vertical), speaker, coin cell, button, light-pipe LEDs, 5 V power stage. B: MCIO HS1 + display link, PSU connectors, PD/mux/redriver ICs, i226-V")
+tb.SetComment(2, "F: RJ45, DF40 JM1-JM11 for the flex port modules (D-IO16), speaker, coin cell, button, 5 V power stage. B: MCIO HS1 + display link, PSU connectors, PD/mux/redriver ICs, i226-V")
 tb.SetComment(3, "PLACEMENT ONLY: not routed; vertical port connectors and most IC land patterns are PLACEHOLDERS")
 
 def seg(x1, y1, x2, y2, layer, w=0.1):
@@ -72,23 +72,27 @@ def place(ref, name, xb, y, rot=0.0, side="F", value=None, dnp=False):
     FP.append((ref, name, xb, y, rot, side, value or name, dnp)); return f
 
 # ---------------- port grid = centres of the stock 821-2222-A flex cut-outs (flatbed scan 2026-10-02; plate frame, +-0.15) ----------------
-# rev 2026-10-02 ~10:40 ET (D-IO14): the 6 USB-C, 4 USB-A and HDMI sit on 5 tilted column risers (../macpro62-io-risers, risers.json).
-# Main board carries per riser: one DF40C receptacle (flex jumper), SMD pogo pins (VBUS/GND), 2 cradle screw holes. Heights: plate stack (plan 4.7.5).
+# rev 2026-10-02 ~12:35 ET (D-IO16): the 6 USB-C, 4 USB-A and HDMI are swappable FLEX port modules (../macpro62-io-modules, modules.json).
+# Main board carries per module: one DF40C-50DS receptacle JMn (PMI-50 pinout) under the module; per group: clamp-post M2 SMT nuts + cradle pegs.
 XH, XO = 43.09, 63.69
 CY = [75.76, 65.84, 55.97]
-RJ = json.load(open("/workspace/kicad/macpro62-io-risers/risers.json"))["risers"]
-_pg = 0; _hc = 0
-for k, r in enumerate(RJ):
-    fpn = "MP62_Hirose_DF40C-%dDS-0.4V_PLACEHOLDER" % r["btb_pins"]
-    place("JR%d" % (k + 1), fpn, r["btb_main_plan"][0], r["btb_main_plan"][1], 90, "F",
-          "%s riser link (%s, ports %s, tilt %.2f deg): %s %s + flex jumper w/ 2 x DF40C-%dDP plugs%s" % (r["id"], r["type"], "/".join(r["ports"]), r["tilt_deg"], r["btb"], r["btb_lcsc"], r["btb_pins"],
-          " (U-turn jumper from the riser TOP round its outboard edge)" if r.get("btb_side") == "F" else ""))
-    for (x, y) in r["screws_cradle_to_main"]:
-        _hc += 1; place("H%d" % (20 + _hc), "MP62_Cradle_Screw_M2_NPTH", x, y, 0, "F", "%s cradle M2 screw (printed PA12 wedge cradle)" % r["id"])
-    for (x, y, h, net, cls) in r["pogo"]:
-        _pg += 1; place("PG%d" % _pg, "MP62_Pogo_SMD_D2.0_PLACEHOLDER", x, y, 0, "F", "%s pogo %s, working height %.2f, length class %s" % (r["id"], net, h, cls))
-    x0, x1 = r["plan_x_range"]; y0, y1 = r["y_range"]
-    rectd(x0, y0, x1, y1, pcbnew.Dwgs_User, 0.12); txt("%s riser %.1f deg" % (r["id"], r["tilt_deg"]), (x0 + x1) / 2, y0 + 1.5, pcbnew.Dwgs_User, 0.6)
+MJ = json.load(open("/workspace/kicad/macpro62-io-modules/modules.json"))
+for k, m in enumerate(MJ["modules"]):
+    place("JM%d" % (k + 1), "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", m["jm_plan"][0], m["jm_plan"][1], m["jm_rot"], "F",
+          "%s slot %s: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module %s, axis %.2f deg)" % (m["module"], m["slot"], "rot 180" if m["jm_rot"] else "as drawn", m["tilt_deg"]))
+    x0, x1 = m["stiffener_plan_x"]; t = MJ["types"][m["kind"]]
+    rectd(x0, m["y"] - t["sy"], x1, m["y"] + t["sy"], pcbnew.Dwgs_User, 0.12); txt("%s %s" % (m["slot"], m["module"]), (x0 + x1) / 2, m["y"] + t["sy"] - 1.0, pcbnew.Dwgs_User, 0.6)
+    xf = m["fold_outer_x"]; xe = x0 if m["side"] == "H" else x1
+    rectd(min(xf, xe), m["y"] - t["tw"] / 2, max(xf, xe), m["y"] + t["tw"] / 2, pcbnew.Dwgs_User, 0.08)
+_seen = {}; _hc = 0
+for grp, pl in MJ["posts"].items():
+    for (x, y) in pl:
+        if (x, y) in _seen: _seen[(x, y)] += "+" + grp; continue
+        _seen[(x, y)] = grp
+for (x, y), grp in _seen.items():
+    _hc += 1; place("H%d" % (20 + _hc), "MP62_Cradle_Nut_M2_SMT_PLACEHOLDER", x, y, 0, "F", "port-module clamp post (%s): M2 SMT nut, clamp screw through plate + cradle post" % grp)
+_pegs = [(44.5, 70.8), (61.9, 60.9), (44.5, 37.6), (61.9, 37.6), (36.0, 111.9), (51.2, 103.0)]   # printed-cradle locating pegs (between modules / under the walls)
+for k, (x, y) in enumerate(_pegs): place("H%d" % (40 + k), "MP62_Cradle_Peg_D1.6_NPTH", x, y, 0, "F", "port-module cradle locating peg D1.5")
 place("J25", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 63.67, 91.60, 0, "F", "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
 place("J26", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 43.15, 91.41, 0, "F", "ETH2 i226-V #2: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
 place("T1", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 63.67, 99.3, 0, "B", "ETH1 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J25 posts)")
@@ -197,6 +201,10 @@ rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.B_Fab, 0.12); rectd(_bk[0], _bk[1],
 txt("B: T8 fan-cable bracket keep-out (only J7, H14, H15)", (_bk[0] + _bk[2]) / 2, _bk[3] + 0.8, pcbnew.Dwgs_User, 0.6)
 place("U91", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 24.0, 130.0, 0, "B", "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7")
 place("U35", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 59.0, 0, "B", "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare")
+# port-module management (D-IO16): ID EEPROM muxes + PRSNT# expander on I2C_SYS
+place("U95", "TSSOP-24_4.4x7.8mm_P0.65mm", 45.5, 68.0, 0, "B", "TCA9548A @0x70: module ID I2C ch0-5 = C1-C6, ch6-7 = A1-A2")
+place("U96", "TSSOP-24_4.4x7.8mm_P0.65mm", 44.5, 36.5, 0, "B", "TCA9548A @0x71: module ID I2C ch0-1 = A3-A4, ch2 = HDMI, ch3-7 spare")
+place("U97", "TSSOP-24_4.4x7.8mm_P0.65mm", 61.5, 73.0, 0, "B", "TCA9555 @0x27 on U96 ch3 (private): PRSNT# of the 11 port modules (+5 spare), INT# -> PD_INT_N")
 place("Y7", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 19.0, 63.5, 0, "B", "12 MHz hub crystal (H3)")
 
 # ---------------- rule areas / documentation ----------------
@@ -250,8 +258,8 @@ for (x, y) in g["stock_conn"]["CONN_C_standoffs"]: circle(x, y, 2.0, pcbnew.Dwgs
 txt("Dwgs.User: stock CONN_C standoffs (back side) - function unknown, not reproduced", 50, -3, pcbnew.Dwgs_User, 0.7)
 notes = ["MP62 I/O board IOB rev A0 FLOORPLAN (not routed). Viewed from the FRONT (port side). F = front, B = back (PSU side).",
          "Port grid (stock flex cut-outs, scan 2026-10-02): USB-C Xb 43.09 / 63.69, Y 75.76 / 65.84 / 55.97; USB-A 43.12 / 63.76, Y 42.64 / 32.54; RJ45 (43.15,91.41)/(63.67,91.60); HDMI (42.96,107.07); button (63.79,108.11).",
-         "D0 = 18.0 crown / 16.5 edge: USB-C/USB-A/HDMI need 17.2-17.9 board-to-mouth -> port risers (+2.2..2.9) under 15.0 parts; RJ45 face <= 13.6 (plan 4.7.4).",
-         "All ports are VERTICAL (mating axis normal to the board); the plate is curved with no lands (stock flex must lie flat), mouths flush at the outboard edge (plan 4.4/4.7).",
+         "D0 = 18.0 crown / 16.5 edge: USB-C/USB-A/HDMI = swappable FPC port modules (D-IO16) on printed cradles, axis normal to the plate, JMn DF40C-50DS per module; RJ45 face <= 13.6.",
+         "RJ45 vertical on the main board; USB-C/USB-A/HDMI on FPC modules (plan 4.7.9). Dwgs.User: module stiffener outlines + C-fold envelopes.",
          "B top: J1 IOB-HS1 MCIO124 (CB J3), J2 display link MCIO74 (Face P). B bottom: stock PSU DC 12P + signal 6P (pinouts UNCONFIRMED), J5 Micro-Fit -> BP J2, J6 IOB-LINK.",
          "PLACEHOLDER land patterns: all vertical port connectors, stock audio/PSU connectors, TPS65994AD, TUSB1046A, TUSB1002A, TDP158, i226-V, CH334R."]
 for i, s in enumerate(notes): txt(s, 50, -8 - 2.0 * i, pcbnew.Cmts_User, 0.9)

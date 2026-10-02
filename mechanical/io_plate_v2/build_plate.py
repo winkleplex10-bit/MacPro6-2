@@ -18,6 +18,7 @@ from matplotlib.path import Path as MPath
 HERE = os.path.dirname(os.path.abspath(__file__))
 ETH2 = "open"    # rev A0 default (D-IO2: 2 x i226-V); "--eth2 blank" builds the single-Ethernet variant
 if "--eth2" in sys.argv: ETH2 = sys.argv[sys.argv.index("--eth2") + 1]
+TAG = sys.argv[sys.argv.index("--tag") + 1] if "--tag" in sys.argv else ""     # variant builds (e.g. --tilt 12.5 --tag _tilt12p5): own STEP/STL/features JSON, no DXF/PNG
 FJ = json.load(open(os.path.join(HERE, "flex_821-2222_trace.json")))
 CUT = {c["id"]: c for c in FJ["cutouts"]}
 PADS = {p["id"]: p for p in FJ["light_pads"]}
@@ -80,23 +81,25 @@ NECK = (76.0, FJ["neck"]["y"][0] - 0.5, 81.5, FJ["neck"]["y"][1] + 0.5)   # rim 
 _cy = [CUT["C%d" % k]["cy"] for k in (1, 2, 3)]
 RELIEF = []   # rev 10:30 ET: tilted ports, mouth tangent to the face -> no overmold spot-faces needed
 TILT_KINDS = ("USBC", "USBA", "HDMI")        # these sit on tilted column risers, axis normal to the plate at the opening (D-IO14)
-TILT_OVERRIDE_DEG = 12.5                     # Aidan 11:47 ET (M-IOT2): stock ports lean OUTWARD 12.5 deg from the board normal, columns mirrored.
+TILT_OVERRIDE_DEG = None                     # rev 12:35 ET (port modules, D-IO16): DEFAULT = axis normal to the plate at each opening (full plug seating).
+                                             # Stock = 12.5 outward (M-IOT2, Aidan 11:47 ET): build with "--tilt 12.5 --tag _tilt12p5" for the comparison report.
                                              # None = surface normal from CASE_R (5.3-5.5 deg at R 110); any number forces |tilt| (sign = outward)
+if "--tilt" in sys.argv: _tv = sys.argv[sys.argv.index("--tilt") + 1]; TILT_OVERRIDE_DEG = None if _tv == "normal" else float(_tv)
 MOUTH_CLR = 0.05                             # no point of a tilted shell mouth closer than this to the outer surface (mouth never proud)
-AXIS_SHIFT_OUT = {"USBA": 0.35}             # extra OUTBOARD axis shift at the flex plane (mm): at 12.5 deg the H / O USB-A risers' inboard edges collide (riser gap +0.7)
+AXIS_SHIFT_OUT = {}                          # extra OUTBOARD axis shift at the flex plane (mm). Was {"USBA": 0.35} for the 12.5 deg column risers; port modules are separate -> none
 AXIS_BALANCE = True                          # shift each tilted axis along X (at the flex plane) to maximise the smallest flex / foam / frame-slot margin
 TILT_SEAT = True                             # flat plug seats on the OUTER face, perpendicular to the port axis (reduce the overmold stand-off of an off-normal port)
 SEAT_CLR, SEAT_MIN_WALL = 0.25, 0.6          # seat = plug overmold + 2 x SEAT_CLR; the floor keeps >= SEAT_MIN_WALL of skin (inner face stays smooth for the flex)
-RISER_T = 1.6                                # riser PCB (JLC04161H-7628, standard 4-layer)
-CONN_H = {"USBC": 10.5, "USBA": 11.5, "HDMI": 10.5}   # catalogue heights of the riser connectors (mating face above the riser top)
+RISER_T = 1.16                               # D-IO16 port module: stack below the connector seat = FPC 0.11 + stiffener PSA 0.05 + FR4 stiffener 1.0 (the "riser_*" keys keep their names)
+CONN_H = {"USBC": 10.0, "USBA": 11.5, "HDMI": 10.5}   # catalogue heights of the riser connectors (mating face above the riser top)
 LEGEND = [("blank ETH2 recess", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7)] if ETH2 == "blank" else []
 # connector envelopes: shell (passes plate + flex), overmold of the mating plug (spec max / typical)
 SHELL = {"USBC": dict(shell=(8.94, 3.26), overmold=(12.35, 6.5)), "USBA": dict(shell=(13.2, 5.7), overmold=(16.0, 8.0)),
          "HDMI": dict(shell=(15.2, 5.5), overmold=(20.0, 10.5)), "RJ45": dict(body=(16.2, 17.0), plug=(11.7, 8.2))}
 PARTS = {
-    "USBC": dict(mpn="SHOU HAN TYPE-C 24PLT-H10.5", lcsc="C3151750", h=10.5, note="USB 3.1 Type-C 24P vertical SMT, 10.5 tall, 13k in stock, $0.49; on the tilted USB-C column riser"),
-    "USBA": dict(mpn="kinghelm KH-3.0AF180ZJ-11.5JB", lcsc="C2979037", h=11.5, note="USB 3.0 Type-A 9P vertical, L 11.5 (verify stock/datasheet); on the tilted USB-A column riser"),
-    "HDMI": dict(mpn="HOAUC HYC79-HDMIA19-105", lcsc="C711353", h=10.5, note="HDMI-A 19P vertical SMT, H 10.5 (front shell must be <= 15.4 x 5.6 to pass the flex: verify); on the tilted HDMI riser"),
+    "USBC": dict(mpn="HOAUC HYCW417-USBC24-180B", lcsc="C5342202", h=10.0, note="USB 3.1 Type-C 24P vertical, ALL-SMD (signal + shell tabs) for FPC mounting, L 10.0 (VERIFY drawing: height / shell tabs); alt SHOU HAN TYPE-C 24PLT-H10.5 C3151750 (THT shell legs) with CONN_H 10.5"),
+    "USBA": dict(mpn="kinghelm KH-3.0AF180ZJ-11.5JB", lcsc="C2979037", h=11.5, note="USB 3.0 Type-A 9P vertical, L 11.5, THT signal + shell legs -> through the FPC + drilled FR4 stiffener, JLC selective solder (no all-SMD vertical USB 3 A found on LCSC)"),
+    "HDMI": dict(mpn="HOAUC HYC79-HDMIA19-105", lcsc="C711353", h=10.5, note="HDMI-A 19P vertical, SMD signals + THT shell legs (through the FR4 stiffener), H 10.5 (front shell must be <= 15.4 x 5.6 to pass the flex: verify); HDMI port module"),
     "RJ45": dict(mpn="Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics", lcsc="C55547809 + C2827281", h=12.0,
                  note="D-IO15: non-magnetic vertical RJ45 on the main board + discrete JASN V24P05S (SMD-24P 15.1 x 7.1, 1:1 CT, 180 uH, 1.5 kVrms, IEEE 802.3bz, LCSC $0.63 @10)")}
 
@@ -244,6 +247,7 @@ for pid, x, y, dd in EAR_PINS:
 for nm, x, y, w, h in LEGEND:
     plate = plate.cut(boxz(x, y, w, h, 0.5, 10.0, -20.0).intersect(cyl(R0)).cut(cyl(R0 - 0.6)))
 tag = "" if ETH2 == "open" else "_eth2blank"
+tag += TAG
 step = os.path.join(HERE, "io_plate_v2_A0%s.step" % tag); stl = os.path.join(HERE, "io_plate_v2_A0%s.stl" % tag)
 cq.exporters.export(plate, step); cq.exporters.export(plate, stl, tolerance=0.02, angularTolerance=0.1)
 bb = plate.val().BoundingBox()
@@ -354,7 +358,7 @@ def rr_pts(cx, cy, w, h, r, n=9):
         for k in range(n):
             t = math.radians(a0 + 90 * k / (n - 1)); pts.append((ax_ + r * math.cos(t), ay_ + r * math.sin(t)))
     return pts
-if ETH2 == "open":
+if ETH2 == "open" and not TAG:
     doc = ezdxf.new("R2010"); msp = doc.modelspace()
     for ln, col in (("FLEX_OUTLINE", 30), ("FLEX_CUTOUTS", 30), ("FLEX_HOLES", 30), ("FLEX_LIGHT_PADS", 5), ("FLEX_LEDS", 2), ("FLEX_BUTTON", 6), ("FLEX_TAIL", 8), ("FLEX_CONTACTS", 40),
                     ("FLEX_SILVER_FRAMES", 9), ("IGNORED_BLACK_TAB", 251), ("REF_PLATE_OUTLINE", 7), ("REF_PLATE_OPENINGS", 7), ("REF_LIGHT_WINDOWS", 2), ("REF_LED_POCKETS", 1), ("NOTES", 7)):
@@ -435,7 +439,10 @@ if ETH2 == "open":
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "flex_821-2222_check.png"), dpi=170); plt.close(fig)
 
 # ---------------- DXF (openings, back view and front view), features JSON, previews ----------------
-if ETH2 == "open":
+if ETH2 == "open" and TAG:
+    json.dump(dict(params=dict(case_r=round(CASE_R, 3), tag=TAG, d0=dict(board_top_z=Z_BOARD)), parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, check=TILT_CHECK), stack=STACK),
+              open(os.path.join(HERE, "io_plate_v2_A0%s_features.json" % TAG), "w"), indent=1)
+if ETH2 == "open" and not TAG:
     for view in ("backview", "frontview"):
         BW = 101.00496445740619
         fx = (lambda x: x) if view == "backview" else (lambda x: 40 + BW - x)   # front view = KiCad PCB frame x (y kept = Y; KiCad y = 200 - Y)
@@ -459,7 +466,7 @@ if ETH2 == "open":
                                clip=dict(t=CLIP_T, w=CLIP_W, l=CLIP_L, hook=CLIP_HOOK), port_grid=dict(usbc_x=[XH, XO], source="flex 821-2222-A cut-out centres (scan)"),
                                flex=dict(flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, frame_t=FRAME_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK, led_h=LED_H, led_clr=LED_CLR,
                                          btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder, no bosses")),
-                   parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, source="M-IOT2 Aidan 2026-10-02 11:47 ET: outward 12.5 deg, mirrored" if TILT_OVERRIDE_DEG else "surface normal", mouth_clr=MOUTH_CLR, axis_balance=AXIS_BALANCE, axis_shift_out=AXIS_SHIFT_OUT, seat=TILT_SEAT, seat_clr=SEAT_CLR, seat_min_wall=SEAT_MIN_WALL, check=TILT_CHECK), stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
+                   parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, source="M-IOT2 Aidan 2026-10-02 11:47 ET: outward 12.5 deg, mirrored" if TILT_OVERRIDE_DEG else "surface normal (D-IO16 default: full plug seating; stock 12.5 in io_plate_v2_A0_tilt12p5_features.json)", mouth_clr=MOUTH_CLR, axis_balance=AXIS_BALANCE, axis_shift_out=AXIS_SHIFT_OUT, seat=TILT_SEAT, seat_clr=SEAT_CLR, seat_min_wall=SEAT_MIN_WALL, check=TILT_CHECK), stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
                    features=[dict(id=a, kind=b, x=round(c, 3), y=round(d, 3), w=e, h=f, note=g) for a, b, c, d, e, f, g in report], clips=CLIPS),
               open(os.path.join(HERE, "io_plate_v2_A0_features.json"), "w"), indent=1)
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
@@ -479,7 +486,7 @@ if ETH2 == "open":
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="yellow", ec="k"))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=5)
     ax.set_xlim(20, 86); ax.set_ylim(-8, 162); ax.set_aspect("equal"); ax.grid(alpha=0.2)
-    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, blue = clips, violet = flat plug seats (0-0.6 deep); USB-C/USB-A/HDMI holes along the 12.5 deg port axes", fontsize=8)
+    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, blue = clips, violet = flat plug seats; USB-C/USB-A/HDMI holes along the port-module axes (%s)" % ("%.1f deg" % TILT_OVERRIDE_DEG if TILT_OVERRIDE_DEG else "normal to the plate"), fontsize=8)
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150); plt.close(fig)
     iso = plate.translate((-PL_C[0], -PL_C[1], 0)).rotate((0, 0, 0), (0, 0, 1), 90).rotate((0, 0, 0), (1, 0, 0), 180)
     cq.exporters.export(iso, os.path.join(HERE, "_iso.svg"), opt={"projectionDir": (0.25, -0.45, 1.0), "showHidden": False, "width": 1600, "height": 700,

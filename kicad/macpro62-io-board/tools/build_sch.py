@@ -27,9 +27,17 @@ def ic(name, left, right, ref, fp, desc, w=None, start=1):
 hs = list(csv.DictReader(open(os.path.join(PRJ, "docs", "mp62-iob-hs1_mcio124_pinout_v0.2.csv"))))
 addsym("MCIO124_IOB_HS1", [(r["contact"], r["signal"], "L" if r["contact"][0] == "A" else "R") for r in hs] + [("MP", "SHIELD/MP", "R")],
        "J", "MP62_MCIO_124P_RA_SFF-TA-1016", "MCIO 124P RA (Amphenol G97R24332HR class), MP62 IOB-HS v0.1 pinout, CB J3 -> IOB")
-dl = list(csv.DictReader(open("/workspace/macpro62-face/pinouts/mp62-face-v0.1_mcio74_displaylink_module-end.csv")))
+dl_mod = list(csv.DictReader(open("/workspace/macpro62-face/pinouts/mp62-face-v0.1_mcio74_displaylink_module-end.csv")))
+# ICD 2026-10-02: face spec 9.3 - the straight MCIO cable crosses the rows, so the IOB end is the module-end table with A<->B swapped.
+_xr = lambda c: ("B" if c[0] == "A" else "A" if c[0] == "B" else c[0]) + c[1:]
+dl = [dict(r, contact=_xr(r["contact"])) for r in dl_mod]
+with open(os.path.join(PRJ, "docs", "mp62-iob-j2_mcio74_displaylink_iob-end.csv"), "w", newline="") as _f:
+    _w = csv.DictWriter(_f, fieldnames=["contact", "module_end_contact"] + [k for k in dl_mod[0].keys() if k != "contact"])
+    _w.writeheader()
+    for _rm, _ri in zip(dl_mod, dl):
+        _w.writerow(dict(_ri, module_end_contact=_rm["contact"]))
 addsym("MCIO74_DisplayLink", [(r["contact"], r["signal"], "L" if r["contact"][0] == "A" else "R") for r in dl] + [("MP", "SHIELD/MP", "R")],
-       "J", "MP62_MCIO_74P_RA_SFF-TA-1016", "MCIO 74P RA, MP62-FACE display-link pinout (module end), Face P -> IOB")
+       "J", "MP62_MCIO_74P_RA_SFF-TA-1016", "MCIO 74P RA, MP62-FACE display-link pinout, IOB END (module-end table rows A/B swapped by the crossing cable), Face P -> IOB")
 usbc = [("A1", "GND_A1", "L"), ("A4", "VBUS_A4", "L"), ("A9", "VBUS_A9", "L"), ("B4", "VBUS_B4", "L"), ("B9", "VBUS_B9", "L"), ("A5", "CC1", "L"),
         ("B5", "CC2", "L"), ("A6", "D+_A6", "L"), ("A7", "D-_A7", "L"), ("B6", "D+_B6", "L"), ("B7", "D-_B7", "L"), ("A8", "SBU1", "L"), ("B8", "SBU2", "L"),
         ("A12", "GND_A12", "L"), ("A2", "TX1+", "R"), ("A3", "TX1-", "R"), ("B11", "RX1+", "R"), ("B10", "RX1-", "R"), ("B2", "TX2+", "R"), ("B3", "TX2-", "R"),
@@ -37,6 +45,17 @@ usbc = [("A1", "GND_A1", "L"), ("A4", "VBUS_A4", "L"), ("A9", "VBUS_A9", "L"), (
 addsym("USB_C_24P", usbc, "J", "MP62_USB_C_24P_Vertical_PLACEHOLDER", "USB Type-C 24P receptacle, vertical (USB-C spec pinout)")
 addsym("USB_A3", [("1", "VBUS", "L"), ("2", "D-", "L"), ("3", "D+", "L"), ("4", "GND", "L"), ("7", "GND_DRAIN", "L"), ("5", "SSRX-", "R"), ("6", "SSRX+", "R"),
                   ("8", "SSTX-", "R"), ("9", "SSTX+", "R"), ("S", "SHIELD", "R")], "J", "MP62_USB_A3_9P_Vertical_PLACEHOLDER", "USB 3.x Std-A receptacle, vertical (USB 3.2 pinout)")
+# PMI-50 port-module interface (D-IO16, 2026-10-02): DF40C-50DS-0.4V(51) on the main board, one per port module. Row A = odd pins, row B = even pins.
+PMI = [("VBUS",) * 2] * 6 + [("GND", "GND")] * 2 + [("HS0_P", "HS2_P"), ("HS0_N", "HS2_N"), ("GND", "GND"), ("HS1_P", "HS3_P"), ("HS1_N", "HS3_N"), ("GND", "GND"),
+       ("USB2_DP", "SBU1"), ("USB2_DN", "SBU2"), ("GND", "GND"), ("CC1", "HPD"), ("CC2", "UTIL"), ("GND", "GND"), ("ID_SCL", "ID_SDA"), ("3V3_MOD", "PRSNT#"),
+       ("LED#", "GND"), ("GND", "GND"), ("GND", "GND")]
+PMI_PIN = {}
+for _k, (_a, _b) in enumerate(PMI):
+    for _n, _nm in ((2 * _k + 1, _a), (2 * _k + 2, _b)): PMI_PIN.setdefault(_nm, []).append(str(_n))
+addsym("PMI50", [(str(2 * k + 1 + j), (nm + "_%d" % (2 * k + 1 + j)) if nm in ("VBUS", "GND") else nm, "L" if j == 0 else "R") for k, pr in enumerate(PMI) for j, nm in enumerate(pr)],
+       "J", "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", "PMI-50 port-module receptacle: Hirose DF40C-50DS-0.4V(51) (LCSC C424646), mates DF40C-50DP on the module FPC (plan 4.7.9)")
+def pmi(sig):   # role -> list of pin numbers
+    return PMI_PIN[sig]
 addsym("HDMI_A", [(str(i), n, "L" if i <= 10 else "R") for i, n in enumerate(
     ["D2+", "D2_S", "D2-", "D1+", "D1_S", "D1-", "D0+", "D0_S", "D0-", "CK+", "CK_S", "CK-", "CEC", "UTIL", "SCL", "SDA", "DDC_GND", "+5V", "HPD"], 1)] + [("S", "SHIELD", "R")],
     "J", "MP62_HDMI_A_Vertical_PLACEHOLDER", "HDMI type A receptacle, vertical (HDMI 1.4/2.0 pinout)")
@@ -96,6 +115,10 @@ ic("CM108B", ["USB_DP", "USB_DM", "XI", "XO", "VDD5", "VREG3V3", "AVDD", "GND", 
    "C-Media CM108B USB audio codec, UAC1 (stereo DAC, mono mic ADC, S/PDIF out; LOGICAL pins)", w=17.78)
 addsym("PAM8302A", [("1", "SD#", "L"), ("3", "IN+", "L"), ("4", "IN-", "L"), ("6", "VDD", "L"), ("7", "GND", "L"), ("5", "VO+", "R"), ("8", "VO-", "R"), ("2", "NC", "R")],
        "U", "MSOP-8_3x3mm_P0.65mm", "Diodes PAM8302A 2.5 W mono class-D (MSOP-8 pinout - verify)", w=12.7)
+ic("TCA9548A", ["A0", "A1", "A2", "RESET#", "SCL", "SDA", "VCC", "GND"], ["SC%d" % i for i in range(8)] + ["SD%d" % i for i in range(8)], "U", "TSSOP-24_4.4x7.8mm_P0.65mm",
+   "TI TCA9548A 8-ch I2C mux (LOGICAL pins) - port-module ID EEPROMs (all at 0x50)", w=12.7)
+ic("TCA9555", ["A0", "A1", "A2", "SCL", "SDA", "INT#", "VCC", "GND"], ["P0%d" % i for i in range(8)] + ["P1%d" % i for i in range(8)], "U", "TSSOP-24_4.4x7.8mm_P0.65mm",
+   "TI TCA9555 16-bit I2C I/O expander (LOGICAL pins) - port-module PRSNT#", w=12.7)
 ic("TLC59116", ["REXT", "A0", "A1", "A2", "A3", "RESET#", "SCL", "SDA", "VCC", "GND"], ["OUT%d" % i for i in range(16)], "U", "TSSOP-28_4.4x9.7mm_P0.65mm",
    "TI TLC59116 16-ch constant-current I2C LED sink driver (LOGICAL pins)", w=12.7)
 ic("LIS2DH12", ["SCL", "SDA", "SA0", "CS", "VDD", "VDD_IO", "GND"], ["INT1", "INT2"], "U", "LGA-12_2x2mm_P0.5mm", "ST LIS2DH12 3-axis accelerometer (LOGICAL pins)", w=12.7)
@@ -199,6 +222,13 @@ for r in dl:
 j2["MP"] = "GND"
 add("J2", "MCIO74_DisplayLink", "DISPLAY-LINK MCIO 74 RA <- Face P", j2)
 
+# --- port-module receptacles (D-IO16) ---
+JM_SLOTS = ["C1", "C2", "C3", "C4", "C5", "C6", "A1", "A2", "A3", "A4", "HDMI"]
+def jm(idx, slot, roles, what):
+    k = JM_SLOTS.index(slot) + 1; m = {}
+    for role, net in list(roles.items()) + [("GND", "GND"), ("ID_SCL", "ID_SCL_" + slot), ("ID_SDA", "ID_SDA_" + slot), ("3V3_MOD", "3V3"), ("PRSNT#", "PRSNT#_" + slot)]:
+        for pn in pmi(role): m[pn] = net
+    add("JM%d" % k, "PMI50", "PMI-50 slot %s: %s - DF40C-50DS-0.4V(51) C424646" % (slot, what), m)
 # --- USB-C ports ---
 # port -> (video source prefix, lanes, aux, hpd net, PD ref, PD port)
 CP = {1: ("DL0", 4, "DL0_AUX", "DL_HPD0", "U1", "A"), 2: ("DL1", 4, "DL1_AUX", "DL_HPD1", "U1", "B"), 3: ("DL3", 2, "DL3_AUX", "DL_HPD3", "U2", "A"),
@@ -207,11 +237,10 @@ for p in range(1, 7):
     section("USB-C C%d (DP alt mode) + TUSB1046A U%d" % (p, 10 + p))
     src, nl, aux, hpd, pd, pp = CP[p]
     c = "C%d" % p
-    add("J1%d" % p, "USB_C_24P", "USB-C %s receptacle vertical (%s)" % (c, src),
-        {"A1": "GND", "A12": "GND", "B1": "GND", "B12": "GND", "S": "GND", "A4": "VBUS_" + c, "A9": "VBUS_" + c, "B4": "VBUS_" + c, "B9": "VBUS_" + c,
-         "A5": c + "_CC1", "B5": c + "_CC2", "A6": c + "_USB2_DP", "B6": c + "_USB2_DP", "A7": c + "_USB2_DN", "B7": c + "_USB2_DN", "A8": c + "_SBU1", "B8": c + "_SBU2",
-         "A2": c + "_SS_TX1_P", "A3": c + "_SS_TX1_N", "B11": c + "_SS_RX1_P", "B10": c + "_SS_RX1_N", "B2": c + "_SS_TX2_P", "B3": c + "_SS_TX2_N",
-         "A11": c + "_SS_RX2_P", "A10": c + "_SS_RX2_N"})
+    # D-IO16: the receptacle sits on port module MOD-C (../macpro62-io-modules); the main board carries its PMI-50 receptacle JM%d
+    jm(p, c, {"VBUS": "VBUS_" + c, "HS0_P": c + "_SS_TX1_P", "HS0_N": c + "_SS_TX1_N", "HS1_P": c + "_SS_RX1_P", "HS1_N": c + "_SS_RX1_N",
+              "HS2_P": c + "_SS_TX2_P", "HS2_N": c + "_SS_TX2_N", "HS3_P": c + "_SS_RX2_P", "HS3_N": c + "_SS_RX2_N", "USB2_DP": c + "_USB2_DP", "USB2_DN": c + "_USB2_DN",
+              "SBU1": c + "_SBU1", "SBU2": c + "_SBU2", "CC1": c + "_CC1", "CC2": c + "_CC2"}, "MOD-C USB-C (%s)" % src)
     m = {"SSTXP": "USB3_%s_SSTX_P" % c, "SSTXN": "USB3_%s_SSTX_N" % c, "SSRXP": "USB3_%s_SSRX_P" % c, "SSRXN": "USB3_%s_SSRX_N" % c,
          "AUXP": aux + "_P", "AUXN": aux + "_N", "HPDIN": hpd, "SCL/CTL1": "PD%s_I2C3_SCL" % pd[1], "SDA/CTL0": "PD%s_I2C3_SDA" % pd[1],
          "I2C_EN": "3V3", "A0": "GND" if pp == "A" else "3V3", "A1": "GND", "VCC": "3V3", "GND": "GND", "EP_GND": "GND",
@@ -259,8 +288,8 @@ res("DLINK_PRSNT#", "3V3", "10k (display-link cable present, read via PD #2 GPIO
 for p in range(1, 5):
     section("USB-A A%d (10G) + TUSB1002A U%d + VBUS switch U%d" % (p, 20 + p, 24 + p))
     a = "A%d" % p
-    add("J2%d" % p, "USB_A3", "USB 3.2 Gen2 Std-A vertical %s" % a, {"1": "VBUS_" + a, "2": a + "_USB2_DN", "3": a + "_USB2_DP", "4": "GND", "7": "GND",
-        "5": a + "_SS_RX_N", "6": a + "_SS_RX_P", "8": a + "_SS_TX_N", "9": a + "_SS_TX_P", "S": "GND"})
+    jm(p, a, {"VBUS": "VBUS_" + a, "HS0_P": a + "_SS_TX_P", "HS0_N": a + "_SS_TX_N", "HS1_P": a + "_SS_RX_P", "HS1_N": a + "_SS_RX_N",
+              "USB2_DP": a + "_USB2_DP", "USB2_DN": a + "_USB2_DN"}, "MOD-A USB-A 10G")
     add("U2%d" % p, "TUSB1002A", "TUSB1002A %s redriver" % a, {"RX1P": "USB3_%s_SSTX_P" % a, "RX1N": "USB3_%s_SSTX_N" % a, "TX1P": a + "_SSC_TX_P", "TX1N": a + "_SSC_TX_N",
         "RX2P": a + "_SS_RX_P", "RX2N": a + "_SS_RX_N", "TX2P": "USB3_%s_SSRX_P" % a, "TX2N": "USB3_%s_SSRX_N" % a, "EN": "3V3", "VCC": "3V3", "GND": "GND",
         "EQ1": "REDRV_EQ", "EQ2": "REDRV_EQ", "EP_GND": "GND"})
@@ -335,7 +364,7 @@ add("J7", "CONNC_40", "CONN_C fan + AirPort (stock press B2B, 2x20 @0.5; pinout 
     "21": "I226_PERST#", "25": "I226_WAKE#", "18": "BT_USB2_DP", "20": "BT_USB2_DN"})
 add("J8", "UFL", "Fan-assembly antenna coax (stock type/position UNCONFIRMED, M-IOA1)", {"1": "RF_ANT_FAN", "2": "GND"})
 add("J9", "UFL", "Optional antenna pass-through (DNP) - 50 ohm CPW from J8", {"1": "RF_ANT_FAN", "2": "GND"}, dnp=True)
-add("U90", "EMC2101", "EMC2101 fan controller (SMBus 0x4C, PWM 25 kHz, TACH)", {"VDD": "3V3", "SCL": "I2C_SYS_SCL", "SDA": "I2C_SYS_SDA", "GND": "GND",
+add("U90", "EMC2101", "EMC2101 fan controller (SMBus 0x4C, PWM 25 kHz, TACH); on I2C_PD (behind U83) because VDD = 3V3 (S0 only) - ICD 2026-10-02", {"VDD": "3V3", "SCL": "I2C_PD_SCL", "SDA": "I2C_PD_SDA", "GND": "GND",
     "FAN_PWM": "FAN_PWM", "ALERT#/TACH": "FAN_TACH", "DP": "EMC_DP", "DN": "EMC_DN"})
 res("FAN_TACH", "3V3", "10k TACH pull-up"); res("FAN_PWM", "3V3", "4k7 PWM pull-up (open-drain)")
 add("Q90", "C", "MMBT3904 remote diode (or omit: EMC2101 internal sensor)", {"1": "EMC_DP", "2": "EMC_DN"})
@@ -356,9 +385,21 @@ add("U60", "TDP158", "TDP158RSBR HDMI retimer", {"IN_D2P": "DL2_ML0_P", "IN_D2N"
     "HPD_SRC": "DL_HPD2", "OE": "3V3", "I2C_EN": "GND", "VCC": "3V3", "VDD": "1V1_HDMI", "GND": "GND", "EP_GND": "GND",
     "OUT_D0P": "TMDS_D0_P", "OUT_D0N": "TMDS_D0_N", "OUT_D1P": "TMDS_D1_P", "OUT_D1N": "TMDS_D1_N", "OUT_D2P": "TMDS_D2_P", "OUT_D2N": "TMDS_D2_N",
     "OUT_CKP": "TMDS_CK_P", "OUT_CKN": "TMDS_CK_N", "SCL_SNK": "HDMI_SCL", "SDA_SNK": "HDMI_SDA", "HPD_SNK": "HDMI_HPD"})
-add("J27", "HDMI_A", "HDMI type A vertical", {"1": "TMDS_D2_P", "2": "GND", "3": "TMDS_D2_N", "4": "TMDS_D1_P", "5": "GND", "6": "TMDS_D1_N", "7": "TMDS_D0_P",
-    "8": "GND", "9": "TMDS_D0_N", "10": "TMDS_CK_P", "11": "GND", "12": "TMDS_CK_N", "15": "HDMI_SCL", "16": "HDMI_SDA", "17": "GND", "18": "HDMI_5V_OUT",
-    "19": "HDMI_HPD", "S": "GND"})
+jm(1, "HDMI", {"VBUS": "HDMI_5V_OUT", "HS0_P": "TMDS_D2_P", "HS0_N": "TMDS_D2_N", "HS1_P": "TMDS_D1_P", "HS1_N": "TMDS_D1_N", "HS2_P": "TMDS_D0_P", "HS2_N": "TMDS_D0_N",
+              "HS3_P": "TMDS_CK_P", "HS3_N": "TMDS_CK_N", "SBU1": "HDMI_SCL", "SBU2": "HDMI_SDA", "HPD": "HDMI_HPD"}, "MOD-H HDMI-A (CEC/UTIL NC)")
+# --- port-module management: ID EEPROM muxes + PRSNT# expander, on I2C_PD (3V3, S0 - same domain as the modules' 3V3_MOD) ---
+section("Port modules: TCA9548A U95/U96 (ID EEPROM @0x50 per slot), TCA9555 U97 (PRSNT#)")
+for ref, a0, slots, val in (("U95", "GND", JM_SLOTS[0:8], "TCA9548APWR @0x70: ch0-5 C1-C6, ch6-7 A1-A2"), ("U96", "3V3", JM_SLOTS[8:11], "TCA9548APWR @0x71: ch0-1 A3-A4, ch2 HDMI, ch3 U97 TCA9555 (private), ch4-7 spare")):
+    m = {"A0": a0, "A1": "GND", "A2": "GND", "RESET#": "3V3", "SCL": "I2C_PD_SCL", "SDA": "I2C_PD_SDA", "VCC": "3V3", "GND": "GND"}
+    for i, sl in enumerate(slots): m["SC%d" % i] = "ID_SCL_" + sl; m["SD%d" % i] = "ID_SDA_" + sl
+    if ref == "U96": m["SC3"] = "MODMGT_SCL"; m["SD3"] = "MODMGT_SDA"      # private segment for U97 (keeps 0x20-0x27 off I2C_PD: TPS65994AD I2C1 range)
+    add(ref, "TCA9548A", val, m); dec("3V3", ["100nF"])
+for sl in JM_SLOTS: res("ID_SCL_" + sl, "3V3", "4.7k"); res("ID_SDA_" + sl, "3V3", "4.7k")
+res("MODMGT_SCL", "3V3", "4.7k"); res("MODMGT_SDA", "3V3", "4.7k")
+m = {"A0": "3V3", "A1": "3V3", "A2": "3V3", "SCL": "MODMGT_SCL", "SDA": "MODMGT_SDA", "INT#": "PD_INT_N", "VCC": "3V3", "GND": "GND"}
+for i, sl in enumerate(JM_SLOTS): m[("P0%d" % i) if i < 8 else ("P1%d" % (i - 8))] = "PRSNT#_" + sl
+add("U97", "TCA9555", "TCA9555PWR @0x27 on U96 ch3 (private; not on I2C_PD, so no clash with the TPS65994AD I2C1 0x20-0x27 range): P00-P07 C1-C6/A1-A2, P10-P12 A3/A4/HDMI PRSNT# (internal 100k pull-ups), INT# -> PD_INT_N", m)
+dec("3V3", ["100nF"])
 add("U61", "LDO5", "TLV75511PDBV 1.1 V LDO (TDP158 VDD)", {"IN": "3V3", "EN": "3V3", "GND": "GND", "OUT": "1V1_HDMI"})
 add("F1", "R", "0.5 A PTC 0805 (HDMI +5V, 55 mA min per spec)", {"1": "5V_A", "2": "HDMI_5V_OUT"}, fp=FPL + ":R_0805_2012Metric")
 res("HDMI_SCL", "HDMI_5V_OUT", "1.8k DDC pull-up (sink side)"); res("HDMI_SDA", "HDMI_5V_OUT", "1.8k DDC pull-up (sink side)")
@@ -446,7 +487,7 @@ dec("3V3_SB", ["100nF"])
 add("U82", "BL24C64A", "BL24C64A-SFRC IOB ID EEPROM @0x51", {"1": "3V3_SB", "2": "GND", "3": "GND", "4": "GND", "8": "3V3_SB", "7": "IOB_EE_WP", "6": "I2C_SYS_SCL", "5": "I2C_SYS_SDA"})
 res("IOB_EE_WP", "3V3_SB", "10k (write-protect by default)"); res("IOB_EE_WP", "GND", "DNP 0R (program)", dnp=True)
 dec("3V3_SB", ["100nF"])
-add("U83", "TCA9517", "TCA9517DGKR I2C buffer: I2C_SYS (3V3_SB) <-> PD controllers (3V3, S0 only)", {"SCLA": "I2C_SYS_SCL", "SDAA": "I2C_SYS_SDA", "VCCA": "3V3_SB",
+add("U83", "TCA9517", "TCA9517DGKR I2C buffer: I2C_SYS (3V3_SB) <-> I2C_PD: PD controllers + EMC2101 U90 (3V3, S0 only)", {"SCLA": "I2C_SYS_SCL", "SDAA": "I2C_SYS_SDA", "VCCA": "3V3_SB",
     "GND": "GND", "SCLB": "I2C_PD_SCL", "SDAB": "I2C_PD_SDA", "VCCB": "3V3", "EN": "PG_3V3"})
 res("I2C_PD_SCL", "3V3", "4.7k"); res("I2C_PD_SDA", "3V3", "4.7k"); dec("3V3_SB", ["100nF"]); dec("3V3", ["100nF"])
 add("U84", "74LVC1G07", "74LVC1G07 PD_INT_N -> IOB_INT_N (Ioff, safe when 3V3 is off)", {"A": "PD_INT_N", "GND": "GND", "Y(OD)": "IOB_INT_N", "VCC": "3V3"})

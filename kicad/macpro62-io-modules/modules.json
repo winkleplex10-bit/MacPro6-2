@@ -1,0 +1,1125 @@
+{
+ "rev": "2026-10-02 ~12:35 ET (D-IO16 port modules; axis normal to the plate)",
+ "stack": {
+  "fpc_t": 0.11,
+  "psa_t": 0.05,
+  "stiffener_t": 1.0,
+  "stack_t": 1.16,
+  "mated": 1.5,
+  "hdr": [
+   12.6,
+   4.2
+  ],
+  "rec": [
+   12.9,
+   4.4
+  ],
+  "plate_t": 1.6,
+  "sleeve_t": 0.2,
+  "collar_w": 1.0
+ },
+ "types": {
+  "USBC": {
+   "mod": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "fp": "MP62_MOD_USB_C_24P_Vertical_SMD_PLACEHOLDER",
+   "crt": [
+    5.0,
+    3.4
+   ],
+   "sx": 6.0,
+   "sy": 4.4,
+   "tw": 6.5,
+   "shell": [
+    8.94,
+    3.26
+   ],
+   "slots": [
+    "C1",
+    "C2",
+    "C3",
+    "C4",
+    "C5",
+    "C6"
+   ]
+  },
+  "USBA": {
+   "mod": "MOD-A",
+   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "fp": "MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+   "crt": [
+    7.6,
+    3.4
+   ],
+   "sx": 8.4,
+   "sy": 4.4,
+   "tw": 6.5,
+   "shell": [
+    13.2,
+    5.7
+   ],
+   "slots": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+   ]
+  },
+  "HDMI": {
+   "mod": "MOD-H",
+   "conn": "HOAUC HYC79-HDMIA19-105 (C711353) SMD + THT shell",
+   "fp": "MP62_HDMI_A_Vertical_PLACEHOLDER",
+   "crt": [
+    8.6,
+    3.7
+   ],
+   "sx": 9.6,
+   "sy": 4.7,
+   "tw": 6.5,
+   "shell": [
+    15.2,
+    5.5
+   ],
+   "slots": [
+    "HDMI"
+   ]
+  }
+ },
+ "flap": {
+  "USBC": 1.5,
+  "USBA": 0.5,
+  "HDMI": 0.5
+ },
+ "posts": {
+  "C": [
+   [
+    53.19,
+    70.8
+   ],
+   [
+    53.19,
+    49.3
+   ]
+  ],
+  "A": [
+   [
+    53.19,
+    49.3
+   ],
+   [
+    53.19,
+    25.5
+   ]
+  ],
+  "HDMI": [
+   [
+    43.8,
+    114.6
+   ],
+   [
+    56.0,
+    111.0
+   ]
+  ]
+ },
+ "checks": [
+  {
+   "check": "C1 fold R 3.24 >= 1.0",
+   "value": 3.236,
+   "ok": true
+  },
+  {
+   "check": "C1 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "value": [
+    37.802,
+    50.702
+   ],
+   "ok": true
+  },
+  {
+   "check": "C1 fold to speaker body (X) clearance",
+   "value": 1.66,
+   "ok": true
+  },
+  {
+   "check": "C1 sleeve length along axis (seat -> collar) > 3",
+   "value": 5.05,
+   "ok": true
+  },
+  {
+   "check": "C2 fold R 3.24 >= 1.0",
+   "value": 3.236,
+   "ok": true
+  },
+  {
+   "check": "C2 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "value": [
+    37.802,
+    50.702
+   ],
+   "ok": true
+  },
+  {
+   "check": "C2 fold to speaker body (X) clearance",
+   "value": 1.66,
+   "ok": true
+  },
+  {
+   "check": "C2 sleeve length along axis (seat -> collar) > 3",
+   "value": 5.05,
+   "ok": true
+  },
+  {
+   "check": "C3 fold R 3.24 >= 1.0",
+   "value": 3.236,
+   "ok": true
+  },
+  {
+   "check": "C3 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "value": [
+    37.802,
+    50.702
+   ],
+   "ok": true
+  },
+  {
+   "check": "C3 fold to speaker body (X) clearance",
+   "value": 1.66,
+   "ok": true
+  },
+  {
+   "check": "C3 sleeve length along axis (seat -> collar) > 3",
+   "value": 5.05,
+   "ok": true
+  },
+  {
+   "check": "C4 fold R 3.21 >= 1.0",
+   "value": 3.209,
+   "ok": true
+  },
+  {
+   "check": "C4 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "value": [
+    56.036,
+    68.936
+   ],
+   "ok": true
+  },
+  {
+   "check": "C4 sleeve length along axis (seat -> collar) > 3",
+   "value": 5.04,
+   "ok": true
+  },
+  {
+   "check": "C5 fold R 3.21 >= 1.0",
+   "value": 3.209,
+   "ok": true
+  },
+  {
+   "check": "C5 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "value": [
+    56.036,
+    68.936
+   ],
+   "ok": true
+  },
+  {
+   "check": "C5 sleeve length along axis (seat -> collar) > 3",
+   "value": 5.04,
+   "ok": true
+  },
+  {
+   "check": "C6 fold R 3.21 >= 1.0",
+   "value": 3.209,
+   "ok": true
+  },
+  {
+   "check": "C6 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "value": [
+    56.036,
+    68.936
+   ],
+   "ok": true
+  },
+  {
+   "check": "C6 sleeve length along axis (seat -> collar) > 3",
+   "value": 5.04,
+   "ok": true
+  },
+  {
+   "check": "A1 fold R 2.33 >= 1.0",
+   "value": 2.329,
+   "ok": true
+  },
+  {
+   "check": "A1 JM receptacle clear of H13 / clamp posts (flap 0.5)",
+   "value": [
+    36.584,
+    49.484
+   ],
+   "ok": true
+  },
+  {
+   "check": "A1 fold to speaker body (X) clearance",
+   "value": 2.72,
+   "ok": true
+  },
+  {
+   "check": "A1 sleeve length along axis (seat -> collar) > 3",
+   "value": 6.65,
+   "ok": true
+  },
+  {
+   "check": "A2 fold R 2.33 >= 1.0",
+   "value": 2.329,
+   "ok": true
+  },
+  {
+   "check": "A2 JM receptacle clear of H13 / clamp posts (flap 0.5)",
+   "value": [
+    36.584,
+    49.484
+   ],
+   "ok": true
+  },
+  {
+   "check": "A2 sleeve length along axis (seat -> collar) > 3",
+   "value": 6.65,
+   "ok": true
+  },
+  {
+   "check": "A3 fold R 2.29 >= 1.0",
+   "value": 2.289,
+   "ok": true
+  },
+  {
+   "check": "A3 JM receptacle clear of H13 / clamp posts (flap 0.5)",
+   "value": [
+    57.343,
+    70.243
+   ],
+   "ok": true
+  },
+  {
+   "check": "A3 sleeve length along axis (seat -> collar) > 3",
+   "value": 6.65,
+   "ok": true
+  },
+  {
+   "check": "A4 fold R 2.29 >= 1.0",
+   "value": 2.289,
+   "ok": true
+  },
+  {
+   "check": "A4 JM receptacle clear of H13 / clamp posts (flap 0.5)",
+   "value": [
+    57.343,
+    70.243
+   ],
+   "ok": true
+  },
+  {
+   "check": "A4 sleeve length along axis (seat -> collar) > 3",
+   "value": 6.65,
+   "ok": true
+  },
+  {
+   "check": "HDMI fold R 2.72 >= 1.0",
+   "value": 2.722,
+   "ok": true
+  },
+  {
+   "check": "HDMI JM receptacle clear of H13 / clamp posts (flap 0.5)",
+   "value": [
+    35.099,
+    47.999
+   ],
+   "ok": true
+  },
+  {
+   "check": "HDMI sleeve length along axis (seat -> collar) > 3",
+   "value": 5.72,
+   "ok": true
+  },
+  {
+   "check": "stiffener Y gap C1/C2 (cradle wall 0.8 + 2 x 0.1)",
+   "value": 1.12,
+   "ok": true
+  },
+  {
+   "check": "header paddle to cradle wall C1/C2 (per side)",
+   "value": 0.36,
+   "ok": true
+  },
+  {
+   "check": "stiffener Y gap C2/C3 (cradle wall 0.8 + 2 x 0.1)",
+   "value": 1.07,
+   "ok": true
+  },
+  {
+   "check": "header paddle to cradle wall C2/C3 (per side)",
+   "value": 0.33,
+   "ok": true
+  },
+  {
+   "check": "stiffener Y gap C4/C5 (cradle wall 0.8 + 2 x 0.1)",
+   "value": 1.12,
+   "ok": true
+  },
+  {
+   "check": "header paddle to cradle wall C4/C5 (per side)",
+   "value": 0.36,
+   "ok": true
+  },
+  {
+   "check": "stiffener Y gap C5/C6 (cradle wall 0.8 + 2 x 0.1)",
+   "value": 1.07,
+   "ok": true
+  },
+  {
+   "check": "header paddle to cradle wall C5/C6 (per side)",
+   "value": 0.33,
+   "ok": true
+  },
+  {
+   "check": "stiffener Y gap A1/A2 (cradle wall 0.8 + 2 x 0.1)",
+   "value": 1.3,
+   "ok": true
+  },
+  {
+   "check": "header paddle to cradle wall A1/A2 (per side)",
+   "value": 0.45,
+   "ok": true
+  },
+  {
+   "check": "stiffener Y gap A3/A4 (cradle wall 0.8 + 2 x 0.1)",
+   "value": 1.3,
+   "ok": true
+  },
+  {
+   "check": "header paddle to cradle wall A3/A4 (per side)",
+   "value": 0.45,
+   "ok": true
+  },
+  {
+   "check": "H/O stiffener inboard gap C1/C4",
+   "value": 6.75,
+   "ok": true
+  },
+  {
+   "check": "H/O stiffener inboard gap A1/A3",
+   "value": 1.7,
+   "ok": true
+  },
+  {
+   "check": "USBC module flap (one design for all slots)",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "USBA module flap (one design for all slots)",
+   "value": 0.5,
+   "ok": true
+  },
+  {
+   "check": "HDMI module flap (one design for all slots)",
+   "value": 0.5,
+   "ok": true
+  }
+ ],
+ "modules": [
+  {
+   "slot": "C1",
+   "kind": "USBC",
+   "module": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "side": "H",
+   "tilt_deg": -5.27,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.59,
+   "seat_height": 8.63,
+   "seat_plan_x": 43.915,
+   "y": 75.757,
+   "stiffener_bottom_heights": [
+    6.927,
+    8.029
+   ],
+   "stiffener_plan_x": [
+    38.047,
+    49.996
+   ],
+   "flap": 1.5,
+   "fold_r": 3.236,
+   "fold_ok": true,
+   "fold_outer_x": 33.161,
+   "speaker_clearance": 1.66,
+   "jm_plan": [
+    44.252,
+    75.757
+   ],
+   "jm_rot": 0,
+   "jm_x_range": [
+    37.802,
+    50.702
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 27.5,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.56,
+   "collar_top_height": 13.66,
+   "sleeve_len_axis": 5.05,
+   "unfolded": {
+    "stiff_u": [
+     -6.0,
+     6.0
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     7.5,
+     17.666
+    ],
+    "hdr_stiff_u": [
+     18.166,
+     32.766
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 25.466
+   }
+  },
+  {
+   "slot": "C2",
+   "kind": "USBC",
+   "module": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "side": "H",
+   "tilt_deg": -5.27,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.59,
+   "seat_height": 8.63,
+   "seat_plan_x": 43.915,
+   "y": 65.84,
+   "stiffener_bottom_heights": [
+    6.927,
+    8.029
+   ],
+   "stiffener_plan_x": [
+    38.047,
+    49.996
+   ],
+   "flap": 1.5,
+   "fold_r": 3.236,
+   "fold_ok": true,
+   "fold_outer_x": 33.161,
+   "speaker_clearance": 1.66,
+   "jm_plan": [
+    44.252,
+    65.84
+   ],
+   "jm_rot": 0,
+   "jm_x_range": [
+    37.802,
+    50.702
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 27.5,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.56,
+   "collar_top_height": 13.66,
+   "sleeve_len_axis": 5.05,
+   "unfolded": {
+    "stiff_u": [
+     -6.0,
+     6.0
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     7.5,
+     17.666
+    ],
+    "hdr_stiff_u": [
+     18.166,
+     32.766
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 25.466
+   }
+  },
+  {
+   "slot": "C3",
+   "kind": "USBC",
+   "module": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "side": "H",
+   "tilt_deg": -5.27,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.59,
+   "seat_height": 8.63,
+   "seat_plan_x": 43.915,
+   "y": 55.972,
+   "stiffener_bottom_heights": [
+    6.927,
+    8.029
+   ],
+   "stiffener_plan_x": [
+    38.047,
+    49.996
+   ],
+   "flap": 1.5,
+   "fold_r": 3.236,
+   "fold_ok": true,
+   "fold_outer_x": 33.161,
+   "speaker_clearance": 1.66,
+   "jm_plan": [
+    44.252,
+    55.972
+   ],
+   "jm_rot": 0,
+   "jm_x_range": [
+    37.802,
+    50.702
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 27.5,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.56,
+   "collar_top_height": 13.66,
+   "sleeve_len_axis": 5.05,
+   "unfolded": {
+    "stiff_u": [
+     -6.0,
+     6.0
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     7.5,
+     17.666
+    ],
+    "hdr_stiff_u": [
+     18.166,
+     32.766
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 25.466
+   }
+  },
+  {
+   "slot": "C4",
+   "kind": "USBC",
+   "module": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "side": "O",
+   "tilt_deg": 5.47,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.55,
+   "seat_height": 8.6,
+   "seat_plan_x": 62.825,
+   "y": 75.757,
+   "stiffener_bottom_heights": [
+    6.873,
+    8.017
+   ],
+   "stiffener_plan_x": [
+    56.742,
+    68.687
+   ],
+   "flap": 1.5,
+   "fold_r": 3.209,
+   "fold_ok": true,
+   "fold_outer_x": 73.55,
+   "speaker_clearance": null,
+   "jm_plan": [
+    62.486,
+    75.757
+   ],
+   "jm_rot": 180,
+   "jm_x_range": [
+    56.036,
+    68.936
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 27.4,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.52,
+   "collar_top_height": 13.62,
+   "sleeve_len_axis": 5.04,
+   "unfolded": {
+    "stiff_u": [
+     -6.0,
+     6.0
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     7.5,
+     17.581
+    ],
+    "hdr_stiff_u": [
+     18.081,
+     32.681
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 25.381
+   }
+  },
+  {
+   "slot": "C5",
+   "kind": "USBC",
+   "module": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "side": "O",
+   "tilt_deg": 5.47,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.55,
+   "seat_height": 8.6,
+   "seat_plan_x": 62.825,
+   "y": 65.84,
+   "stiffener_bottom_heights": [
+    6.873,
+    8.017
+   ],
+   "stiffener_plan_x": [
+    56.742,
+    68.687
+   ],
+   "flap": 1.5,
+   "fold_r": 3.209,
+   "fold_ok": true,
+   "fold_outer_x": 73.55,
+   "speaker_clearance": null,
+   "jm_plan": [
+    62.486,
+    65.84
+   ],
+   "jm_rot": 180,
+   "jm_x_range": [
+    56.036,
+    68.936
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 27.4,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.52,
+   "collar_top_height": 13.62,
+   "sleeve_len_axis": 5.04,
+   "unfolded": {
+    "stiff_u": [
+     -6.0,
+     6.0
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     7.5,
+     17.581
+    ],
+    "hdr_stiff_u": [
+     18.081,
+     32.681
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 25.381
+   }
+  },
+  {
+   "slot": "C6",
+   "kind": "USBC",
+   "module": "MOD-C",
+   "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
+   "side": "O",
+   "tilt_deg": 5.47,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.55,
+   "seat_height": 8.6,
+   "seat_plan_x": 62.825,
+   "y": 55.972,
+   "stiffener_bottom_heights": [
+    6.873,
+    8.017
+   ],
+   "stiffener_plan_x": [
+    56.742,
+    68.687
+   ],
+   "flap": 1.5,
+   "fold_r": 3.209,
+   "fold_ok": true,
+   "fold_outer_x": 73.55,
+   "speaker_clearance": null,
+   "jm_plan": [
+    62.486,
+    55.972
+   ],
+   "jm_rot": 180,
+   "jm_x_range": [
+    56.036,
+    68.936
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 27.4,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.52,
+   "collar_top_height": 13.62,
+   "sleeve_len_axis": 5.04,
+   "unfolded": {
+    "stiff_u": [
+     -6.0,
+     6.0
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     7.5,
+     17.581
+    ],
+    "hdr_stiff_u": [
+     18.081,
+     32.681
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 25.381
+   }
+  },
+  {
+   "slot": "A1",
+   "kind": "USBA",
+   "module": "MOD-A",
+   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "side": "H",
+   "tilt_deg": -5.25,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.49,
+   "seat_height": 7.04,
+   "seat_plan_x": 44.092,
+   "y": 42.638,
+   "stiffener_bottom_heights": [
+    5.113,
+    6.65
+   ],
+   "stiffener_plan_x": [
+    35.833,
+    52.563
+   ],
+   "flap": 0.5,
+   "fold_r": 2.329,
+   "fold_ok": true,
+   "fold_outer_x": 32.85,
+   "speaker_clearance": 2.72,
+   "jm_plan": [
+    43.034,
+    42.638
+   ],
+   "jm_rot": 0,
+   "jm_x_range": [
+    36.584,
+    49.484
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 26.0,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.56,
+   "collar_top_height": 13.66,
+   "sleeve_len_axis": 6.65,
+   "unfolded": {
+    "stiff_u": [
+     -8.4,
+     8.4
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     8.9,
+     16.217
+    ],
+    "hdr_stiff_u": [
+     16.717,
+     31.317
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 24.017
+   }
+  },
+  {
+   "slot": "A2",
+   "kind": "USBA",
+   "module": "MOD-A",
+   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "side": "H",
+   "tilt_deg": -5.25,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.49,
+   "seat_height": 7.04,
+   "seat_plan_x": 44.092,
+   "y": 32.535,
+   "stiffener_bottom_heights": [
+    5.113,
+    6.65
+   ],
+   "stiffener_plan_x": [
+    35.833,
+    52.563
+   ],
+   "flap": 0.5,
+   "fold_r": 2.329,
+   "fold_ok": true,
+   "fold_outer_x": 32.85,
+   "speaker_clearance": null,
+   "jm_plan": [
+    43.034,
+    32.535
+   ],
+   "jm_rot": 0,
+   "jm_x_range": [
+    36.584,
+    49.484
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 26.0,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.56,
+   "collar_top_height": 13.66,
+   "sleeve_len_axis": 6.65,
+   "unfolded": {
+    "stiff_u": [
+     -8.4,
+     8.4
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     8.9,
+     16.217
+    ],
+    "hdr_stiff_u": [
+     16.717,
+     31.317
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 24.017
+   }
+  },
+  {
+   "slot": "A3",
+   "kind": "USBA",
+   "module": "MOD-A",
+   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "side": "O",
+   "tilt_deg": 5.51,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.44,
+   "seat_height": 6.99,
+   "seat_plan_x": 62.739,
+   "y": 42.638,
+   "stiffener_bottom_heights": [
+    5.033,
+    6.646
+   ],
+   "stiffener_plan_x": [
+    54.266,
+    70.989
+   ],
+   "flap": 0.5,
+   "fold_r": 2.289,
+   "fold_ok": true,
+   "fold_outer_x": 73.936,
+   "speaker_clearance": null,
+   "jm_plan": [
+    63.793,
+    42.638
+   ],
+   "jm_rot": 180,
+   "jm_x_range": [
+    57.343,
+    70.243
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 25.9,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.51,
+   "collar_top_height": 13.61,
+   "sleeve_len_axis": 6.65,
+   "unfolded": {
+    "stiff_u": [
+     -8.4,
+     8.4
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     8.9,
+     16.091
+    ],
+    "hdr_stiff_u": [
+     16.591,
+     31.191
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 23.891
+   }
+  },
+  {
+   "slot": "A4",
+   "kind": "USBA",
+   "module": "MOD-A",
+   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "side": "O",
+   "tilt_deg": 5.51,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.44,
+   "seat_height": 6.99,
+   "seat_plan_x": 62.739,
+   "y": 32.535,
+   "stiffener_bottom_heights": [
+    5.033,
+    6.646
+   ],
+   "stiffener_plan_x": [
+    54.266,
+    70.989
+   ],
+   "flap": 0.5,
+   "fold_r": 2.289,
+   "fold_ok": true,
+   "fold_outer_x": 73.936,
+   "speaker_clearance": null,
+   "jm_plan": [
+    63.793,
+    32.535
+   ],
+   "jm_rot": 180,
+   "jm_x_range": [
+    57.343,
+    70.243
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 25.9,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.51,
+   "collar_top_height": 13.61,
+   "sleeve_len_axis": 6.65,
+   "unfolded": {
+    "stiff_u": [
+     -8.4,
+     8.4
+    ],
+    "stiff_v": [
+     -4.4,
+     4.4
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     8.9,
+     16.091
+    ],
+    "hdr_stiff_u": [
+     16.591,
+     31.191
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 23.891
+   }
+  },
+  {
+   "slot": "HDMI",
+   "kind": "HDMI",
+   "module": "MOD-H",
+   "conn": "HOAUC HYC79-HDMIA19-105 (C711353) SMD + THT shell",
+   "side": "H",
+   "tilt_deg": -5.33,
+   "off_normal_deg": 0.0,
+   "mouth_height": 18.4,
+   "seat_height": 7.95,
+   "seat_plan_x": 43.8,
+   "y": 107.069,
+   "stiffener_bottom_heights": [
+    5.898,
+    7.682
+   ],
+   "stiffener_plan_x": [
+    34.349,
+    53.466
+   ],
+   "flap": 0.5,
+   "fold_r": 2.722,
+   "fold_ok": true,
+   "fold_outer_x": 30.972,
+   "speaker_clearance": null,
+   "jm_plan": [
+    41.549,
+    107.069
+   ],
+   "jm_rot": 0,
+   "jm_x_range": [
+    35.099,
+    47.999
+   ],
+   "jm_ok": true,
+   "jm_conflicts": [],
+   "flex_len": 28.5,
+   "plug_standoff": 0.0,
+   "frame_back_height": 15.54,
+   "collar_top_height": 13.64,
+   "sleeve_len_axis": 5.72,
+   "unfolded": {
+    "stiff_u": [
+     -9.6,
+     9.6
+    ],
+    "stiff_v": [
+     -4.7,
+     4.7
+    ],
+    "tail_w": 6.5,
+    "fold_u": [
+     10.1,
+     18.651
+    ],
+    "hdr_stiff_u": [
+     19.151,
+     33.751
+    ],
+    "paddle_w": 8.4,
+    "hdr_centre_u": 26.451
+   }
+  }
+ ]
+}

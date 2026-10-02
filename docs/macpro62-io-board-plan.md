@@ -17,6 +17,8 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 
 ## 1. Summary and recommendation
 
+> **Update 2026-10-02 ≈ 12:45 ET (D-IO16, Aidan 12:13 / 12:17 ET): swappable flex port modules replace the risers (§4.7.9).** Each USB-C / USB-A / HDMI receptacle is soldered straight to its own JLC FPC with an FR4 stiffener (no rigid PCB). The tail C-folds under the module to a DF40C-50 (PMI-50 pinout) into JM1–JM11 on the main board. Plug loads go into printed cradles (push) and a screwed clamp plate via a bonded SUS sleeve (pull). Axes are normal to the plate by default, so plugs seat fully (stock 12.5° = 0.7–1.4 mm short even with seats). SI ≈ 1.4–2.1 dB per lane after the redrivers, so no extra redrivers.
+>
 > **Update 2026-10-02 ≈ 12:00 ET (M-IOT2 measured: stock ports lean outward 12.5°, mirrored):** USB-C / USB-A / HDMI risers now tilt **±12.5°** (`TILT_OVERRIDE_DEG = 12.5`), which is **7.0–7.25° off the plate normal** at R 110. Mouths 17.46–18.03 above the board, flat plug seats on the outer face, risers re-shaped (§4.7.5, "Rev 12:00 ET"). Main stake: plug overmold stand-off 0.7 (USB-C) / 1.1–1.2 (USB-A) / 1.4 (HDMI) mm (M-IOT3, M-IOC2).
 >
 > **Update 2026-10-02 ≈ 10:50 ET:**
@@ -73,6 +75,7 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
 | **D-IO14** | Connector heights (measured D0 18.0 / 16.5) | **Resolved 2026-10-02 ≈ 10:50 ET: tilted column risers** (§4.7.5): 5 small 4-layer risers (2 × USB-C, 2 × USB-A, 1 × HDMI), each tilted 5.25–5.51° so that every port axis is radial. Link: DF40C receptacles + a C-fold flex jumper. USB-C VBUS runs on pogo pins. The risers sit on printed wedge cradles. | **12:00 ET: tilt = measured stock 12.5° (M-IOT2)**, not the surface normal; `TILT_OVERRIDE_DEG = None` restores the radial 5.3–5.5° build. |
 | **D-IO15** | RJ45 | **Approved 2026-10-02**: non-magnetic vertical SMD RJ45 (Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C, C55547809; height ≤ 13.0 still to be confirmed from its datasheet) + JASN V24P05S 2.5G magnetics (C2827281, $0.63 @10) on the B side + Bob-Smith network. | M-IOR1: jack height and latch side. |
+| **D-IO16** | Port mounting | **2026-10-02 ≈ 12:45 ET: swappable flex port modules** (§4.7.9): receptacle soldered to a JLC FPC + FR4 stiffener, C-fold tail to DF40C-50 (PMI-50), printed cradle + screwed clamp plate take the plug loads, axes normal to the plate. | Supersedes D-IO14 risers; stock 12.5° build kept as `--tilt 12.5 --tag _tilt12p5`. |
 | **D-IO11** | Plate process | **MJF PA12, dyed black** (JLC3DP or PCBWay) | SLA black resin: nicer surface, but the clips are brittle. CNC: best fit, ≈ 10× the price. |
 
 ---
@@ -117,6 +120,8 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 ## 4. Ports, plate and tilt
 
 ### 4.1 Port grid (rev 2026-10-02 ≈ 10:15 ET: centres of the stock 821-2222-A flex cut-outs from the flatbed scan, ±0.15)
+
+> Rev 12:45 ET: positions unchanged; the parts / risers column is superseded by the D-IO16 modules (§4.7.9).
 
 | Port | Position (X, Y) | Part / height (§4.7.4) |
 |---|---|---|
@@ -497,6 +502,8 @@ Source: Aidan's flatbed scan (200 dpi, flex flat on the glass, L-shaped ruler). 
 
 ### 4.7.5 Tilted column risers (D-IO14, rev 2026-10-02 ≈ 10:50 ET)
 
+> **Superseded 2026-10-02 ≈ 12:45 ET by §4.7.9 (D-IO16 flex port modules, axes normal to the plate).** Kept for the record.
+
 **Rev 12:00 ET: measured stock tilt 12.5° (M-IOT2, Aidan 11:47 ET).** The stock ports lean **outward 12.5° from vertical** (taken as the board normal), the other column mirrored. `build_plate.py` now uses `TILT_OVERRIDE_DEG = 12.5` for USB-C, USB-A and HDMI; everything downstream (plate holes, seats, stack, `risers.json`, riser PCBs, main-board JR/pogo/cradle holes, section) is regenerated from it.
 
 - **Curvature vs tilt.** At the port columns (|u| ≈ 10.1) the plate normal is 5.3–5.5° for R 110 (6.9° even for the 83.8 case cylinder). A 12.5° normal would need R ≈ 47, which no measurement supports (D0 → 110, phone scan → 102, case → 84). So **the stock ports are not normal to the cover; they sit 7.0–7.25° off-normal** and Apple angled them for another reason [Inference]: splaying the cables / plugs of the two columns apart (overmolds 12–21 mm on a 20.6 mm column pitch), easier plug access from the side, or matching an internal frame/flex geometry. A second possibility is that the stock cover has local flat seats around the openings (the phone-scan residual map shows ≈ +1 mm rings round the C/A/HDMI openings, but it is below the scan's reliability) — **M-IOT3**. Please also confirm the 12.5° was taken against the board, not gravity.
@@ -580,7 +587,7 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
   - Fan: 12 V (3 pins, 1.5 A PTC), PWM, TACH.
   - ≈ 14 GND.
   - Working pin map: `CONNC` in `tools/build_sch.py`.
-- **Fan control.** EMC2101 (U90, SMBus 0x4C on I2C_SYS; 0x4C is free on the IOB bus). PWM is open-drain with a 4k7 pull-up, TACH has a 10k pull-up. Fan power is +12V_IOB → F90. The BP J5 fan harness (spec §4.6) is no longer needed.
+- **Fan control.** EMC2101 (U90, SMBus 0x4C; 0x4C is free on the IOB bus). **Since the ICD (2026-10-02) U90 sits on I2C_PD behind the TCA9517 U83**, because its VDD is 3V3 (S0 only); on the 3V3_SB I2C_SYS segment an unpowered EMC2101 could clamp the bus in S5. The logical address map is unchanged; the fan is off in S5 anyway. The BP MCU must write the EMC2101 fan LUT / TCRIT fail-safe at every S0 entry (the stock "PWM floats → full speed" fail-safe no longer applies, because the 4k7 pull-up is on 3V3 and the EMC2101 drives PWM). PWM is open-drain with a 4k7 pull-up, TACH has a 10k pull-up. Fan power is +12V_IOB → F90. The BP J5 fan harness (spec §4.6) is no longer needed.
 - **Interconnect budget.** HS1 (MCIO 124) has no spare pins, and IOB-LINK (GH15) cannot carry PCIe. Cheapest fix: **ASM1182e** PCIe Gen2 1:2 switch (U91, ≈ $4–5 + a 25 MHz crystal) on the existing HS1 k14 lane (PCH RP4), with downstream 0 = i226-V #2 and downstream 1 = AirPort.
   - No cable or CB change.
   - Shared Gen2 x1 (≈ 4 Gb/s) for 2.5 GbE + 3 × 3 ac (≈ 0.6–1.3 Gb/s). It only saturates when both run flat-out in the same direction.
@@ -616,6 +623,138 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
 - **Curvature.** Inner face, |u| < 22: R ≈ **101.7** (bootstrap 99.7–103.7), but Y bands give 94–123 and the half-width choice 77–102 (height noise MAD 1.36 mm, median splat 0.76 mm). It rules out the old 82 and agrees with the D0-derived **R_inner 110.0** (at |u| = 20 the two differ by ≈ 0.2 mm, below the scan noise). **Kept R from D0**; `R_INNER_OVERRIDE` in `build_plate.py` (default None) switches to 101.7 if a measurement says so. Tilt unchanged.
 - **Not resolvable.** Clips, ribs, bosses, pins, glue-pocket area and wall thickness (one-sided, noisy scan). Only a right-edge rim band (X ≈ 78, Y 64–116) and one weak blob (29.1, 19.9) stand out > 1 mm.
 - **Better measurements:** a radius gauge or card profile across the cover at the USB-C rows (M-IOT2); wall thickness by caliper at an opening edge (M-IOS1); clip positions by caliper from the cover edge (M-IOK1).
+
+### 4.7.9 Swappable flex port modules (D-IO16, rev 2026-10-02 ≈ 12:45 ET; supersedes the risers in §4.7.5)
+
+**Brief (Aidan, 12:13 / 12:17 ET).**
+- Every USB-C, USB-A and HDMI port becomes its own swappable module, held by the printed parts with screws. RJ45 stays on the main board.
+- **No rigid PCB:** the receptacle is soldered straight to a flex, as the stock audio jack is. The flex has a local stiffener under the port and a press connector at the main-board end.
+- Plug forces go into the printed cradle or plate through the shell and stiffener, never through the flex or the solder joints.
+
+KiCad: `/workspace/kicad/macpro62-io-modules/` (README, `mod_usbc`, `mod_usba`, `mod_hdmi`, `modules.json`). Geometry and checks: `kicad/macpro62-io-board/tools/modules_geom.py`.
+
+**Axis and plug seating.** The default build has each axis normal to the plate at its opening (`TILT_OVERRIDE_DEG = None`; C −5.27 / +5.47°, A −5.25 / +5.51°, HDMI −5.33°). The stock 12.5° is kept as a variant: `build_plate.py --tilt 12.5 --tag _tilt12p5`.
+
+| | Normal (default) | Stock 12.5° (7.0–7.25° off-normal) |
+|---|---|---|
+| Plug overmold stand-off, with outer-face seats | **0.0** (C / A / HDMI) | C 0.68–0.72, A 1.14–1.21, HDMI 1.43 |
+| Stand-off, without seats | 0.03–0.04 | C 1.27–1.31, A 1.73–1.80, HDMI 2.02 |
+| Mouth centre above the board | 18.40–18.59 | 17.46–18.03 |
+| Mouth recess (centre / edges) | 0.14 C, 0.25 A, 0.31 HDMI / 0.05 | 0.69–1.25 |
+| Shell in the flex cut-out (min, X / Y) | C 0.42 / 1.42, A 0.70 / 0.35, HDMI 0.38 / 0.17 | C 0.39 / 1.42, A 0.65 / 0.35, HDMI 0.19 / 0.17 |
+| Frame-slot margin (min) | C 1.0, A 1.27, HDMI 0.38 | C 0.69, A 0.94, HDMI 0.19 |
+
+At 12.5° a plug cannot seat fully: it stops 0.7–1.4 mm short even with seats, and 1.3–2.0 mm without. Contact engagement is the problem there, USB-C most of all. Normal axes seat fully.
+
+**Module construction.**
+- **Flex:** JLC 2-layer PI FPC, 0.11 mm. L1 carries the signals (microstrip), L2 is solid GND, and the VBUS strip is on L2 at the tail edge.
+- **Port stiffener:** FR4 1.0 under the port on the B side, flush with the module outline. Stack under the seat: 1.16 mm (FPC 0.11 + PSA 0.05 + FR4 1.0).
+- **Tail:** 6.5 mm wide, leaving the module's outboard edge. The flap is 1.5 mm on C and 0.5 mm on A / HDMI. It then makes a 180° C-fold (R 3.2 C, 2.3 A, 2.7 HDMI) and returns under the module.
+- **Paddle:** 8.4 mm wide, with an FR4 1.0 stiffener. It carries the DF40C-50DP header (on the port's face, so it faces down after the fold), a 24C02 ID EEPROM (WLCSP-4, 0x50) and 100 nF.
+- **Length:** electrical flex length port → header about 26–28.5 mm.
+- **Single design per type:** one design per port type. The O-column copies are the same part rotated 180°.
+
+| Module | Receptacle (LCSC) | Mounting on the flex | Unit price | Stock (12:45 ET) |
+|---|---|---|---|---|
+| MOD-C × 6 | HOAUC HYCW417-USBC24-180B (C5342202), vertical, **all SMD**, L 10.0 | SMT only | $1.13 (1), $0.84 (30) | **196** |
+| MOD-A × 4 | kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) | THT signal pins + shell legs, through FPC + drilled FR4, selective solder | $0.16 | **2 (4 needed)** → alt. Hong Cheng HC-USB3.0-L137-WJ (C7501870, 645, H 13.7: needs re-geometry) |
+| MOD-H × 1 | HOAUC HYC79-HDMIA19-105 (C711353) | SMD signals + THT shell legs, selective solder | $0.49 | 2,365 |
+
+No stocked all-SMD vertical USB-A 3.0 or HDMI receptacle was found. JLC FPC assembly supports THT on flex (wave or selective solder, fixture $23.57). Stiffener rules: FR4 0.1–1.6, PI 0.1–0.25 or SUS 0.1–0.3 on either side; ≥ 1.0 beyond the pads; minimum width FR4 3 / PI 2 / SUS 1. JLC builds no rigid-flex and does not measure FPC impedance.
+
+**Board-to-flex connector.** Hirose DF40C-50DP-0.4V(51) on the module (C424645, ≈ $0.55) and DF40C-50DS-0.4V(51) on the main board (C424646, 3,359 in stock, $0.84 / $0.40 at 1k). Ratings: 0.3 A per pin, 16 Gb/s-class differential, ≈ 30 mating cycles, 1.5 mated height.
+
+Rejected:
+- DF40 60-pin: too long under the module.
+- Panasonic A4S/P4S: 1 A power pins and 10 G, but not stocked at LCSC.
+- BM28: 5 A power, stock unknown.
+- CABLINE / FFC ZIF: 10 G on ZIF is marginal, and the cable is a second part.
+
+**Force path.**
+- **Push** (USB-C ≤ 20 N, USB-A ≤ 35 N, HDMI ≤ 44 N): receptacle body in compression on the FPC → stiffener → ledges of a printed MJF PA12 cradle (one per group). The ledges are 0.85 wide (C/A) or 1.15 (HDMI) along both long sides, about 1 MPa, with 0.8 walls and the pocket clearing the paddle by 0.33–0.45 per side.
+- **Pull and side:** shell → SUS304 0.2 shield sleeve (bonded: solder for tin-plated shells, epoxy for stainless, **M-IOP1**) → 1.0 collar → screwed clamp plate (MJF PA12 1.6, top 0.3 below the frame back) → 2 × M2 per group → blind M2 SMT standoffs on the main board (H21–H25).
+- **Sleeve and frame back:** sleeve length from seat to collar is C 5.0, A 6.65, HDMI 5.7. Frame back is 15.5–15.6 above the board.
+- **Fixings:** cradle pegs H40–H45 (NPTH Ø1.6). Clamp posts C (53.19, 70.8) + (53.19, 49.3, shared with A), A (53.19, 25.5), HDMI (43.8, 114.6) + (56.0, 111.0).
+- **What the flex and joints see:** the flex, the receptacle solder joints and the DF40 carry no plug load. Plate deflection estimate: 0.24 mm at 20 N mid-span between the C posts.
+
+**Shielding.**
+- **Sleeve:** each sleeve is grounded to a GND ring on the module (coverlay opening, `MP62_MOD_Sleeve_GND_Ring_*`) and has a spring finger to the metal I/O frame.
+- **Silver film (optional):** EMI silver film over L1 (User.2) needs ≥ 2 openings Ø ≥ 1.0 to GND about every 30 mm, ≥ 0.8 from pads, and none under the stiffeners. It changes the trace widths.
+
+**PMI-50 standard module interface** (DF40 50-pin, row A odd / row B even):
+- **k 1–6:** VBUS × 12.
+- **k 7–8:** GND.
+- **k 9–10:** HS0 (A) / HS2 (B).
+- **k 11:** GND.
+- **k 12–13:** HS1 / HS3.
+- **k 14:** GND.
+- **k 15–16:** USB2 D± / SBU1–2.
+- **k 17:** GND.
+- **k 18:** CC1 / HPD.
+- **k 19:** CC2 / UTIL.
+- **k 20:** GND.
+- **k 21:** ID_SCL / ID_SDA.
+- **k 22:** 3V3_MOD / PRSNT#.
+- **k 23:** LED# / GND.
+- **k 24–25:** GND.
+
+Totals: 12 VBUS (3.6 A; USB-C 3 A = 83 % per pin), 17 GND, 21 signals.
+
+Role mapping:
+- **C:** HS0 TX1, HS1 RX1, HS2 TX2, HS3 RX2.
+- **A:** HS0 SSTX, HS1 SSRX.
+- **HDMI:** HS0 D2, HS1 D1, HS2 D0, HS3 CLK; SBU = DDC; HPD; UTIL = CEC (not connected); VBUS = +5V.
+
+Main board:
+- **JM1–JM11:** DF40C-50DS on F (C1–C6, A1–A4, HDMI).
+- **U95 / U96 (TCA9548A, 0x70 / 0x71):** give each slot's ID EEPROM its own channel.
+- **U97 (TCA9555, 0x27):** reads PRSNT# on U96 channel 3, a private segment, so 0x20–0x27 stays off I2C_PD (TPS65994AD I2C1 range). Its INT# goes to PD_INT_N.
+- **LED#:** not connected in A0.
+
+**SI budget per lane at 5 GHz (USB 10 G Nyquist; HBR3 4.05 GHz is easier), after the existing redrivers (TUSB1046A / TUSB1002A / TDP158) [Estimate]:**
+
+| Segment | Loss |
+|---|---|
+| Main board, redriver → JM | 0.4–0.9 dB |
+| DF40 mated pair | 0.2–0.3 dB |
+| Flex about 28 mm (≈ 0.35 dB/in, 2-layer PI, 90/100 Ω) | 0.4–0.6 dB |
+| Receptacle + pads | ≈ 0.3 dB |
+| **Total** | **≈ 1.4–2.1 dB** |
+
+This is better than the riser design (one connector instead of two DF40s plus a jumper) and well inside the post-redriver budget. **No extra redrivers.** Order a JLC impedance coupon and TDR it, because JLC does not measure FPC impedance.
+
+**Swap (system off).** Remove 2 clamp screws → lift the plate → lift the module → unplug the DF40.
+
+**Cost per module [Estimate].**
+- **MOD-C:** about $3.9–5.9: receptacle 1.13, DF40 pair 1.4, EEPROM + cap 0.2, sleeve 1–3, FPC share.
+- **MOD-A / MOD-H:** about $2.9–5.3.
+- **Per order:** JLC FPC about $15–30 per design for 5–10 pcs, the SMT setup and the THT fixture $23.57.
+- **Main board:** 11 DF40C-50DS (≈ $9), 2 × TCA9548A + TCA9555 (≈ $2), 6 SMT standoffs.
+
+**Risks.**
+1. DF40 ≈ 30 mating cycles. Log the swaps.
+2. VBUS at 83 % of the per-pin rating.
+3. FPC impedance not measured by JLC.
+4. THT legs on flex (A, HDMI) need selective solder. The leg tips sit inside the ledge window.
+5. The sleeve bond is in the pull path.
+6. **LCSC stock:** C5342202 has 196; C2979037 has 2, and the alternative is 2.2 mm taller.
+7. The WLCSP EEPROM has no LCSC number yet.
+8. No port ESD (pre-existing). Add TPD4E05U06-class parts near the JMn.
+9. Clamp-plate stiffness with 2 posts per group.
+10. Pin 1 through the fold must be checked in 3D.
+11. FR4 stiffener chipping. Use SUS 0.2 if it chips.
+12. Speaker fold clearance: C 1.66, A 2.72.
+13. All land patterns are placeholders. The module flexes are not routed yet.
+
+**Measurements.**
+- **M-IOP1:** HYCW417 drawing (height, tabs) and shell plating.
+- **M-IOF2:** frame back height.
+- Foam thickness, speaker body height and H13 standoff.
+- Earlier: M-IOA1, M-IOC1, M-IOS1/2.
+
+**Cross-board overlap.**
+- None at the MCIO / IOB-HS1 / DISPLAY-LINK interfaces. Port nets are unchanged and only their connectors change.
+- The new parts are internal to the IOB, on I2C_PD (U95 0x70, U96 0x71, U97 0x27 private) and PD_INT_N. The ICD I²C table (`/workspace/macpro62-interface-control.md`, I2C_PD row) should list 0x70 / 0x71, and 0x70 / 0x71 must be added to the TPS65994AD address-avoid list (U-10).
 
 ## 5. Interconnects
 
@@ -691,6 +830,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 
 - HPD0/1 come from PD #1 GPIO0/1. HPD3/4 come from PD #2. HPD2 comes from the TDP158.
 - DLINK_PRSNT# is read on PD #2 GPIO2. The GPU drives at most about 4 displays.
+- **IOB end is row-swapped (ICD 2026-10-02).** The straight MCIO 74 cable crosses the rows (face spec §9.3), so J2 uses the module-end table with rows A and B exchanged: `kicad/macpro62-io-board/docs/mp62-iob-j2_mcio74_displaylink_iob-end.csv` (written by `build_sch.py`, with the module-end contact alongside). Before this fix J2 used the module-end contacts directly, which put the GPU TX pairs on the wrong row. Net names are unchanged. See `/workspace/macpro62-interface-control.md` §4.
 
 ### 5.3 PSU headers
 
@@ -728,6 +868,8 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | 9 | I2C_SYS_SDA |
 | 10 | IOB_INT_N |
 | 13 / 14 | USB2_LINK D+ / D− (to hub H2) |
+
+- **BP side (ICD 2026-10-02):** BP J6 is the same GH 15P (BM15B vertical) at BP (11.4, −48.8), 1:1 cable. The BP pulls pin 11 up (10 k to 3V3_SB) to detect the IOB, pulls IOB_INT_N (pin 10) up, and routes CPU-LINK USB2_SPARE (B79/B80) to pins 13/14. The BP stub schematic carries all 15 pins.
 
 ### 5.6 Power button, I/O-wall flex and port lights
 
@@ -800,7 +942,10 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
   | USB-C, 6 × 15 W | 90 W |
   | USB-A, 4 × 4.5–7.5 W | 18–30 W |
   | Logic | ≈ 9 W (incl. ≈ 1 W for i226 #2 [Estimate]) |
-  | Worst case at 12 V | ≈ 117–127 W |
+  | Fan via CONN_C (F90 1.5 A PTC) + AirPort/BT (ICD 2026-10-02) | ≈ 8–13 W [Estimate; stock fan current M-IOC1] |
+  | Worst case at 12 V | ≈ 125–140 W (was 117–127 W without the fan) |
+
+- **ICD 2026-10-02:** the unmanaged worst case (≈ 125–140 W ≈ 10.4–11.7 A) exceeds U40's ILIM ≈ 10 A. The D-IO1 pool cap (45–60 W USB-C) keeps it at ≈ 95–110 W. The pool cap is therefore a hard requirement, not just a recommendation, unless ILIM is raised (ampacity of the stock 12P DC pins is unknown, M-CC16).
 
 - **Recommendation (D-IO1):** 5 V / 3 A is advertised at attach, with a 45–60 W USB-C pool. The BP MCU sets the TPS65994 source PDOs over I²C and drops extra ports to 1.5 A.
 

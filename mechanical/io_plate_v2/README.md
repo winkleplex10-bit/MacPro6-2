@@ -1,3 +1,10 @@
+> **Rev 2026-10-02 ≈ 12:45 ET (D-IO16 swappable flex port modules):**
+> - **Default axes:** port axes are **normal to the plate** (`TILT_OVERRIDE_DEG = None`: C −5.27 / +5.47°, A −5.25 / +5.51°, HDMI −5.33°). Plugs seat fully: overmold stand-off 0.0 with the seats, 0.03–0.04 without. Mouths are 18.40–18.59 above the board.
+> - **Stock-tilt variant:** `--tilt 12.5 --tag _tilt12p5` writes `io_plate_v2_A0_tilt12p5.{step,stl}` and `_features.json` (no DXF / PNG). Its stand-off with the seats is C 0.68–0.72, A 1.14–1.21, HDMI 1.43; without them C 1.27–1.31, A 1.73–1.80, HDMI 2.02. Its frame slot is ≥ 0.19 (HDMI).
+> - **Settings:** `AXIS_SHIFT_OUT = {}`. `RISER_T` = 1.16 is now the module stack under the connector seat (FPC 0.11 + PSA 0.05 + FR4 stiffener 1.0). USB-C is the HYCW417 (H 10.0, all SMD).
+> - **Section plot:** `section_plot.py` now draws the modules: stiffener, FPC, SUS sleeve + collar, clamp plate (top = frame back − 0.3), cradle, C-fold and the DF40 pair. Module geometry is in `/workspace/kicad/macpro62-io-modules/modules.json`.
+> - **Superseded text:** the riser text below is superseded.
+
 > **Rev 2026-10-02 ≈ 12:00 ET (measured stock tilt, M-IOT2: 12.5° outward, mirrored):**
 > - `TILT_OVERRIDE_DEG = 12.5` (None = radial 5.3–5.5°). The ports are **7.0–7.25° off the plate normal** at R 110, so the axis/mouth code no longer assumes radial axes: exact axis–surface intersection, mouth with no point proud (`MOUTH_CLR` 0.05), per-layer clearance of the tilted shell (flex, foam +0.3, frame slot) in `features.json → tilt.check`.
 > - `AXIS_BALANCE` (HDMI −0.22 mm to clear the frame slot) and `AXIS_SHIFT_OUT = {"USBA": 0.35}` (USB-A riser edge clearance).

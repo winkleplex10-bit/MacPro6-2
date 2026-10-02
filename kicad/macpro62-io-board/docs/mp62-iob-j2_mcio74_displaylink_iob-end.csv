@@ -1,0 +1,75 @@
+contact,module_end_contact,signal,dir_module_view,notes
+B1,A1,GND,,
+A1,B1,GND,,
+B2,A2,ML2p_0,Out,Link 2: HDMI 2.1 (TMDS D0 / FRL lane) or DP++; IOB carries the HDMI retimer
+A2,B2,ML0p_0,Out,Link 0: DP 1.4 lane 0 (rear DP #1)
+B3,A3,ML2n_0,Out,AC-coupled on the module (DP 75-200 nF)
+A3,B3,ML0n_0,Out,AC-coupled on the module (DP 75-200 nF)
+B4,A4,GND,,
+A4,B4,GND,,
+B5,A5,ML2p_1,Out,Link 2: HDMI 2.1 (TMDS D1 / FRL lane) or DP++; IOB carries the HDMI retimer
+A5,B5,ML0p_1,Out,Link 0: DP 1.4 lane 1 (rear DP #1)
+B6,A6,ML2n_1,Out,AC-coupled on the module (DP 75-200 nF)
+A6,B6,ML0n_1,Out,AC-coupled on the module (DP 75-200 nF)
+B7,A7,GND,,
+A7,B7,GND,,
+B8,A8,AUX2+/DDC_SCL,Bi,"Link 2: DP AUX+, or HDMI DDC SCL (DP++ convention)"
+A8,B8,AUX0+,Bi,DP AUX link 0 (100 nF AC + source bias on module)
+B9,A9,AUX2-/DDC_SDA,Bi,"Link 2: DP AUX-, or HDMI DDC SDA"
+A9,B9,AUX0-,Bi,
+B10,A10,GND,,
+A10,B10,GND,,
+B11,A11,HPD0,In,3.3 V hot-plug detect from IOB (IOB buffers 5 V-tolerant)
+A11,B11,AUX1+,Bi,DP AUX link 1
+B12,A12,HPD1,In,
+A12,B12,AUX1-,Bi,
+B13,A13,GND,,
+A13,B13,GND,,
+B14,A14,ML2p_2,Out,Link 2: HDMI 2.1 (TMDS D2 / FRL lane) or DP++; IOB carries the HDMI retimer
+A14,B14,ML0p_2,Out,Link 0: DP 1.4 lane 2 (rear DP #1)
+B15,A15,ML2n_2,Out,AC-coupled on the module (DP 75-200 nF)
+A15,B15,ML0n_2,Out,AC-coupled on the module (DP 75-200 nF)
+B16,A16,GND,,
+A16,B16,GND,,
+B17,A17,ML2p_3,Out,Link 2: HDMI 2.1 (TMDS D3 / FRL lane) or DP++; IOB carries the HDMI retimer
+A17,B17,ML0p_3,Out,Link 0: DP 1.4 lane 3 (rear DP #1)
+B18,A18,ML2n_3,Out,AC-coupled on the module (DP 75-200 nF)
+A18,B18,ML0n_3,Out,AC-coupled on the module (DP 75-200 nF)
+B19,A19,GND,,
+A19,B19,GND,,
+B20,A20,ML3p_0,Out,Link 3: DP alt-mode lane 0 (USB-C #1 via IOB mux); 4-lane alt: ML4 pairs become ML3_2/3
+A20,B20,ML1p_0,Out,Link 1: DP 1.4 lane 0 (rear DP #2)
+B21,A21,ML3n_0,Out,AC-coupled on the module (DP 75-200 nF)
+A21,B21,ML1n_0,Out,AC-coupled on the module (DP 75-200 nF)
+B22,A22,GND,,
+A22,B22,GND,,
+B23,A23,ML3p_1,Out,Link 3: DP alt-mode lane 1 (USB-C #1 via IOB mux); 4-lane alt: ML4 pairs become ML3_2/3
+A23,B23,ML1p_1,Out,Link 1: DP 1.4 lane 1 (rear DP #2)
+B24,A24,ML3n_1,Out,AC-coupled on the module (DP 75-200 nF)
+A24,B24,ML1n_1,Out,AC-coupled on the module (DP 75-200 nF)
+B25,A25,GND,,
+A25,B25,GND,,
+B26,A26,HPD2,In,
+A26,B26,AUX3+,Bi,DP AUX link 3 (to IOB PD/alt-mode controller path)
+B27,A27,HPD3,In,
+A27,B27,AUX3-,Bi,
+B28,A28,GND,,
+A28,B28,GND,,
+B29,A29,HPD4,In,
+A29,B29,AUX4+,Bi,DP AUX link 4
+B30,A30,DLINK_PRSNT#,Out,Module ties to GND; IOB detects the display cable
+A30,B30,AUX4-,Bi,
+B31,A31,GND,,
+A31,B31,GND,,
+B32,A32,ML4p_0,Out,Link 4: DP alt-mode lane 0 (USB-C #2 via IOB mux)
+A32,B32,ML1p_2,Out,Link 1: DP 1.4 lane 2 (rear DP #2)
+B33,A33,ML4n_0,Out,AC-coupled on the module (DP 75-200 nF)
+A33,B33,ML1n_2,Out,AC-coupled on the module (DP 75-200 nF)
+B34,A34,GND,,
+A34,B34,GND,,
+B35,A35,ML4p_1,Out,Link 4: DP alt-mode lane 1 (USB-C #2 via IOB mux)
+A35,B35,ML1p_3,Out,Link 1: DP 1.4 lane 3 (rear DP #2)
+B36,A36,ML4n_1,Out,AC-coupled on the module (DP 75-200 nF)
+A36,B36,ML1n_3,Out,AC-coupled on the module (DP 75-200 nF)
+B37,A37,GND,,
+A37,B37,GND,,

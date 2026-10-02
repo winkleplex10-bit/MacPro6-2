@@ -1,0 +1,859 @@
+{
+ "params": {
+  "case_r": 111.171,
+  "tag": "_tilt12p5",
+  "d0": {
+   "board_top_z": -19.2
+  }
+ },
+ "parts": {
+  "USBC": {
+   "mpn": "HOAUC HYCW417-USBC24-180B",
+   "lcsc": "C5342202",
+   "h": 10.0,
+   "note": "USB 3.1 Type-C 24P vertical, ALL-SMD (signal + shell tabs) for FPC mounting, L 10.0 (VERIFY drawing: height / shell tabs); alt SHOU HAN TYPE-C 24PLT-H10.5 C3151750 (THT shell legs) with CONN_H 10.5"
+  },
+  "USBA": {
+   "mpn": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "lcsc": "C2979037",
+   "h": 11.5,
+   "note": "USB 3.0 Type-A 9P vertical, L 11.5, THT signal + shell legs -> through the FPC + drilled FR4 stiffener, JLC selective solder (no all-SMD vertical USB 3 A found on LCSC)"
+  },
+  "HDMI": {
+   "mpn": "HOAUC HYC79-HDMIA19-105",
+   "lcsc": "C711353",
+   "h": 10.5,
+   "note": "HDMI-A 19P vertical, SMD signals + THT shell legs (through the FR4 stiffener), H 10.5 (front shell must be <= 15.4 x 5.6 to pass the flex: verify); HDMI port module"
+  },
+  "RJ45": {
+   "mpn": "Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics",
+   "lcsc": "C55547809 + C2827281",
+   "h": 12.0,
+   "note": "D-IO15: non-magnetic vertical RJ45 on the main board + discrete JASN V24P05S (SMD-24P 15.1 x 7.1, 1:1 CT, 180 uH, 1.5 kVrms, IEEE 802.3bz, LCSC $0.63 @10)"
+  }
+ },
+ "tilt": {
+  "override_deg": 12.5,
+  "check": [
+   {
+    "port": "C1",
+    "tilt_deg": -12.5,
+    "surface_normal_deg": -5.27,
+    "off_normal_deg": -7.23,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.392,
+     0.397
+    ],
+    "flex_margin_untilted": 0.445,
+    "flex_margin_y": 1.42,
+    "foam_margin": [
+     0.718,
+     0.477
+    ],
+    "frame_slot_margin": [
+     2.433,
+     0.694
+    ],
+    "plate_opening_margin": 0.33,
+    "overmold_standoff_no_seat": 1.31,
+    "overmold_standoff": 0.72,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "C4",
+    "tilt_deg": 12.5,
+    "surface_normal_deg": 5.47,
+    "off_normal_deg": 7.03,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.401,
+     0.392
+    ],
+    "flex_margin_untilted": 0.445,
+    "flex_margin_y": 1.42,
+    "foam_margin": [
+     0.482,
+     0.718
+    ],
+    "frame_slot_margin": [
+     1.122,
+     1.817
+    ],
+    "plate_opening_margin": 0.33,
+    "overmold_standoff_no_seat": 1.27,
+    "overmold_standoff": 0.68,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "C2",
+    "tilt_deg": -12.5,
+    "surface_normal_deg": -5.27,
+    "off_normal_deg": -7.23,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.392,
+     0.397
+    ],
+    "flex_margin_untilted": 0.445,
+    "flex_margin_y": 1.42,
+    "foam_margin": [
+     0.718,
+     0.477
+    ],
+    "frame_slot_margin": [
+     2.433,
+     0.694
+    ],
+    "plate_opening_margin": 0.33,
+    "overmold_standoff_no_seat": 1.31,
+    "overmold_standoff": 0.72,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "C5",
+    "tilt_deg": 12.5,
+    "surface_normal_deg": 5.47,
+    "off_normal_deg": 7.03,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.401,
+     0.392
+    ],
+    "flex_margin_untilted": 0.445,
+    "flex_margin_y": 1.42,
+    "foam_margin": [
+     0.482,
+     0.718
+    ],
+    "frame_slot_margin": [
+     1.122,
+     1.817
+    ],
+    "plate_opening_margin": 0.33,
+    "overmold_standoff_no_seat": 1.27,
+    "overmold_standoff": 0.68,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "C3",
+    "tilt_deg": -12.5,
+    "surface_normal_deg": -5.27,
+    "off_normal_deg": -7.23,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.392,
+     0.397
+    ],
+    "flex_margin_untilted": 0.445,
+    "flex_margin_y": 1.42,
+    "foam_margin": [
+     0.718,
+     0.477
+    ],
+    "frame_slot_margin": [
+     2.433,
+     0.694
+    ],
+    "plate_opening_margin": 0.33,
+    "overmold_standoff_no_seat": 1.31,
+    "overmold_standoff": 0.72,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "C6",
+    "tilt_deg": 12.5,
+    "surface_normal_deg": 5.47,
+    "off_normal_deg": 7.03,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.401,
+     0.392
+    ],
+    "flex_margin_untilted": 0.445,
+    "flex_margin_y": 1.42,
+    "foam_margin": [
+     0.482,
+     0.718
+    ],
+    "frame_slot_margin": [
+     1.122,
+     1.817
+    ],
+    "plate_opening_margin": 0.33,
+    "overmold_standoff_no_seat": 1.27,
+    "overmold_standoff": 0.68,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "A1",
+    "tilt_deg": -12.5,
+    "surface_normal_deg": -5.25,
+    "off_normal_deg": -7.25,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.671,
+     0.648
+    ],
+    "flex_margin_untilted": 0.73,
+    "flex_margin_y": 0.345,
+    "foam_margin": [
+     0.997,
+     0.727
+    ],
+    "frame_slot_margin": [
+     2.436,
+     1.607
+    ],
+    "plate_opening_margin": 0.4,
+    "overmold_standoff_no_seat": 1.8,
+    "overmold_standoff": 1.21,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "A2",
+    "tilt_deg": -12.5,
+    "surface_normal_deg": -5.25,
+    "off_normal_deg": -7.25,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.671,
+     0.648
+    ],
+    "flex_margin_untilted": 0.73,
+    "flex_margin_y": 0.345,
+    "foam_margin": [
+     0.997,
+     0.727
+    ],
+    "frame_slot_margin": [
+     2.436,
+     1.607
+    ],
+    "plate_opening_margin": 0.4,
+    "overmold_standoff_no_seat": 1.8,
+    "overmold_standoff": 1.21,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "A3",
+    "tilt_deg": 12.5,
+    "surface_normal_deg": 5.51,
+    "off_normal_deg": 6.99,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.655,
+     0.672
+    ],
+    "flex_margin_untilted": 0.73,
+    "flex_margin_y": 0.345,
+    "foam_margin": [
+     0.735,
+     0.998
+    ],
+    "frame_slot_margin": [
+     0.939,
+     8.212
+    ],
+    "plate_opening_margin": 0.4,
+    "overmold_standoff_no_seat": 1.73,
+    "overmold_standoff": 1.14,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "A4",
+    "tilt_deg": 12.5,
+    "surface_normal_deg": 5.51,
+    "off_normal_deg": 6.99,
+    "axis_shift_x": 0.0,
+    "flex_margin": [
+     0.655,
+     0.672
+    ],
+    "flex_margin_untilted": 0.73,
+    "flex_margin_y": 0.345,
+    "foam_margin": [
+     0.735,
+     0.998
+    ],
+    "frame_slot_margin": [
+     0.939,
+     8.212
+    ],
+    "plate_opening_margin": 0.4,
+    "overmold_standoff_no_seat": 1.73,
+    "overmold_standoff": 1.14,
+    "seat": true,
+    "seat_depth_max": 0.6
+   },
+   {
+    "port": "HDMI",
+    "tilt_deg": -12.5,
+    "surface_normal_deg": -5.33,
+    "off_normal_deg": -7.17,
+    "axis_shift_x": -0.221,
+    "flex_margin": [
+     0.189,
+     0.596
+    ],
+    "flex_margin_untilted": 0.47,
+    "flex_margin_y": 0.165,
+    "foam_margin": [
+     0.515,
+     0.675
+    ],
+    "frame_slot_margin": [
+     2.535,
+     0.191
+    ],
+    "plate_opening_margin": 0.2,
+    "overmold_standoff_no_seat": 2.02,
+    "overmold_standoff": 1.43,
+    "seat": true,
+    "seat_depth_max": 0.6
+   }
+  ]
+ },
+ "stack": [
+  {
+   "port": "C1",
+   "kind": "USBC",
+   "x": 43.086,
+   "y": 75.757,
+   "tilt_deg": -12.5,
+   "off_normal_deg": -7.23,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    42.996,
+    -1.171
+   ],
+   "mouth_centre_height": 18.03,
+   "mouth_recess": 0.7,
+   "mouth_recess_edges": [
+    1.17,
+    0.05
+   ],
+   "plug_recess": 0.72,
+   "plug_overmold_standoff": 0.72,
+   "d0_at_port": 17.54,
+   "riser_top_centre": [
+    45.161,
+    -10.933
+   ],
+   "riser_top_height": 8.27,
+   "riser_bottom_height": 7.13,
+   "conn_h": 10.0,
+   "shell_in_flex_cutout_margin": 0.39,
+   "part": "HOAUC HYCW417-USBC24-180B",
+   "part_h": 10.0,
+   "required_height": 18.03,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.31,
+   "seat_floor": [
+    [
+     36.567,
+     -1.857
+    ],
+    [
+     49.113,
+     0.925
+    ]
+   ]
+  },
+  {
+   "port": "C4",
+   "kind": "USBC",
+   "x": 63.686,
+   "y": 75.757,
+   "tilt_deg": 12.5,
+   "off_normal_deg": 7.03,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    63.779,
+    -1.192
+   ],
+   "mouth_centre_height": 18.01,
+   "mouth_recess": 0.69,
+   "mouth_recess_edges": [
+    0.05,
+    1.14
+   ],
+   "plug_recess": 0.68,
+   "plug_overmold_standoff": 0.68,
+   "d0_at_port": 17.503,
+   "riser_top_centre": [
+    61.615,
+    -10.955
+   ],
+   "riser_top_height": 8.25,
+   "riser_bottom_height": 7.11,
+   "conn_h": 10.0,
+   "shell_in_flex_cutout_margin": 0.39,
+   "part": "HOAUC HYCW417-USBC24-180B",
+   "part_h": 10.0,
+   "required_height": 18.01,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.27,
+   "seat_floor": [
+    [
+     57.654,
+     0.865
+    ],
+    [
+     70.199,
+     -1.916
+    ]
+   ]
+  },
+  {
+   "port": "C2",
+   "kind": "USBC",
+   "x": 43.086,
+   "y": 65.84,
+   "tilt_deg": -12.5,
+   "off_normal_deg": -7.23,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    42.996,
+    -1.171
+   ],
+   "mouth_centre_height": 18.03,
+   "mouth_recess": 0.7,
+   "mouth_recess_edges": [
+    1.17,
+    0.05
+   ],
+   "plug_recess": 0.72,
+   "plug_overmold_standoff": 0.72,
+   "d0_at_port": 17.54,
+   "riser_top_centre": [
+    45.161,
+    -10.933
+   ],
+   "riser_top_height": 8.27,
+   "riser_bottom_height": 7.13,
+   "conn_h": 10.0,
+   "shell_in_flex_cutout_margin": 0.39,
+   "part": "HOAUC HYCW417-USBC24-180B",
+   "part_h": 10.0,
+   "required_height": 18.03,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.31,
+   "seat_floor": [
+    [
+     36.567,
+     -1.857
+    ],
+    [
+     49.113,
+     0.925
+    ]
+   ]
+  },
+  {
+   "port": "C5",
+   "kind": "USBC",
+   "x": 63.686,
+   "y": 65.84,
+   "tilt_deg": 12.5,
+   "off_normal_deg": 7.03,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    63.779,
+    -1.192
+   ],
+   "mouth_centre_height": 18.01,
+   "mouth_recess": 0.69,
+   "mouth_recess_edges": [
+    0.05,
+    1.14
+   ],
+   "plug_recess": 0.68,
+   "plug_overmold_standoff": 0.68,
+   "d0_at_port": 17.503,
+   "riser_top_centre": [
+    61.615,
+    -10.955
+   ],
+   "riser_top_height": 8.25,
+   "riser_bottom_height": 7.11,
+   "conn_h": 10.0,
+   "shell_in_flex_cutout_margin": 0.39,
+   "part": "HOAUC HYCW417-USBC24-180B",
+   "part_h": 10.0,
+   "required_height": 18.01,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.27,
+   "seat_floor": [
+    [
+     57.654,
+     0.865
+    ],
+    [
+     70.199,
+     -1.916
+    ]
+   ]
+  },
+  {
+   "port": "C3",
+   "kind": "USBC",
+   "x": 43.086,
+   "y": 55.972,
+   "tilt_deg": -12.5,
+   "off_normal_deg": -7.23,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    42.996,
+    -1.171
+   ],
+   "mouth_centre_height": 18.03,
+   "mouth_recess": 0.7,
+   "mouth_recess_edges": [
+    1.17,
+    0.05
+   ],
+   "plug_recess": 0.72,
+   "plug_overmold_standoff": 0.72,
+   "d0_at_port": 17.54,
+   "riser_top_centre": [
+    45.161,
+    -10.933
+   ],
+   "riser_top_height": 8.27,
+   "riser_bottom_height": 7.13,
+   "conn_h": 10.0,
+   "shell_in_flex_cutout_margin": 0.39,
+   "part": "HOAUC HYCW417-USBC24-180B",
+   "part_h": 10.0,
+   "required_height": 18.03,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.31,
+   "seat_floor": [
+    [
+     36.567,
+     -1.857
+    ],
+    [
+     49.113,
+     0.925
+    ]
+   ]
+  },
+  {
+   "port": "C6",
+   "kind": "USBC",
+   "x": 63.686,
+   "y": 55.972,
+   "tilt_deg": 12.5,
+   "off_normal_deg": 7.03,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    63.779,
+    -1.192
+   ],
+   "mouth_centre_height": 18.01,
+   "mouth_recess": 0.69,
+   "mouth_recess_edges": [
+    0.05,
+    1.14
+   ],
+   "plug_recess": 0.68,
+   "plug_overmold_standoff": 0.68,
+   "d0_at_port": 17.503,
+   "riser_top_centre": [
+    61.615,
+    -10.955
+   ],
+   "riser_top_height": 8.25,
+   "riser_bottom_height": 7.11,
+   "conn_h": 10.0,
+   "shell_in_flex_cutout_margin": 0.39,
+   "part": "HOAUC HYCW417-USBC24-180B",
+   "part_h": 10.0,
+   "required_height": 18.01,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.27,
+   "seat_floor": [
+    [
+     57.654,
+     0.865
+    ],
+    [
+     70.199,
+     -1.916
+    ]
+   ]
+  },
+  {
+   "port": "A1",
+   "kind": "USBA",
+   "x": 43.119,
+   "y": 42.638,
+   "tilt_deg": -12.5,
+   "off_normal_deg": -7.25,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    43.112,
+    -1.538
+   ],
+   "mouth_centre_height": 17.66,
+   "mouth_recess": 1.08,
+   "mouth_recess_edges": [
+    1.72,
+    0.05
+   ],
+   "plug_recess": 1.21,
+   "plug_overmold_standoff": 1.21,
+   "d0_at_port": 17.543,
+   "riser_top_centre": [
+    45.601,
+    -12.765
+   ],
+   "riser_top_height": 6.43,
+   "riser_bottom_height": 5.3,
+   "conn_h": 11.5,
+   "shell_in_flex_cutout_margin": 0.34,
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 17.66,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.8,
+   "seat_floor": [
+    [
+     34.795,
+     -2.141
+    ],
+    [
+     50.904,
+     1.43
+    ]
+   ]
+  },
+  {
+   "port": "A2",
+   "kind": "USBA",
+   "x": 43.119,
+   "y": 32.535,
+   "tilt_deg": -12.5,
+   "off_normal_deg": -7.25,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    43.112,
+    -1.538
+   ],
+   "mouth_centre_height": 17.66,
+   "mouth_recess": 1.08,
+   "mouth_recess_edges": [
+    1.72,
+    0.05
+   ],
+   "plug_recess": 1.21,
+   "plug_overmold_standoff": 1.21,
+   "d0_at_port": 17.543,
+   "riser_top_centre": [
+    45.601,
+    -12.765
+   ],
+   "riser_top_height": 6.43,
+   "riser_bottom_height": 5.3,
+   "conn_h": 11.5,
+   "shell_in_flex_cutout_margin": 0.34,
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 17.66,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.8,
+   "seat_floor": [
+    [
+     34.795,
+     -2.141
+    ],
+    [
+     50.904,
+     1.43
+    ]
+   ]
+  },
+  {
+   "port": "A3",
+   "kind": "USBA",
+   "x": 63.761,
+   "y": 42.638,
+   "tilt_deg": 12.5,
+   "off_normal_deg": 6.99,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    63.775,
+    -1.556
+   ],
+   "mouth_centre_height": 17.64,
+   "mouth_recess": 1.05,
+   "mouth_recess_edges": [
+    0.05,
+    1.66
+   ],
+   "plug_recess": 1.14,
+   "plug_overmold_standoff": 1.14,
+   "d0_at_port": 17.496,
+   "riser_top_centre": [
+    61.286,
+    -12.783
+   ],
+   "riser_top_height": 6.42,
+   "riser_bottom_height": 5.28,
+   "conn_h": 11.5,
+   "shell_in_flex_cutout_margin": 0.34,
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 17.64,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.73,
+   "seat_floor": [
+    [
+     55.968,
+     1.346
+    ],
+    [
+     72.077,
+     -2.225
+    ]
+   ]
+  },
+  {
+   "port": "A4",
+   "kind": "USBA",
+   "x": 63.761,
+   "y": 32.535,
+   "tilt_deg": 12.5,
+   "off_normal_deg": 6.99,
+   "axis_shift_x": 0.0,
+   "mouth_centre": [
+    63.775,
+    -1.556
+   ],
+   "mouth_centre_height": 17.64,
+   "mouth_recess": 1.05,
+   "mouth_recess_edges": [
+    0.05,
+    1.66
+   ],
+   "plug_recess": 1.14,
+   "plug_overmold_standoff": 1.14,
+   "d0_at_port": 17.496,
+   "riser_top_centre": [
+    61.286,
+    -12.783
+   ],
+   "riser_top_height": 6.42,
+   "riser_bottom_height": 5.28,
+   "conn_h": 11.5,
+   "shell_in_flex_cutout_margin": 0.34,
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 17.64,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 1.73,
+   "seat_floor": [
+    [
+     55.968,
+     1.346
+    ],
+    [
+     72.077,
+     -2.225
+    ]
+   ]
+  },
+  {
+   "port": "ETH1",
+   "kind": "RJ45",
+   "x": 63.671,
+   "y": 91.595,
+   "face_z_max": -5.034,
+   "max_height": 14.17,
+   "plug_in_flex_cutout_margin": 1.25,
+   "note": "jack body 16.2 x 17.0 cannot pass the frame slot (H: SMALL_R2 15.6 x 13.0; O: BIG_L leg X 54.2-70.9, Y 85.3-115.5) nor the flex cut-out: face >= 0.3 behind the frame back plane",
+   "part": "Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics",
+   "part_h": 12.0
+  },
+  {
+   "port": "ETH2",
+   "kind": "RJ45",
+   "x": 43.152,
+   "y": 91.407,
+   "face_z_max": -4.96,
+   "max_height": 14.24,
+   "plug_in_flex_cutout_margin": 1.22,
+   "note": "jack body 16.2 x 17.0 cannot pass the frame slot (H: SMALL_R2 15.6 x 13.0; O: BIG_L leg X 54.2-70.9, Y 85.3-115.5) nor the flex cut-out: face >= 0.3 behind the frame back plane",
+   "part": "Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics",
+   "part_h": 12.0
+  },
+  {
+   "port": "HDMI",
+   "kind": "HDMI",
+   "x": 42.958,
+   "y": 107.069,
+   "tilt_deg": -12.5,
+   "off_normal_deg": -7.17,
+   "axis_shift_x": -0.221,
+   "mouth_centre": [
+    42.765,
+    -1.736
+   ],
+   "mouth_centre_height": 17.46,
+   "mouth_recess": 1.25,
+   "mouth_recess_edges": [
+    1.92,
+    0.05
+   ],
+   "plug_recess": 1.43,
+   "plug_overmold_standoff": 1.43,
+   "d0_at_port": 17.528,
+   "riser_top_centre": [
+    45.038,
+    -11.987
+   ],
+   "riser_top_height": 7.21,
+   "riser_bottom_height": 6.08,
+   "conn_h": 10.5,
+   "shell_in_flex_cutout_margin": 0.17,
+   "part": "HOAUC HYC79-HDMIA19-105",
+   "part_h": 10.5,
+   "required_height": 17.46,
+   "riser_needed": null,
+   "relief": null,
+   "overmold_standoff_no_seat": 2.02,
+   "seat_floor": [
+    [
+     32.45,
+     -2.563
+    ],
+    [
+     52.464,
+     1.874
+    ]
+   ],
+   "fallback_face_behind_flex_max_height": 16.49
+  }
+ ]
+}

@@ -1,10 +1,11 @@
-"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~12:00 ET, tilt 12.5 deg M-IOT2): curved plate (constant 1.2 wall, R from D0 18.0 crown / 16.5 at the
+"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~12:35 ET, D-IO16 port modules): curved plate (constant 1.2 wall, R from D0 18.0 crown / 16.5 at the
 outermost port edge), stock 821-2222-A flex flat on the inner face, foam, metal frame (schematic), board top at D0, USB-C / USB-A / HDMI on
-tilted column risers (D-IO14: axis radial, mouth tangent to the face) on printed wedge cradles, RJ45 straight on the main board."""
+swappable FPC port modules (axis normal to the plate, receptacle on FPC + FR4 stiffener, C-folded tail to a DF40 receptacle JMn, bonded SUS
+sleeve + collar under a screwed clamp plate, printed cradle ledges), RJ45 straight on the main board."""
 import math, json, os
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Polygon
-RJ = {p: r for r in json.load(open("/workspace/kicad/macpro62-io-risers/risers.json"))["risers"] for p in r["ports"]}
+MJ = json.load(open("/workspace/kicad/macpro62-io-modules/modules.json")); MM = {m["slot"]: m for m in MJ["modules"]}; MST = MJ["stack"]
 HERE = os.path.dirname(os.path.abspath(__file__))
 FJ = json.load(open(os.path.join(HERE, "io_plate_v2_A0_features.json")))
 P = FJ["params"]; FL = P["flex"]; ST = {s["port"]: s for s in FJ["stack"]}; SF = FJ["spotfaces"]
@@ -40,19 +41,36 @@ for ax, (title, ports, slots) in zip(axs, rows):
             ax.add_patch(Rectangle((x - w / 2, ZB), w, h, fc="#cccccc", ec="k", label="vertical connector at the required / max height" if p == ports[0] and ax is axs[2] else None))
             ax.text(x, ZB + h / 2, "%s %s\nface <= %.1f above board\n(non-magnetic jack)" % (p, nm, h), ha="center", fontsize=7)
         else:
-            r = RJ[p]; a = math.radians(s["tilt_deg"]); n = (math.sin(a), math.cos(a)); ex = (math.cos(a), -math.sin(a))
-            Bx, Bz = s["riser_top_centre"]; t = 1.6; xl, xh = r["pcb_x"]
-            if r["rot180"]: xl, xh = -xh, -xl
+            m_ = MM[p]; T_ = MJ["types"][s["kind"]]; a = math.radians(s["tilt_deg"]); n = (math.sin(a), math.cos(a)); ex = (math.cos(a), -math.sin(a))
+            Bx, Bz = s["riser_top_centre"]; t = MST["stack_t"]; sx = T_["sx"]; xo = (-1 if x < C else 1) * (1 if ex[0] > 0 else -1); so = -1 if x < C else 1
             T = lambda q, h: (Bx + ex[0] * q + n[0] * h, Bz + ex[1] * q + n[1] * h)
-            ax.add_patch(Polygon([T(xl, 0), T(xh, 0), T(xh, -t), T(xl, -t)], fc="#3c8d3c", ec="k", lw=0.6, label="tilted column riser PCB 1.6 (%.1f deg)" % abs(s["tilt_deg"]) if p == ports[0] else None))
-            ax.add_patch(Polygon([T(xl, -t), T(xh, -t), (T(xh, -t)[0], ZB), (T(xl, -t)[0], ZB)], fc="#e8d8ff", ec="#7a5ab0", lw=0.5, hatch="//", alpha=0.6,
-                                 label="printed PA12 wedge cradle (DF40 C-fold flex + pogo windows)" if p == ports[0] else None))
-            ax.add_patch(Polygon([T(-w / 2, 0), T(w / 2, 0), T(w / 2, s["conn_h"]), T(-w / 2, s["conn_h"])], fc="#cccccc", ec="k", label="connector on the riser (catalogue height)" if p == ports[0] else None))
-            m = s["mouth_centre"]; ax.plot([T(0, -3)[0], m[0] + n[0] * 3], [T(0, -3)[1], m[1] + n[1] * 3], "r-.", lw=0.8)
-            ax.plot(*m, "ro", ms=3)
-            ax.text(Bx, ZB + 1.0, "%s %s %.1f\nmouth %.2f above board\nriser %+.2f deg (%+.1f off normal), gap %.1f-%.1f\nmouth recess %.2f-%.2f, plug stand-off %.2f" % (p, nm, s["conn_h"],
-                    s["mouth_centre_height"], s["tilt_deg"], s.get("off_normal_deg", 0.0), r["underside_gap_range"][0], r["underside_gap_range"][1],
-                    min(s.get("mouth_recess_edges", [s["mouth_recess"]])), max(s.get("mouth_recess_edges", [s["mouth_recess"]])), s["plug_recess"]), ha="center", fontsize=6.0)
+            ax.add_patch(Polygon([T(-sx, -MST["fpc_t"] - MST["psa_t"]), T(sx, -MST["fpc_t"] - MST["psa_t"]), T(sx, -t), T(-sx, -t)], fc="#c8b560", ec="k", lw=0.5, label="FR4 1.0 stiffener (module)" if p == ports[0] else None))
+            ax.plot([T(-sx, -0.055)[0], T(sx, -0.055)[0]], [T(-sx, -0.055)[1], T(sx, -0.055)[1]], color="#e07000", lw=1.4, label="module FPC 0.11 (2-layer)" if p == ports[0] else None)
+            ax.add_patch(Polygon([T(-w / 2, 0), T(w / 2, 0), T(w / 2, s["conn_h"]), T(-w / 2, s["conn_h"])], fc="#cccccc", ec="k", label="receptacle on the FPC (catalogue height)" if p == ports[0] else None))
+            hz = (m_["collar_top_height"] + ZB - Bz) / n[1]; cw = w / 2 + MST["sleeve_t"]
+            for sg in (-1, 1):
+                ax.add_patch(Polygon([T(sg * (w / 2), 0), T(sg * cw, 0), T(sg * cw, hz), T(sg * (w / 2), hz)], fc="#4060a0", ec="#203060", lw=0.3, label="SUS304 0.2 shield sleeve, bonded to the shell" if p == ports[0] and sg < 0 else None))
+                ax.add_patch(Polygon([T(sg * cw, hz - 0.2), T(sg * (cw + MST["collar_w"]), hz - 0.2), T(sg * (cw + MST["collar_w"]), hz), T(sg * cw, hz)], fc="#4060a0", ec="#203060", lw=0.3))
+            zc = m_["collar_top_height"] + ZB; xc0, xc1 = T(-(cw + MST["collar_w"] + 2.5), hz)[0], T(cw + MST["collar_w"] + 2.5, hz)[0]
+            xq = [min(xc0, xc1) + k * abs(xc1 - xc0) / 40 for k in range(41)]; zt_ = [zf(q) - FL["frame_t"] - 0.3 for q in xq]
+            ax.fill_between(xq, zt_, [v - MST["plate_t"] for v in zt_], color="#b08fd8", alpha=0.8, lw=0.5, label="clamp plate (MJF PA12, top = frame back - 0.3), screws to M2 SMT standoffs" if p == ports[0] else None)
+            # cradle (schematic): ledge band out of plane, walls to the board
+            sb = [T(-sx, -t), T(sx, -t)]
+            ax.add_patch(Polygon([sb[0], sb[1], (sb[1][0], ZB), (sb[0][0], ZB)], fc="none", ec="#7a5ab0", lw=0.6, ls="--", hatch="..",
+                                 label="printed cradle: ledges at |y'| 3.6-%.1f (out of plane) + walls" % T_["sy"] if p == ports[0] else None))
+            # tail: flap, C-fold, return run, header + stiffener, JM receptacle
+            E = T(xo * sx, -0.055); Fp = (E[0] + so * m_["flap"], E[1]); R_ = m_["fold_r"]; zt = ZB + MST["mated"] + 0.055
+            ax.plot([E[0], Fp[0]], [E[1], Fp[1]], color="#e07000", lw=1.2)
+            th = [math.pi / 2 - k * math.pi / 30 for k in range(31)]; cz = (Fp[1] + zt) / 2
+            ax.plot([Fp[0] + so * R_ * math.cos(q) for q in th], [cz + R_ * math.sin(q) for q in th], color="#e07000", lw=1.2)
+            x0r, x1r = m_["jm_x_range"]; ax.plot([Fp[0], (x0r + x1r) / 2 + (-so) * 7.8], [zt, zt], color="#e07000", lw=1.2, label="FPC tail, C-fold R %.1f" % R_ if p == ports[0] else None)
+            ax.add_patch(Rectangle((x0r + 0.15, ZB), x1r - x0r - 0.3, MST["mated"], fc="#303030", ec="k", lw=0.4, label="DF40C-50DS JMn + DF40C-50DP (mated 1.5)" if p == ports[0] else None))
+            ax.add_patch(Rectangle((x0r - 0.85, zt + 0.055 + MST["psa_t"]), x1r - x0r + 1.7, 1.0, fc="#c8b560", ec="k", lw=0.4))
+            mo = s["mouth_centre"]; ax.plot([T(0, -3)[0], mo[0] + n[0] * 3], [T(0, -3)[1], mo[1] + n[1] * 3], "r-.", lw=0.8)
+            ax.plot(*mo, "ro", ms=3)
+            ax.text(Bx, ZB + 3.2, "%s %s module\nmouth %.2f above board, axis %+.2f deg (%+.1f off normal)\nseat %.2f, stiffener bottom %.1f-%.1f\nmouth recess %.2f-%.2f, plug stand-off %.2f" % (p, nm,
+                    s["mouth_centre_height"], s["tilt_deg"], s.get("off_normal_deg", 0.0), m_["seat_height"], min(m_["stiffener_bottom_heights"]), max(m_["stiffener_bottom_heights"]),
+                    min(s.get("mouth_recess_edges", [s["mouth_recess"]])), max(s.get("mouth_recess_edges", [s["mouth_recess"]])), s["plug_recess"]), ha="center", fontsize=5.6)
             if s.get("seat_floor"):
                 (sx0, sz0), (sx1, sz1) = s["seat_floor"]; ax.plot([sx0, sx1], [sz0, sz1], "m-", lw=1.6, label="flat plug seat floor (perpendicular to the axis)" if p == ports[0] else None)
         ang = math.degrees(math.asin((x - C) / R))

@@ -9,6 +9,8 @@ g = json.load(open(os.path.join(HERE, "io_geom.json"))); P = json.load(open(os.p
 def col(r, v):
     v = v.lower()
     if r[0] == "H": return "#999999"
+    if r.startswith("JM"): return "#4c9be8" if "MOD-C" in v.upper() else "#7fb3ff" if "MOD-A" in v.upper() else "#c77dff"   # D-IO16 port-module receptacles
+    if r in ("U95", "U96", "U97"): return "#b0e0a0"
     if r.startswith("J1") and len(r) == 3: return "#4c9be8"   # USB-C
     if r in ("J21", "J22", "J23", "J24"): return "#7fb3ff"
     if r in ("J1", "J2"): return "#ff9f40"
