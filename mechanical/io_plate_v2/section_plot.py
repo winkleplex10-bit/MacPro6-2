@@ -1,9 +1,10 @@
-"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~10:08 ET): curved plate (constant 1.2 wall, no lands/bosses), stock 821-2222-A
-flex flat on the inner face, foam, metal frame (schematic), board top at the measured D0, straight vertical connectors at the required
-height (port riser where the catalogue part is too short), USB-C overmold spot-faces."""
+"""Sections through the plate v2 A0 stack (rev 2026-10-02 ~10:50 ET): curved plate (constant 1.2 wall, R from D0 18.0 crown / 16.5 at the
+outermost port edge), stock 821-2222-A flex flat on the inner face, foam, metal frame (schematic), board top at D0, USB-C / USB-A / HDMI on
+tilted column risers (D-IO14: axis radial, mouth tangent to the face) on printed wedge cradles, RJ45 straight on the main board."""
 import math, json, os
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Rectangle, Polygon
+RJ = {p: r for r in json.load(open("/workspace/kicad/macpro62-io-risers/risers.json"))["risers"] for p in r["ports"]}
 HERE = os.path.dirname(os.path.abspath(__file__))
 FJ = json.load(open(os.path.join(HERE, "io_plate_v2_A0_features.json")))
 P = FJ["params"]; FL = P["flex"]; ST = {s["port"]: s for s in FJ["stack"]}; SF = FJ["spotfaces"]
@@ -39,12 +40,18 @@ for ax, (title, ports, slots) in zip(axs, rows):
             ax.add_patch(Rectangle((x - w / 2, ZB), w, h, fc="#cccccc", ec="k", label="vertical connector at the required / max height" if p == ports[0] and ax is axs[2] else None))
             ax.text(x, ZB + h / 2, "%s %s\nface <= %.1f above board\n(non-magnetic jack)" % (p, nm, h), ha="center", fontsize=7)
         else:
-            ph = s["part_h"]; rs = s["riser_needed"]
-            if rs > 0.05:
-                ax.add_patch(Rectangle((x - w / 2 - 1.5, ZB), w + 3, rs, fc="#9fd0ff", ec="b", label="port riser (BTB stack + riser PCB)" if p == ports[0] else None))
-            ax.add_patch(Rectangle((x - w / 2, ZB + max(rs, 0)), w, ph, fc="#cccccc", ec="k", label="straight vertical connector (catalogue height)" if p == ports[0] else None))
-            ax.plot([x - w / 2 - 1, x + w / 2 + 1], [s["mouth_z"]] * 2, "r-", lw=1.2)
-            ax.text(x, ZB + rs + ph / 2, "%s %s\nneeds %.2f\n= %.1f part + %.2f riser\nplug recess %.2f" % (p, nm, s["required_height"], ph, rs, s["plug_recess"]), ha="center", fontsize=7)
+            r = RJ[p]; a = math.radians(s["tilt_deg"]); n = (math.sin(a), math.cos(a)); ex = (math.cos(a), -math.sin(a))
+            Bx, Bz = s["riser_top_centre"]; t = 1.6; xl, xh = r["pcb_x"]
+            if r["rot180"]: xl, xh = -xh, -xl
+            T = lambda q, h: (Bx + ex[0] * q + n[0] * h, Bz + ex[1] * q + n[1] * h)
+            ax.add_patch(Polygon([T(xl, 0), T(xh, 0), T(xh, -t), T(xl, -t)], fc="#3c8d3c", ec="k", lw=0.6, label="tilted column riser PCB 1.6 (%.1f deg)" % abs(s["tilt_deg"]) if p == ports[0] else None))
+            ax.add_patch(Polygon([T(xl, -t), T(xh, -t), (T(xh, -t)[0], ZB), (T(xl, -t)[0], ZB)], fc="#e8d8ff", ec="#7a5ab0", lw=0.5, hatch="//", alpha=0.6,
+                                 label="printed PA12 wedge cradle (DF40 C-fold flex + pogo windows)" if p == ports[0] else None))
+            ax.add_patch(Polygon([T(-w / 2, 0), T(w / 2, 0), T(w / 2, s["conn_h"]), T(-w / 2, s["conn_h"])], fc="#cccccc", ec="k", label="connector on the riser (catalogue height)" if p == ports[0] else None))
+            m = s["mouth_centre"]; ax.plot([T(0, -3)[0], m[0] + n[0] * 3], [T(0, -3)[1], m[1] + n[1] * 3], "r-.", lw=0.8)
+            ax.plot(*m, "ro", ms=3)
+            ax.text(Bx, ZB + 1.0, "%s %s %.1f\nmouth %.2f above board\nriser %+.2f deg, gap %.1f-%.1f\nrecess %.2f" % (p, nm, s["conn_h"], s["mouth_centre_height"], s["tilt_deg"],
+                    r["underside_gap_range"][0], r["underside_gap_range"][1], s["mouth_recess"]), ha="center", fontsize=6.5)
         ang = math.degrees(math.asin((x - C) / R))
         ax.annotate("surface normal %.1f deg" % ang, (x, zs(x)), (x - 6, 1.6), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5))
     for rid, sf in SF.items():

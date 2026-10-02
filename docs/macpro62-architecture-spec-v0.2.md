@@ -66,6 +66,20 @@
     - **D0 measured:** 18.0 at the crown and 16.5 at the edges (assumed |u| = 15.5, TO CONFIRM). That gives R_outer 82.03, board top 19.2 below the crown, and replaces the 22–25 estimate. **Required board-to-mouth heights:** USB-C 17.90 / 17.82, USB-A 17.49 / 17.38, HDMI 17.24; RJ45 face ≤ 13.6.
     - **Parts:** USB-C FG-ST-C-24P-VT-SMT-15.0 (C51911913, 15.0), USB-A KH-3.0AF180WJ-15JB (C2979045, 15.0), HDMI JLC C9900153431 (H 15). **D-IO14 (new): port risers** of +2.2…+2.9 on a high-speed board-to-board stack. **D-IO15 (new): RJ45 = non-magnetic vertical ≤ 13.0 + Jansum V24P05S magnetics**, because HR913790A (16.9) no longer fits.
     - **KiCad:** ports moved; SW1, D20 and D21–D26 DNP (the flex provides the button and lights). DRC 0. **Open:** M-IOD0, M-IOS1/S2, M-IOW4, M-IOH2, M-IOC2 plug test.
+27. **2026-10-02 ≈ 10:50 ET — I/O board: tilted port risers, RJ45, fan + AirPort (CONN_C).**
+    - **I/O cover curvature.** Re-derived from D0 18.0 (crown) / 16.5 (outer edge of the outermost port columns, |u| 18.1): R 111.2 outer (the old 82.0 is no longer used).
+    - **Port risers.** USB-C / USB-A / HDMI on 5 tilted column risers (D-IO14; ±5.25–5.51°, axis radial, mouth tangent):
+      - Parts: SHOU HAN 24PLT-H10.5 / KH-3.0AF180ZJ-11.5JB / HYC79-HDMIA19-105.
+      - Link: DF40C (C312960 for 80 pos) with C-fold FPC jumpers. USB-C VBUS runs on pogo pins.
+      - Printed wedge cradles. ≈ $37–57 per set.
+      - SI: ≈ +1.3–1.8 dB @ 5 GHz, no extra redrivers.
+    - **Plate.** Openings are straight through-holes along the tilted axes, and the spot-faces are removed.
+    - **RJ45.** Non-magnetic vertical SMD jack (C55547809, height to confirm) + JASN V24P05S (C2827281) (D-IO15).
+    - **CONN_C.** Reproduced at the stock spot: 2 × 20 @ 0.5, DF12-40 footprint candidate, pinout unconfirmed (M-IOC1/3).
+      - Fan: EMC2101 @0x4C. **This supersedes the §4.6 BP J5 fan harness.**
+      - AirPort PCIe: ASM1182e switch on the i226 #2 lane (HS1 unchanged).
+      - Bluetooth USB2: 4th CH334R.
+
 11. **New: MCIO connector data** from TE/JPC/Molex drawings, OCP M-XIO sideband conventions, a per-face sideband table, a module-face power budget, a cable/connector count, a measurement list, and an updated open-decision list.
 
 **v0.1 (2026-09-30):** first draft (card-edge architecture).
@@ -1696,6 +1710,8 @@ On-module SPI/boot flash is **not** used for OpenCore: the modules ship closed A
 28. **OD-28: CB iGPU ports:** DDI-B DP + DDI-C USB-C DP-alt (proposed) **or** one DDI only; HBR2 vs HBR3 + retimer?
 29. **OD-29: OpenCore location (CB rev A):** BP SATA SSD (recommended) **or** embedded in the EDK2 payload FV now?
 30. **OD-30: CB rev-A budget:** ≈ $1.5k–2.6k (2 boards) / $2.6k–4.4k (5 boards) + likely rev B — accept?
+
+
 
 ### 11.3 Measurements needed (prioritised)
 

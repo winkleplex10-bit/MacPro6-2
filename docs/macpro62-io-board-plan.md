@@ -17,6 +17,11 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 
 ## 1. Summary and recommendation
 
+> **Update 2026-10-02 ≈ 10:50 ET:**
+> - Ports on 5 tilted column risers (§4.7.5): R 111.2 from D0, tilt ±5.3–5.5°, mouths 18.4–18.6 above the board.
+> - Non-magnetic RJ45 + V24P05S (§4.7.6).
+> - CONN_C fan + AirPort reproduced on the IOB with EMC2101 + ASM1182e + a 4th USB2 hub (§4.7.7).
+
 1. **Ports.** Same layout as stock. Each old Thunderbolt rectangle gets 3 USB-C ports (6 in total), all with **DP alt mode**:
    - C1 and C2: Face P GPU links 0 and 1, 4-lane each.
    - C3 and C4: GPU links 3 and 4, 2-lane each.
@@ -60,12 +65,12 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO6** | **Angled ports** | **(a) Straight connectors + curved plate**. **Since 2026-10-02 ≈ 10:15 ET: no lands** (stock flex), mouths flush at the outboard edge; plug recess USB-C 0.62–0.67, USB-A ≈ 1.7–1.8, HDMI ≈ 2.0 (§4.7.3) | Wedge sub-boards: +2 boards, HBR3/10 G across mezzanines, ≈ +$60–120. Board tilt: does not work. |
 | **D-IO7** | C5/C6 from the iGPU | Keep them (Windows/Linux displays; USB works in macOS) | Make them USB-only and drop U15/U16 mux functions. |
 | **D-IO8** | Stackup | 6 layers, JLC06161H-2116 | 4 layers: loses the solid reference planes for 10 G + HBR3. |
-| **D-IO9** | Fan + AirPort ribbon (CONN_C) | Rev A: **not reproduced.** The fan gets its own harness to BP J5 (spec §4.6). The CONN_C standoff positions are kept free. | Reproduce CONN_C on the IOB (needs M-IOC1) to keep the stock fan/AirPort blind-mate path. |
+| **D-IO9** | Fan + AirPort ribbon (CONN_C) | **Superseded 2026-10-02 ≈ 10:50 ET: reproduced on the IOB** at the stock position, B side, centred between the stock standoffs (41.06, 5.17) / (59.92, 5.20): J7, 2 × 20 @ 0.5 mm (DF12-40DS-0.5V(86) footprint candidate, C431048). Fan via EMC2101 (U90), AirPort PCIe via an ASM1182e switch (U91) on the i226 #2 lane, Bluetooth USB2 via a 4th CH334R (U35). The BP J5 fan harness is dropped (§5.7). | Pinout and mating are unconfirmed until M-IOC1 / M-IOC3. |
 | **D-IO10** | Port illumination | **Revised 2026-10-02: the flex on J31 only.** D21–D26 DNP, plate light pipes removed, light windows over the flex pads. TLC59116 stays (D20, diag LEDs, and the A1 flex below). | Board light pipes: need Ø2.5 holes drilled in the frame centre bar (5 of 6 positions blocked). |
 | **D-IO12** | Which flex on the plate | **Revised 2026-10-02 ≈ 10:15 ET: reuse the stock 821-2222-A; no replacement flex for now.** The plate has no bosses, the ports are centred on the flex cut-outs (USB-C +0.44 per side), and there are pockets for the plate-side LEDs and the button carrier (§4.7.2–4.7.3). *Earlier text:* **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
 | **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
-| **D-IO14** | Connector heights (measured D0 18.0 / 16.5) | **Port risers**: USB-C, USB-A and HDMI receptacles (15.0 tall catalogue parts) on riser PCBs over a high-speed board-to-board stack. Δ ≈ +2.9 for USB-C, +2.4 for USB-A, +2.2 for HDMI (§4.7.4). | Parts straight on the board: mouths 2.2–2.9 below flush and plugs do not seat. A custom tall USB-C needs tooling and an MOQ. |
-| **D-IO15** | RJ45 | **Non-magnetic vertical RJ45 ≤ 13.0 + discrete 2.5G magnetics (Jansum V24P05S)**. The face must be ≤ 13.6, behind the frame. | HR913790A (16.9) does not fit at all with D0 18. |
+| **D-IO14** | Connector heights (measured D0 18.0 / 16.5) | **Resolved 2026-10-02 ≈ 10:50 ET: tilted column risers** (§4.7.5): 5 small 4-layer risers (2 × USB-C, 2 × USB-A, 1 × HDMI), each tilted 5.25–5.51° so that every port axis is radial. Link: DF40C receptacles + a C-fold flex jumper. USB-C VBUS runs on pogo pins. The risers sit on printed wedge cradles. | Tilt follows the D0-derived radius (R 111.2). `TILT_OVERRIDE_DEG` gives a one-line 7° stock-photo variant. |
+| **D-IO15** | RJ45 | **Approved 2026-10-02**: non-magnetic vertical SMD RJ45 (Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C, C55547809; height ≤ 13.0 still to be confirmed from its datasheet) + JASN V24P05S 2.5G magnetics (C2827281, $0.63 @10) on the B side + Bob-Smith network. | M-IOR1: jack height and latch side. |
 | **D-IO11** | Plate process | **MJF PA12, dyed black** (JLC3DP or PCBWay) | SLA black resin: nicer surface, but the clips are brittle. CNC: best fit, ≈ 10× the price. |
 
 ---
@@ -487,6 +492,81 @@ Source: Aidan's flatbed scan (200 dpi, flex flat on the glass, L-shaped ruler). 
 
 ---
 
+
+### 4.7.5 Tilted column risers (D-IO14, rev 2026-10-02 ≈ 10:50 ET)
+
+**Curvature from D0.** Aidan took the 16.5 mm reading at the outer edge of the outermost port columns. In the scan trace, the outer edges are the HDMI cut-out (X 34.89, |u| 18.30) on the H side and the USB-A cut-out (X 71.09, |u| 17.90) on the O side, so |u| = 18.10 on average. Then R_inner = (u² + 1.5²) / (2 × 1.5) = **109.97**, R_outer **111.17**. That is flatter than the old 82.0 (case-cylinder) assumption, so the I/O cover is not on the case cylinder. The value is parametric in `build_plate.py` (`D0_EDGE_SIDE` = "mean" / "H" / "O" / a number).
+
+**Tilt.** Each port axis is radial through its flex cut-out centre at the flex plane:
+
+| Column | Ports | Tilt | Mouth centre above board top | Mouth recess | Shell-in-flex-cut-out margin |
+|---|---|---|---|---|---|
+| RC_H | C1–C3 | −5.27° | 18.59 | 0.14 | 0.45 |
+| RC_O | C4–C6 | +5.47° | 18.55 | 0.14 | 0.45 |
+| RA_H | A1, A2 | −5.25° | 18.49 | 0.25 | 0.34 |
+| RA_O | A3, A4 | +5.51° | 18.44 | 0.25 | 0.34 |
+| RH | HDMI | −5.33° | 18.41 | 0.31 | 0.17 |
+
+The stock-photo estimate was 6.4–7.3° outward per column (§4.4). That is 1–2° more than the surface normal. Setting `TILT_OVERRIDE_DEG = 7.0` forces the stock value instead.
+
+**Plate.** The USB-C / USB-A / HDMI openings are now straight through-holes along each tilted axis, centred on the flex cut-out at the flex plane. The mouth is tangent to the outer face, so the USB-C overmold spot-faces are gone. The inner face stays smooth and the flex fit is unchanged (the axis passes through the cut-out centres).
+
+**Riser stack** (per column, `kicad/macpro62-io-risers/risers.json`):
+- Connector on the riser top: USB-C SHOU HAN TYPE-C 24PLT-H10.5 (C3151750, 10.5), USB-A kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, 11.5), HDMI HOAUC HYC79-HDMIA19-105 (C711353, 10.5).
+- Riser PCB: JLC 4-layer 1.6 (JLC04161H-7628), ENIG. One design per type. The O-column copy is the same PCB rotated 180°.
+
+| Riser | Size (mm) | Underside gap above the board | Link | Power |
+|---|---|---|---|---|
+| riser_c (× 2) | 16.8 × 34.2, two r3 notches for the I/O-frame centre standoff H13 | 5.7–7.3 | DF40C-80DS-0.4V(51) (C312960, $0.76 @10) | 6 × VBUS + 2 × GND SMD pogo pins (≥ 3 A each, working height 5.9–7.1) |
+| riser_a (× 2) | 21.4 × 21.7; the DF40 sits in the outboard strip because the USB-A THT field blocks the underside | 4.1–6.2 | DF40C-50DS | VBUS 1.5 A/port through 5 DF40 pins |
+| riser_hdmi | 24.8 × 14.4 | 5.2–7.5 | DF40C-40DS | — |
+
+- **Link.** A riser-side DF40C receptacle sits directly above a main-board DF40C receptacle (JR1–JR5). They are joined by a C-fold 2-layer FPC jumper with a DF40C-xxDP plug on each end (mated 1.5 + 1.5, static bend R ≥ 1.2 in the 4.4–6.5 gap). Pinning is G-S-S-G with 90 Ω coplanar pairs over an L2 ground.
+- **Mounting.** One printed PA12 wedge cradle per riser (JLC3DP with the plate). It is fixed to the main board with 2 × M2 (NPTH H21–H30) and holds the riser with 2 × M2 into heat-set inserts. The cradle has windows for the flex fold and the pogo pins.
+- **Cost per board set** (5 risers) [Estimate]: DF40 parts ≈ $13, riser PCBs + assembly ≈ $5–8, 5 FPC jumpers ≈ $10–20, 16 pogo pins ≈ $3–5, 5 cradles ≈ $5–10, screws/inserts ≈ $1. **≈ $37–57 per set**, plus one-time JLC setup/stencil/FPC fixture fees ≈ $60–120. The 10.5/11.5 connectors are cheaper than the 15.0 parts they replace (−$0.3 each).
+
+**Signal integrity** [Estimate]. Added per lane: riser trace 10–20 mm (≈ 0.3 dB @ 5 GHz), 2 × DF40 mated pairs (≈ 0.2–0.3 dB each), 20–25 mm FPC (≈ 0.6–0.9 dB). That is ≈ 1.3–1.8 dB at 5 GHz (USB 10G Nyquist) and ≈ 1.1–1.5 dB at 4.05 GHz (HBR3). The main-board segment after the TUSB1046A / TUSB1002A / TDP158 (all on B, next to their columns) stays 15–35 mm (≈ 0.4–0.9 dB). The total post-redriver channel of ≈ 2–2.7 dB is within the ≈ 4–5 dB board-to-receptacle allowance usually budgeted after a linear redriver. **No extra redrivers are needed.** Conditions:
+- G-S-S-G DF40 pinning.
+- Impedance-controlled or TDR-checked FPC.
+- EQ re-tuned on the first articles (eye/compliance test with a USB 3.2 Gen2 and an HBR3 sink).
+- The DF40 rating (Hirose: 16 Gb/s-class differential) covers both protocols.
+
+**Stock reference (side photo 10:21).** The stock USB-A ports are tall single receptacles soldered straight to the main board, with no riser. In the photo the shells look essentially upright on the board. Any outward lean is small and not obvious from the side, which differs from the 6.4–7.3° front-scan estimate. Treat the stock tilt as unconfirmed (M-IOT2). The risers reproduce the stock reach (≈ 18.5 above the board) with stocked 10.5–11.5 parts.
+
+### 4.7.6 RJ45 (D-IO15)
+J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, no LED, C55547809). The face stays ≤ 13.0 behind the frame. That height is **not stated** on the LCSC page and must be confirmed from the drawing, otherwise use any ≤ 13.0 vertical non-magnetic jack on the same placeholder footprint. The magnetics are T1 / T2, JASN V24P05S 2.5GBASE-T (SMD-24P 15.1 × 7.1, 1CT:1CT, 180 µH, 1.5 kVrms, IEEE 802.3bz), on the B side 7.6 mm off the jack posts. The Bob-Smith network is 4 × 75 Ω + 1 nF 2 kV. The jack LEDs are gone: the flex ETH light pad is lit by the flex itself. Added cost ≈ +$1 per port.
+
+### 4.7.7 CONN_C fan + AirPort (rev 2026-10-02 ≈ 10:50 ET)
+- **Stock connector** (photo a802…, 10:22). Dual-row press-fit B2B, **2 × 20 = 40 contacts**. The pitch measures 0.49 mm (31.7 px against 65 px/mm from the 18.86 standoff spacing), so 0.5 mm. Body ≈ 12.6 long. It is centred between the two threaded standoffs, giving a centre of **(50.49, 5.18)** on the B side (the earlier estimate was 49.7, 5.0).
+- **Footprint candidate.** Hirose **DF12-40DS-0.5V(86)** receptacle (A 12.1 / B 9.5 / 40 pos; LCSC C431048, but LCSC showed "not available now" at the time of the search; Digi-Key/Mouser stock DF12(3.0)-40DS-0.5V(86)). Apple usually uses Panasonic / JAE / Hirose 0.5 mm B2B in this class. **Mating with the stock plug is not verified** (M-IOC3): read the markings on the cable plug and measure the mated height, the pin-1 side and the boss/peg positions.
+- **Signals (proposed, all UNCONFIRMED)**:
+  - AirPort PCIe x1 Gen1/2: TX ±, RX ±, REFCLK ±, PERST#, CLKREQ#, WAKE#.
+  - Bluetooth USB 2.0: D+ / D−.
+  - 3V3_WL (load-switched, 4 pins) and a 3V3 standby pin.
+  - W_DISABLE#, BT_DISABLE#, optional SMBus.
+  - Fan: 12 V (3 pins, 1.5 A PTC), PWM, TACH.
+  - ≈ 14 GND.
+  - Working pin map: `CONNC` in `tools/build_sch.py`.
+- **Fan control.** EMC2101 (U90, SMBus 0x4C on I2C_SYS; 0x4C is free on the IOB bus). PWM is open-drain with a 4k7 pull-up, TACH has a 10k pull-up. Fan power is +12V_IOB → F90. The BP J5 fan harness (spec §4.6) is no longer needed.
+- **Interconnect budget.** HS1 (MCIO 124) has no spare pins, and IOB-LINK (GH15) cannot carry PCIe. Cheapest fix: **ASM1182e** PCIe Gen2 1:2 switch (U91, ≈ $4–5 + a 25 MHz crystal) on the existing HS1 k14 lane (PCH RP4), with downstream 0 = i226-V #2 and downstream 1 = AirPort.
+  - No cable or CB change.
+  - Shared Gen2 x1 (≈ 4 Gb/s) for 2.5 GbE + 3 × 3 ac (≈ 0.6–1.3 Gb/s). It only saturates when both run flat-out in the same direction.
+  - Rejected: a second HS cable (+$10–20, CB connector, PCH lane), or USB Wi-Fi (not native).
+  - Bluetooth: a 4th CH334R (U35, H3) on H2 port 4 carries A4 + BT + 2 spare ports (+$0.6).
+- **macOS.** The BCM4360-class card (BCM94360CD family) is natively supported, including Handoff / AirDrop. Caveat: macOS 14+ removed the BCM4360 Wi-Fi driver. Bluetooth still works, but Wi-Fi on 14+ needs OCLP-style root patches [Moderate confidence].
+- **Probing (M-IOC1, stock board powered, DMM + scope).** Probe on the stock IOB connector pads:
+  1. GND continuity map, unpowered.
+  2. Resistance-to-GND signature of every pin, unpowered.
+  3. 12 V pins with the fan running.
+  4. 3.3 V pins in S0 and S5.
+  5. PWM: ≈ 25 kHz, duty follows the fan speed.
+  6. TACH pulses: 2 per revolution.
+  7. PCIe pairs: diode-mode symmetry, the AC caps beside the connector, REFCLK 100 MHz.
+  8. USB D+/D− (15 k pull-downs on the host side, 1.5 k / J-K at enumeration).
+  9. PERST# toggling at boot; CLKREQ# / WAKE# pull-ups.
+  10. W_DISABLE / BT_DISABLE levels.
+  11. Any SMBus pair (pull-ups to 3.3 V).
+
 ## 5. Interconnects
 
 ### 5.1 IOB-HS1: MCIO 124 from CB J3 (CR-CB-IO1)
@@ -690,6 +770,13 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 
 ---
 
+- **2026-10-02 ≈ 10:50 ET**:
+  - Removed from the main board: USB-C J11–J16, USB-A J21–J24 and HDMI J27 (they move to the risers).
+  - Added on F: JR1–JR5 DF40C receptacles, PG1–PG16 VBUS/GND pogo pins, cradle holes H21–H30, and riser outlines on Dwgs.User.
+  - J25/J26 are now non-magnetic SMD RJ45; T1/T2 V24P05S sit on B.
+  - Added on B: J7 CONN_C (DF12-40) with standoffs H14/H15 at the stock spots, U90 EMC2101 (44.0, 11.0), U91 ASM1182e (24.0, 130.0), U35 CH334R H3 + Y7.
+  - DRC 0/0/0 (`--severity-all`), ERC 0. Riser PCBs DRC 0.
+
 ## 9. Probing procedures for Aidan (stock board + PSU)
 
 > Safety: the PSU has mains on the primary side. Probe only the low-voltage headers with the PSU in its cage. After unplugging, hold the power button for 10 s to discharge (iFixit).
@@ -735,6 +822,14 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 ---
 
 ## 10. Placeholders and risks
+
+- **2026-10-02 ≈ 10:50 ET (risers / CONN_C / RJ45):**
+  - The DF40 / DF12 / V24P05S / RJ45 / pogo / ASM1182e land patterns are PLACEHOLDERS.
+  - The DF40C-50/40 LCSC numbers and the pogo part are TBC.
+  - The CONN_C pinout and mating are unconfirmed.
+  - The FPC jumper impedance must be TDR-checked.
+  - Riser tilt follows R 111.2 (D0-derived); the stock tilt is unconfirmed.
+  - The main schematic still lists the port receptacles J11–J24/J27 logically; they physically sit on the riser PCBs, linked by JR1–JR5. The riser schematics and pin maps are still to be drawn.
 
 | Item | Risk | Mitigation |
 |---|---|---|
@@ -793,7 +888,11 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | M-IOF4 | HS1 (J1) and J2 plug clearance over the psu_frame top bead (Y ≈ 163) and window top (Y ≈ 160). |
 | M-IOH1 | Hall sensor positions and magnet polarity (stock: magnet ≈ 1 inch right of the power button overrides the interlock). |
 | M-IOP1 | Port grid with calipers (the face centres in §4.1). |
-| M-IOC1 | Fan-assembly ribbon (CONN_C): count, pitch, fan signals (§9.4). |
+| M-IOC1 | CONN_C full pin map on the stock board (§4.7.7 probing list): GND, 12 V, 3.3 V, PWM, TACH, PCIe pairs, REFCLK, USB2, PERST#/CLKREQ#/WAKE#, disables. |
+| M-IOC3 | CONN_C mating: stock cable plug markings, mated height, pin-1 side, bosses; confirm the DF12-40 footprint or find the Apple/Panasonic/JAE part. |
+| M-IOT2 | Stock port tilt on the board (side photo looks upright vs the 6.4–7.3° front-scan estimate): an angle gauge on a stock USB-A shell. |
+| M-IOR1 | RJ45 ZJLQ-RJ45-SMD-PCB125-8P8C height (≤ 13.0) and latch orientation; V24P05S pin map. |
+| M-IOR2 | Riser underside gaps after assembly (DF40 C-fold space 4.4–6.5; pogo working height 5.9–7.1). |
 | M-IOB1 | I/O-wall flex J31: count, pitch, contact side, button pair, GND, I²C, LED supply (§9.5). |
 | PSU | §9.1 (also confirm the 11/12 contact count). |
 | Audio | §9.2. |
@@ -803,6 +902,11 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 ---
 
 ## 13. Files
+
+- **2026-10-02 ≈ 10:50 ET additions**:
+  - `kicad/macpro62-io-risers/`: `risers.json` (geometry), `MP62_RISER.pretty`, and `riser_c/`, `riser_a/`, `riser_hdmi/` (PCB, project, DRC report, top/bottom renders), built by `tools/build_risers.py`.
+  - `kicad/macpro62-io-board/tools/risers_geom.py` (riser geometry from the plate stack) and `tools/make_fps_risers.py` (DF40C-80/50/40, DF12-40, RJ45 no-mag, V24P05S, pogo, cradle holes, ASM1182e).
+  - `mechanical/io_plate_v2/io_plate_v2_A0_section.png` (tilted risers + cradles).
 
 | Path | Content |
 |---|---|

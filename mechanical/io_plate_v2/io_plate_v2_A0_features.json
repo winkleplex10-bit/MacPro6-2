@@ -9,15 +9,15 @@
    "h": 163.1,
    "r": 11.5
   },
-  "case_r": 82.033,
-  "r_inner": 80.833,
+  "case_r": 111.171,
+  "r_inner": 109.971,
   "skin": 1.2,
   "rim_h": 3.0,
   "rim_w": 1.2,
   "d0": {
    "crown": 18.0,
    "edge": 16.5,
-   "edge_u": 15.5,
+   "edge_u": 18.101500000000005,
    "board_top_z": -19.2,
    "note": "board top -> plate inner face; edge reading position assumed |u|=15.5 (CONFIRM)"
   },
@@ -55,28 +55,28 @@
  },
  "parts": {
   "USBC": {
-   "mpn": "FG-ST-C-24P-VT-SMT-15.0",
-   "lcsc": "C51911913",
-   "h": 15.0,
-   "note": "24P vertical SMT, 15.0 tall (tallest catalogue part found; JSX/Yeeshine 9.3-15.0)"
+   "mpn": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "lcsc": "C3151750",
+   "h": 10.5,
+   "note": "USB 3.1 Type-C 24P vertical SMT, 10.5 tall, 13k in stock, $0.49; on the tilted USB-C column riser"
   },
   "USBA": {
-   "mpn": "kinghelm KH-3.0AF180WJ-15JB",
-   "lcsc": "C2979045",
-   "h": 15.0,
-   "note": "USB 3.0 Type-A 9P vertical THT, L 15.0 (LCSC stock low: alt. CHIN-BAN USB30-AF-006 JLC C50285702, Kangmo CMUSB661034A 15.0)"
+   "mpn": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "lcsc": "C2979037",
+   "h": 11.5,
+   "note": "USB 3.0 Type-A 9P vertical, L 11.5 (verify stock/datasheet); on the tilted USB-A column riser"
   },
   "HDMI": {
-   "mpn": "HDMI_180_H=15mm (JLC assembly part)",
-   "lcsc": "C9900153431",
-   "h": 15.0,
-   "note": "vertical HDMI-A, H 15 (datasheet/shell size to confirm; alt. HOAUC HYC79-HDMIA19-105 C711353 H 10.5)"
+   "mpn": "HOAUC HYC79-HDMIA19-105",
+   "lcsc": "C711353",
+   "h": 10.5,
+   "note": "HDMI-A 19P vertical SMT, H 10.5 (front shell must be <= 15.4 x 5.6 to pass the flex: verify); on the tilted HDMI riser"
   },
   "RJ45": {
-   "mpn": "non-magnetic vertical RJ45 <= 13.0 + Jansum V24P05S 2.5G magnetics",
-   "lcsc": "C20071250 (magnetics, verify)",
-   "h": 13.0,
-   "note": "HR913790A magjack (16.9) no longer fits: max face height ~13.4. Jack candidates (height TBC): Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C C55547809, KRJ-18111NL"
+   "mpn": "Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics",
+   "lcsc": "C55547809 + C2827281",
+   "h": 12.0,
+   "note": "D-IO15: non-magnetic vertical RJ45 on the main board + discrete JASN V24P05S (SMD-24P 15.1 x 7.1, 1:1 CT, 180 uH, 1.5 kVrms, IEEE 802.3bz, LCSC $0.63 @10)"
   }
  },
  "stack": [
@@ -85,219 +85,336 @@
    "kind": "USBC",
    "x": 43.086,
    "y": 75.757,
-   "mouth_z": -1.305,
-   "d0_at_port": 17.375,
-   "required_height": 17.9,
-   "plug_overmold_stop_z": -0.684,
-   "plug_recess": 0.62,
-   "relief": "RELIEF_C_H",
+   "tilt_deg": -5.27,
+   "mouth_centre": [
+    42.997,
+    -0.609
+   ],
+   "mouth_centre_height": 18.59,
+   "mouth_recess": 0.14,
+   "plug_recess": 0.14,
+   "d0_at_port": 17.54,
+   "riser_top_centre": [
+    43.961,
+    -11.064
+   ],
+   "riser_top_height": 8.14,
+   "riser_bottom_height": 6.54,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.45,
-   "part": "FG-ST-C-24P-VT-SMT-15.0",
-   "part_h": 15.0,
-   "riser_needed": 2.9
+   "part": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "part_h": 10.5,
+   "required_height": 18.59,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "C4",
    "kind": "USBC",
    "x": 63.686,
    "y": 75.757,
-   "mouth_z": -1.377,
-   "d0_at_port": 17.326,
-   "required_height": 17.82,
-   "plug_overmold_stop_z": -0.702,
-   "plug_recess": 0.67,
-   "relief": "RELIEF_C_O",
+   "tilt_deg": 5.47,
+   "mouth_centre": [
+    63.779,
+    -0.646
+   ],
+   "mouth_centre_height": 18.55,
+   "mouth_recess": 0.14,
+   "plug_recess": 0.14,
+   "d0_at_port": 17.503,
+   "riser_top_centre": [
+    62.777,
+    -11.098
+   ],
+   "riser_top_height": 8.1,
+   "riser_bottom_height": 6.51,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.45,
-   "part": "FG-ST-C-24P-VT-SMT-15.0",
-   "part_h": 15.0,
-   "riser_needed": 2.82
+   "part": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "part_h": 10.5,
+   "required_height": 18.55,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "C2",
    "kind": "USBC",
    "x": 43.086,
    "y": 65.84,
-   "mouth_z": -1.305,
-   "d0_at_port": 17.375,
-   "required_height": 17.9,
-   "plug_overmold_stop_z": -0.684,
-   "plug_recess": 0.62,
-   "relief": "RELIEF_C_H",
+   "tilt_deg": -5.27,
+   "mouth_centre": [
+    42.997,
+    -0.609
+   ],
+   "mouth_centre_height": 18.59,
+   "mouth_recess": 0.14,
+   "plug_recess": 0.14,
+   "d0_at_port": 17.54,
+   "riser_top_centre": [
+    43.961,
+    -11.064
+   ],
+   "riser_top_height": 8.14,
+   "riser_bottom_height": 6.54,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.45,
-   "part": "FG-ST-C-24P-VT-SMT-15.0",
-   "part_h": 15.0,
-   "riser_needed": 2.9
+   "part": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "part_h": 10.5,
+   "required_height": 18.59,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "C5",
    "kind": "USBC",
    "x": 63.686,
    "y": 65.84,
-   "mouth_z": -1.377,
-   "d0_at_port": 17.326,
-   "required_height": 17.82,
-   "plug_overmold_stop_z": -0.702,
-   "plug_recess": 0.67,
-   "relief": "RELIEF_C_O",
+   "tilt_deg": 5.47,
+   "mouth_centre": [
+    63.779,
+    -0.646
+   ],
+   "mouth_centre_height": 18.55,
+   "mouth_recess": 0.14,
+   "plug_recess": 0.14,
+   "d0_at_port": 17.503,
+   "riser_top_centre": [
+    62.777,
+    -11.098
+   ],
+   "riser_top_height": 8.1,
+   "riser_bottom_height": 6.51,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.45,
-   "part": "FG-ST-C-24P-VT-SMT-15.0",
-   "part_h": 15.0,
-   "riser_needed": 2.82
+   "part": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "part_h": 10.5,
+   "required_height": 18.55,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "C3",
    "kind": "USBC",
    "x": 43.086,
    "y": 55.972,
-   "mouth_z": -1.305,
-   "d0_at_port": 17.375,
-   "required_height": 17.9,
-   "plug_overmold_stop_z": -0.684,
-   "plug_recess": 0.62,
-   "relief": "RELIEF_C_H",
+   "tilt_deg": -5.27,
+   "mouth_centre": [
+    42.997,
+    -0.609
+   ],
+   "mouth_centre_height": 18.59,
+   "mouth_recess": 0.14,
+   "plug_recess": 0.14,
+   "d0_at_port": 17.54,
+   "riser_top_centre": [
+    43.961,
+    -11.064
+   ],
+   "riser_top_height": 8.14,
+   "riser_bottom_height": 6.54,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.45,
-   "part": "FG-ST-C-24P-VT-SMT-15.0",
-   "part_h": 15.0,
-   "riser_needed": 2.9
+   "part": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "part_h": 10.5,
+   "required_height": 18.59,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "C6",
    "kind": "USBC",
    "x": 63.686,
    "y": 55.972,
-   "mouth_z": -1.377,
-   "d0_at_port": 17.326,
-   "required_height": 17.82,
-   "plug_overmold_stop_z": -0.702,
-   "plug_recess": 0.67,
-   "relief": "RELIEF_C_O",
+   "tilt_deg": 5.47,
+   "mouth_centre": [
+    63.779,
+    -0.646
+   ],
+   "mouth_centre_height": 18.55,
+   "mouth_recess": 0.14,
+   "plug_recess": 0.14,
+   "d0_at_port": 17.503,
+   "riser_top_centre": [
+    62.777,
+    -11.098
+   ],
+   "riser_top_height": 8.1,
+   "riser_bottom_height": 6.51,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.45,
-   "part": "FG-ST-C-24P-VT-SMT-15.0",
-   "part_h": 15.0,
-   "riser_needed": 2.82
+   "part": "SHOU HAN TYPE-C 24PLT-H10.5",
+   "part_h": 10.5,
+   "required_height": 18.55,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "A1",
    "kind": "USBA",
    "x": 43.119,
    "y": 42.638,
-   "mouth_z": -1.712,
-   "d0_at_port": 17.379,
-   "required_height": 17.49,
-   "plug_overmold_stop_z": -0.026,
-   "plug_recess": 1.69,
-   "relief": null,
+   "tilt_deg": -5.25,
+   "mouth_centre": [
+    43.04,
+    -0.711
+   ],
+   "mouth_centre_height": 18.49,
+   "mouth_recess": 0.25,
+   "plug_recess": 0.25,
+   "d0_at_port": 17.543,
+   "riser_top_centre": [
+    44.092,
+    -12.163
+   ],
+   "riser_top_height": 7.04,
+   "riser_bottom_height": 5.44,
+   "conn_h": 11.5,
    "shell_in_flex_cutout_margin": 0.34,
-   "part": "kinghelm KH-3.0AF180WJ-15JB",
-   "part_h": 15.0,
-   "riser_needed": 2.49
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 18.49,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "A2",
    "kind": "USBA",
    "x": 43.119,
    "y": 32.535,
-   "mouth_z": -1.712,
-   "d0_at_port": 17.379,
-   "required_height": 17.49,
-   "plug_overmold_stop_z": -0.026,
-   "plug_recess": 1.69,
-   "relief": null,
+   "tilt_deg": -5.25,
+   "mouth_centre": [
+    43.04,
+    -0.711
+   ],
+   "mouth_centre_height": 18.49,
+   "mouth_recess": 0.25,
+   "plug_recess": 0.25,
+   "d0_at_port": 17.543,
+   "riser_top_centre": [
+    44.092,
+    -12.163
+   ],
+   "riser_top_height": 7.04,
+   "riser_bottom_height": 5.44,
+   "conn_h": 11.5,
    "shell_in_flex_cutout_margin": 0.34,
-   "part": "kinghelm KH-3.0AF180WJ-15JB",
-   "part_h": 15.0,
-   "riser_needed": 2.49
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 18.49,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "A3",
    "kind": "USBA",
    "x": 63.761,
    "y": 42.638,
-   "mouth_z": -1.817,
-   "d0_at_port": 17.316,
-   "required_height": 17.38,
-   "plug_overmold_stop_z": -0.04,
-   "plug_recess": 1.78,
-   "relief": null,
+   "tilt_deg": 5.51,
+   "mouth_centre": [
+    63.844,
+    -0.759
+   ],
+   "mouth_centre_height": 18.44,
+   "mouth_recess": 0.25,
+   "plug_recess": 0.25,
+   "d0_at_port": 17.496,
+   "riser_top_centre": [
+    62.739,
+    -12.206
+   ],
+   "riser_top_height": 6.99,
+   "riser_bottom_height": 5.4,
+   "conn_h": 11.5,
    "shell_in_flex_cutout_margin": 0.34,
-   "part": "kinghelm KH-3.0AF180WJ-15JB",
-   "part_h": 15.0,
-   "riser_needed": 2.38
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 18.44,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "A4",
    "kind": "USBA",
    "x": 63.761,
    "y": 32.535,
-   "mouth_z": -1.817,
-   "d0_at_port": 17.316,
-   "required_height": 17.38,
-   "plug_overmold_stop_z": -0.04,
-   "plug_recess": 1.78,
-   "relief": null,
+   "tilt_deg": 5.51,
+   "mouth_centre": [
+    63.844,
+    -0.759
+   ],
+   "mouth_centre_height": 18.44,
+   "mouth_recess": 0.25,
+   "plug_recess": 0.25,
+   "d0_at_port": 17.496,
+   "riser_top_centre": [
+    62.739,
+    -12.206
+   ],
+   "riser_top_height": 6.99,
+   "riser_bottom_height": 5.4,
+   "conn_h": 11.5,
    "shell_in_flex_cutout_margin": 0.34,
-   "part": "kinghelm KH-3.0AF180WJ-15JB",
-   "part_h": 15.0,
-   "riser_needed": 2.38
+   "part": "kinghelm KH-3.0AF180ZJ-11.5JB",
+   "part_h": 11.5,
+   "required_height": 18.44,
+   "riser_needed": null,
+   "relief": null
   },
   {
    "port": "ETH1",
    "kind": "RJ45",
    "x": 63.671,
    "y": 91.595,
-   "face_z_max": -5.602,
-   "max_height": 13.6,
+   "face_z_max": -5.034,
+   "max_height": 14.17,
    "plug_in_flex_cutout_margin": 1.25,
    "note": "jack body 16.2 x 17.0 cannot pass the frame slot (H: SMALL_R2 15.6 x 13.0; O: BIG_L leg X 54.2-70.9, Y 85.3-115.5) nor the flex cut-out: face >= 0.3 behind the frame back plane",
-   "part": "non-magnetic vertical RJ45 <= 13.0 + Jansum V24P05S 2.5G magnetics",
-   "part_h": 13.0
+   "part": "Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics",
+   "part_h": 12.0
   },
   {
    "port": "ETH2",
    "kind": "RJ45",
    "x": 43.152,
    "y": 91.407,
-   "face_z_max": -5.5,
-   "max_height": 13.7,
+   "face_z_max": -4.96,
+   "max_height": 14.24,
    "plug_in_flex_cutout_margin": 1.22,
    "note": "jack body 16.2 x 17.0 cannot pass the frame slot (H: SMALL_R2 15.6 x 13.0; O: BIG_L leg X 54.2-70.9, Y 85.3-115.5) nor the flex cut-out: face >= 0.3 behind the frame back plane",
-   "part": "non-magnetic vertical RJ45 <= 13.0 + Jansum V24P05S 2.5G magnetics",
-   "part_h": 13.0
+   "part": "Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics",
+   "part_h": 12.0
   },
   {
    "port": "HDMI",
    "kind": "HDMI",
    "x": 42.958,
    "y": 107.069,
-   "mouth_z": -1.962,
-   "d0_at_port": 17.359,
-   "required_height": 17.24,
-   "plug_overmold_stop_z": -0.0,
-   "plug_recess": 1.96,
-   "relief": null,
+   "tilt_deg": -5.33,
+   "mouth_centre": [
+    42.884,
+    -0.79
+   ],
+   "mouth_centre_height": 18.41,
+   "mouth_recess": 0.31,
+   "plug_recess": 0.31,
+   "d0_at_port": 17.528,
+   "riser_top_centre": [
+    43.86,
+    -11.244
+   ],
+   "riser_top_height": 7.96,
+   "riser_bottom_height": 6.36,
+   "conn_h": 10.5,
    "shell_in_flex_cutout_margin": 0.17,
-   "part": "HDMI_180_H=15mm (JLC assembly part)",
-   "part_h": 15.0,
-   "riser_needed": 2.24,
-   "fallback_face_behind_flex_max_height": 15.97
+   "part": "HOAUC HYC79-HDMIA19-105",
+   "part_h": 10.5,
+   "required_height": 18.41,
+   "riser_needed": null,
+   "relief": null,
+   "fallback_face_behind_flex_max_height": 16.49
   }
  ],
- "spotfaces": {
-  "RELIEF_C_H": {
-   "floor_z": -0.684,
-   "w": 12.8,
-   "h": 26.785000000000004,
-   "cx": 43.086,
-   "cy": 65.856
-  },
-  "RELIEF_C_O": {
-   "floor_z": -0.702,
-   "w": 12.8,
-   "h": 26.785000000000004,
-   "cx": 63.686,
-   "cy": 65.856
-  }
- },
+ "spotfaces": {},
  "flex_check": [
   {
    "port": "C1",
@@ -874,31 +991,13 @@
    "note": "\u00d816.17, 0.70 above the flex face, wall left 0.35 (carrier height TO MEASURE)"
   },
   {
-   "id": "RELIEF_C_H",
-   "kind": "SPOTFACE",
-   "x": 43.086,
-   "y": 65.856,
-   "w": 12.8,
-   "h": 26.785000000000004,
-   "note": "flat floor z=-0.68 (wall >= 0.6 at the inboard edge); USB-C plug overmold relief"
-  },
-  {
-   "id": "RELIEF_C_O",
-   "kind": "SPOTFACE",
-   "x": 63.686,
-   "y": 65.856,
-   "w": 12.8,
-   "h": 26.785000000000004,
-   "note": "flat floor z=-0.70 (wall >= 0.6 at the inboard edge); USB-C plug overmold relief"
-  },
-  {
    "id": "C1",
    "kind": "USBC",
    "x": 43.086,
    "y": 75.757,
    "w": 9.6,
    "h": 4.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (-5.27 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "C4",
@@ -907,7 +1006,7 @@
    "y": 75.757,
    "w": 9.6,
    "h": 4.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (5.47 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "C2",
@@ -916,7 +1015,7 @@
    "y": 65.84,
    "w": 9.6,
    "h": 4.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (-5.27 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "C5",
@@ -925,7 +1024,7 @@
    "y": 65.84,
    "w": 9.6,
    "h": 4.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (5.47 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "C3",
@@ -934,7 +1033,7 @@
    "y": 55.972,
    "w": 9.6,
    "h": 4.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (-5.27 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "C6",
@@ -943,7 +1042,7 @@
    "y": 55.972,
    "w": 9.6,
    "h": 4.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (5.47 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "A1",
@@ -952,7 +1051,7 @@
    "y": 42.638,
    "w": 14.0,
    "h": 6.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (-5.25 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "A2",
@@ -961,7 +1060,7 @@
    "y": 32.535,
    "w": 14.0,
    "h": 6.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (-5.25 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "A3",
@@ -970,7 +1069,7 @@
    "y": 42.638,
    "w": 14.0,
    "h": 6.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (5.51 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "A4",
@@ -979,7 +1078,7 @@
    "y": 32.535,
    "w": 14.0,
    "h": 6.0,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (5.51 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "ETH1",
@@ -1006,7 +1105,7 @@
    "y": 107.069,
    "w": 15.6,
    "h": 5.7,
-   "note": "through the curved skin (no land)"
+   "note": "straight through-hole along the tilted port axis (-5.33 deg), centred on the flex cut-out at the flex plane"
   },
   {
    "id": "AC",

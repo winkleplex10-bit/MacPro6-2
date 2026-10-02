@@ -25,7 +25,12 @@ BTN = FJ["button"]
 
 # ---------------- stack-up (z, mm; 0 = crown of the outer face) ----------------
 SKIN = 1.2                                  # plate wall = stock cover wall [ASSUMED, MEASURE M-IOS1]
-D0_CROWN, D0_EDGE, D0_EDGE_U = 18.0, 16.5, 15.5   # Aidan 2026-10-02: board top -> cover inner face; edge reading assumed at |u| = 15.5 (TO CONFIRM)
+D0_CROWN, D0_EDGE = 18.0, 16.5            # Aidan 2026-10-02: board top -> cover inner face, crown / outermost port edge
+D0_EDGE_SIDE = "mean"                        # Aidan 10:21 ET: 16.5 read at the outer edge of the outermost port columns -> "mean" | "H" | "O" | a number (|u| in mm)
+_ce = [c for c in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "flex_821-2222_trace.json")))["cutouts"] if "w" in c]
+_uH = 53.19 - min(c["cx"] - c["w"] / 2 for c in _ce if c["cx"] < 53.19)   # H side: HDMI outer edge (X 34.89)
+_uO = max(c["cx"] + c["w"] / 2 for c in _ce if c["cx"] > 53.19) - 53.19   # O side: USB-A outer edge (X 71.09)
+D0_EDGE_U = {"mean": (_uH + _uO) / 2, "H": _uH, "O": _uO}.get(D0_EDGE_SIDE, D0_EDGE_SIDE) if isinstance(D0_EDGE_SIDE, str) else D0_EDGE_SIDE
 _s = D0_CROWN - D0_EDGE
 R_INNER = (D0_EDGE_U ** 2 + _s ** 2) / (2 * _s)     # 80.83
 CASE_R = R_INNER + SKIN                      # 82.03 (case cylinder, consistent with the previous 82.0 estimate)
@@ -69,17 +74,21 @@ EAR_PINS = [(h["id"], h["cx"], h["cy"], 1.4) for h in FJ["holes"] if h["id"].sta
 NECK = (76.0, FJ["neck"]["y"][0] - 0.5, 81.5, FJ["neck"]["y"][1] + 0.5)   # rim notch where the flex neck leaves over the +X edge
 # outer spot-faces (plug overmold relief) per USB-C column: (id, cx, cy, w, h, r); floor = flat, >= MIN_WALL everywhere
 _cy = [CUT["C%d" % k]["cy"] for k in (1, 2, 3)]
-RELIEF = [("RELIEF_C_H", XH, sum(_cy) / 3, 12.8, max(_cy) - min(_cy) + 7.0, 2.0), ("RELIEF_C_O", XO, sum(_cy) / 3, 12.8, max(_cy) - min(_cy) + 7.0, 2.0)]
+RELIEF = []   # rev 10:30 ET: tilted ports, mouth tangent to the face -> no overmold spot-faces needed
+TILT_KINDS = ("USBC", "USBA", "HDMI")        # these sit on tilted column risers, axis normal to the plate at the opening (D-IO14)
+TILT_OVERRIDE_DEG = None                     # None = surface normal from CASE_R; a number forces |tilt| (e.g. 7.0 as the stock photo estimate)
+RISER_T = 1.6                                # riser PCB (JLC04161H-7628, standard 4-layer)
+CONN_H = {"USBC": 10.5, "USBA": 11.5, "HDMI": 10.5}   # catalogue heights of the riser connectors (mating face above the riser top)
 LEGEND = [("blank ETH2 recess", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7)] if ETH2 == "blank" else []
 # connector envelopes: shell (passes plate + flex), overmold of the mating plug (spec max / typical)
 SHELL = {"USBC": dict(shell=(8.94, 3.26), overmold=(12.35, 6.5)), "USBA": dict(shell=(13.2, 5.7), overmold=(16.0, 8.0)),
          "HDMI": dict(shell=(15.2, 5.5), overmold=(20.0, 10.5)), "RJ45": dict(body=(16.2, 17.0), plug=(11.7, 8.2))}
 PARTS = {
-    "USBC": dict(mpn="FG-ST-C-24P-VT-SMT-15.0", lcsc="C51911913", h=15.0, note="24P vertical SMT, 15.0 tall (tallest catalogue part found; JSX/Yeeshine 9.3-15.0)"),
-    "USBA": dict(mpn="kinghelm KH-3.0AF180WJ-15JB", lcsc="C2979045", h=15.0, note="USB 3.0 Type-A 9P vertical THT, L 15.0 (LCSC stock low: alt. CHIN-BAN USB30-AF-006 JLC C50285702, Kangmo CMUSB661034A 15.0)"),
-    "HDMI": dict(mpn="HDMI_180_H=15mm (JLC assembly part)", lcsc="C9900153431", h=15.0, note="vertical HDMI-A, H 15 (datasheet/shell size to confirm; alt. HOAUC HYC79-HDMIA19-105 C711353 H 10.5)"),
-    "RJ45": dict(mpn="non-magnetic vertical RJ45 <= 13.0 + Jansum V24P05S 2.5G magnetics", lcsc="C20071250 (magnetics, verify)", h=13.0,
-                 note="HR913790A magjack (16.9) no longer fits: max face height ~13.4. Jack candidates (height TBC): Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C C55547809, KRJ-18111NL")}
+    "USBC": dict(mpn="SHOU HAN TYPE-C 24PLT-H10.5", lcsc="C3151750", h=10.5, note="USB 3.1 Type-C 24P vertical SMT, 10.5 tall, 13k in stock, $0.49; on the tilted USB-C column riser"),
+    "USBA": dict(mpn="kinghelm KH-3.0AF180ZJ-11.5JB", lcsc="C2979037", h=11.5, note="USB 3.0 Type-A 9P vertical, L 11.5 (verify stock/datasheet); on the tilted USB-A column riser"),
+    "HDMI": dict(mpn="HOAUC HYC79-HDMIA19-105", lcsc="C711353", h=10.5, note="HDMI-A 19P vertical SMT, H 10.5 (front shell must be <= 15.4 x 5.6 to pass the flex: verify); on the tilted HDMI riser"),
+    "RJ45": dict(mpn="Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics", lcsc="C55547809 + C2827281", h=12.0,
+                 note="D-IO15: non-magnetic vertical RJ45 on the main board + discrete JASN V24P05S (SMD-24P 15.1 x 7.1, 1:1 CT, 180 uH, 1.5 kVrms, IEEE 802.3bz, LCSC $0.63 @10)")}
 
 def zs(x):  # outer surface height at X (0 at the crown)
     u = x - PL_C[0]; return -(CASE_R - math.sqrt(CASE_R ** 2 - u * u))
@@ -151,8 +160,19 @@ for rid, x, y, w, h, r in RELIEF:
     plate = plate.cut(boxz(x, y, w, h, r, zf, 5.0))
     relief_info[rid] = dict(floor_z=round(zf, 3), w=w, h=h, cx=round(x, 3), cy=round(y, 3))
     report.append((rid, "SPOTFACE", x, y, w, h, "flat floor z=%.2f (wall >= %.1f at the inboard edge); USB-C plug overmold relief" % (zf, MIN_WALL)))
+R_FLEX = R0 - SKIN + FLEX_POCKET - PSA_T - FLEX_T / 2
+def tilt_of(x):
+    u = x - PL_C[0]; a = math.asin(u / R_FLEX)
+    if TILT_OVERRIDE_DEG is not None: a = math.copysign(math.radians(TILT_OVERRIDE_DEG), u)
+    return a
 for oid, kind, x, y, w, h, r in OPEN:
-    plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0)); report.append((oid, kind, x, y, w, h, "through the curved skin (no land)"))
+    if kind in TILT_KINDS:
+        a = tilt_of(x); u = x - PL_C[0]
+        zf = -R0 + R_FLEX * math.cos(math.asin(u / R_FLEX)); xs = x            # axis through the flex cut-out centre
+        hole = cq.Workplane("XY").box(w, h, 14.0).edges("|Z").fillet(min(r, w / 2 - 0.01, h / 2 - 0.01)).rotate((0, 0, 0), (0, 1, 0), math.degrees(a)).translate((xs, y, zf))
+        plate = plate.cut(hole); report.append((oid, kind, x, y, w, h, "straight through-hole along the tilted port axis (%.2f deg), centred on the flex cut-out at the flex plane" % math.degrees(a)))
+    else:
+        plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0)); report.append((oid, kind, x, y, w, h, "through the curved skin (no land)"))
 for oid, x, y, dd in ROUND:
     plate = plate.cut(cq.Workplane("XY").workplane(offset=10).center(x, y).circle(dd / 2).extrude(-30)); report.append((oid, "ROUND", x, y, dd, dd, "through"))
 for wid, x, y, w, h, r in WINDOWS:
@@ -185,6 +205,20 @@ STACK = []
 for oid, kind, x, y, w, h, r in OPEN:
     if kind == "AC": continue
     c = CUT[oid]; side = "H" if x < PL_C[0] else "O"
+    if kind in TILT_KINDS:   # tilted riser: axis radial, mouth tangent to the outer face, recess = sag over the half shell + 0.05
+        sw, sh = SHELL[kind]["shell"]; ang = tilt_of(x); n = (math.sin(ang), math.cos(ang)); u = x - PL_C[0]
+        zf = -R0 + R_FLEX * math.cos(math.asin(u / R_FLEX))
+        Mx, Mz = u + n[0] * (R0 - R_FLEX), zf + n[1] * (R0 - R_FLEX)          # axis hits the outer face (radial: exact)
+        rec = (sw / 2) ** 2 / (2 * R0) + 0.05
+        Mx, Mz = Mx - n[0] * rec, Mz - n[1] * rec
+        hc = CONN_H[kind]; Bx, Bz = Mx - n[0] * hc, Mz - n[1] * hc               # riser top face at the connector centre
+        sm = min((c["w"] - sw) / 2 - abs(x - c["cx"]), (c["h"] - sh) / 2 - abs(y - c["cy"]))
+        STACK.append(dict(port=oid, kind=kind, x=round(x, 3), y=round(y, 3), tilt_deg=round(math.degrees(ang), 2), mouth_centre=[round(Mx + PL_C[0], 3), round(Mz, 3)],
+                          mouth_centre_height=round(Mz - Z_BOARD, 2), mouth_recess=round(rec, 2), plug_recess=round(rec, 2), d0_at_port=round(d0(x), 3),
+                          riser_top_centre=[round(Bx + PL_C[0], 3), round(Bz, 3)], riser_top_height=round(Bz - Z_BOARD, 2), riser_bottom_height=round(Bz - RISER_T * n[1] - Z_BOARD, 2),
+                          conn_h=hc, shell_in_flex_cutout_margin=round(sm, 2), part=PARTS[kind]["mpn"], part_h=PARTS[kind]["h"],
+                          required_height=round(Mz - Z_BOARD, 2), riser_needed=None, relief=None))
+        continue
     if kind in ("USBC", "USBA", "HDMI"):
         sw, sh = SHELL[kind]["shell"]; ow, oh = SHELL[kind]["overmold"]
         z_m = zface_max(x, sw / 2)
@@ -376,7 +410,7 @@ if ETH2 == "open":
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="yellow", ec="k"))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=5)
     ax.set_xlim(20, 86); ax.set_ylim(-8, 162); ax.set_aspect("equal"); ax.grid(alpha=0.2)
-    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, grey dashed = USB-C overmold spot-faces, blue = clips", fontsize=8)
+    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, blue = clips; USB-C/USB-A/HDMI holes run along the tilted port axes (D-IO14)", fontsize=8)
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150); plt.close(fig)
     iso = plate.translate((-PL_C[0], -PL_C[1], 0)).rotate((0, 0, 0), (0, 0, 1), 90).rotate((0, 0, 0), (1, 0, 0), 180)
     cq.exporters.export(iso, os.path.join(HERE, "_iso.svg"), opt={"projectionDir": (0.25, -0.45, 1.0), "showHidden": False, "width": 1600, "height": 700,

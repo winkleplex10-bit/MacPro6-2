@@ -72,17 +72,26 @@ def place(ref, name, xb, y, rot=0.0, side="F", value=None, dnp=False):
     FP.append((ref, name, xb, y, rot, side, value or name, dnp)); return f
 
 # ---------------- port grid = centres of the stock 821-2222-A flex cut-outs (flatbed scan 2026-10-02; plate frame, +-0.15) ----------------
-# Heights (board top -> mouth) needed for D0 = 18.0 / 16.5: USB-C 17.90 (H) / 17.82 (O), USB-A 17.49 / 17.38, HDMI 17.24, RJ45 face <= 13.6 (plan 4.7.4)
+# rev 2026-10-02 ~10:40 ET (D-IO14): the 6 USB-C, 4 USB-A and HDMI sit on 5 tilted column risers (../macpro62-io-risers, risers.json).
+# Main board carries per riser: one DF40C receptacle (flex jumper), SMD pogo pins (VBUS/GND), 2 cradle screw holes. Heights: plate stack (plan 4.7.5).
 XH, XO = 43.09, 63.69
 CY = [75.76, 65.84, 55.97]
-for i, y in enumerate(CY):
-    place("J%d" % (11 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XH, y, 0, "F", ["C1 GPU DP L0 (4-lane)", "C2 GPU DP L1 (4-lane)", "C3 GPU DP L3 (2-lane)"][i] + "; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)")
-    place("J%d" % (14 + i), "MP62_USB_C_24P_Vertical_PLACEHOLDER", XO, y, 0, "F", ["C4 GPU DP L4 (2-lane)", "C5 iGPU DDI-B", "C6 iGPU DDI-C"][i] + "; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)")
-for i, (x, y) in enumerate([(43.12, 42.64), (43.12, 32.54), (63.76, 42.64), (63.76, 32.54)]):
-    place("J%d" % (21 + i), "MP62_USB_A3_9P_Vertical_PLACEHOLDER", x, y, 0, "F", "USB-A A%d 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +%.1f port riser (mouth %.2f)" % (i + 1, 2.5 if x < 53 else 2.4, 17.49 if x < 53 else 17.38))
-place("J25", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 63.67, 91.60, 0, "F", "ETH1 i226-V #1 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.6 -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)")
-place("J26", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", 43.15, 91.41, 0, "F", "ETH2 i226-V #2 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.7 (behind the frame) -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)")
-place("J27", "MP62_HDMI_A_Vertical_PLACEHOLDER", 42.96, 107.07, 0, "F", "HDMI (GPU link 2 via TDP158); vertical H15 (JLC C9900153431, verify shell <= 15.4 x 5.6) on +2.2 port riser (mouth 17.24)")
+RJ = json.load(open("/workspace/kicad/macpro62-io-risers/risers.json"))["risers"]
+_pg = 0; _hc = 0
+for k, r in enumerate(RJ):
+    fpn = "MP62_Hirose_DF40C-%dDS-0.4V_PLACEHOLDER" % r["btb_pins"]
+    place("JR%d" % (k + 1), fpn, r["btb_main_plan"][0], r["btb_main_plan"][1], 90, "F",
+          "%s riser link (%s, ports %s, tilt %.2f deg): %s %s + flex jumper w/ 2 x DF40C-%dDP plugs" % (r["id"], r["type"], "/".join(r["ports"]), r["tilt_deg"], r["btb"], r["btb_lcsc"], r["btb_pins"]))
+    for (x, y) in r["screws_cradle_to_main"]:
+        _hc += 1; place("H%d" % (20 + _hc), "MP62_Cradle_Screw_M2_NPTH", x, y, 0, "F", "%s cradle M2 screw (printed PA12 wedge cradle)" % r["id"])
+    for (x, y, h, net) in r["pogo"]:
+        _pg += 1; place("PG%d" % _pg, "MP62_Pogo_SMD_D2.0_PLACEHOLDER", x, y, 0, "F", "%s pogo %s, working height %.2f" % (r["id"], net, h))
+    x0, x1 = r["plan_x_range"]; y0, y1 = r["y_range"]
+    rectd(x0, y0, x1, y1, pcbnew.Dwgs_User, 0.12); txt("%s riser %.1f deg" % (r["id"], r["tilt_deg"]), (x0 + x1) / 2, y0 + 1.5, pcbnew.Dwgs_User, 0.6)
+place("J25", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 63.67, 91.60, 0, "F", "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
+place("J26", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 43.15, 91.41, 0, "F", "ETH2 i226-V #2: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
+place("T1", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 63.67, 99.3, 0, "B", "ETH1 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J25 posts)")
+place("T2", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 42.6, 99.1, 0, "B", "ETH2 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J26 posts)")
 place("SW1", "SW_SPST_PTS810", 63.79, 108.11, 0, "F", "DNP with the stock 821-2222-A flex (its dome switch is the power button, via J31); fit only without the flex", dnp=True)
 place("J30", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", 56.5, 104.5, 0, "F", "Optional stock/remote power button 2P (parallel to SW1)")
 place("J31", "Hirose_FH12-14S-0.5SH_1x14-1MP_P0.50mm_Horizontal", 82.8, 10.0, 0, "F", "I/O-wall (821-2222) flex ZIF 14P 0.5: power button + port illumination (HX FPC 0.5-14P HYH2.0, C7502869; land pattern = FH12 placeholder, verify)")
@@ -171,6 +180,17 @@ for k in range(8):
 place("SW2", "SW_SPST_TL3342", 16.5, 114.5, 0, "B", "DIAG button")
 place("D30", "D_SOD-323", 14.0, 131.0, 90, "B", "BAT54WS VBAT no-charge diode")
 place("R30", "R_0402_1005Metric", 14.0, 134.5, 90, "B", "1k VBAT series")
+
+# ---------------- CONN_C fan + AirPort press connector (stock position, B side, between the 2 stock standoffs) ----------------
+_cs = g["stock_conn"]["CONN_C_standoffs"]
+place("J7", "MP62_Hirose_DF12-40DS-0.5V_PLACEHOLDER", (_cs[0][0] + _cs[1][0]) / 2, (_cs[0][1] + _cs[1][1]) / 2, 0, "B",
+      "CONN_C fan + AirPort 2x20 @0.5 (stock press B2B). DF12-40DS-0.5V(86) C431048 footprint candidate; pinout UNCONFIRMED (M-IOC1)")
+for k, (x, y) in enumerate(_cs):
+    place("H%d" % (14 + k), "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER", x, y, 0, "B", "CONN_C threaded standoff (stock position %.2f, %.2f; thread = stock T8 captive screw, M-IOC1)" % (x, y))
+place("U90", "MSOP-8_3x3mm_P0.65mm", 44.0, 11.0, 0, "B", "EMC2101 fan controller @0x4C on I2C_SYS: PWM + TACH to J7, 12V fan feed")
+place("U91", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 24.0, 130.0, 0, "B", "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7")
+place("U35", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 59.0, 0, "B", "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare")
+place("Y7", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 19.0, 63.5, 0, "B", "12 MHz hub crystal (H3)")
 
 # ---------------- rule areas / documentation ----------------
 KEEP = []

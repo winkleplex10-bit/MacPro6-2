@@ -1,4 +1,102 @@
 {
+"Y7": {
+"side": "B",
+"xb": [
+16.86,
+21.15
+],
+"y": [
+61.71,
+65.29
+],
+"value": "12 MHz hub crystal (H3)",
+"fp": "MP62_IO:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+"dnp": false
+},
+"U35": {
+"side": "B",
+"xb": [
+16.26,
+21.75
+],
+"y": [
+56.25,
+61.75
+],
+"value": "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare",
+"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U91": {
+"side": "B",
+"xb": [
+18.86,
+29.15
+],
+"y": [
+124.86,
+135.14
+],
+"value": "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7",
+"fp": "MP62_IO:MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER",
+"dnp": false
+},
+"U90": {
+"side": "B",
+"xb": [
+40.78,
+47.23
+],
+"y": [
+9.21,
+12.79
+],
+"value": "EMC2101 fan controller @0x4C on I2C_SYS: PWM + TACH to J7, 12V fan feed",
+"fp": "MP62_IO:MSOP-8_3x3mm_P0.65mm",
+"dnp": false
+},
+"H15": {
+"side": "B",
+"xb": [
+57.28,
+62.57
+],
+"y": [
+2.55,
+7.85
+],
+"value": "CONN_C threaded standoff (stock position 59.92, 5.20; thread = stock T8 captive screw, M-IOC1)",
+"fp": "MP62_IO:MP62_Frame_Standoff_M2_SMT_PLACEHOLDER",
+"dnp": false
+},
+"H14": {
+"side": "B",
+"xb": [
+38.42,
+43.71
+],
+"y": [
+2.52,
+7.82
+],
+"value": "CONN_C threaded standoff (stock position 41.06, 5.17; thread = stock T8 captive screw, M-IOC1)",
+"fp": "MP62_IO:MP62_Frame_Standoff_M2_SMT_PLACEHOLDER",
+"dnp": false
+},
+"J7": {
+"side": "B",
+"xb": [
+44.1,
+56.89
+],
+"y": [
+1.84,
+8.53
+],
+"value": "CONN_C fan + AirPort 2x20 @0.5 (stock press B2B). DF12-40DS-0.5V(86) C431048 footprint candidate; pinout UNCONFIRMED (M-IOC1)",
+"fp": "MP62_IO:MP62_Hirose_DF12-40DS-0.5V_PLACEHOLDER",
+"dnp": false
+},
 "R30": {
 "side": "B",
 "xb": [
@@ -1455,186 +1553,494 @@
 "fp": "MP62_IO:SW_SPST_PTS810",
 "dnp": true
 },
-"J27": {
-"side": "F",
+"T2": {
+"side": "B",
 "xb": [
-34.32,
-51.61
+34.56,
+50.65
 ],
 "y": [
-103.33,
-110.81
+93.16,
+105.05
 ],
-"value": "HDMI (GPU link 2 via TDP158); vertical H15 (JLC C9900153431, verify shell <= 15.4 x 5.6) on +2.2 port riser (mouth 17.24)",
-"fp": "MP62_IO:MP62_HDMI_A_Vertical_PLACEHOLDER",
+"value": "ETH2 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J26 posts)",
+"fp": "MP62_IO:MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER",
+"dnp": false
+},
+"T1": {
+"side": "B",
+"xb": [
+55.63,
+71.72
+],
+"y": [
+93.36,
+105.25
+],
+"value": "ETH1 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J25 posts)",
+"fp": "MP62_IO:MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER",
 "dnp": false
 },
 "J26": {
 "side": "F",
 "xb": [
-33.81,
-52.5
+34.51,
+51.8
 ],
 "y": [
-82.56,
-100.25
+83.27,
+99.56
 ],
-"value": "ETH2 i226-V #2 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.7 (behind the frame) -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)",
-"fp": "MP62_IO:MP62_RJ45_HanRun_HR913790A_Vertical_2G5",
+"value": "ETH2 i226-V #2: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15",
+"fp": "MP62_IO:MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER",
 "dnp": false
 },
 "J25": {
 "side": "F",
 "xb": [
-54.33,
-73.02
+55.03,
+72.32
 ],
 "y": [
-82.75,
-100.44
+83.45,
+99.75
 ],
-"value": "ETH1 i226-V #1 2.5GbE. HR913790A (16.9) TOO TALL for D0 18: face must be <= 13.6 -> non-magnetic vertical RJ45 <= 13.0 + V24P05S magnetics (footprint TBD)",
-"fp": "MP62_IO:MP62_RJ45_HanRun_HR913790A_Vertical_2G5",
+"value": "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15",
+"fp": "MP62_IO:MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER",
 "dnp": false
 },
-"J24": {
+"H30": {
 "side": "F",
 "xb": [
-56.12,
-71.41
+49.12,
+53.61
 ],
 "y": [
-29.09,
-35.99
+109.12,
+113.62
 ],
-"value": "USB-A A4 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.4 port riser (mouth 17.38)",
-"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"value": "RH cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
 "dnp": false
 },
-"J23": {
+"H29": {
 "side": "F",
 "xb": [
-56.12,
-71.41
+34.12,
+38.61
 ],
 "y": [
-39.19,
-46.09
+109.12,
+113.62
 ],
-"value": "USB-A A3 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.4 port riser (mouth 17.38)",
-"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"value": "RH cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
 "dnp": false
 },
-"J22": {
+"JR5": {
 "side": "F",
 "xb": [
-35.48,
-50.77
+41.66,
+46.35
 ],
 "y": [
-29.09,
-35.99
+101.62,
+112.51
 ],
-"value": "USB-A A2 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.5 port riser (mouth 17.49)",
-"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"value": "RH riser link (HDMI, ports HDMI, tilt -5.33 deg): DF40C-40DS-0.4V(51) TBC + flex jumper w/ 2 x DF40C-40DP plugs",
+"fp": "MP62_IO:MP62_Hirose_DF40C-40DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
-"J21": {
+"H28": {
 "side": "F",
 "xb": [
-35.48,
-50.77
+60.49,
+64.99
 ],
 "y": [
-39.19,
-46.09
+43.59,
+48.08
 ],
-"value": "USB-A A1 10G; KH-3.0AF180WJ-15JB C2979045 L15.0 on +2.5 port riser (mouth 17.49)",
-"fp": "MP62_IO:MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+"value": "RA_O cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
 "dnp": false
 },
-"J16": {
+"H27": {
 "side": "F",
 "xb": [
-58.65,
-68.74
+60.49,
+64.99
 ],
 "y": [
-52.53,
-59.41
+27.09,
+31.58
 ],
-"value": "C6 iGPU DDI-C; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)",
-"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"value": "RA_O cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
 "dnp": false
 },
-"J13": {
+"JR4": {
 "side": "F",
 "xb": [
-38.05,
-48.14
+70.29,
+74.98
 ],
 "y": [
-52.53,
-59.41
+31.14,
+44.03
 ],
-"value": "C3 GPU DP L3 (2-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)",
-"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"value": "RA_O riser link (A, ports A3/A4, tilt 5.51 deg): DF40C-50DS-0.4V(51) TBC + flex jumper w/ 2 x DF40C-50DP plugs",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
-"J15": {
+"H26": {
 "side": "F",
 "xb": [
-58.65,
-68.74
+41.85,
+46.34
 ],
 "y": [
-62.4,
-69.28
+43.59,
+48.08
 ],
-"value": "C5 iGPU DDI-B; FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)",
-"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"value": "RA_H cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
 "dnp": false
 },
-"J12": {
+"H25": {
 "side": "F",
 "xb": [
-38.05,
-48.14
+41.85,
+46.34
 ],
 "y": [
-62.4,
-69.28
+27.09,
+31.58
 ],
-"value": "C2 GPU DP L1 (4-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)",
-"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"value": "RA_H cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
 "dnp": false
 },
-"J14": {
+"JR3": {
 "side": "F",
 "xb": [
-58.65,
-68.74
+31.84,
+36.53
 ],
 "y": [
-72.31,
-79.2
+31.14,
+44.03
 ],
-"value": "C4 GPU DP L4 (2-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.8 port riser (mouth 17.82)",
-"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"value": "RA_H riser link (A, ports A1/A2, tilt -5.25 deg): DF40C-50DS-0.4V(51) TBC + flex jumper w/ 2 x DF40C-50DP plugs",
+"fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
-"J11": {
+"PG16": {
 "side": "F",
 "xb": [
-38.05,
-48.14
+54.41,
+57.7
 ],
 "y": [
-72.31,
-79.2
+61.32,
+64.61
 ],
-"value": "C1 GPU DP L0 (4-lane); FG-ST-C-24P-VT-SMT-15.0 C51911913 H15.0 on +2.9 port riser (mouth 17.90)",
-"fp": "MP62_IO:MP62_USB_C_24P_Vertical_PLACEHOLDER",
+"value": "RC_O pogo GND, working height 7.14",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG15": {
+"side": "F",
+"xb": [
+67.55,
+70.84
+],
+"y": [
+67.12,
+70.41
+],
+"value": "RC_O pogo GND, working height 5.88",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG14": {
+"side": "F",
+"xb": [
+54.41,
+57.7
+],
+"y": [
+51.42,
+54.71
+],
+"value": "RC_O pogo VBUS_C1, working height 7.14",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG13": {
+"side": "F",
+"xb": [
+67.55,
+70.84
+],
+"y": [
+51.42,
+54.71
+],
+"value": "RC_O pogo VBUS_C1, working height 5.88",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG12": {
+"side": "F",
+"xb": [
+54.41,
+57.7
+],
+"y": [
+65.72,
+69.01
+],
+"value": "RC_O pogo VBUS_C2, working height 7.14",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG11": {
+"side": "F",
+"xb": [
+67.55,
+70.84
+],
+"y": [
+62.72,
+66.01
+],
+"value": "RC_O pogo VBUS_C2, working height 5.88",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG10": {
+"side": "F",
+"xb": [
+54.41,
+57.7
+],
+"y": [
+77.02,
+80.31
+],
+"value": "RC_O pogo VBUS_C3, working height 7.14",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG9": {
+"side": "F",
+"xb": [
+67.55,
+70.84
+],
+"y": [
+77.02,
+80.31
+],
+"value": "RC_O pogo VBUS_C3, working height 5.88",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"H24": {
+"side": "F",
+"xb": [
+60.53,
+65.02
+],
+"y": [
+78.71,
+83.2
+],
+"value": "RC_O cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"dnp": false
+},
+"H23": {
+"side": "F",
+"xb": [
+60.53,
+65.02
+],
+"y": [
+48.53,
+53.02
+],
+"value": "RC_O cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"dnp": false
+},
+"JR2": {
+"side": "F",
+"xb": [
+60.28,
+64.97
+],
+"y": [
+56.42,
+75.31
+],
+"value": "RC_O riser link (C, ports C4/C5/C6, tilt 5.47 deg): DF40C-80DS-0.4V(51) C312960 + flex jumper w/ 2 x DF40C-80DP plugs",
+"fp": "MP62_IO:MP62_Hirose_DF40C-80DS-0.4V_PLACEHOLDER",
+"dnp": false
+},
+"PG8": {
+"side": "F",
+"xb": [
+49.04,
+52.32
+],
+"y": [
+67.12,
+70.41
+],
+"value": "RC_H pogo GND, working height 7.15",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG7": {
+"side": "F",
+"xb": [
+35.89,
+39.18
+],
+"y": [
+61.32,
+64.61
+],
+"value": "RC_H pogo GND, working height 5.94",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG6": {
+"side": "F",
+"xb": [
+49.04,
+52.32
+],
+"y": [
+77.02,
+80.31
+],
+"value": "RC_H pogo VBUS_C1, working height 7.15",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG5": {
+"side": "F",
+"xb": [
+35.89,
+39.18
+],
+"y": [
+77.02,
+80.31
+],
+"value": "RC_H pogo VBUS_C1, working height 5.94",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG4": {
+"side": "F",
+"xb": [
+49.04,
+52.32
+],
+"y": [
+62.72,
+66.01
+],
+"value": "RC_H pogo VBUS_C2, working height 7.15",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG3": {
+"side": "F",
+"xb": [
+35.89,
+39.18
+],
+"y": [
+65.72,
+69.01
+],
+"value": "RC_H pogo VBUS_C2, working height 5.94",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG2": {
+"side": "F",
+"xb": [
+49.04,
+52.32
+],
+"y": [
+51.42,
+54.71
+],
+"value": "RC_H pogo VBUS_C3, working height 7.15",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"PG1": {
+"side": "F",
+"xb": [
+35.89,
+39.18
+],
+"y": [
+51.42,
+54.71
+],
+"value": "RC_H pogo VBUS_C3, working height 5.94",
+"fp": "MP62_IO:MP62_Pogo_SMD_D2.0_PLACEHOLDER",
+"dnp": false
+},
+"H22": {
+"side": "F",
+"xb": [
+41.72,
+46.21
+],
+"y": [
+78.71,
+83.2
+],
+"value": "RC_H cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"dnp": false
+},
+"H21": {
+"side": "F",
+"xb": [
+41.72,
+46.21
+],
+"y": [
+48.53,
+53.02
+],
+"value": "RC_H cradle M2 screw (printed PA12 wedge cradle)",
+"fp": "MP62_IO:MP62_Cradle_Screw_M2_NPTH",
+"dnp": false
+},
+"JR1": {
+"side": "F",
+"xb": [
+41.76,
+46.45
+],
+"y": [
+56.42,
+75.31
+],
+"value": "RC_H riser link (C, ports C1/C2/C3, tilt -5.27 deg): DF40C-80DS-0.4V(51) C312960 + flex jumper w/ 2 x DF40C-80DP plugs",
+"fp": "MP62_IO:MP62_Hirose_DF40C-80DS-0.4V_PLACEHOLDER",
 "dnp": false
 }
 }

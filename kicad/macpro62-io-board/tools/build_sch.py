@@ -40,6 +40,21 @@ addsym("USB_A3", [("1", "VBUS", "L"), ("2", "D-", "L"), ("3", "D+", "L"), ("4", 
 addsym("HDMI_A", [(str(i), n, "L" if i <= 10 else "R") for i, n in enumerate(
     ["D2+", "D2_S", "D2-", "D1+", "D1_S", "D1-", "D0+", "D0_S", "D0-", "CK+", "CK_S", "CK-", "CEC", "UTIL", "SCL", "SDA", "DDC_GND", "+5V", "HPD"], 1)] + [("S", "SHIELD", "R")],
     "J", "MP62_HDMI_A_Vertical_PLACEHOLDER", "HDMI type A receptacle, vertical (HDMI 1.4/2.0 pinout)")
+addsym("RJ45_NOMAG", [(str(k), "P%d" % k, "L") for k in range(1, 9)] + [("S", "SHIELD", "R")], "J", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER",
+       "Vertical SMD RJ45 8P8C, no magnetics, no LED (Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C C55547809, height <= 13.0 VERIFY) - D-IO15")
+ic("V24P05S", sum([["C%d+" % i, "C%d-" % i, "CCT%d" % i] for i in range(1, 5)], []), sum([["L%d+" % i, "L%d-" % i, "LCT%d" % i] for i in range(1, 5)], []), "T",
+   "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", "JASN V24P05S 2.5GBASE-T magnetics 1CT:1CT (LCSC C2827281), LOGICAL pins (map from the JASN drawing)", w=12.7)
+ic("EMC2101", ["VDD", "SCL", "SDA", "GND"], ["FAN_PWM", "ALERT#/TACH", "DP", "DN"], "U", "MSOP-8_3x3mm_P0.65mm", "Microchip EMC2101 fan controller + temp sensor, SMBus 0x4C (LOGICAL pins)", w=12.7)
+ic("ASM1182E", ["UP_RXP", "UP_RXN", "UP_TXP", "UP_TXN", "UP_REFCLKP", "UP_REFCLKN", "PERST#", "XI", "XO", "VCC3P3", "VCC1P0", "GND"],
+   ["DN0_TXP", "DN0_TXN", "DN0_RXP", "DN0_RXN", "DN0_REFCLKP", "DN0_REFCLKN", "DN0_CLKREQ#", "DN1_TXP", "DN1_TXN", "DN1_RXP", "DN1_RXN", "DN1_REFCLKP", "DN1_REFCLKN", "DN1_CLKREQ#", "EP_GND"],
+   "U", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", "ASMedia ASM1182e PCIe Gen2 1:2 packet switch (downstream REFCLK outputs per datasheet: VERIFY), LOGICAL pins", w=15.24)
+CONNC = [("1", "GND"), ("2", "GND"), ("3", "WL_PCIE_TX+"), ("4", "FAN_12V"), ("5", "WL_PCIE_TX-"), ("6", "FAN_12V"), ("7", "GND"), ("8", "FAN_12V"), ("9", "WL_PCIE_RX+"), ("10", "GND"),
+         ("11", "WL_PCIE_RX-"), ("12", "FAN_PWM"), ("13", "GND"), ("14", "FAN_TACH"), ("15", "WL_REFCLK+"), ("16", "GND"), ("17", "WL_REFCLK-"), ("18", "BT_USB2_DP"), ("19", "GND"),
+         ("20", "BT_USB2_DN"), ("21", "WL_PERST#"), ("22", "GND"), ("23", "WL_CLKREQ#"), ("24", "3V3_WL"), ("25", "WL_WAKE#"), ("26", "3V3_WL"), ("27", "W_DISABLE#"), ("28", "3V3_WL"),
+         ("29", "BT_DISABLE#"), ("30", "3V3_WL"), ("31", "SMB_SCL"), ("32", "GND"), ("33", "SMB_SDA"), ("34", "3V3_SB"), ("35", "FAN_SENSE"), ("36", "GND"), ("37", "NC37"), ("38", "NC38"),
+         ("39", "GND"), ("40", "GND")]
+addsym("CONNC_40", [(k, n + ("" if n not in ("GND", "FAN_12V", "3V3_WL") else "_" + k), "L" if int(k) % 2 else "R") for k, n in CONNC], "J", "MP62_Hirose_DF12-40DS-0.5V_PLACEHOLDER",
+       "CONN_C fan + AirPort 2x20 @ 0.5 (stock press B2B, DF12-40DS-0.5V(86) candidate). PROPOSED pinout - every pin UNCONFIRMED until M-IOC1 probing.")
 addsym("RJ45_HR913790A", [("1", "CT", "L")] + [(str(k), "TRD%d%s" % ((k - 2) // 2 + 1, "+-"[(k - 2) % 2]), "L") for k in range(2, 10)] +
        [("10", "BS_CAP", "R"), ("11", "LEDGO_11", "R"), ("12", "LEDGO_12", "R"), ("13", "LEDY_K", "R"), ("14", "LEDY_A", "R"), ("S", "SHIELD", "R")],
        "J", "MP62_RJ45_HanRun_HR913790A_Vertical_2G5", "HanRun HR913790A vertical RJ45, integrated 2.5G/5G magnetics (P1 = common CT, P10 = 1000 pF Bob-Smith to chassis); green/orange bicolour 11/12, yellow 14(A)/13(K)")
@@ -258,13 +273,15 @@ res("REDRV_EQ", "GND", "EQ strap (value per TUSB1002A EQ table, trace length ~40
 res("USB_OC#", "3V3", "10k (PCH OC0# pull-up is on the CB; DNP)", dnp=True)
 
 # --- USB2 hubs ---
-section("USB2 hubs CH334R (H1a U34, H1b U32, H2 U33)")
+section("USB2 hubs CH334R (H1a U34, H1b U32, H2 U33, H3 U35)")
 hubs = [("U34", "Y1", "USB2_HS1", ["C1", "C2", "C3", "H1B"], "H1a <- HS1 USB2 (CB PCH port)"),
         ("U32", "Y2", "H1B_USB2", ["C4", "C5", "C6", "AUD"], "H1b <- H1a port 4"),
-        ("U33", "Y3", "USB2_LINK", ["A1", "A2", "A3", "A4"], "H2 <- IOB-LINK USB2 (BP spare)")]
+        ("U33", "Y3", "USB2_LINK", ["A1", "A2", "A3", "H3"], "H2 <- IOB-LINK USB2 (BP spare)"),
+        ("U35", "Y7", "H3_USB2", ["A4", "BT", "SPARE1", "SPARE2"], "H3 <- H2 port 4 (A4 + AirPort Bluetooth + 2 spare), 2026-10-02")]
 for ref, y, up, dn, val in hubs:
     m = {"UDP": up + "_DP", "UDM": up + "_DN", "XI": ref + "_XI", "XO": ref + "_XO", "V5": "5V_A", "V33": ref + "_V33", "RESET#": ref + "_V33", "GND": "GND", "EP_GND": "GND"}
-    for i, d in enumerate(dn): m["DP%d" % (i + 1)] = d + "_USB2_DP"; m["DM%d" % (i + 1)] = d + "_USB2_DN"
+    for i, d in enumerate(dn):
+        if not d.startswith("SPARE"): m["DP%d" % (i + 1)] = d + "_USB2_DP"; m["DM%d" % (i + 1)] = d + "_USB2_DN"
     add(ref, "CH334R", "CH334R " + val, m)
     add(y, "XTAL4", "12MHz 3225 +/-20ppm", {"1": ref + "_XI", "3": ref + "_XO", "2": "GND", "4": "GND"})
     cap(ref + "_XI", "GND", "22pF"); cap(ref + "_XO", "GND", "22pF")
@@ -280,7 +297,7 @@ def eth_port(n, u, nvm, xt, l, j, pfx, note):
         "REFCLKP": S + "_REFCLK+", "REFCLKN": S + "_REFCLK-", "PERST#": "I226_PERST#", "CLKREQ#": S + "_CLKREQ#", "WAKE#": "I226_WAKE#", "XTAL1": S + "_XI", "XTAL2": S + "_XO",
         "SPI_CS#": S + "_SPI_CS#", "SPI_CLK": S + "_SPI_CLK", "SPI_MOSI": S + "_SPI_MOSI", "SPI_MISO": S + "_SPI_MISO", "VCC3P3": "3V3", "SVR_SW": S + "_SVR", "VCC0P9": S + "_0V9",
         "GND": "GND", "EP_GND": "GND", **{"MDI%d%s" % (i, q): "%s_MDI%d_%s" % (E, i, q) for i in range(4) for q in "PN"},
-        "LED0#": E + "_LED_LINK#", "LED1#": E + "_LED_ACT#", "RSET": S + "_RSET"})
+         "RSET": S + "_RSET"})
     for pol in "PN": cap(P + "_RX_" + pol, P + "_RXC_" + pol, "220nF 0201 X7R (i226 TX -> PCH RX AC cap)")
     add(xt, "XTAL4", "25MHz 3225 +/-30ppm (i226 #%d)" % n, {"1": S + "_XI", "3": S + "_XO", "2": "GND", "4": "GND"})
     cap(S + "_XI", "GND", "18pF"); cap(S + "_XO", "GND", "18pF")
@@ -289,13 +306,42 @@ def eth_port(n, u, nvm, xt, l, j, pfx, note):
     add(l, "L", "i226 #%d SVR inductor (value per Intel design guide)" % n, {"1": S + "_SVR", "2": S + "_0V9"}, fp=FPL + ":L_1008_2520Metric")
     dec(S + "_0V9", ["22uF 0603", "1uF", "100nF"]); dec("3V3", ["22uF 0603", "1uF", "100nF", "100nF"])
     res(S + "_RSET", "GND", "RSET (value per Intel)")
-    add(j, "RJ45_HR913790A", "HanRun HR913790A vertical 2.5G magjack (%s)" % E, {"1": E + "_CT", **{"%d" % (2 + 2 * i + k): "%s_MDI%d_%s" % (E, i, "PN"[k]) for i in range(4) for k in range(2)},
-        "10": "GND", "11": E + "_LED_LINK#", "12": E + "_LEDG_A", "13": E + "_LED_ACT#", "14": E + "_LEDY_A", "S": "GND"})
-    cap(E + "_CT", "GND", "100nF 0402 (magjack common centre tap)")
-    res(E + "_LEDG_A", "3V3", "330R (green link LED; orange half of the bicolour unused)"); res(E + "_LEDY_A", "3V3", "330R (yellow activity LED)")
+    tn = "T1" if n == 1 else "T2"
+    add(tn, "V24P05S", "JASN V24P05S 2.5G magnetics (%s), C2827281" % E, {**{"C%d%s" % (i + 1, "+-"[k]): "%s_MDI%d_%s" % (E, i, "PN"[k]) for i in range(4) for k in range(2)},
+        **{"L%d%s" % (i + 1, "+-"[k]): "%s_TRD%d_%s" % (E, i, "PN"[k]) for i in range(4) for k in range(2)},
+        **{"CCT%d" % (i + 1): E + "_CT" for i in range(4)}, **{"LCT%d" % (i + 1): "%s_LCT%d" % (E, i) for i in range(4)}})
+    add(j, "RJ45_NOMAG", "Non-magnetic vertical RJ45 (%s) C55547809" % E, {**{"%d" % (1 + 2 * i + k): "%s_TRD%d_%s" % (E, i, "PN"[k]) for i in range(4) for k in range(2)}, "S": "GND"})
+    cap(E + "_CT", "GND", "100nF 0402 (chip-side centre taps, i226 MDI)")
+    for i in range(4): res("%s_LCT%d" % (E, i), E + "_BOB", "75R 0402 (Bob-Smith)")
+    cap(E + "_BOB", "GND", "1nF 2 kV 1206 (Bob-Smith to chassis)")
     res(S + "_CLKREQ#", "3V3", "10k (DNP if CB pulls up)", dnp=True)
 eth_port(1, "U50", "U51", "Y4", "L44", "J25", "I226", "HS1 k10, PCH RP3 / HSIO 12, CLKOUT_SRC12")
-eth_port(2, "U52", "U53", "Y6", "L45", "J26", "I226B", "HS1 k14, PCH RP4 / HSIO 13, CLKOUT_SRC11; REFCLK on HS1 B26/B27, CLKREQ# A29")
+eth_port(2, "U52", "U53", "Y6", "L45", "J26", "I226S", "HS1 k14, PCH RP4 / HSIO 13, CLKOUT_SRC11; REFCLK on HS1 B26/B27, CLKREQ# A29")
+
+# --- CONN_C fan + AirPort (2026-10-02) ---
+section("CONN_C fan + AirPort (J7), EMC2101 U90, ASM1182e U91 (PCIe x1 shared with i226 #2)")
+add("U91", "ASM1182E", "ASM1182e PCIe Gen2 switch: up = HS1 k14 (PCH RP4), dn0 = i226 #2, dn1 = AirPort", {"UP_RXP": "PCIE_I226B_TX_P", "UP_RXN": "PCIE_I226B_TX_N",
+    "UP_TXP": "PCIE_I226B_RXS_P", "UP_TXN": "PCIE_I226B_RXS_N", "UP_REFCLKP": "I226B_REFCLK+", "UP_REFCLKN": "I226B_REFCLK-", "PERST#": "I226_PERST#", "XI": "U91_XI", "XO": "U91_XO",
+    "VCC3P3": "3V3", "VCC1P0": "U91_1V0", "GND": "GND", "EP_GND": "GND",
+    "DN0_TXP": "PCIE_I226S_TX_P", "DN0_TXN": "PCIE_I226S_TX_N", "DN0_RXP": "PCIE_I226S_RXC_P", "DN0_RXN": "PCIE_I226S_RXC_N", "DN0_REFCLKP": "I226S_REFCLK+", "DN0_REFCLKN": "I226S_REFCLK-", "DN0_CLKREQ#": "I226S_CLKREQ#",
+    "DN1_TXP": "WL_PCIE_TXC+", "DN1_TXN": "WL_PCIE_TXC-", "DN1_RXP": "WL_PCIE_RX+", "DN1_RXN": "WL_PCIE_RX-", "DN1_REFCLKP": "WL_REFCLK+", "DN1_REFCLKN": "WL_REFCLK-", "DN1_CLKREQ#": "WL_CLKREQ#"})
+res("I226B_CLKREQ#", "GND", "0R: HS1 CLKREQ# for RP4 held low (switch upstream needs REFCLK always)")
+for pol in "PN": cap("PCIE_I226B_RXS_" + pol, "PCIE_I226B_RXC_" + pol, "220nF 0201 (switch TX -> PCH RX AC cap)")
+for pol in "+-": cap("WL_PCIE_TXC" + pol, "WL_PCIE_TX" + pol, "100nF 0201 (switch TX -> AirPort RX AC cap)")
+add("Y8", "XTAL4", "25MHz 3225 (ASM1182e, per datasheet)", {"1": "U91_XI", "3": "U91_XO", "2": "GND", "4": "GND"})
+dec("U91_1V0", ["10uF", "1uF", "100nF"]); dec("3V3", ["10uF", "100nF", "100nF"])
+add("J7", "CONNC_40", "CONN_C fan + AirPort (stock press B2B, 2x20 @0.5; pinout UNCONFIRMED, M-IOC1)", {**{k: n for k, n in CONNC if n not in ("NC37", "NC38", "FAN_SENSE")},
+    "21": "I226_PERST#", "25": "I226_WAKE#", "18": "BT_USB2_DP", "20": "BT_USB2_DN"})
+add("U90", "EMC2101", "EMC2101 fan controller (SMBus 0x4C, PWM 25 kHz, TACH)", {"VDD": "3V3", "SCL": "I2C_SYS_SCL", "SDA": "I2C_SYS_SDA", "GND": "GND",
+    "FAN_PWM": "FAN_PWM", "ALERT#/TACH": "FAN_TACH", "DP": "EMC_DP", "DN": "EMC_DN"})
+res("FAN_TACH", "3V3", "10k TACH pull-up"); res("FAN_PWM", "3V3", "4k7 PWM pull-up (open-drain)")
+add("Q90", "C", "MMBT3904 remote diode (or omit: EMC2101 internal sensor)", {"1": "EMC_DP", "2": "EMC_DN"})
+add("F90", "R", "1.5 A PTC / 0R fuse link (+12V_IOB -> FAN_12V)", {"1": "+12V_IOB", "2": "FAN_12V"})
+add("U92", "C", "3V3 WLAN load switch (TPS22918 class, 2 A) 3V3 -> 3V3_WL (LOGICAL 2-pin stand-in)", {"1": "3V3", "2": "3V3_WL"})
+dec("3V3_WL", ["22uF 0805", "1uF", "100nF"]); dec("FAN_12V", ["10uF 25V 0805"])
+res("W_DISABLE#", "3V3", "10k (radio on; drive from TLC59116/IOB GPIO if wanted)"); res("BT_DISABLE#", "3V3", "10k")
+res("WL_CLKREQ#", "3V3", "10k"); res("3V3_SB", "3V3", "0R (3V3_SB alias: confirm the stock rail on M-IOC1)")
+res("SMB_SCL", "I2C_SYS_SCL", "0R DNP (fan-assembly SMBus, if present)", dnp=True); res("SMB_SDA", "I2C_SYS_SDA", "0R DNP", dnp=True)
 
 # --- HDMI ---
 section("HDMI: GPU link 2 (DP++) -> TDP158 U60 -> J27")

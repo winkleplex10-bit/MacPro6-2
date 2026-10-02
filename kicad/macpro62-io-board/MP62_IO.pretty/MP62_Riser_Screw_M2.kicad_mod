@@ -1,0 +1,11 @@
+(footprint "MP62_Riser_Screw_M2"
+  (version 20241229)
+  (generator "mp62_io")
+  (layer "F.Cu")
+  (descr "M2 clearance hole for the printed riser cradle (D-IO14).")
+  (property "Reference" "REF**" (at 0 -1 0) (layer "F.SilkS") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (property "Value" "MP62_Riser_Screw_M2" (at 0 1 0) (layer "F.Fab") (effects (font (size 0.6 0.6) (thickness 0.1))))
+  (attr exclude_from_pos_files exclude_from_bom)
+  (pad "" np_thru_hole circle (at 0.000 0.000) (size 2.300 2.300) (drill 2.300) (layers "*.Cu" "*.Mask"))
+  (fp_circle (center 0 0) (end 2.15 0) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+)
