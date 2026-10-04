@@ -1,0 +1,32 @@
+{
+ "panel": "panel_a25",
+ "size_mm": [
+  74.0,
+  82.2
+ ],
+ "units": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "T"
+ ],
+ "designs": [
+  "mod_usba",
+  "tdr_coupon_a25"
+ ],
+ "pieces": 5,
+ "unit_area_mm2": {
+  "A1": 305.4,
+  "A2": 305.4,
+  "A3": 305.4,
+  "A4": 305.4,
+  "T": 1102.0
+ },
+ "panel_area_mm2": 6082.8,
+ "utilisation": 0.382,
+ "fiducials": 8,
+ "tooling_holes": 4,
+ "tabs": 30,
+ "user1_stiffener_shapes": 40
+}

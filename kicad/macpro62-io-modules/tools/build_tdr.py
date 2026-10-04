@@ -17,7 +17,8 @@ COUPONS = {
                                         ("TMDS100_SOLID", 0.08, 0.15, None, "100 ohm diff, solid L2 (tail)"),
                                         ("USB90_HATCH", 0.12, 0.10, (0.10, 0.25), "90 ohm diff, L2 hatch 0.10/0.25 (bend)"),
                                         ("TMDS100_HATCH", 0.11, 0.15, (0.10, 0.25), "100 ohm diff, L2 hatch 0.10/0.25 (bend)"),
-                                        ("SE50_SOLID", 0.09, None, None, "50 ohm SE reference, solid L2")]),
+                                        ("SE50_SOLID", 0.09, None, None, "50 ohm SE reference, solid L2"),
+                                        ("PADDLE_3MIL", 0.078, 0.078, None, "paddle lanes 0.078/0.078 (3-mil min, 2026-10-04), solid L2, est. 94 diff")]),
  "tdr_coupon_a25": dict(t=0.11, lines=[("USB90_XHATCH", 0.10, 0.10, (0.10, 0.30), "90 ohm diff, L2 cross-hatch 0.10/0.30 (MOD-A tail, est. 92)"),
                                         ("USB90_XHATCH_2", 0.10, 0.10, (0.10, 0.30), "repeat (panel spread)"),
                                         ("SE_XHATCH", 0.10, None, (0.10, 0.30), "SE 0.10 over the cross-hatch (er / hatch check)")]),
@@ -32,7 +33,7 @@ def pad_fp(b, ref, x, y, nets):
 def build(name, cfg):
     BM.NETS.clear(); BM.KEEP.clear()
     b = pcbnew.BOARD(); b.SetCopperLayerCount(2)
-    ds = b.GetDesignSettings(); ds.SetBoardThickness(FromMM(cfg["t"])); ds.m_TrackMinWidth = FromMM(0.075); ds.m_MinClearance = FromMM(0.075); ds.m_HoleClearance = FromMM(0.2); ds.m_CopperEdgeClearance = FromMM(0.3)
+    ds = b.GetDesignSettings(); ds.SetBoardThickness(FromMM(cfg["t"])); ds.m_TrackMinWidth = FromMM(BM.TMIN); ds.m_MinClearance = FromMM(BM.TMIN); ds.m_HoleClearance = FromMM(0.2); ds.m_CopperEdgeClearance = FromMM(0.3)
     n = len(cfg["lines"]); RP = 5.0; H = n * RP + 4.0; W = X1 + 4.0
     for a, c in (((0, -H), (W, -H)), ((W, -H), (W, 0)), ((W, 0), (0, 0)), ((0, 0), (0, -H))): BM.shape(b, "L", a, c, pcbnew.Edge_Cuts)
     BM.text(b, "%s  JLC FPC %.2f  L=%.1f mm  GSSG/GSG 1.00" % (name, cfg["t"], L), W / 2, -1.0, pcbnew.F_SilkS, 0.7)

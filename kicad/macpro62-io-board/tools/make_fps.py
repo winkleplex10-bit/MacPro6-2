@@ -176,8 +176,16 @@ qfn_ph("MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER", 5, 5, (10, 10, 10, 10), 0.
        "PLACEHOLDER TI TDP158RSBT 6 Gbps AC-coupled TMDS -> HDMI 2.0 retimer (WQFN-40 5 x 5, RSB). Replace with TI RSB0040.")
 qfn_ph("MP62_Intel_i226V_QFN-56_7x7_P0.4_PLACEHOLDER", 7, 7, (14, 14, 14, 14), 0.4, (5.1, 5.1),
        "PLACEHOLDER Intel Ethernet Controller i226-V (QFN 7 x 7). Land pattern and pin map from the Intel datasheet (CNDA).")
-qfn_ph("MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 4, 4, (6, 6, 6, 6), 0.5, (2.6, 2.6),
-       "PLACEHOLDER WCH CH334R 4-port USB 2.0 MTT hub (QFN-24 4 x 4). Verify pinout and package vs the WCH datasheet.")
+# 2026-10-04 cost review: CH334R is QSOP-16 (C4154405), the old QFN-24 placeholder matched the CH334F -> hubs swapped to CH334F (C5187527, QFN-24 4x4 EP2.8);
+# ASM1182e is QFN-48 7x7 EP5.4 (ASMedia / C2833072), not the old QFN-64 9x9 placeholder. Both land patterns from the JLCEDA/EasyEDA Official Library
+# (https://lceda.cn/ , https://easyeda.com), raw JSON in tools/easyeda/, converted by tools/easyeda_fp.py.
+import sys as _sys; _sys.path.insert(0, HERE); import easyeda_fp as _E
+_E.write(os.path.join(HERE, "easyeda", "C5187527_CH334F_easyeda.json"), "MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8", LIB,
+         "WCH CH334F 4-port USB 2.0 hub (QFN-24 4 x 4 P0.5, EP 2.8).", "CH334F QFN-24 USB2 hub WCH", "C5187527", "CH334F")
+_E.write(os.path.join(HERE, "easyeda", "C2833072_ASM1182e_easyeda.json"), "MP62_ASMedia_ASM1182e_QFN-48-1EP_7x7_P0.5_EP5.4", LIB,
+         "ASMedia ASM1182e PCIe Gen2 x1 to 2 x x1 packet switch (QFN-48 7 x 7 P0.5, EP 5.4).", "ASM1182e QFN-48 PCIe switch ASMedia", "C2833072", "ASM1182e")
+for _old in ("MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER"):
+    if os.path.exists(os.path.join(LIB, _old + ".kicad_mod")): os.remove(os.path.join(LIB, _old + ".kicad_mod")); print("removed stale", _old)
 for src, n in [(STOR, "MP62_TI_RNN0018A_VQFN-HR-18_3.5x3.5mm_PLACEHOLDER"), (STOR, "MP62_MCIO_124P_RA_SFF-TA-1016"), (STOR, "MP62_MCIO_74P_RA_SFF-TA-1016")]:
     lib = "MP62_Storage" if "RNN" in n else "MP62_Face"
     copy(lib, n, src)

@@ -3,7 +3,7 @@
 Flat sheet, label connectivity (a net label or a no-connect flag on every pin end), all instances on the 2.54 grid.
 REAL pinouts: MCIO 124 (MP62 IOB-HS v0.1 CSV, docs/), MCIO 74 display link (MP62-FACE CSV), USB Type-C receptacle,
 USB 3.x Std-A, HDMI type A, BL24C64A / 25-series flash SOIC-8, Micro-Fit J5 (= BP J2), GH15 IOB-LINK (CR-BP-IOB).
-LOGICAL pin numbers (map from datasheets before layout): TPS65994AD, TUSB1046A, TUSB1002A, CH334R, i226-V, TDP158,
+LOGICAL pin numbers (map from datasheets before layout): TPS65994AD, TUSB1046A, TUSB1002A, CH334F, ASM1182e, i226-V, TDP158,
 CM108B, PAM8302A, TLC59116, LIS2DH12, TPS259824, TPS56C215, TLV62585, VBUS switches, RJ45 magjack, stock audio/PSU headers
 (stock headers: UNCONFIRMED pin functions - see plan section 9 for the probing procedure)."""
 import csv, os, uuid
@@ -92,7 +92,7 @@ ic("V24P05S", sum([["C%d+" % i, "C%d-" % i, "CCT%d" % i] for i in range(1, 5)], 
 ic("EMC2101", ["VDD", "SCL", "SDA", "GND"], ["FAN_PWM", "ALERT#/TACH", "DP", "DN"], "U", "MSOP-8_3x3mm_P0.65mm", "Microchip EMC2101 fan controller + temp sensor, SMBus 0x4C (LOGICAL pins)", w=12.7)
 ic("ASM1182E", ["UP_RXP", "UP_RXN", "UP_TXP", "UP_TXN", "UP_REFCLKP", "UP_REFCLKN", "PERST#", "XI", "XO", "VCC3P3", "VCC1P0", "GND"],
    ["DN0_TXP", "DN0_TXN", "DN0_RXP", "DN0_RXN", "DN0_REFCLKP", "DN0_REFCLKN", "DN0_CLKREQ#", "DN1_TXP", "DN1_TXN", "DN1_RXP", "DN1_RXN", "DN1_REFCLKP", "DN1_REFCLKN", "DN1_CLKREQ#", "EP_GND"],
-   "U", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", "ASMedia ASM1182e PCIe Gen2 1:2 packet switch (downstream REFCLK outputs per datasheet: VERIFY), LOGICAL pins", w=15.24)
+   "U", "MP62_ASMedia_ASM1182e_QFN-48-1EP_7x7_P0.5_EP5.4", "ASMedia ASM1182e PCIe Gen2 1:2 packet switch, QFN-48 7x7 (LCSC C2833072; downstream REFCLK outputs per datasheet: VERIFY), LOGICAL pins", w=15.24)
 CONNC = [("1", "GND"), ("2", "GND"), ("3", "WL_PCIE_TX+"), ("4", "FAN_12V"), ("5", "WL_PCIE_TX-"), ("6", "FAN_12V"), ("7", "GND"), ("8", "FAN_12V"), ("9", "WL_PCIE_RX+"), ("10", "GND"),
          ("11", "WL_PCIE_RX-"), ("12", "FAN_PWM"), ("13", "GND"), ("14", "FAN_TACH"), ("15", "WL_REFCLK+"), ("16", "GND"), ("17", "WL_REFCLK-"), ("18", "BT_USB2_DP"), ("19", "GND"),
          ("20", "BT_USB2_DN"), ("21", "WL_PERST#"), ("22", "GND"), ("23", "WL_CLKREQ#"), ("24", "3V3_WL"), ("25", "WL_WAKE#"), ("26", "3V3_WL"), ("27", "LED_WLAN#"), ("28", "3V3_WL"),
@@ -126,8 +126,8 @@ ic("TUSB1046A", ["SSTXP", "SSTXN", "SSRXP", "SSRXN", "DP0P", "DP0N", "DP1P", "DP
 ic("TUSB1002A", ["RX1P", "RX1N", "TX2P", "TX2N", "EN", "VCC", "GND"], ["TX1P", "TX1N", "RX2P", "RX2N", "EQ1", "EQ2", "EP_GND"], "U",
    "MP62_TI_TUSB1002A_WQFN-24_4x4_P0.5_PLACEHOLDER", "TI TUSB1002A USB 3.2 Gen2 dual-channel redriver (ch1 host->port, ch2 port->host; LOGICAL pins)", w=15.24)
 ic("VBUS_SW", ["IN", "EN", "GND"], ["OUT", "FLT#"], "U", "SOT-23-5", "1.5 A USB power switch SY6280/TPS2553 class (LOGICAL pins)", w=10.16)
-ic("CH334R", ["UDP", "UDM", "XI", "XO", "V5", "V33", "RESET#", "GND"], ["DP1", "DM1", "DP2", "DM2", "DP3", "DM3", "DP4", "DM4", "EP_GND"], "U",
-   "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", "WCH CH334R 4-port USB2 MTT hub (LOGICAL pins)", w=12.7)
+ic("CH334F", ["UDP", "UDM", "XI", "XO", "V5", "V33", "RESET#", "GND"], ["DP1", "DM1", "DP2", "DM2", "DP3", "DM3", "DP4", "DM4", "EP_GND"], "U",
+   "MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8", "WCH CH334F 4-port USB2 hub, QFN-24 (LCSC C5187527; LOGICAL pins - map from the WCH datasheet)", w=12.7)
 ic("I226V", ["PETP", "PETN", "PERP", "PERN", "REFCLKP", "REFCLKN", "PERST#", "CLKREQ#", "WAKE#", "XTAL1", "XTAL2", "SPI_CS#", "SPI_CLK", "SPI_MOSI", "SPI_MISO",
              "VCC3P3", "SVR_SW", "VCC0P9", "GND"],
    ["MDI0P", "MDI0N", "MDI1P", "MDI1N", "MDI2P", "MDI2N", "MDI3P", "MDI3N", "LED0#", "LED1#", "LED2#", "RSET", "EP_GND"], "U",
@@ -327,7 +327,7 @@ res("REDRV_EQ", "GND", "EQ strap (value per TUSB1002A EQ table, trace length ~40
 res("USB_OC#", "3V3", "10k (PCH OC0# pull-up is on the CB; DNP)", dnp=True)
 
 # --- USB2 hubs ---
-section("USB2 hubs CH334R (H1a U34, H1b U32, H2 U33, H3 U35)")
+section("USB2 hubs CH334F (H1a U34, H1b U32, H2 U33, H3 U35)")
 hubs = [("U34", "Y1", "USB2_HS1", ["C1", "C2", "C3", "H1B"], "H1a <- HS1 USB2 (CB PCH port)"),
         ("U32", "Y2", "H1B_USB2", ["C4", "C5", "C6", "AUD"], "H1b <- H1a port 4"),
         ("U33", "Y3", "USB2_LINK", ["A1", "A2", "A3", "H3"], "H2 <- IOB-LINK USB2 (BP spare)"),
@@ -336,7 +336,7 @@ for ref, y, up, dn, val in hubs:
     m = {"UDP": up + "_DP", "UDM": up + "_DN", "XI": ref + "_XI", "XO": ref + "_XO", "V5": "5V_A", "V33": ref + "_V33", "RESET#": ref + "_V33", "GND": "GND", "EP_GND": "GND"}
     for i, d in enumerate(dn):
         if not d.startswith("SPARE"): m["DP%d" % (i + 1)] = d + "_USB2_DP"; m["DM%d" % (i + 1)] = d + "_USB2_DN"
-    add(ref, "CH334R", "CH334R " + val, m)
+    add(ref, "CH334F", "CH334F " + val, m)
     add(y, "XTAL4", "12MHz 3225 +/-20ppm", {"1": ref + "_XI", "3": ref + "_XO", "2": "GND", "4": "GND"})
     cap(ref + "_XI", "GND", "22pF"); cap(ref + "_XO", "GND", "22pF")
     dec(ref + "_V33", ["1uF"]); dec("5V_A", ["1uF"])

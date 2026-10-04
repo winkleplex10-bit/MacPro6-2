@@ -492,29 +492,29 @@
 "U35": {
 "side": "B",
 "xb": [
-16.26,
-21.75
+16.36,
+21.65
 ],
 "y": [
-56.25,
-61.75
+56.35,
+61.65
 ],
-"value": "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare",
-"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"value": "CH334F hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare",
+"fp": "MP62_IO:MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8",
 "dnp": false
 },
 "U91": {
 "side": "B",
 "xb": [
-18.86,
-29.15
+19.81,
+28.2
 ],
 "y": [
-124.86,
-135.14
+125.81,
+134.19
 ],
 "value": "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7",
-"fp": "MP62_IO:MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER",
+"fp": "MP62_IO:MP62_ASMedia_ASM1182e_QFN-48-1EP_7x7_P0.5_EP5.4",
 "dnp": false
 },
 "J9": {
@@ -1024,43 +1024,43 @@
 "U33": {
 "side": "B",
 "xb": [
-16.26,
-21.75
+16.36,
+21.65
 ],
 "y": [
-50.25,
-55.75
+50.35,
+55.65
 ],
-"value": "CH334R hub H2 (A1-A4) <- IOB-LINK USB2",
-"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"value": "CH334F hub H2 (A1-A4) <- IOB-LINK USB2",
+"fp": "MP62_IO:MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8",
 "dnp": false
 },
 "U32": {
 "side": "B",
 "xb": [
-50.76,
-56.25
+50.86,
+56.15
 ],
 "y": [
-81.75,
-87.25
+81.86,
+87.14
 ],
-"value": "CH334R hub H1b (C4-C6 + codec)",
-"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"value": "CH334F hub H1b (C4-C6 + codec)",
+"fp": "MP62_IO:MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8",
 "dnp": false
 },
 "U34": {
 "side": "B",
 "xb": [
-50.76,
-56.25
+50.86,
+56.15
 ],
 "y": [
-49.25,
-54.75
+49.35,
+54.65
 ],
-"value": "CH334R hub H1a (C1-C3 + H1b) <- HS1 USB2",
-"fp": "MP62_IO:MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER",
+"value": "CH334F hub H1a (C1-C3 + H1b) <- HS1 USB2",
+"fp": "MP62_IO:MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8",
 "dnp": false
 },
 "U28": {

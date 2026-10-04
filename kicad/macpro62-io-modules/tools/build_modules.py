@@ -16,7 +16,7 @@ FR_JAR = "/workspace/tools/fr-2.1.0.jar"
 def P(u, v): return VECTOR2I(FromMM(OX + u), FromMM(OY - v))
 def UV(p): return (ToMM(p.x) - OX, OY - ToMM(p.y))
 # ---------------- per-type electrical definition ----------------
-# widths: (w, s) tail / bend; paddle pairs 0.075 / 0.075 (short, stiffened)
+# widths: (w, s) tail / bend; paddle pairs 0.078 / 0.078 (short, stiffened; was 0.075 / 0.075)
 WS = {"USBC": dict(usb=((0.09, 0.10), (0.12, 0.10)), se=0.1), "HDMI": dict(tmds=((0.08, 0.15), (0.11, 0.15)), se=0.1),
       "USBA": dict(usb=((0.10, 0.10), (0.10, 0.10)), se=0.1)}
 PAD_NETS = {
@@ -38,7 +38,11 @@ VB = {"USBC": (-0.3, 1.5, 1.3), "USBA": (0.0, 1.2, 1.0), "HDMI": (0.0, 0.3, 0.0)
 PORT_ROT = {"USBC": 0, "USBA": 0, "HDMI": 180}
 VIA_D, VIA_P = 0.3, 0.55          # JLC FPC regular via
 PAD_V = 1.3                       # DF40C-50DP pad-row centre |v| (placeholder: VERIFY Hirose land pattern)
-LANE_V0, LANE_DP, LANE_DN = 1.7625, 0.15, 0.16   # paddle lane band: first trace centre, same-pair pitch, lane-to-lane pitch
+# 2026-10-04 cost review: JLC FPC charges +20 % when any trace width OR spacing is 2-3 mil -> every copper width / gap >= TMIN = 0.078 (3.07 mil)
+# (jlcpcb.com/help/article/fpc-extra-charges s.5). Paddle band: 8 traces per side between the DF40 pad ends (|v| 1.65) and the 0.3 edge keep-out (|v| 2.9):
+# 8 x (w + s) = 1.25 -> w = s = 0.078 (was 0.075 / 0.075).
+TMIN = 0.078
+LANE_V0, LANE_DP, LANE_DN = 1.65 + TMIN * 1.5, 2 * TMIN, 2 * TMIN   # paddle lane band: first trace centre, same-pair pitch, lane-to-lane pitch
 KEEP = []
 def shape(b, kind, a, c, layer, w=0.05, m=None):
     s = pcbnew.PCB_SHAPE(b)
@@ -76,7 +80,7 @@ def trk(b, nm, pts, w, layer=pcbnew.F_Cu, lock=True):
         t = pcbnew.PCB_TRACK(b); t.SetStart(P(*a)); t.SetEnd(P(*c)); t.SetWidth(FromMM(w)); t.SetLayer(layer); t.SetNet(net(b, nm)); t.SetLocked(lock); b.Add(t)
 def via(b, nm, u, v, lock=True):
     x = pcbnew.PCB_VIA(b); x.SetPosition(P(u, v)); x.SetDrill(FromMM(VIA_D)); x.SetWidth(FromMM(VIA_P)); x.SetNet(net(b, nm)); x.SetLocked(lock); b.Add(x)
-def zone(b, nm, poly, layer, prio=0, hatch=None, name=None, clr=0.1, minw=0.075, rule=None, therm=True):
+def zone(b, nm, poly, layer, prio=0, hatch=None, name=None, clr=0.1, minw=TMIN, rule=None, therm=True):
     z = pcbnew.ZONE(b)
     if rule:
         z.SetIsRuleArea(True); z.SetDoNotAllowVias(rule.get("vias", False)); z.SetDoNotAllowTracks(rule.get("tracks", False)); z.SetDoNotAllowFootprints(rule.get("fp", False))
@@ -116,7 +120,7 @@ def build(name, kind, title):
     g = geo(kind); T, U, sxo, sxi, sy, tw, t, f0, f1, p0, p1, uh, ue = (g[k] for k in ("T", "U", "sxo", "sxi", "sy", "tw", "t", "f0", "f1", "p0", "p1", "uh", "ue"))
     uk = g["uk"]; hw = tw / 2
     b = pcbnew.BOARD(); b.SetCopperLayerCount(2)
-    ds = b.GetDesignSettings(); ds.SetBoardThickness(FromMM(t)); ds.m_TrackMinWidth = FromMM(0.075); ds.m_MinClearance = FromMM(0.075); ds.m_HoleClearance = FromMM(0.2)
+    ds = b.GetDesignSettings(); ds.SetBoardThickness(FromMM(t)); ds.m_TrackMinWidth = FromMM(TMIN); ds.m_MinClearance = FromMM(TMIN); ds.m_HoleClearance = FromMM(0.2)
     ds.m_CopperEdgeClearance = FromMM(0.3)
     for L_, nm in ((pcbnew.User_1, "Stiffener_FR4_B"), (pcbnew.User_2, "EMI_Film_opt_F"), (pcbnew.User_3, "Cradle_Ledge"), (pcbnew.User_4, "Bend_Zone")): b.SetLayerName(L_, nm)
     p1 = p1 + 0.02
@@ -154,7 +158,7 @@ def build(name, kind, title):
     C1 = place(b, "C1", "C_0201_0603Metric", ue - 0.6, -2.4, 0, "100nF 0201 X5R 10V (3V3_MOD)")
     for p in C1.Pads(): p.SetNet(net(b, "3V3_MOD" if p.GetNumber() == "1" else "GND"))
     # ---- locked lanes ----
-    ws = WS[kind]; us = sxo - 0.35; b0, b1, b2, b3 = f0 - 0.35, f0 - 0.25, f1 + 0.25, f1 + 0.35; uj0 = f1 + 0.4
+    ws = WS[kind]; us = (6.4 if kind == "USBC" else sxo - 0.35); b0, b1, b2, b3 = f0 - 0.35, f0 - 0.25, f1 + 0.25, f1 + 0.35; uj0 = f1 + 0.4
     rows = {+1: [], -1: []}
     for roles, knd, vt in LANES[kind]:
         sd = 1 if vt > 0 else -1
@@ -165,13 +169,13 @@ def build(name, kind, title):
         for k, r_ in lst:
             if prev is not None: v += LANE_DP if (prev[1][:-1] == r_[:-1] and prev[1][-1] == "A" and r_[-1] == "B" and k == prev[0] + 1) else LANE_DN
             vp[r_] = sd * v; prev = (k, r_)
-    LOG = []
+    LOG = []; START = {}; LANE_L = {}
     for roles, knd, vt in LANES[kind]:
         sd = 1 if vt > 0 else -1
         if knd == "se": (wt, st), (wb, sb) = (ws["se"], 0), (ws["se"], 0)
         else: (wt, st), (wb, sb) = ws[knd]
-        wp = 0.075
-        if len(roles) == 2: vpc = (vp[roles[0]] + vp[roles[1]]) / 2; ot, ob, op = (wt + st) / 2, (wb + sb) / 2, (wp + 0.075) / 2
+        wp = TMIN
+        if len(roles) == 2: vpc = (vp[roles[0]] + vp[roles[1]]) / 2; ot, ob, op = (wt + st) / 2, (wb + sb) / 2, (wp + TMIN) / 2
         else: vpc = vp[roles[0]]; ot = ob = op = 0.0
         dv = vpc - vt; uj1 = uj0 + abs(dv)
         assert uj1 < uk(1) - 0.05, (kind, roles, uj1, uk(1))
@@ -184,16 +188,17 @@ def build(name, kind, title):
             pts = pts + [(ukk, vpm), (ukk, sd * PAD_V)]
             wseg = [wt, wt, wb, wp, wp] + [wp] * (len(pts) - 6)    # per segment
             for j in range(len(pts) - 1): trk(b, nm, [pts[j], pts[j + 1]], wseg[j] if j < len(wseg) else wp)
+            START[nm] = pts[0]; LANE_L[nm] = sum(math.hypot(q[0] - p_[0], q[1] - p_[1]) for p_, q in zip(pts[:-1], pts[1:]))
             LOG.append((nm, k, round(vt, 3), round(vpm, 3)))
     # ---- VBUS strip (L1 track), paddle VBUS feed, stitching ----
     vv, w1, w2 = VB[kind]
-    trk(b, "VBUS", [(us + w1 / 2 - 0.35, vv), (uk(1) - 0.3, vv)], w1)
+    trk(b, "VBUS", [((7.2 if kind == "USBC" else us + w1 / 2 - 0.35), vv), (uk(1) - 0.3, vv)], w1)   # USBC: L1 strip starts past the CC2/SBU2 peg wrap
     trk(b, "VBUS", [(uk(1) - 0.6, 0.0), (uk(6) - 0.3, 0.0)], 1.0 if kind != "HDMI" else 0.6)
     if abs(vv) > 1e-6: trk(b, "VBUS", [(uk(1) - 0.6, vv), (uk(1) - 0.6, 0.0)], min(w1, 1.0))
     for k in range(1, 7):
         for sd in (1, -1): trk(b, "VBUS", [(uk(k), sd * PAD_V), (uk(k), 0.0)], 0.2)
     if w2 > 0:
-        for (uu, dvv) in ((sxo - 0.45, -0.35), (sxo - 0.45, 0.35), (p0 + 0.7, -0.35), (p0 + 0.7, 0.35)): via(b, "VBUS", uu, vv + dvv)
+        for (uu, dvv) in (((sxo - 0.45, -0.35), (sxo - 0.45, 0.35)) if kind != "USBC" else ()) + ((p0 + 0.7, -0.35), (p0 + 0.7, 0.35)): via(b, "VBUS", uu, vv + dvv)
     # ---- paddle GND vias between the rows ----
     for k in (7, 10, 13, 16, 19, 21):
         du = 0.2 if k == 7 else (-0.1 if k == 21 else 0.0)
@@ -210,12 +215,19 @@ def build(name, kind, title):
     trk(b, "GND", [(ue + 0.94, 0.75), (ue + 0.94, 1.45)], 0.15); trk(b, "GND", [(ue + 0.94, -0.75), (ue + 0.94, -1.45)], 0.15)
     for vv_ in (0.25, -0.25): trk(b, "GND", [(ue + 0.94, vv_), (ue, vv_)], 0.15)
     trk(b, "GND", [(ue - 0.28, -2.4), (ue + 0.5, -2.45)], 0.15)
-    # ---- port-side GND anchors ----
+    # ---- USB-C: hand fan-out of the real HYCW417 land pattern (tools/fanout_usbc.py); no autorouter ----
     if kind == "USBC":
-        for su in (-1, 1):
-            for sv in (-1, 1): via(b, "GND", su * 4.3, sv * 1.4)
+        import fanout_usbc as FO
+        rep_fo = FO.route(b, sys.modules[__name__], START, LANE_L, us)
+        for (x_, y_, a_, c_) in FO.STIFF_HOLES["slots"]:
+            o_ = (a_ - c_) / 2
+            for sg in (-1, 1): shape(b, "L", (x_ - o_, y_ + sg * c_ / 2), (x_ + o_, y_ + sg * c_ / 2), pcbnew.User_1)
+            for sg in (-1, 1): shape(b, "A", (x_ + sg * o_, y_ + c_ / 2), (x_ + sg * o_, y_ - c_ / 2), pcbnew.User_1, m=(x_ + sg * (o_ + c_ / 2), y_))
+        for (x_, y_, d_) in FO.STIFF_HOLES["pegs"]:
+            shape(b, "A", (x_, y_ + d_ / 2), (x_, y_ - d_ / 2), pcbnew.User_1, m=(x_ + d_ / 2, y_)); shape(b, "A", (x_, y_ - d_ / 2), (x_, y_ + d_ / 2), pcbnew.User_1, m=(x_ - d_ / 2, y_))
+        text(b, "stiffener openings: 4 x 2.0 x 1.5 (shell legs), 2 x 0.9 (pegs)", 0, sy + 1.6, pcbnew.User_1, 0.5)
     # ---- temporary keep-outs for the autorouter (removed in "finish"): tail + paddle on both layers ----
-    zone(b, None, [(sxo - 0.15, -hw - 0.5), (p1 + 0.5, -hw - 0.5), (p1 + 0.5, hw + 0.5), (sxo - 0.15, hw + 0.5)], [pcbnew.F_Cu, pcbnew.B_Cu], name="TMP_FR_KEEPOUT", rule=dict(vias=True, tracks=True))
+    if kind != "USBC": zone(b, None, [(sxo - 0.15, -hw - 0.5), (p1 + 0.5, -hw - 0.5), (p1 + 0.5, hw + 0.5), (sxo - 0.15, hw + 0.5)], [pcbnew.F_Cu, pcbnew.B_Cu], name="TMP_FR_KEEPOUT", rule=dict(vias=True, tracks=True))
     tb = b.GetTitleBlock(); tb.SetTitle(title); tb.SetDate("2026-10-02"); tb.SetRevision("A1"); tb.SetCompany("MP62 I/O - port modules (D-IO16)")
     st = "JLC FPC 2-layer %.2f mm (PI %s um core, Cu 12/12 um), ENIG, coverlay PI %s" % (t, "50" if t > 0.15 else "25", "25 + 25 adh." if t > 0.15 else "12.5 + 15 adh.")
     tb.SetComment(0, st + ". Stiffeners: FR4 1.0 (B) under the port, FR4 0.6 (B) under the paddle")
@@ -229,15 +241,16 @@ def build(name, kind, title):
     base = [c for c in d["net_settings"]["classes"] if c["name"] == "Default"][0]
     def cls(nm, w, c, dw=0.09, dg=0.1):
         x = dict(base); x.update(name=nm, track_width=w, clearance=c, via_diameter=VIA_P, via_drill=VIA_D, diff_pair_width=dw, diff_pair_gap=dg, priority=0 if nm != "Default" else 2147483647); return x
-    d["net_settings"]["classes"] = [cls("Default", 0.075, 0.075), cls("HS", 0.09, 0.075), cls("SE", 0.1, 0.075), cls("PWR", 0.35, 0.075), cls("GNDC", 0.2, 0.075)]
-    d["board"]["design_settings"]["rules"].update(min_track_width=0.075, min_clearance=0.075, min_via_diameter=0.4, min_through_hole_diameter=0.2, min_copper_edge_clearance=0.3, min_text_height=0.5)
-    open(fn.replace(".kicad_pcb", ".kicad_dru"), "w").write('(version 1)\n(rule "diff pair gap (90/100 ohm lanes + 0.075 paddle)"\n  (condition "A.inDiffPair(\'*\')")\n  (constraint diff_pair_gap (min 0.075) (opt 0.1) (max 0.16)))\n'
+    d["net_settings"]["classes"] = [cls("Default", TMIN, TMIN), cls("HS", 0.09, TMIN), cls("SE", 0.1, TMIN), cls("PWR", 0.35, TMIN), cls("GNDC", 0.2, TMIN)]
+    d["board"]["design_settings"]["rules"].update(min_track_width=TMIN, min_clearance=TMIN, min_via_diameter=0.4, min_through_hole_diameter=0.2, min_copper_edge_clearance=0.3, min_text_height=0.5)
+    open(fn.replace(".kicad_pcb", ".kicad_dru"), "w").write('(version 1)\n(rule "diff pair gap (90/100 ohm lanes + 0.078 paddle)"\n  (condition "A.inDiffPair(\'*\')")\n  (constraint diff_pair_gap (min 0.078) (opt 0.1) (max 0.16)))\n'
         '(rule "via to track (JLC FPC 0.1)"\n  (condition "A.Type == \'Via\' && B.Type == \'Track\'")\n  (constraint clearance (min 0.1)))\n')
     d["net_settings"]["netclass_patterns"] = [dict(netclass="HS", pattern=p_) for p_ in ("SS*", "D[0-2]_*", "CK_*", "D_P", "D_N")] + \
         [dict(netclass="SE", pattern=p_) for p_ in ("CC*", "SBU*", "DDC_*", "HPD", "ID_*", "3V3_MOD")] + [dict(netclass="PWR", pattern="VBUS"), dict(netclass="GNDC", pattern="GND")]
     d["net_settings"]["netclass_assignments"] = None
     json.dump(d, open(fn.replace(".kicad_pcb", ".kicad_pro"), "w"), indent=2)
-    json.dump(dict(lanes=LOG, vp=vp), open(os.path.join(out, "lanes.json"), "w"), indent=1)
+    json.dump(dict(lanes=LOG, vp=vp, us=us, lane_len={k_: round(v_, 4) for k_, v_ in LANE_L.items()}), open(os.path.join(out, "lanes.json"), "w"), indent=1)
+    if kind == "USBC": json.dump(rep_fo, open(os.path.join(out, "fanout_report.json"), "w"), indent=1)
     print("built", fn, "flat length %.1f" % (p1 + sxi))
     return fn
 def export_dsn(fn):
@@ -245,11 +258,11 @@ def export_dsn(fn):
     patch_dsn(dsn); return dsn
 def patch_dsn(dsn):
     """pcbnew's DSN export (headless) writes the 0.2/0.2 KiCad defaults instead of the project net classes -> force the flex rules
-    (0.09 fan-out width, 0.075 clearance, 0.55/0.3 via + 0.40/0.20 via) so Freerouting can reach the 0.4-pitch DF40 pads."""
+    (0.09 fan-out width, 0.082 router clearance (>= 0.078 = 3 mil after rounding), 0.55/0.3 via + 0.40/0.20 via) so Freerouting can reach the 0.4-pitch DF40 pads."""
     import re
     s = open(dsn).read()
-    s = re.sub(r"\(rule\s*\(width 200\)\s*\(clearance 200\)\s*\(clearance 50 \(type smd_smd\)\)\s*\)", "(rule (width 90) (clearance 75) (clearance 75 (type smd_smd)))", s)
-    s = re.sub(r"\(rule\s*\(width 200\)\s*\(clearance 200\)\s*\)", "(rule (width 90) (clearance 75))", s)
+    s = re.sub(r"\(rule\s*\(width 200\)\s*\(clearance 200\)\s*\(clearance 50 \(type smd_smd\)\)\s*\)", "(rule (width 90) (clearance 82) (clearance 82 (type smd_smd)))", s)
+    s = re.sub(r"\(rule\s*\(width 200\)\s*\(clearance 200\)\s*\)", "(rule (width 90) (clearance 82))", s)
     s = s.replace('(use_via "Via[0-1]_600:300_um")', '(use_via "Via[0-1]_550:300_um" "Via[0-1]_400:200_um")')
     # 2nd via size 0.40/0.20 for the dense USB-C port fan-out: JLC 2-layer FPC charges extra only below a 0.15 hole (0.10/0.30);
     # 0.20 hole / 0.40 pad (pad = hole + 0.2) is standard (jlcpcb.com/help/article/fpc-extra-charges, 2026-10-02)
@@ -372,7 +385,7 @@ def finish(nm, kind):
     fn = os.path.join(PRJ, nm, nm + ".kicad_pcb"); ses = fn.replace(".kicad_pcb", ".ses")
     b = pcbnew.LoadBoard(fn)
     n0 = len([t for t in b.GetTracks()])
-    ok = pcbnew.ImportSpecctraSES(b, ses)
+    ok = pcbnew.ImportSpecctraSES(b, ses) if kind != "USBC" else "hand-routed (no SES)"
     # SWIG wrappers go stale after the SES import / zone removal -> save, drop the TMP_FR_KEEPOUT zone in the file text, reload
     tmp_ = fn.replace(".kicad_pcb", "_ses_tmp.kicad_pcb"); pcbnew.SaveBoard(tmp_, b); KEEP.append(b)
     txt_ = open(tmp_).read(); out_ = []; i_ = 0
@@ -396,7 +409,7 @@ def finish(nm, kind):
     outline = [(-sxi, -sy), (sxo, -sy), (sxo, -hw), (p1, -hw), (p1, hw), (sxo, hw), (sxo, sy), (-sxi, sy)]
     td = teardrops(b, outline)
     def Z(netname, poly, layer, prio, hatch=None, name=None, therm=True):
-        z = pcbnew.ZONE(b); z.SetNet(nt(netname)); z.SetAssignedPriority(prio); z.SetLocalClearance(FromMM(0.1)); z.SetMinThickness(FromMM(0.075))
+        z = pcbnew.ZONE(b); z.SetNet(nt(netname)); z.SetAssignedPriority(prio); z.SetLocalClearance(FromMM(0.1)); z.SetMinThickness(FromMM(TMIN))
         z.SetPadConnection(pcbnew.ZONE_CONNECTION_THERMAL if therm else pcbnew.ZONE_CONNECTION_FULL); z.SetThermalReliefGap(FromMM(0.1)); z.SetThermalReliefSpokeWidth(FromMM(0.15))
         z.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
         if hatch:
@@ -406,7 +419,7 @@ def finish(nm, kind):
         z.SetLayer(layer); ps = pcbnew.SHAPE_POLY_SET(); ps.NewOutline()
         for (u, v) in poly: q = P(u, v); ps.Append(q.x, q.y)
         z.SetOutline(ps); b.Add(z); KEEP.extend([ps, z]); return z
-    Z("GND", outline, pcbnew.B_Cu, 0, name="L2_GND")
+    Z("GND", outline, pcbnew.B_Cu, 0, name="L2_GND", therm=(kind != "USBC"))   # USBC: solid to the THT shell slots
     hatch = (0.10, 0.30) if kind == "USBA" else (0.10, 0.25)
     hz0, hz1 = (sxo, p0) if kind == "USBA" else (f0 - 0.25, f1 + 0.25)
     Z("GND", [(hz0, -hw), (hz1, -hw), (hz1, hw), (hz0, hw)], pcbnew.B_Cu, 1, hatch=hatch, name="L2_GND_HATCH_BEND")
@@ -414,6 +427,9 @@ def finish(nm, kind):
     if w2 > 0: Z("VBUS", [(sxo - 0.8, vv - w2 / 2), (uk(6) - 0.3, vv - w2 / 2), (uk(6) - 0.3, vv + w2 / 2), (sxo - 0.8, vv + w2 / 2)], pcbnew.B_Cu, 3, name="L2_VBUS", therm=False)
     Z("VBUS", [(uk(1) - 0.6, -1.0), (uk(6) + 0.2, -1.0), (uk(6) + 0.2, 1.0), (uk(1) - 0.6, 1.0)], pcbnew.F_Cu, 3, name="L1_VBUS_PADDLE", therm=False)
     Z("GND", [(-sxi, -sy), (sxo - 0.25, -sy), (sxo - 0.25, sy), (-sxi, sy)], pcbnew.F_Cu, 0, name="L1_GND_PORT", therm=False)
+    if kind == "USBC":
+        import fanout_usbc as FO
+        Z("VBUS", FO.L2_VBUS_PORT, pcbnew.B_Cu, 3, name="L2_VBUS_PORT", therm=False); Z("VBUS", FO.L1_VBUS_BAR, pcbnew.F_Cu, 3, name="L1_VBUS_BAR", therm=False)
     Z("GND", [(p0, -hw), (p1, -hw), (p1, hw), (p0, hw)], pcbnew.F_Cu, 0, name="L1_GND_PADDLE")
     for z_ in b.Zones():
         if not z_.GetIsRuleArea(): z_.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
@@ -456,6 +472,10 @@ def finish(nm, kind):
     rep = dict(module=nm, ses_import=bool(ok), tracks_before=n0, tracks_after=len(b.GetTracks()), teardrops=td,
                pairs={p_: dict(P=round(L[p_ + "_P"], 3), N=round(L[p_ + "_N"], 3), skew=round(L[p_ + "_P"] - L[p_ + "_N"], 3), vias_P=vias.get(p_ + "_P", 0), vias_N=vias.get(p_ + "_N", 0)) for p_ in pairs},
                singles={n: round(l, 2) for n, l in L.items() if not (n.endswith("_P") or n.endswith("_N"))})
+    if kind == "USBC":
+        fo_ = json.load(open(os.path.join(PRJ, nm, "fanout_report.json"))); rep["hand_fanout"] = fo_
+        # per-net board totals for the SS pairs must equal the hand fan-out bookkeeping (no stubs / vias on SS lanes)
+        rep["check_total_vs_fanout"] = {k_: round(rep["pairs"][k_]["skew"] - (fo_["pairs"][k_]["skew"] * (1 if fo_["pairs"][k_]["outer"].endswith("_P") else -1)), 4) for k_ in ("SSTX1", "SSRX2", "SSTX2", "SSRX1")}
     json.dump(rep, open(os.path.join(PRJ, nm, "route_report.json"), "w"), indent=1)
     print(nm, "ses", ok, "teardrops", td, json.dumps(rep["pairs"]))
 if __name__ == "__main__":
@@ -467,6 +487,9 @@ if __name__ == "__main__":
     for nm, kd, ti in JOBS:
         if nm not in only: continue
         fn = os.path.join(PRJ, nm, nm + ".kicad_pcb")
-        if stage == "build": build(nm, kd, ti); export_dsn(fn)
-        elif stage == "route": route(fn)
+        if stage == "build":
+            build(nm, kd, ti)
+            if kd != "USBC": export_dsn(fn)
+        elif stage == "route":
+            if kd != "USBC": route(fn)
         elif stage == "finish": finish(nm, kd)

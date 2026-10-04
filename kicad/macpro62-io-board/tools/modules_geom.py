@@ -1,4 +1,5 @@
-"""Port-module geometry (D-IO16, rev 2026-10-02 ~13:30 ET: per-type JLC stackup, Hong Cheng 13.7 USB-A, loop fold for MOD-A, real DF40 + DFN-8 EEPROM paddle). Replaces risers_geom.py (column risers, D-IO14).
+"""Port-module geometry (D-IO16, rev 2026-10-02 ~13:30 ET: per-type JLC stackup, Hong Cheng 13.7 USB-A, loop fold for MOD-A, real DF40 + DFN-8 EEPROM paddle;
+rev 2026-10-04 ~09:40 ET: MOD-C uses the real HOAUC HYCW417-USBC24-180B land pattern (EasyEDA C5342202): courtyard 6.25 x 3.65 and 4 THT shell legs 1.8 at u +/-4.1 (tht_tips checked)). Replaces risers_geom.py (column risers, D-IO14).
 Each USB-C / USB-A / HDMI port is its own swappable FLEX module: the receptacle is soldered straight onto a 2-layer FPC over a local FR4
 stiffener (no rigid PCB), the FPC tail leaves the stiffener's OUTBOARD edge, C-folds 180 deg down and runs back under the module to a
 Hirose DF40C-50DP header (on the same FPC face as the port, stiffened) that presses into a DF40C-50DS receptacle JMn on the main board F side.
@@ -35,8 +36,8 @@ SLEEVE_T, COLLAR_W = 0.2, 1.0                   # SUS304 sleeve wall, collar fla
 # fpc_t: JLC 2-layer 50 um PI core 0.19 (impedance stackup, 90/100 ohm on solid L2) or 25 um core 0.11 (MOD-A: loop fold, cross-hatched L2)
 # sx_out / sx_in: stiffener half-length toward the outboard (tail) / inboard edge; tht: THT lead (u, protrusion below the seat) for the tip check
 TYPES = {
- "USBC": dict(mod="MOD-C", conn="HOAUC HYCW417-USBC24-180B (C5342202) all-SMD", fp="MP62_MOD_USB_C_24P_Vertical_SMD_PLACEHOLDER", crt=(5.0, 3.4), sx_out=6.0, sx_in=6.0, sy=4.4,
-              tw=PADDLE_W, fpc_t=0.19, shell=(8.94, 3.26), tht=[], slots=["C1", "C2", "C3", "C4", "C5", "C6"]),
+ "USBC": dict(mod="MOD-C", conn="HOAUC HYCW417-USBC24-180B (C5342202) SMD + 4 THT shell legs 1.8", fp="HOAUC_HYCW417-USBC24-180B", crt=(6.25, 3.65), sx_out=6.0, sx_in=6.0, sy=4.4,
+              tw=PADDLE_W, fpc_t=0.19, shell=(8.94, 3.26), tht=[(4.1, 1.8, "shell leg"), (-4.1, 1.8, "shell leg")], slots=["C1", "C2", "C3", "C4", "C5", "C6"]),
  "USBA": dict(mod="MOD-A", conn="Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)", fp="MP62_MOD_USB_A3_HC-USB3.0-L137-WJ",
               crt=(7.45, 3.75), sx_out=9.0, sx_in=8.4, sy=4.4, tw=PADDLE_W, fpc_t=0.11, shell=(13.3, 5.7),
               tht=[(6.575, 3.0, "shell leg"), (-6.575, 3.0, "shell leg"), (4.0, 2.0, "pin 5"), (-4.0, 2.0, "pin 9"), (3.5, 2.0, "pin 1")], slots=["A1", "A2", "A3", "A4"]),

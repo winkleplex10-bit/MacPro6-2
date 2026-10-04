@@ -41,8 +41,8 @@ write(MOD, "MP62_Hirose_DF40C-50DP-0.4V_PLACEHOLDER", L)
 # Hong Cheng HC-USB3.0-L137-WJ (C7501870) vertical USB 3.0 A, from the HC drawing (rev A, "recommended PCB layout, top view"): row 9..5 (2.0 pitch, +-4.0) and row 1..4
 # (+-3.5 / +-1.0) 1.60 apart, 9 x D0.70; shell legs 2 x D2.30 at 13.15, 1.45 below the 9..5 row. Pin 5 sits over pin 4, pin 9 over pin 1.
 L = hdr("MP62_MOD_USB_A3_HC-USB3.0-L137-WJ", "Hong Cheng HC-USB3.0-L137-WJ (LCSC C7501870) USB 3.0 Type-A 9P vertical, H 13.7, THT through the FPC + drilled FR4 stiffener (stiffener holes = drill + 0.2). From the HC drawing rev A (VERIFY 1.60 / 1.45 row offsets on a sample).", "through_hole")
-for n, x in ((1, -3.5), (2, -1.0), (3, 1.0), (4, 3.5)): L.append(pth(str(n), x, 0.8, 0.75, 1.1))
-for n, x in ((9, -4.0), (8, -2.0), (7, 0.0), (6, 2.0), (5, 4.0)): L.append(pth(str(n), x, -0.8, 0.75, 1.1))
+for n, x in ((1, -3.5), (2, -1.0), (3, 1.0), (4, 3.5)): L.append(pth(str(n), x, 0.8, 0.75, 1.25))   # 2026-10-04: pad 1.10 -> 1.25 = 0.25 annular ring (JLC FPC PTH regular >= 0.25, abs 0.18; 1.10 gave 0.175)
+for n, x in ((9, -4.0), (8, -2.0), (7, 0.0), (6, 2.0), (5, 4.0)): L.append(pth(str(n), x, -0.8, 0.75, 1.25))
 for x in (-6.575, 6.575): L.append(pth("S", x, 0.65, 2.3, 2.8))
 L += [rect(-6.65, -2.85, 6.65, 2.85, "F.Fab", 0.1), rect(-7.2, -3.5, 7.2, 3.5, "F.SilkS", 0.12), rect(-7.45, -3.75, 7.45, 3.75, "F.CrtYd"),
       '  (fp_circle (center -3.5 2.0) (end -3.3 2.0) (stroke (width 0.1) (type solid)) (fill solid) (layer "F.SilkS"))']

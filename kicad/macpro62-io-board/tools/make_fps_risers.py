@@ -58,7 +58,7 @@ for name, d in (("MP62_Cradle_Screw_M2_NPTH", 2.4), ("MP62_Riser_Screw_M2", 2.3)
     L = hdr(name, "M2 clearance hole for the printed riser cradle (D-IO14).", "exclude_from_pos_files exclude_from_bom")
     L += [npth(0, 0, d), '  (fp_circle (center 0 0) (end %.2f 0) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))' % (d / 2 + 1.0)]
     FP[name] = L + [")"]
-# generic QFN placeholder (ASM1182e QFN-64 9x9 P0.5 assumed; EMC2101 uses the stock MSOP-8)
+# ASM1182e: real QFN-48 7x7 land pattern now written by make_fps.py (2026-10-04); the old QFN-64 placeholder is disabled here. EMC2101 uses the stock MSOP-8
 def qfn(name, n, body, pitch, ep, descr):
     L = hdr(name, descr); per = n // 4; span = (per - 1) * pitch; k = 1
     for side in range(4):
@@ -68,7 +68,7 @@ def qfn(name, n, body, pitch, ep, descr):
             L.append(smd(str(k), x, y, w, h)); k += 1
     L += [smd("EP", 0, 0, ep, ep, "rect"), rect(-body / 2, -body / 2, body / 2, body / 2, "F.Fab", 0.1), rect(-body / 2 - 0.6, -body / 2 - 0.6, body / 2 + 0.6, body / 2 + 0.6, "F.CrtYd")]
     FP[name] = L + [")"]
-qfn("MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 64, 9.0, 0.5, 6.0, "ASMedia ASM1182e PCIe Gen2 x1 -> 2 x x1 packet switch (package per datasheet: VERIFY). PLACEHOLDER.")
+if False: qfn("MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 64, 9.0, 0.5, 6.0, "ASMedia ASM1182e PCIe Gen2 x1 -> 2 x x1 packet switch (package per datasheet: VERIFY). PLACEHOLDER.")
 for d in OUT:
     os.makedirs(d, exist_ok=True)
     for k, v in FP.items(): open(os.path.join(d, k + ".kicad_mod"), "w").write("\n".join(v) + "\n")

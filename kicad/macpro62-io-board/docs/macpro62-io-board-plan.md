@@ -69,7 +69,7 @@ Coordinates use the stock **back-view frame**: origin at the board's bottom-left
 | **D-IO6** | **Angled ports** | **(a) Straight connectors + curved plate**. **Since 2026-10-02 ≈ 10:15 ET: no lands** (stock flex), mouths flush at the outboard edge; plug recess USB-C 0.62–0.67, USB-A ≈ 1.7–1.8, HDMI ≈ 2.0 (§4.7.3) | Wedge sub-boards: +2 boards, HBR3/10 G across mezzanines, ≈ +$60–120. Board tilt: does not work. |
 | **D-IO7** | C5/C6 from the iGPU | Keep them (Windows/Linux displays; USB works in macOS) | Make them USB-only and drop U15/U16 mux functions. |
 | **D-IO8** | Stackup | 6 layers, JLC06161H-2116 | 4 layers: loses the solid reference planes for 10 G + HBR3. |
-| **D-IO9** | Fan + AirPort ribbon (CONN_C) | **Superseded 2026-10-02 ≈ 10:50 ET: reproduced on the IOB** at the stock position, B side, centred between the stock standoffs (41.06, 5.17) / (59.92, 5.20): J7, 2 × 20 @ 0.5 mm (DF12-40DS-0.5V(86) footprint candidate, C431048). Fan via EMC2101 (U90), AirPort PCIe via an ASM1182e switch (U91) on the i226 #2 lane, Bluetooth USB2 via a 4th CH334R (U35). The BP J5 fan harness is dropped (§5.7). **11:30 ET:** + J8 U.FL for the fan-assembly antenna cable (2nd fan-assembly cable, iFixit 21222 step 8) at the photo position (38.4, 16.0) B, optional DNP pass-through J9; T8 fan-cable bracket keep-out X 38.06–62.92, Y 0–10.5 on B (only J7/H14/H15 inside, checked by `build_pcb.py`). | Pinout and mating are unconfirmed until M-IOC1 / M-IOC3; antenna receptacle type/position M-IOA1. |
+| **D-IO9** | Fan + AirPort ribbon (CONN_C) | **Superseded 2026-10-02 ≈ 10:50 ET: reproduced on the IOB** at the stock position, B side, centred between the stock standoffs (41.06, 5.17) / (59.92, 5.20): J7, 2 × 20 @ 0.5 mm (DF12-40DS-0.5V(86) footprint candidate, C431048). Fan via EMC2101 (U90), AirPort PCIe via an ASM1182e switch (U91) on the i226 #2 lane, Bluetooth USB2 via a 4th CH334F hub (U35; CH334R → CH334F 2026-10-04, §4.7.12). The BP J5 fan harness is dropped (§5.7). **11:30 ET:** + J8 U.FL for the fan-assembly antenna cable (2nd fan-assembly cable, iFixit 21222 step 8) at the photo position (38.4, 16.0) B, optional DNP pass-through J9; T8 fan-cable bracket keep-out X 38.06–62.92, Y 0–10.5 on B (only J7/H14/H15 inside, checked by `build_pcb.py`). | Pinout and mating are unconfirmed until M-IOC1 / M-IOC3; antenna receptacle type/position M-IOA1. |
 | **D-IO10** | Port illumination | **Revised 2026-10-02: the flex on J31 only.** D21–D26 DNP, plate light pipes removed, light windows over the flex pads. TLC59116 stays (D20, diag LEDs, and the A1 flex below). | Board light pipes: need Ø2.5 holes drilled in the frame centre bar (5 of 6 positions blocked). |
 | **D-IO12** | Which flex on the plate | **Revised 2026-10-02 ≈ 10:15 ET: reuse the stock 821-2222-A; no replacement flex for now.** The plate has no bosses, the ports are centred on the flex cut-outs (USB-C +0.44 per side), and there are pockets for the plate-side LEDs and the button carrier (§4.7.2–4.7.3). *Earlier text:* **Rev A0: fit-test the stock 821-2222** (glue pocket, windows, pins all ready). **Plan an A1 replacement flex** (same outline, cut-outs = our bosses + 0.3, LEDs driven by U80 through J31) if the stock flex does not lie flat (§4.7). | Trim the stock flex cut-outs by 1.0–1.8 mm per side: cuts into the LED/trace margins, not recommended. |
 | **D-IO13** | Insulation between board and frame | **No shroud.** Keep (or replace) the 1 mm foam over the flex; a 0.25 Formex GK-10 die-cut from `io_flex_foam_insulator_A0.dxf` is the drop-in alternative. | Printed PA12 shroud: eats D0 height and buys nothing; our port shells are meant to touch the frame (chassis GND). |
@@ -592,7 +592,7 @@ J25 / J26 are Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, no magnetics, n
   - No cable or CB change.
   - Shared Gen2 x1 (≈ 4 Gb/s) for 2.5 GbE + 3 × 3 ac (≈ 0.6–1.3 Gb/s). It only saturates when both run flat-out in the same direction.
   - Rejected: a second HS cable (+$10–20, CB connector, PCH lane), or USB Wi-Fi (not native).
-  - Bluetooth: a 4th CH334R (U35, H3) on H2 port 4 carries A4 + BT + 2 spare ports (+$0.6).
+  - Bluetooth: a 4th CH334F (U35, H3; was CH334R, §4.7.12) on H2 port 4 carries A4 + BT + 2 spare ports (+$0.6).
 - **macOS.** Plan for the iMac 2017-style card (Aidan has a Sonoma-compatible one that fits the stock socket), so native Wi-Fi + BT with Handoff / AirDrop and no root patches. *(11:21 ET: the earlier OCLP / Wi-Fi caveat for the stock BCM94360CD on macOS 14+ is dropped.)*
 - **Probing (M-IOC1, stock board powered, DMM + scope).** Probe on the stock IOB connector pads:
   1. GND continuity map, unpowered.
@@ -971,6 +971,103 @@ Nearest F-side board parts: BT1 coin holder 2.6 in XY (SCR_T−), J31 flex ZIF 1
 - **M-IOS4:** the plate corner features measured on the part. Ring and core Ø, centres from the plate edges, and whether the hole is through or blind. Is it visible on the outer face with the case on?
 - **M-IOS5:** which face the scan 83f0b85e shows (open). Weak hint: the corner rings are sharp while the centre features are soft, which on a flatbed would favour the concave inner face being on the glass. The translucent light guides blur anyway.
 
+### 4.7.12 Changelog 2026-10-04 ≈ 09:40 ET: MOD-C routed on the real HYCW417, 3-mil flex rule, JLC fab outputs, flex panels, CH334F / ASM1182e land patterns (not pushed)
+
+**MOD-C (USB-C port module, `kicad/macpro62-io-modules/mod_usbc`): complete.**
+- **Land pattern.** Real HOAUC HYCW417-USBC24-180B (LCSC C5342202), generated by `tools/make_fp_hycw417.py`.
+  - Source: the JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com), checked against HOAUC drawing HYC-2212201742 (both stored in `tools/easyeda/`).
+  - 24 SMD pads 0.27 × 1.30 at 0.50, row pitch 3.30.
+  - **4 plated THT shell slots** 1.30 × 0.80. The pads are 1.80 × 1.30 (EasyEDA 1.70 × 1.20, grown for JLC's 0.25 PTH annular ring). The slots are GND.
+  - 2 NPTH Ø0.60 pegs. The legs are 1.8 long.
+  - The module is **no longer all-SMD.** The shell legs need pin-in-paste or selective solder through the stiffener openings (User.1: 4 × 2.0 × 1.5 slots, 2 × Ø0.9 pegs).
+  - `modules_geom.py`: courtyard 6.25 × 3.65 and THT tips checked. The stub sits 0.56 below the stiffener, and paddle clearance is 4.27–5.08 (OK).
+- **Hand fan-out** (`tools/fanout_usbc.py`, no Freerouting):
+  - All four SS pairs leave on L1 with no vias and correct polarity.
+  - SBU1, CC1, D±, CC2 and SBU2 run through the channel between the rows and between the outboard shell slots. CC1 and SBU2 take one L2 hop each.
+  - B6 → D_P on L1. B7 → D_N with an L2 hop.
+  - VBUS path: A4–B9 bar, 4 × 0.55/0.3 vias, an L2 port pour, and 2 wedge vias into the L1 strip.
+- **Checks.**
+  - DRC 0 errors, 0 unconnected, 0 footprint errors. There is 1 silk-edge warning, the same one MOD-A and MOD-H have.
+
+| Pair (port pad → DF40 pad) | Length | Skew before → after | Compensation |
+|---|---|---|---|
+| SSTX1 | 31.666 | 1.246 → 0.000 | 2 chamfered bumps h 0.38 on the inner member |
+| SSRX2 | 25.765 | 1.246 → 0.000 | 3 bumps h 0.28 |
+| SSTX2 | 25.332 | 1.246 → 0.000 | 3 bumps h 0.28 |
+| SSRX1 | 31.333 | 1.246 → 0.000 | 2 bumps h 0.38 |
+| USB2 D (orientation A / B) | 24.92 / 24.2–26.3 | 0.000 / −2.09 (≈ 12 ps) | 1 bump h 0.12; B is set by the B7 L2 hop (within the USB2 budget) |
+
+- **Impedance** (`tools/zsolve.py`, converged grid dx 0.5–1 µm; 50 µm PI, εr 3.3, coverlay):
+  - Tail 0.09 / 0.10 over solid L2: **Zdiff 91.6 Ω** (εeff 2.80).
+  - Bend 0.12 / 0.10 over the 0.10 / 0.25 hatch: on the existing USB90_HATCH coupon.
+  - New 3-mil paddle lanes 0.078 / 0.078: ≈ 94 Ω (was ≈ 95 at 0.075 / 0.075).
+  - SE 0.10: ≈ 48 Ω.
+
+**3-mil flex rule (JLC FPC: +20 % when any trace width or spacing is 2–3 mil; jlcpcb.com/help/article/fpc-extra-charges §5).**
+- All three modules now hold every copper width and gap ≥ **0.078** (3.07 mil):
+  - paddle lanes 0.075 / 0.075 → 0.078 / 0.078 (8 per side between the DF40 pad ends at |v| 1.65 and the 0.3 edge keep-out at 2.9);
+  - netclasses, board and diff-pair minimums, and zone minimum width set to 0.078;
+  - Freerouting clearance 0.082.
+- MOD-A and MOD-H were re-routed. Minimum track is 0.078 on every board, coupons included. Spacing is DRC-checked at 0.078.
+- **USB-A THT pads:** Ø1.10 → Ø1.25. The ring went from 0.175 (below JLC's 0.18 absolute limit) to 0.25.
+- **TDR coupons:** `tdr_coupon_c50` gains PADDLE_3MIL (0.078 / 0.078, solid L2). Both coupons pass DRC 0.
+
+**Module skews after the re-route** (MOD-A and MOD-H are unchanged in kind):
+- MOD-A: D −2.65, SSRX +2.77, SSTX +2.64 mm. **These are not matched** (≈ 15 ps on 10 Gb/s lanes). They come from the Freerouting fan-out round the THT pins. **Open:** give MOD-A a hand fan-out with compensation, as on MOD-C.
+- MOD-H: CK −0.57, D0 −0.39, D1 −0.66, D2 −0.56 mm (≈ 3–4 ps, within the HDMI budget).
+
+**JLC fab outputs** (`tools/make_fab.py` → `<board>/fab/`):
+- Gerber + Excellon zip: Cu, coverlay (mask), paste, silk, Edge.Cuts, `Stiffener_FR4_B` (User.1). PTH and NPTH are separate, with oval slots routed.
+- `*_bom_jlc.csv`: Comment, Designator, Footprint, LCSC Part #.
+
+| Module | BOM |
+|---|---|
+| MOD-C | J1 C5342202, J2 DF40C-50DP-0.4V(51) C424645, U1 BL24C02F-NTRC C2828222, C1 100 nF 0201 C76939 |
+| MOD-A | J1 C7501870 (THT) + the same J2 / U1 / C1 |
+| MOD-H | J1 C711353 + the same |
+
+- `*_cpl_jlc.csv`: Designator, Mid X, Mid Y, Layer, Rotation. Check the JLC placement preview for rotation offsets.
+
+**Flex panels** (`tools/make_panel.py` → `panel/`), built to the JLC FPC panel guide: 5 mm copper rails, 4 global fiducials (1 corner offset 5 mm), 4 × Ø2 tooling holes, 1 local fiducial per assembled unit, 3 mm unit spacing, and 1.0 laser-cut tabs on stiffened edges only.
+- **One panel for all three types is not possible as one JLC order.**
+  - JLC builds one stack-up per FPC order. MOD-A is a 25 µm-core build (0.11); MOD-C and MOD-H are 50 µm (0.19).
+  - 6 + 4 + 1 = 11 pieces is also over JLC's limit of 10 different-design pieces per frame.
+- Built instead:
+
+| Panel | Contents | Size | Use | DRC |
+|---|---|---|---|---|
+| `panel_c50` | 6 × MOD-C + 1 × MOD-H + c50 coupon (8 pieces, 3 designs) | 97.2 × 97.8 | 42 % | 0 errors (7 silk warnings) |
+| `panel_a25` | 4 × MOD-A + a25 coupon (5 pieces, 2 designs) | 74.0 × 82.2 | 38 % | 0 errors (8 silk warnings) |
+
+- Each panel has its own Gerber, BOM and CPL. References are suffixed by unit, e.g. J1_C3.
+- **Saving (estimate, not a JLC quote):**
+  - Separate orders would be 5 FPC designs (MOD-C, MOD-H, MOD-A and 2 coupons) plus 3 PCBA orders. The panels make that 2 FPC orders plus 2 PCBA orders, and the coupons ride free.
+  - At JLC's published flex prototype price ("from ~$25 per 5 pcs", per design ≤ 100 × 100), that is ≈ 3 fewer FPC base charges plus 1 fewer PCBA setup and stencil. **≈ $60–100 per build.**
+  - Against that, each panel now carries ≥ 4 stiffeners (14 and 8). That triggers JLC's stiffener surcharge (§3 of the extra-charges page, amount not published).
+  - Confirm by quoting both panels and the singles on jlcpcb.com. That upload is the user's call.
+
+**I/O main board: cost-review footprint fixes** (`kicad/macpro62-io-board`):
+- **CH334R → CH334F** (U32–U35).
+  - CH334R is QSOP-16 150 mil (C4154405). The old QFN-24 4 × 4 placeholder matched the CH334F.
+  - Swapped to **CH334F, C5187527** (QFN-24 4 × 4 P0.5, EP 2.8). This keeps the 4 × 4 placements and the planned routing. U33 and U35 are only 6 mm apart, so a 6.0-wide QSOP would not fit.
+  - Cost ≈ +$0.08 per hub at 10 pcs, ≈ +$0.31 per board.
+- **ASM1182e** (U91): the QFN-64 9 × 9 placeholder became the **QFN-48 7 × 7 P0.5, EP 5.4** (ASMedia product data and LCSC C2833072).
+  - **LCSC stock was 0 on 2026-10-04.** Source it before ordering.
+- **Footprint source:** both from the JLCEDA/EasyEDA Official Library via `tools/easyeda_fp.py` (re-centred, pin 1 top-left CCW, EP paste in 4 windows ≈ 60 %). Generated in `make_fps.py`.
+- **Symbols are still LOGICAL.** Map the pins from the datasheets before routing.
+- **Checks:** the board was rebuilt and only U32–U35 and U91 changed. DRC 0 / 0 / 0, ERC 0. Floorplan and renders were regenerated.
+- **Upstream change not taken:** `make_fps.py` also copies the MCIO footprints from `macpro62-storage-face`, which changed today at 08:46 ET (narrower courtyard). The pushed MP62_IO copies were restored.
+
+**Open / uncertain**
+- MOD-C shell legs: pin-in-paste through the 1.0 FR4 openings (or selective solder).
+- The 12.0 base flange vs the sleeve / plate needs a fit check.
+- VBUS L2 bands under the receptacle are narrow: check 3 A heating. USB2 references the VBUS L2 band in the slot gap.
+- DF40 and HDMI land patterns are still placeholders. The HDMI shell ring is 0.20.
+- MOD-A SS skew is open.
+- EasyEDA pad data was checked against the drawings, not against parts.
+- Board items still open from earlier: clamp-plate C holes Ø5.0 / Ø7.0, the H13 standoff vs SCR_C2, M2 head clearance 0.57.
+
+
 ## 5. Interconnects
 
 ### 5.1 IOB-HS1: MCIO 124 from CB J3 (CR-CB-IO1)
@@ -1132,7 +1229,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | USB-C ×6 | J11–J16; TUSB1046A U11–U16 (I²C on each PD's I2C3, 0x12/0x13); 220 nF AC caps (connector TX, host RX); 220 pF CC caps | DP lanes are AC-coupled at the source (Face P / CB). |
 | PD | 3 × TPS65994AD U1–U3 (PD1 = C1/C2, PD2 = C3/C4, PD3 = C5/C6); flashes U4/U6/U7 (8 Mbit); ADCIN straps | I2C1 → I2C_PD (behind the TCA9517 U83, enabled by PG_3V3). IRQs → U84 74LVC1G07 → IOB_INT_N. |
 | USB-A ×4 | J21–J24; TUSB1002A U21–U24; 1.5 A switches U25–U28 (FLT# → USB_OC#); 100 µF bulk per port | |
-| USB2 | CH334R: H1a U34 (C1–C3 + H1b), H1b U32 (C4–C6 + codec), H2 U33 (A1–A4, uplink from IOB-LINK); 12 MHz Y1–Y3 | |
+| USB2 | CH334F (QFN-24 4 × 4, C5187527; was CH334R, §4.7.12): H1a U34 (C1–C3 + H1b), H1b U32 (C4–C6 + codec), H2 U33 (A1–A4, uplink from IOB-LINK), H3 U35 (A4 + BT); 12 MHz Y1–Y3, Y7 | |
 | Ethernet | **2 × i226-V**: U50 + NVM U51 + 25 MHz Y4 + SVR L44 → J25 (ETH1); **U52 + NVM U53 + Y6 + L45 → J26 (ETH2)**. Both jacks HanRun HR913790A (P1 common CT → 100 nF, P10 Bob-Smith → GND, green link + yellow activity LEDs via 330 R) | U52 group on B at Xb 20–30, Y 83–100 (left of the J26 THT field). Hub crystal Y2 moved to (53.0, 95.5). |
 | HDMI | TDP158 U60 + 1V1 LDO U61; 0.5 A PTC on +5V; DDC 1.8 k pull-ups | |
 | Audio | CM108B U70 + Y5. HP_L/R → J28; line-in L+R mixed into the mono ADC; S/PDIF TX to J28; optical RX not supported | CM6646 is the upgrade path. |
@@ -1250,7 +1347,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 ## 10. Placeholders and risks
 
 - **2026-10-02 ≈ 10:50 ET (risers / CONN_C / RJ45):**
-  - The DF40 / DF12 / V24P05S / RJ45 / pogo / ASM1182e land patterns are PLACEHOLDERS.
+  - The DF40 / DF12 / V24P05S / RJ45 / pogo / ASM1182e land patterns are PLACEHOLDERS. (2026-10-04: ASM1182e is now the real QFN-48 7 × 7, §4.7.12.)
   - The DF40C-50/40 LCSC numbers and the pogo part are TBC.
   - The CONN_C pinout and mating are unconfirmed.
   - The FPC jumper impedance must be TDR-checked.
@@ -1260,7 +1357,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 
 | Item | Risk | Mitigation |
 |---|---|---|
-| Land patterns for USB-C, USB-A, RJ45, HDMI, J28, J3, J4 and J31; QFN placeholders for TPS65994AD, TUSB1046A, TUSB1002A, CH334R, i226-V, TDP158 | Wrong pads | Replace them with the datasheet or JLC footprints before routing. |
+| Land patterns for USB-C, USB-A, RJ45, HDMI, J28, J3, J4 and J31; QFN placeholders for TPS65994AD, TUSB1046A, TUSB1002A, i226-V, TDP158 (CH334F and ASM1182e are real EasyEDA patterns since 2026-10-04, pins still LOGICAL) | Wrong pads | Replace them with the datasheet or JLC footprints before routing. |
 | Logical pin numbers on the IC symbols | Schematic-to-footprint mismatch | Map every pin from its datasheet. |
 | Stock pinouts (PSU, audio, wall flex) | Wrong function | Probe per §9; 0R matrices and DNP links. |
 | Plate curvature R and D0 | Ports recessed or proud | M-IOT2 and M-IOF2 before ordering; parametric rebuild. |
@@ -1283,7 +1380,7 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 
 | Group | Per board |
 |---|---|
-| ICs (3 × TPS65994AD ≈ $15, 6 × TUSB1046A ≈ $18, 4 × TUSB1002A ≈ $7, 2 × i226-V ≈ $12–18, TDP158 ≈ $3.5, 3 × CH334R ≈ $1.5, CM108B ≈ $1.2, power ≈ $5, management ≈ $3, flashes ≈ $1.6) | ≈ $70 |
+| ICs (3 × TPS65994AD ≈ $15, 6 × TUSB1046A ≈ $18, 4 × TUSB1002A ≈ $7, 2 × i226-V ≈ $12–18, TDP158 ≈ $3.5, 4 × CH334F ≈ $2.2, CM108B ≈ $1.2, power ≈ $5, management ≈ $3, flashes ≈ $1.6) | ≈ $70 |
 | Connectors (MCIO 124 ≈ $8–12, MCIO 74 ≈ $6–9, 6 × USB-C ≈ $5, 4 × USB-A ≈ $2, 2 × RJ45 HR913790A ≈ $4–8, HDMI, Micro-Fit, GH15, ZIF ≈ $0.3, FPC 50P, stock headers ≈ $2–6) | ≈ $38 |
 | Passives, inductors, crystals, nuts, holder | ≈ $7 |
 | **Total parts** | **≈ $115** (was ≈ $105; **+ ≈ $9–14 per board** for i226 #2, its NVM/crystal/inductor/passives and the second jack) |

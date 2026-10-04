@@ -1,55 +1,174 @@
 {
  "module": "mod_usbc",
  "ses_import": true,
- "tracks_before": 204,
- "tracks_after": 286,
- "teardrops": 77,
+ "tracks_before": 388,
+ "tracks_after": 392,
+ "teardrops": 100,
  "pairs": {
   "D": {
-   "P": 24.79,
-   "N": 24.644,
-   "skew": 0.146,
+   "P": 26.466,
+   "N": 27.306,
+   "skew": -0.84,
    "vias_P": 0,
    "vias_N": 2
   },
   "SSRX1": {
-   "P": 30.194,
-   "N": 29.09,
-   "skew": 1.104,
+   "P": 31.333,
+   "N": 31.333,
+   "skew": -0.0,
    "vias_P": 0,
    "vias_N": 0
   },
   "SSRX2": {
-   "P": 19.695,
-   "N": 20.245,
-   "skew": -0.55,
+   "P": 25.765,
+   "N": 25.765,
+   "skew": -0.0,
    "vias_P": 0,
    "vias_N": 0
   },
   "SSTX1": {
-   "P": 30.625,
-   "N": 29.501,
-   "skew": 1.124,
+   "P": 31.666,
+   "N": 31.666,
+   "skew": 0.0,
    "vias_P": 0,
    "vias_N": 0
   },
   "SSTX2": {
-   "P": 23.632,
-   "N": 24.653,
-   "skew": -1.022,
+   "P": 25.332,
+   "N": 25.332,
+   "skew": 0.0,
    "vias_P": 0,
    "vias_N": 0
   }
  },
  "singles": {
-  "GND": 28.32,
-  "VBUS": 48.94,
-  "CC1": 18.29,
-  "SBU2": 18.28,
-  "SBU1": 18.8,
-  "CC2": 26.41,
+  "GND": 31.58,
+  "VBUS": 40.28,
+  "CC1": 27.82,
+  "SBU1": 25.06,
+  "CC2": 23.44,
+  "SBU2": 26.71,
   "ID_SCL": 4.25,
   "ID_SDA": 3.35,
   "3V3_MOD": 5.0
+ },
+ "hand_fanout": {
+  "pairs": {
+   "SSTX1": {
+    "outer": "SSTX1_P",
+    "inner": "SSTX1_N",
+    "fanout_outer": 10.749,
+    "fanout_inner": 11.305,
+    "lane_outer": 20.917,
+    "lane_inner": 20.361,
+    "skew_before": 1.246,
+    "bumps": 2,
+    "bump_h": 0.382,
+    "total_outer": 31.666,
+    "total_inner": 31.666,
+    "skew": 0.0
+   },
+   "SSRX2": {
+    "outer": "SSRX2_N",
+    "inner": "SSRX2_P",
+    "fanout_outer": 6.265,
+    "fanout_inner": 6.821,
+    "lane_outer": 19.5,
+    "lane_inner": 18.944,
+    "skew_before": 1.246,
+    "bumps": 3,
+    "bump_h": 0.278,
+    "total_outer": 25.765,
+    "total_inner": 25.765,
+    "skew": 0.0
+   },
+   "SSTX2": {
+    "outer": "SSTX2_N",
+    "inner": "SSTX2_P",
+    "fanout_outer": 6.269,
+    "fanout_inner": 6.825,
+    "lane_outer": 19.062,
+    "lane_inner": 18.506,
+    "skew_before": 1.246,
+    "bumps": 3,
+    "bump_h": 0.278,
+    "total_outer": 25.332,
+    "total_inner": 25.332,
+    "skew": 0.0
+   },
+   "SSRX1": {
+    "outer": "SSRX1_P",
+    "inner": "SSRX1_N",
+    "fanout_outer": 10.749,
+    "fanout_inner": 11.305,
+    "lane_outer": 20.584,
+    "lane_inner": 20.028,
+    "skew_before": 1.246,
+    "bumps": 2,
+    "bump_h": 0.382,
+    "total_outer": 31.333,
+    "total_inner": 31.333,
+    "skew": 0.0
+   },
+   "D (USB2)": {
+    "orientation_A": {
+     "P": 24.916,
+     "N": 24.916,
+     "skew": 0.0
+    },
+    "orientation_B": {
+     "P": 24.216,
+     "N": 26.306,
+     "skew": -2.0896
+    },
+    "bumps": 1,
+    "bump_h": 0.12,
+    "stub_A_side_in_B": 1.0,
+    "stub_B_side_in_A": {
+     "D_P": 1.55,
+     "D_N": 2.39
+    }
+   }
+  },
+  "notes": [],
+  "wedge_vias": [
+   [
+    5.75,
+    -0.05
+   ],
+   [
+    5.75,
+    0.45
+   ]
+  ],
+  "fanout_lengths": {
+   "SSTX1_P": 10.749,
+   "SSTX1_N": 11.305,
+   "SSRX2_N": 6.265,
+   "SSRX2_P": 6.821,
+   "SSTX2_N": 6.269,
+   "SSTX2_P": 6.825,
+   "SSRX1_P": 10.749,
+   "SSRX1_N": 11.305,
+   "D_P": 10.337,
+   "D_N": 10.621,
+   "SBU1": 7.01,
+   "CC1": 10.268,
+   "CC2": 7.526,
+   "SBU2": 10.294,
+   "VBUS": 10.703,
+   "GND": 3.256
+  },
+  "counts": {
+   "tracks": 176,
+   "vias": 14,
+   "signal_hop_vias": 6
+  }
+ },
+ "check_total_vs_fanout": {
+  "SSTX1": 0.0,
+  "SSRX2": 0.0,
+  "SSTX2": 0.0,
+  "SSRX1": -0.0
  }
 }

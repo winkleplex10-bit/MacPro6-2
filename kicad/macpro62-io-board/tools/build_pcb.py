@@ -150,9 +150,9 @@ for i, (x, y) in enumerate([(29.0, 42.75), (29.0, 32.6), (77.5, 42.75), (77.5, 3
 for i, (x, y) in enumerate([(24.0, 43.5), (19.0, 32.6), (86.0, 42.75), (86.0, 32.6)]):
     place("U%d" % (25 + i), "SOT-23-5", x, y, 90, "B", "USB-A A%d VBUS switch 1.5 A (SY6280/TPS2553 class)" % (i + 1))
 # USB2 hubs
-place("U34", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 53.5, 52.0, 0, "B", "CH334R hub H1a (C1-C3 + H1b) <- HS1 USB2")
-place("U32", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 53.5, 84.5, 0, "B", "CH334R hub H1b (C4-C6 + codec)")
-place("U33", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 53.0, 0, "B", "CH334R hub H2 (A1-A4) <- IOB-LINK USB2")
+place("U34", "MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8", 53.5, 52.0, 0, "B", "CH334F hub H1a (C1-C3 + H1b) <- HS1 USB2")
+place("U32", "MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8", 53.5, 84.5, 0, "B", "CH334F hub H1b (C4-C6 + codec)")
+place("U33", "MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8", 19.0, 53.0, 0, "B", "CH334F hub H2 (A1-A4) <- IOB-LINK USB2")
 for k, (x, y) in enumerate([(53.6, 46.6), (53.0, 95.5), (19.0, 47.4)]):   # Y2 moved above the RJ45 shield pins (HR913790A, 2026-10-02)
     place("Y%d" % (1 + k), "Crystal_SMD_3225-4Pin_3.2x2.5mm", x, y, 0, "B", "12 MHz hub crystal")
 # Ethernet
@@ -198,8 +198,8 @@ place("J9", "MP62_UFL_Hirose_U.FL-R-SMT-1", 24.0, 16.0, 0, "F", "Optional antenn
 _bk = (min(x for x, y in _cs) - 3.0, 0.0, max(x for x, y in _cs) + 3.0, 10.5)
 rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.B_Fab, 0.12); rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.Dwgs_User, 0.12)
 txt("B: T8 fan-cable bracket keep-out (only J7, H14, H15)", (_bk[0] + _bk[2]) / 2, _bk[3] + 0.8, pcbnew.Dwgs_User, 0.6)
-place("U91", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 24.0, 130.0, 0, "B", "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7")
-place("U35", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 59.0, 0, "B", "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare")
+place("U91", "MP62_ASMedia_ASM1182e_QFN-48-1EP_7x7_P0.5_EP5.4", 24.0, 130.0, 0, "B", "ASM1182e PCIe Gen2 switch: up = HS1 k14 lane (was i226 #2), down0 = i226 #2 (U52), down1 = AirPort via J7")
+place("U35", "MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8", 19.0, 59.0, 0, "B", "CH334F hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare")
 # port-module management (D-IO16): ID EEPROM muxes + PRSNT# expander on I2C_SYS
 place("U95", "TSSOP-24_4.4x7.8mm_P0.65mm", 45.5, 68.0, 0, "B", "TCA9548A @0x70: module ID I2C ch0-5 = C1-C6, ch6-7 = A1-A2")
 place("U96", "TSSOP-24_4.4x7.8mm_P0.65mm", 44.5, 37.6, 90, "B", "TCA9548A @0x71: module ID I2C ch0-1 = A3-A4, ch2 = HDMI, ch3-7 spare")
@@ -315,7 +315,7 @@ notes = ["MP62 I/O board IOB rev A0 FLOORPLAN (not routed). Viewed from the FRON
          "D0 = 18.0 crown / 16.5 edge: USB-C/USB-A/HDMI = swappable FPC port modules (D-IO16) on printed cradles, axis normal to the plate, JMn DF40C-50DS per module; RJ45 face <= 13.6.",
          "RJ45 vertical on the main board; USB-C/USB-A/HDMI on FPC modules (plan 4.7.9). Dwgs.User: module stiffener outlines + C-fold envelopes.",
          "B top: J1 IOB-HS1 MCIO124 (CB J3), J2 display link MCIO74 (Face P). B bottom: stock PSU DC 12P + signal 6P (pinouts UNCONFIRMED), J5 Micro-Fit -> BP J2, J6 IOB-LINK.",
-         "PLACEHOLDER land patterns: all vertical port connectors, stock audio/PSU connectors, TPS65994AD, TUSB1046A, TUSB1002A, TDP158, i226-V, CH334R."]
+         "PLACEHOLDER land patterns: all vertical port connectors, stock audio/PSU connectors, TPS65994AD, TUSB1046A, TUSB1002A, TDP158, i226-V (CH334F + ASM1182e: JLCEDA/EasyEDA land patterns 2026-10-04)."]
 for i, s in enumerate(notes): txt(s, 50, -8 - 2.0 * i, pcbnew.Cmts_User, 0.9)
 txt("MP62 IOB A0", 86, 90, pcbnew.F_SilkS, 1.5, 90)
 _kv = []

@@ -1,0 +1,39 @@
+{
+ "panel": "panel_c50",
+ "size_mm": [
+  97.21,
+  97.8
+ ],
+ "units": [
+  "C1",
+  "C2",
+  "C3",
+  "C4",
+  "C5",
+  "C6",
+  "H",
+  "T"
+ ],
+ "designs": [
+  "mod_hdmi",
+  "mod_usbc",
+  "tdr_coupon_c50"
+ ],
+ "pieces": 8,
+ "unit_area_mm2": {
+  "C1": 278.9,
+  "C2": 278.9,
+  "C3": 278.9,
+  "C4": 278.9,
+  "C5": 278.9,
+  "C6": 278.9,
+  "H": 340.1,
+  "T": 1972.0
+ },
+ "panel_area_mm2": 9507.5,
+ "utilisation": 0.419,
+ "fiducials": 11,
+ "tooling_holes": 4,
+ "tabs": 48,
+ "user1_stiffener_shapes": 196
+}

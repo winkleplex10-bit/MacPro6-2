@@ -1,3 +1,28 @@
+> **Rev 2026-10-04 ≈ 09:40 ET (MOD-C routed, 3-mil rule, fab outputs, panels):**
+> - **MOD-C (`mod_usbc`) complete.**
+>   - Real HOAUC HYCW417-USBC24-180B land pattern (`tools/make_fp_hycw417.py`). Source: JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com), checked against HOAUC drawing HYC-2212201742. The raw data is in `tools/easyeda/`.
+>   - 24 SMD pads 0.27 × 1.30 at 0.50. **4 plated THT shell slots** 1.30 × 0.80 (pads grown to 1.80 × 1.30 for a 0.25 annular ring; pin-in-paste through the stiffener openings on User.1) and 2 NPTH Ø0.60 pegs.
+>   - Hand fan-out (`tools/fanout_usbc.py`, no Freerouting). All four SS pairs leave on L1 with no vias. CC1/SBU2 take one L2 hop. VBUS uses a bar, an L2 port pour and wedge vias.
+>   - DRC 0 errors / 0 unconnected (1 silk warning).
+>   - SS intra-pair skew is 0.000 on all four pairs (chamfered bumps on the inner member near the pins). USB2 skew is 0.000 in orientation A and −2.09 mm in orientation B (B7 L2 hop).
+> - **3-mil rule (JLC FPC +20 % when any width or gap is 2–3 mil):** every width and gap is now ≥ 0.078 (TMIN in `build_modules.py`).
+>   - Paddle lanes went from 0.075 / 0.075 to 0.078 / 0.078. Netclass, DRC and diff-pair minimums are 0.078, zone minimum width is 0.078, and the Freerouting clearance is 0.082.
+>   - MOD-A and MOD-H were re-routed. All three modules have DRC 0 errors and a minimum track of 0.078.
+> - **USB-A PTH ring:** pads are now Ø1.25 (were Ø1.10 = 0.175 ring, below JLC's 0.18 absolute limit). The HDMI placeholder shell is still at 0.20.
+> - **Skew (route_report.json):**
+>   - MOD-A: D −2.65, SSRX +2.77, SSTX +2.64 mm. These are **not matched** (Freerouting fan-out around the THT pins). This is open and needs a MOD-C-style hand fan-out.
+>   - MOD-H: CK −0.57, D0 −0.39, D1 −0.66, D2 −0.56 mm.
+> - **TDR coupons:** a PADDLE_3MIL line (0.078 / 0.078) was added to `tdr_coupon_c50`. DRC 0.
+> - **JLC fab outputs:** `python3 tools/make_fab.py` writes `<board>/fab/`:
+>   - Gerber + Excellon zip (User.1 = FR4 stiffener layer),
+>   - `*_bom_jlc.csv` (Comment, Designator, Footprint, LCSC Part #),
+>   - `*_cpl_jlc.csv` (Designator, Mid X, Mid Y, Layer, Rotation).
+>   - Covers the modules, coupons and panels. Check the JLC placement preview for rotation offsets.
+> - **Panels:** `python3 tools/make_panel.py` → `panel/panel_c50` (6 × MOD-C + MOD-H + c50 coupon, 97.2 × 97.8) and `panel/panel_a25` (4 × MOD-A + a25 coupon, 74.0 × 82.2).
+>   - Rails are 5 mm with copper, plus fiducials, tooling holes and 1.0 tabs on the stiffened edges. DRC 0 errors.
+>   - MOD-A cannot share the C/H panel: it is a 25 µm-core (0.11) stack, and C/H are 50 µm (0.19).
+> - **Rebuild:** `build_modules.py build|route|finish [mod]` → DRC → `build_tdr.py` → `make_fab.py` → `make_panel.py` → `make_fab.py` (again for the panels).
+
 > **Rev 2026-10-02 ≈ 14:55 ET:**
 > - **Geometry:** rebuilt on the new stack. The plate is 1.4 thick and glued, with the flex flat and no pocket, which moves everything 0.2. HDMI is back on the stock +X side: MOD-H is fitted rotated 180° into JM11 (rot 0).
 > - **Routing status** (`python3 tools/build_modules.py build|route|finish [mod]`, then kicad-cli DRC; reports in `mod_*/drc_report.txt`, lengths in `mod_*/route_report.json`):
@@ -30,7 +55,7 @@ Each USB-C, USB-A and HDMI port is a **flex-only module**. The receptacle is sol
 
 | Module | Slots | Receptacle (LCSC) | Mount | Stiffener (port) | Flat length | Flap / fold R | Sleeve seat → collar |
 |---|---|---|---|---|---|---|---|
-| MOD-C (`mod_usbc/`) | C1–C6 (one design; O-column modules are the same part rotated 180°) | HOAUC HYCW417-USBC24-180B (C5342202), vertical, **all SMD**, L 10.0. $1.13 at 1, $0.84 at 30. Only 196 in stock. | SMT only | 12.0 × 8.8 | 38.8 | 1.5 / 3.2 | 5.0 |
+| MOD-C (`mod_usbc/`) | C1–C6 (one design; O-column modules are the same part rotated 180°) | HOAUC HYCW417-USBC24-180B (C5342202), vertical, 24 SMD signal pads + **4 plated THT shell legs 1.8** (2026-10-04, real land pattern), L 10.0. $1.13 at 1, $0.94 at 10. Only 196 in stock. | SMT + pin-in-paste shell legs (or selective solder) | 12.0 × 8.8 | 38.8 | 1.5 / 3.2 | 5.0 |
 | MOD-A (`mod_usba/`) | A1–A4 | kinghelm KH-3.0AF180ZJ-11.5JB (C2979037), vertical USB 3.0, THT signal pins + shell legs, H 11.5, ≈ $0.16. **Only 2 in stock at 12:45 ET; 4 needed.** Second source: Hong Cheng HC-USB3.0-L137-WJ (C7501870, 645 in stock, ≈ $0.12), but it is H 13.7, which would drop the seat 2.2 mm and the fold R to about 1.2. Re-run modules_geom with CONN_H 13.7 before switching. | Selective solder through FPC + drilled FR4 | 16.8 × 8.8 | 39.7 | 0.5 / 2.3 | 6.65 |
 | MOD-H (`mod_hdmi/`) | HDMI | HOAUC HYC79-HDMIA19-105 (C711353), vertical, SMD signals + THT shell legs, $0.49 at 1, 2,365 in stock | SMT + selective solder | 19.2 × 9.4 | 43.4 | 0.5 / 2.7 | 5.7 |
 
@@ -76,7 +101,7 @@ Row A holds the odd pins (2k−1) and row B the even pins (2k).
 
 ## Flex construction (JLC FPC)
 
-- **Layers:** 2-layer PI, 0.11 mm finished. L1 has the signals (microstrip) and L2 is solid GND. The VBUS strip runs on L2 at the tail edge.
+- **Layers:** 2-layer PI. MOD-A uses a 25 µm core (0.11 finished). MOD-C and MOD-H use a 50 µm core (0.19). L1 carries the signals (microstrip) and the VBUS strip. L2 is GND: solid on the tail, hatched in the bend, with VBUS bands under the port on MOD-C. Every copper width and gap is ≥ 0.078 (3 mil).
 - **Impedance:** 90 Ω differential for USB and 100 Ω for TMDS. Set the widths with the JLC FPC impedance calculator. JLC does **not** measure impedance on FPC, so order a coupon and TDR it.
 - **EMI silver film (optional):** User.2 over L1. It changes the trace widths. It needs ≥ 2 coverlay openings Ø ≥ 1.0 to GND about every 30 mm, must stay ≥ 0.8 from pads, and is removed under stiffeners.
 - **Stiffeners:** FR4 1.0 on the B side, extending ≥ 1.0 beyond the pads, minimum width 3. Stainless 0.2 is the alternative if FR4 chips (JLC warns about this).
@@ -106,14 +131,17 @@ Row A holds the odd pins (2k−1) and row B the even pins (2k).
 ```
 python3 ../macpro62-io-board/tools/modules_geom.py        # modules.json (plate features → geometry + checks)
 python3 ../macpro62-io-board/tools/make_fps_modules.py    # MP62_MOD.pretty + main-board cradle footprints
-python3 tools/build_modules.py                            # mod_usbc / mod_usba / mod_hdmi
-for m in mod_usbc mod_usba mod_hdmi; do kicad-cli pcb drc -o $m/drc_report.txt $m/$m.kicad_pcb; done
+python3 tools/make_fp_hycw417.py                          # HOAUC HYCW417 land pattern from tools/easyeda/
+for s in build route finish; do python3 tools/build_modules.py $s; done   # mod_usbc (hand fan-out) / mod_usba / mod_hdmi
+for m in mod_usbc mod_usba mod_hdmi; do kicad-cli pcb drc --severity-all -o $m/drc_report.txt $m/$m.kicad_pcb; done
+python3 tools/build_tdr.py && python3 tools/make_fab.py && python3 tools/make_panel.py && python3 tools/make_fab.py
+python3 tools/plot_copper.py mod_usbc                    # previews (pcbnew dump + cadenv matplotlib)
 ```
 
 ## Status
 
 - **Outlines, stiffeners, bend zones, footprints:** placed. DRC 0 / 0 on all three (`*/drc_report.txt`).
-- **Routing:** not started. No nets are assigned yet; route after the land patterns are confirmed.
-- **Placeholders:** the receptacle, DF40 and EEPROM land patterns are placeholders. Check them against the drawings.
+- **Routing:** complete on all three (2026-10-04). MOD-C is hand-routed; MOD-A and MOD-H use Freerouting fan-outs. MOD-A SS skew (≈ 2.7 mm) is still open.
+- **Placeholders:** the DF40 land pattern and the HDMI receptacle are still placeholders. The USB-C pattern (HYCW417, EasyEDA, checked against the HOAUC drawing) is real. The USB-A pattern comes from the HC drawing and still needs checking against it.
 - **EEPROM part:** the WLCSP-4 EEPROM (AT24CSW020-UUM0B class) has no LCSC number yet. If the paddle can grow by 1.5 mm, fall back to a SOT-23-5 24C02.
 - **Geometry basis:** the geometry is for the default build (axis normal to the plate). Re-run `modules_geom.py` on the `_tilt12p5` features to get the stock-tilt variant.

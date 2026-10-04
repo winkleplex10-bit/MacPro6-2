@@ -1,7 +1,7 @@
 (version 1)
-(rule "diff pair gap (90/100 ohm lanes + 0.075 paddle)"
+(rule "diff pair gap (90/100 ohm lanes + 0.078 paddle)"
   (condition "A.inDiffPair('*')")
-  (constraint diff_pair_gap (min 0.075) (opt 0.1) (max 0.16)))
+  (constraint diff_pair_gap (min 0.078) (opt 0.1) (max 0.16)))
 (rule "via to track (JLC FPC 0.1)"
   (condition "A.Type == 'Via' && B.Type == 'Track'")
   (constraint clearance (min 0.1)))

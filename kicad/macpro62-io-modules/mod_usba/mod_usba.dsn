@@ -46,20 +46,20 @@
             109500 -103200))
 
     (via "Via[0-1]_550:300_um" "Via[0-1]_400:200_um")
-    (rule (width 90) (clearance 75) (clearance 75 (type smd_smd)))
+    (rule (width 90) (clearance 82) (clearance 82 (type smd_smd)))
   )
   (placement
     (component "MP62_MOD:MP62_MOD_USB_A3_HC-USB3.0-L137-WJ"
       (place J1 100000.000000 -100000.000000 front 0.000000 (PN "MOD-A - Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)"))
+    )
+    (component "MP62_MOD:DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm"
+      (place U1 131127.999000 -100000.000000 front 180.000000 (PN "BL24C02F-NTRC (C2828222) 24C02 ID EEPROM @0x50"))
     )
     (component MP62_MOD:C_0201_0603Metric
       (place C1 130527.999000 -102400.000000 front 0.000000 (PN "100nF 0201 X5R 10V (3V3_MOD)"))
     )
     (component "MP62_MOD:MP62_Hirose_DF40C-50DP-0.4V_PLACEHOLDER"
       (place J2 123393.000000 -100000.000000 front 0.000000 (PN "DF40C-50DP-0.4V(51) C424645 -> JMn DF40C-50DS (PMI-50 v2)"))
-    )
-    (component "MP62_MOD:DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm"
-      (place U1 131127.999000 -100000.000000 front 180.000000 (PN "BL24C02F-NTRC (C2828222) 24C02 ID EEPROM @0x50"))
     )
   )
   (library
@@ -71,17 +71,42 @@
             -3438.2 -1809.79  -3366.17 -1851.37  -3317.29 -1918.65  -3300 -2000))
       (outline (path signal 50  -7450 3750  7450 3750  7450 -3750  -7450 -3750))
       (outline (path signal 100  -6650 2850  6650 2850  6650 -2850  -6650 -2850))
-      (pin Round[A]Pad_1100.000000_um 1 -3500 -800)
-      (pin Round[A]Pad_1100.000000_um 2 -1000 -800)
-      (pin Round[A]Pad_1100.000000_um 3 1000 -800)
-      (pin Round[A]Pad_1100.000000_um 4 3500 -800)
-      (pin Round[A]Pad_1100.000000_um 5 4000 800)
-      (pin Round[A]Pad_1100.000000_um 6 2000 800)
-      (pin Round[A]Pad_1100.000000_um 7 0 800)
-      (pin Round[A]Pad_1100.000000_um 8 -2000 800)
-      (pin Round[A]Pad_1100.000000_um 9 -4000 800)
+      (pin Round[A]Pad_1250.000000_um 1 -3500 -800)
+      (pin Round[A]Pad_1250.000000_um 2 -1000 -800)
+      (pin Round[A]Pad_1250.000000_um 3 1000 -800)
+      (pin Round[A]Pad_1250.000000_um 4 3500 -800)
+      (pin Round[A]Pad_1250.000000_um 5 4000 800)
+      (pin Round[A]Pad_1250.000000_um 6 2000 800)
+      (pin Round[A]Pad_1250.000000_um 7 0 800)
+      (pin Round[A]Pad_1250.000000_um 8 -2000 800)
+      (pin Round[A]Pad_1250.000000_um 9 -4000 800)
       (pin Round[A]Pad_2800.000000_um S -6575 -650)
       (pin Round[A]Pad_2800.000000_um S@1 6575 -650)
+    )
+    (image "MP62_MOD:DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm"
+      (outline (path signal 120  -1000 -1610  1000 -1610))
+      (outline (path signal 120  -1000 1610  1000 1610))
+      (outline (path signal 50  1630 -1130  1250 -1130))
+      (outline (path signal 50  1630 1130  1630 -1130))
+      (outline (path signal 50  1250 -1750  -1250 -1750))
+      (outline (path signal 50  1250 -1130  1250 -1750))
+      (outline (path signal 50  1250 1130  1630 1130))
+      (outline (path signal 50  1250 1750  1250 1130))
+      (outline (path signal 50  -1250 -1750  -1250 -1130))
+      (outline (path signal 50  -1250 -1130  -1630 -1130))
+      (outline (path signal 50  -1250 1130  -1250 1750))
+      (outline (path signal 50  -1250 1750  1250 1750))
+      (outline (path signal 50  -1630 -1130  -1630 1130))
+      (outline (path signal 50  -1630 1130  -1250 1130))
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 1 -940 750)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 2 -940 250)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 3 -940 -250)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 4 -940 -750)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 5 940 -750)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 6 940 -250)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 7 940 250)
+      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 8 940 750)
+      (pin Rect[T]Pad_610.000000x2200.000000_um 9 0 0)
     )
     (image MP62_MOD:C_0201_0603Metric
       (outline (path signal 50  -700 350  700 350))
@@ -149,34 +174,9 @@
       (pin RoundRect[T]Pad_230.000000x700.000000_57.719000_um_0.000000_0 49 4800 1300)
       (pin RoundRect[T]Pad_230.000000x700.000000_57.719000_um_0.000000_0 50 4800 -1300)
     )
-    (image "MP62_MOD:DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm"
-      (outline (path signal 120  -1000 -1610  1000 -1610))
-      (outline (path signal 120  -1000 1610  1000 1610))
-      (outline (path signal 50  1630 -1130  1250 -1130))
-      (outline (path signal 50  1630 1130  1630 -1130))
-      (outline (path signal 50  1250 -1750  -1250 -1750))
-      (outline (path signal 50  1250 -1130  1250 -1750))
-      (outline (path signal 50  1250 1130  1630 1130))
-      (outline (path signal 50  1250 1750  1250 1130))
-      (outline (path signal 50  -1250 -1750  -1250 -1130))
-      (outline (path signal 50  -1250 -1130  -1630 -1130))
-      (outline (path signal 50  -1250 1130  -1250 1750))
-      (outline (path signal 50  -1250 1750  1250 1750))
-      (outline (path signal 50  -1630 -1130  -1630 1130))
-      (outline (path signal 50  -1630 1130  -1250 1130))
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 1 -940 750)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 2 -940 250)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 3 -940 -250)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 4 -940 -750)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 5 940 -750)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 6 940 -250)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 7 940 250)
-      (pin RoundRect[T]Pad_870.000000x250.000000_62.738000_um_0.000000_0 8 940 750)
-      (pin Rect[T]Pad_610.000000x2200.000000_um 9 0 0)
-    )
-    (padstack Round[A]Pad_1100.000000_um
-      (shape (circle F.Cu 1100))
-      (shape (circle B.Cu 1100))
+    (padstack Round[A]Pad_1250.000000_um
+      (shape (circle F.Cu 1250))
+      (shape (circle B.Cu 1250))
       (attach off)
     )
     (padstack Round[A]Pad_2800.000000_um
@@ -267,10 +267,11 @@
       (circuit
         (use_via "Via[0-1]_550:300_um" "Via[0-1]_400:200_um")
       )
-      (rule (width 90) (clearance 75))
+      (rule (width 90) (clearance 82))
     )
   )
   (wiring
+    
     
     
     
@@ -296,14 +297,11 @@
     
     
     
+    
+    
+    
+    
     (wire (path F.Cu 100  108650 -101200  109150 -101200)(net D_P)(type fix))
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -352,14 +350,21 @@
     
     
     
-    
-    
-    
     (wire (path F.Cu 100  108650 -98150  109150 -98150)(net SSTX_N)(type fix))
     
     
     
-    (wire (path F.Cu 100  108650 -98600  109150 -98600  109250 -98600)(net SSRX_P)(type fix))
+    
+    
+    
+    (wire (path F.Cu 100  108650 -98600  109150 -98600)(net SSRX_P)(type fix))
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -374,13 +379,9 @@
     
     
     
-    
-    
-    
-    
     (via "Via[0-1]_550:300_um"  108550 -99650 (net VBUS)(type fix))
-    (via "Via[0-1]_550:300_um"  108550 -100350 (net VBUS)(type fix))
     
+    (via "Via[0-1]_550:300_um"  108550 -100350 (net VBUS)(type fix))
     
     
     

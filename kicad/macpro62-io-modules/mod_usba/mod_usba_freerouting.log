@@ -1,10 +1,9 @@
-2026-10-02 14:27:12.500 INFO   Freerouting v2.1.0 (build-date: 2025-04-12)
-2026-10-02 14:27:12.582 WARN   No default constructor found for field: currentLocale
-2026-10-02 14:27:12.583 INFO   Settings were loaded from freerouting.json
-2026-10-02 14:27:14.057 INFO   New version available: v2.4.1
-2026-10-02 14:27:14.353 INFO   [543633\94E5C2] Job '543633\94E5C2' started at 2026-10-02T18:27:14.326788485Z
-2026-10-02 14:27:15.307 INFO   [543633\94E5C2] Auto-router pass #1 on board 'c9fff11bc51d58e9d099e0a3717f4479' was completed in 0.66 seconds with the score of 984.26.
-2026-10-02 14:27:15.350 INFO   [543633\94E5C2] Auto-router pass #2 on board '988f275c0a96d1508335088dbc561007' was completed in 0.00 seconds with the score of 984.26.
+2026-10-04 09:23:48.613 INFO   Freerouting v2.1.0 (build-date: 2025-04-12)
+2026-10-04 09:23:48.735 WARN   No default constructor found for field: currentLocale
+2026-10-04 09:23:48.737 INFO   Settings were loaded from freerouting.json
+2026-10-04 09:23:51.097 INFO   [46A102\A881B9] Job '46A102\A881B9' started at 2026-10-04T13:23:51.096435791Z
+2026-10-04 09:23:51.668 INFO   [46A102\A881B9] Auto-router pass #1 on board '679a49c6095bf6380b1eac9942d674e1' was completed in 0.40 seconds with the score of 987.73.
+2026-10-04 09:23:51.697 INFO   [46A102\A881B9] Auto-router pass #2 on board 'b98da048f405ee99f24cae588a19f5a0' was completed in 0.01 seconds with the score of 987.73.
 {
   "host": "KiCad's Pcbnew,9.0.2+dfsg-1",
   "unit": "mm",
@@ -27,8 +26,8 @@
     "signal_count": 2
   },
   "items": {
-    "total_count": 123,
-    "trace_count": 16,
+    "total_count": 125,
+    "trace_count": 18,
     "via_count": 2,
     "conduction_area_count": 0,
     "drill_item_count": 72,
@@ -47,23 +46,23 @@
     "class_count": 3
   },
   "connections": {
-    "maximum_count": 18,
+    "maximum_count": 20,
     "incomplete_count": 0
   },
   "traces": {
-    "total_count": 16,
-    "total_segment_count": 41,
-    "total_length": 783.05896,
-    "total_weighted_length": 1172318.2,
-    "average_length": 48.941185,
-    "total_vertical_length": 35.203,
-    "total_horizontal_length": 534.91,
-    "total_angled_length": 223.13747
+    "total_count": 18,
+    "total_segment_count": 33,
+    "total_length": 731.87445,
+    "total_weighted_length": 1083683.9,
+    "average_length": 40.65969,
+    "total_vertical_length": 12.893,
+    "total_horizontal_length": 459.412,
+    "total_angled_length": 201.4986
   },
   "bends": {
-    "total_count": 25,
+    "total_count": 15,
     "90_degree_count": 0,
-    "45_degree_count": 25,
+    "45_degree_count": 15,
     "other_angle_count": 0
   },
   "vias": {
@@ -76,3 +75,20 @@
     "total_count": 0
   }
 }
+java.util.concurrent.CompletionException: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:722)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+	at java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:614)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:844)
+	at java.base/java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at app.freerouting.management.VersionChecker.processResponse(VersionChecker.java:47)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:718)
+	... 9 more

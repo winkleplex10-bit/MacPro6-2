@@ -44,7 +44,7 @@
      1.3
     ],
     "header_folded": [
-     43.549,
+     43.548,
      77.057
     ],
     "receptacle": [
@@ -58,7 +58,7 @@
      -1.3
     ],
     "header_folded": [
-     43.549,
+     43.548,
      74.457
     ],
     "receptacle": [
@@ -72,7 +72,7 @@
      1.3
     ],
     "header_folded": [
-     48.349,
+     48.348,
      77.057
     ],
     "receptacle": [
@@ -86,7 +86,7 @@
      -1.3
     ],
     "header_folded": [
-     48.349,
+     48.348,
      74.457
     ],
     "receptacle": [
@@ -96,7 +96,7 @@
    }
   },
   "vec_1_25_header": [
-   4.801,
+   4.8,
    0.0
   ],
   "vec_1_25_recept": [
@@ -112,11 +112,11 @@
    -3.2
   ],
   "centre_offset": [
-   0.076,
+   0.075,
    0.0
   ],
   "pin1_offset_minus_centre": [
-   -0.001,
+   0.0,
    -0.3
   ],
   "row_pitch_header_recept": [

@@ -46,7 +46,7 @@
             109450 -103700))
 
     (via "Via[0-1]_550:300_um" "Via[0-1]_400:200_um")
-    (rule (width 90) (clearance 75) (clearance 75 (type smd_smd)))
+    (rule (width 90) (clearance 82) (clearance 82 (type smd_smd)))
   )
   (placement
     (component MP62_MOD:MP62_HDMI_A_Vertical_PLACEHOLDER
@@ -289,21 +289,18 @@
       (circuit
         (use_via "Via[0-1]_550:300_um" "Via[0-1]_400:200_um")
       )
-      (rule (width 90) (clearance 75))
+      (rule (width 90) (clearance 82))
     )
   )
   (wiring
     
     
     
+    
+    
+    
+    
     (wire (path F.Cu 80  109250 -102215  109750 -102215)(net D2_P)(type fix))
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -348,6 +345,8 @@
     
     
     
+    
+    
     (wire (path F.Cu 80  109250 -98085  109750 -98085)(net D1_P)(type fix))
     
     
@@ -361,17 +360,14 @@
     
     
     
-    (wire (path F.Cu 80  109250 -98315  109750 -98315  109850 -98330)(net D1_N)(type fix))
+    
+    (wire (path F.Cu 80  109250 -98315  109750 -98315)(net D1_N)(type fix))
+    
+    (wire (path F.Cu 80  109250 -101535  109750 -101535  109850 -101550)(net D0_P)(type fix))
     
     
     
     
-    
-    
-    
-    
-    
-    (wire (path F.Cu 80  109250 -101535  109750 -101535)(net D0_P)(type fix))
     
     
     
@@ -381,8 +377,11 @@
     
     (wire (path F.Cu 80  109250 -101305  109750 -101305)(net D0_N)(type fix))
     
-    (wire (path F.Cu 80  109250 -98765  109750 -98765)(net CK_P)(type fix))
     
+    
+    
+    
+    (wire (path F.Cu 80  109250 -98765  109750 -98765  109850 -98750)(net CK_P)(type fix))
     
     
     
@@ -393,6 +392,7 @@
     
     
     
+    (wire (path F.Cu 100  109250 -101050  109750 -101050  109850 -101050)(net DDC_SCL)(type fix))
     
     
     
@@ -401,17 +401,11 @@
     
     
     
-    (wire (path F.Cu 100  109250 -101050  109750 -101050)(net DDC_SCL)(type fix))
     
     
     
     
-    
-    
-    
-    (wire (path F.Cu 100  109250 -99250  109750 -99250  109850 -99250)(net DDC_SDA)(type fix))
-    
-    
+    (wire (path F.Cu 100  109250 -99250  109750 -99250)(net DDC_SDA)(type fix))
     
     
     
@@ -426,12 +420,11 @@
     
     
     
-    
-    
-    
-    
-    
     (wire (path F.Cu 100  109250 -100750  109750 -100750)(net HPD)(type fix))
+    
+    
+    
+    
     
     
     

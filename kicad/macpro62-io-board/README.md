@@ -1,3 +1,18 @@
+> **Rev 2026-10-04 ≈ 09:40 ET (cost-review footprint fixes; not pushed):**
+> - **USB2 hubs U32–U35: CH334R → CH334F.** CH334R is QSOP-16 (LCSC C4154405). The old QFN-24 4 × 4 placeholder was really the CH334F footprint.
+>   - Swapped to **CH334F (C5187527, QFN-24 4 × 4 P0.5, EP 2.8)**. This keeps the 4 × 4 placements. U33 and U35 sit only 6 mm apart, too close for a 6.0-wide QSOP.
+>   - Cost: LCSC ≈ $0.54 vs $0.46 at 10 pcs, so ≈ +$0.31 per board.
+>   - Footprint `MP62_WCH_CH334F_QFN-24-1EP_4x4_P0.5_EP2.8`.
+> - **U91 ASM1182e: QFN-64 9 × 9 placeholder → QFN-48 7 × 7 P0.5, EP 5.4** (ASMedia data and LCSC C2833072; LCSC stock 0 on 2026-10-04). Footprint `MP62_ASMedia_ASM1182e_QFN-48-1EP_7x7_P0.5_EP5.4`.
+> - **Footprint source:** both land patterns come from the JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com).
+>   - Converted by `tools/easyeda_fp.py` (re-centred, pin 1 top-left, EP paste 4 windows ≈ 60 %). The raw JSON is in `tools/easyeda/`.
+>   - Written by `make_fps.py`. The stale placeholders were removed. `make_fps_risers.py` no longer writes the QFN-64.
+> - **Symbols:** pins are still LOGICAL. Map them from the WCH and ASMedia datasheets before routing.
+> - **Checks:** the board was rebuilt (`build_pcb.py` + `postprocess.py`). Only U32–U35 and U91 changed (same positions, rotations and sides).
+>   - DRC 0 violations / 0 unconnected / 0 footprint errors. ERC 0.
+>   - Floorplan and 3D renders were regenerated.
+> - **Not taken:** `make_fps.py` copies the MCIO 124P/74P footprints from `../macpro62-storage-face`. That project changed them on 2026-10-04 08:46 ET (narrower courtyard, "NARROW plug option"). The pushed MP62_IO copies were restored and kept, so pick that change up deliberately.
+
 > **Rev 2026-10-02 ≈ 14:55 ET (plate corrections):**
 > - **HDMI / button back to stock.** The flex trace and cover-scan frame were mirrored, so these moved:
 >   - JM11 HDMI → (66.65, 107.07), rot 0, O side.

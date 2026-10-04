@@ -1,0 +1,113 @@
+{
+ "pairs": {
+  "SSTX1": {
+   "outer": "SSTX1_P",
+   "inner": "SSTX1_N",
+   "fanout_outer": 10.749,
+   "fanout_inner": 11.305,
+   "lane_outer": 20.917,
+   "lane_inner": 20.361,
+   "skew_before": 1.246,
+   "bumps": 2,
+   "bump_h": 0.382,
+   "total_outer": 31.666,
+   "total_inner": 31.666,
+   "skew": 0.0
+  },
+  "SSRX2": {
+   "outer": "SSRX2_N",
+   "inner": "SSRX2_P",
+   "fanout_outer": 6.265,
+   "fanout_inner": 6.821,
+   "lane_outer": 19.5,
+   "lane_inner": 18.944,
+   "skew_before": 1.246,
+   "bumps": 3,
+   "bump_h": 0.278,
+   "total_outer": 25.765,
+   "total_inner": 25.765,
+   "skew": 0.0
+  },
+  "SSTX2": {
+   "outer": "SSTX2_N",
+   "inner": "SSTX2_P",
+   "fanout_outer": 6.269,
+   "fanout_inner": 6.825,
+   "lane_outer": 19.062,
+   "lane_inner": 18.506,
+   "skew_before": 1.246,
+   "bumps": 3,
+   "bump_h": 0.278,
+   "total_outer": 25.332,
+   "total_inner": 25.332,
+   "skew": 0.0
+  },
+  "SSRX1": {
+   "outer": "SSRX1_P",
+   "inner": "SSRX1_N",
+   "fanout_outer": 10.749,
+   "fanout_inner": 11.305,
+   "lane_outer": 20.584,
+   "lane_inner": 20.028,
+   "skew_before": 1.246,
+   "bumps": 2,
+   "bump_h": 0.382,
+   "total_outer": 31.333,
+   "total_inner": 31.333,
+   "skew": 0.0
+  },
+  "D (USB2)": {
+   "orientation_A": {
+    "P": 24.916,
+    "N": 24.916,
+    "skew": 0.0
+   },
+   "orientation_B": {
+    "P": 24.216,
+    "N": 26.306,
+    "skew": -2.0896
+   },
+   "bumps": 1,
+   "bump_h": 0.12,
+   "stub_A_side_in_B": 1.0,
+   "stub_B_side_in_A": {
+    "D_P": 1.55,
+    "D_N": 2.39
+   }
+  }
+ },
+ "notes": [],
+ "wedge_vias": [
+  [
+   5.75,
+   -0.05
+  ],
+  [
+   5.75,
+   0.45
+  ]
+ ],
+ "fanout_lengths": {
+  "SSTX1_P": 10.749,
+  "SSTX1_N": 11.305,
+  "SSRX2_N": 6.265,
+  "SSRX2_P": 6.821,
+  "SSTX2_N": 6.269,
+  "SSTX2_P": 6.825,
+  "SSRX1_P": 10.749,
+  "SSRX1_N": 11.305,
+  "D_P": 10.337,
+  "D_N": 10.621,
+  "SBU1": 7.01,
+  "CC1": 10.268,
+  "CC2": 7.526,
+  "SBU2": 10.294,
+  "VBUS": 10.703,
+  "GND": 3.256
+ },
+ "counts": {
+  "tracks": 176,
+  "vias": 14,
+  "signal_hop_vias": 6
+ }
+}
