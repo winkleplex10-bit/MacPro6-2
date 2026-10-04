@@ -1,9 +1,79 @@
 ** Drc report for mod_usbc.kicad_pcb **
-** Created on 2026-10-02T12:41:48-0400 **
+** Created on 2026-10-02T14:47:39-0400 **
 
-** Found 0 DRC violations **
+** Found 12 DRC violations **
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(105.6500 mm, 98.6400 mm): Track [CC1] on F.Cu, length 0.9000 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(105.6500 mm, 101.6500 mm): Track [SBU2] on F.Cu, length 0.9000 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(99.3025 mm, 101.4998 mm): Via [SBU2] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(105.6500 mm, 98.9750 mm): Track [D_N] on F.Cu, length 0.9000 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(103.2996 mm, 97.5886 mm): Via [D_N] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(105.6500 mm, 98.3400 mm): Track [SBU1] on F.Cu, length 0.9000 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(102.6364 mm, 100.6408 mm): Track [CC2] on F.Cu, length 0.3732 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(102.6364 mm, 100.6408 mm): Track [CC2] on B.Cu, length 0.3732 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(105.6500 mm, 97.8450 mm): Track [SSRX2_N] on F.Cu, length 0.9000 mm
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(105.6500 mm, 98.0350 mm): Track [SSRX2_P] on F.Cu, length 0.9000 mm
+[clearance]: Clearance violation (netclass 'SE' clearance 0.0750 mm; actual 0.0727 mm)
+    Rule: netclass 'SE'; error
+    @(104.3000 mm, 101.4000 mm): Pad S [GND] of J1 on F.Cu
+    @(105.0234 mm, 100.5327 mm): Track [CC2] on F.Cu, length 0.3749 mm
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(133.1070 mm, 102.8000 mm): Segment on Edge.Cuts
+    @(132.9620 mm, 101.0500 mm): Polygon of U1 on F.Silkscreen
 
-** Found 0 unconnected pads **
+** Found 8 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(99.2500 mm, 97.4000 mm): Pad A5 [CC1] of J1 on F.Cu
+    @(105.6500 mm, 98.6400 mm): Track [CC1] on F.Cu, length 0.9000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(99.3025 mm, 102.5475 mm): Track [SBU2] on F.Cu, length 1.0477 mm
+    @(105.6500 mm, 101.6500 mm): Track [SBU2] on F.Cu, length 0.9000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(99.7500 mm, 97.4000 mm): Pad A6 [D_P] of J1 on F.Cu
+    @(100.2500 mm, 102.6000 mm): Pad B6 [D_P] of J1 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(100.2500 mm, 97.4000 mm): Pad A7 [D_N] of J1 on F.Cu
+    @(100.0006 mm, 100.0000 mm): Track [D_N] on B.Cu, length 3.4102 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(105.6500 mm, 98.9750 mm): Track [D_N] on F.Cu, length 0.9000 mm
+    @(102.4120 mm, 97.5886 mm): Track [D_N] on B.Cu, length 0.8876 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(100.7500 mm, 97.4000 mm): Pad A8 [SBU1] of J1 on F.Cu
+    @(105.6500 mm, 98.3400 mm): Track [SBU1] on F.Cu, length 0.9000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(101.7500 mm, 97.4000 mm): Pad A10 [SSRX2_N] of J1 on F.Cu
+    @(105.6500 mm, 97.8450 mm): Track [SSRX2_N] on F.Cu, length 0.9000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(102.2500 mm, 97.4000 mm): Pad A11 [SSRX2_P] of J1 on F.Cu
+    @(105.6500 mm, 98.0350 mm): Track [SSRX2_P] on F.Cu, length 0.9000 mm
 
 ** Found 0 Footprint errors **
 

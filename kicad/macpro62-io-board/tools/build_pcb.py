@@ -74,12 +74,12 @@ def place(ref, name, xb, y, rot=0.0, side="F", value=None, dnp=False):
 # ---------------- port grid = centres of the stock 821-2222-A flex cut-outs (flatbed scan 2026-10-02; plate frame, +-0.15) ----------------
 # rev 2026-10-02 ~12:35 ET (D-IO16): the 6 USB-C, 4 USB-A and HDMI are swappable FLEX port modules (../macpro62-io-modules, modules.json).
 # Main board carries per module: one DF40C-50DS receptacle JMn (PMI-50 pinout) under the module; per group: clamp-post M2 SMT nuts + cradle pegs.
-XH, XO = 43.09, 63.69
+XH, XO = 43.13, 63.73
 CY = [75.76, 65.84, 55.97]
 MJ = json.load(open("/workspace/kicad/macpro62-io-modules/modules.json"))
 for k, m in enumerate(MJ["modules"]):
     place("JM%d" % (k + 1), "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", m["jm_plan"][0], m["jm_plan"][1], m["jm_rot"], "F",
-          "%s slot %s: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module %s, axis %.2f deg)" % (m["module"], m["slot"], "rot 180" if m["jm_rot"] else "as drawn", m["tilt_deg"]))
+          "%s slot %s: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot %d, axis %.2f deg)" % (m["module"], m["slot"], m["jm_rot"], m["tilt_deg"]))
     x0, x1 = m["stiffener_plan_x"]; t = MJ["types"][m["kind"]]
     rectd(x0, m["y"] - t["sy"], x1, m["y"] + t["sy"], pcbnew.Dwgs_User, 0.12); txt("%s %s" % (m["slot"], m["module"]), (x0 + x1) / 2, m["y"] + t["sy"] - 1.0, pcbnew.Dwgs_User, 0.6)
     xf = m["fold_outer_x"]; xe = x0 if m["side"] == "H" else x1
@@ -91,16 +91,16 @@ for grp, pl in MJ["posts"].items():
         _seen[(x, y)] = grp
 for (x, y), grp in _seen.items():
     _hc += 1; place("H%d" % (20 + _hc), "MP62_Cradle_Nut_M2_SMT_PLACEHOLDER", x, y, 0, "F", "port-module clamp post (%s): M2 SMT nut, clamp screw through plate + cradle post" % grp)
-_pegs = [(44.5, 70.8), (61.9, 60.9), (44.5, 37.6), (61.9, 37.6), (36.0, 111.9), (51.2, 103.0)]   # printed-cradle locating pegs (between modules / under the walls)
+_pegs = [(44.5, 70.8), (61.9, 60.9), (44.5, 37.6), (61.9, 37.6), (70.82, 111.9), (55.62, 106.0)]   # printed-cradle locating pegs (between modules / under the walls)
 for k, (x, y) in enumerate(_pegs): place("H%d" % (40 + k), "MP62_Cradle_Peg_D1.6_NPTH", x, y, 0, "F", "port-module cradle locating peg D1.5")
-place("J25", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 63.67, 91.60, 0, "F", "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
-place("J26", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 43.15, 91.41, 0, "F", "ETH2 i226-V #2: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
-place("T1", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 63.67, 99.3, 0, "B", "ETH1 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J25 posts)")
-place("T2", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 42.6, 99.1, 0, "B", "ETH2 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J26 posts)")
-place("SW1", "SW_SPST_PTS810", 63.79, 108.11, 0, "F", "DNP with the stock 821-2222-A flex (its dome switch is the power button, via J31); fit only without the flex", dnp=True)
-place("J30", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", 56.5, 104.5, 0, "F", "Optional stock/remote power button 2P (parallel to SW1)")
-place("J31", "Hirose_FH12-14S-0.5SH_1x14-1MP_P0.50mm_Horizontal", 82.8, 10.0, 0, "F", "I/O-wall (821-2222) flex ZIF 14P 0.5: power button + port illumination (HX FPC 0.5-14P HYH2.0, C7502869; land pattern = FH12 placeholder, verify)")
-place("D20", "LED_0603_1608Metric", 63.79, 103.38, 0, "F", "DNP with the stock flex (its 2 button LEDs light the cap via J31); power/sleep LED only without the flex", dnp=True)
+place("J25", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 63.664, 91.407, 0, "F", "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
+place("J26", "MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER", 43.145, 91.595, 0, "F", "ETH2 i226-V #2: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15")
+place("T1", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 63.664, 99.107, 0, "B", "ETH1 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J25 posts)")
+place("T2", "MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER", 42.6, 99.285, 0, "B", "ETH2 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J26 posts)")
+place("SW1", "SW_SPST_PTS810", 43.02, 108.11, 0, "F", "DNP with the stock 821-2222-A flex (its dome switch is the power button, via J31); fit only without the flex", dnp=True)
+place("J30", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", 50.32, 104.5, 0, "F", "Optional stock/remote power button 2P (parallel to SW1)")
+place("J31", "Hirose_FH12-14S-0.5SH_1x14-1MP_P0.50mm_Horizontal", 24.0, 10.0, 0, "F", "I/O-wall (821-2222) flex ZIF 14P 0.5: power button + port illumination (HX FPC 0.5-14P HYH2.0, C7502869; land pattern = FH12 placeholder, verify)")
+place("D20", "LED_0603_1608Metric", 43.02, 103.38, 0, "F", "DNP with the stock flex (its 2 button LEDs light the cap via J31); power/sleep LED only without the flex", dnp=True)
 place("J28", "MP62_StockAudio_EdgeCard_50P_P0.5_PLACEHOLDER", 50.9, 10.4, 0, "F", "Stock audio module connector (PLACEHOLDER)")
 place("BT1", "BatteryHolder_Keystone_3034_1x20mm", g["coin"]["c"][0], g["coin"]["c"][1], 0, "F", "CR2032/BR2032 holder (stock spot) -> VBAT_RTC over HS1")
 for i, (x, y) in enumerate(g["speaker"]["screws"]):
@@ -108,8 +108,8 @@ for i, (x, y) in enumerate(g["speaker"]["screws"]):
 place("J29", "JST_SH_BM02B-SRSS-TB_1x02-1MP_P1.00mm_Vertical", g["speaker"]["jst"][0], g["speaker"]["jst"][1] + 1.0, 180, "F", "Speaker 2P (stock lead; pitch verify 1.0)")
 place("H13", "MP62_Frame_Standoff_M2_SMT_PLACEHOLDER", 53.38, 58.38, 0, "F", "I/O-frame centre screw standoff (stock TB-bar point), height M-IOF2")
 # D21-D26 light-pipe LEDs removed 2026-10-02 ~12:00 ET (flex lighting via J31; spots now under the tilted riser edges)
-place("U30", "SOT-23", 72.0, 112.0, 0, "F", "Hall A (DRV5032 class) - position TBD M-IOH1")
-place("U31", "SOT-23", 72.0, 104.0, 0, "F", "Hall B (DRV5032 class) - position TBD M-IOH1")
+place("U30", "SOT-23", 34.8, 112.0, 0, "F", "Hall A (DRV5032 class) - position TBD M-IOH1")
+place("U31", "SOT-23", 34.8, 104.0, 0, "F", "Hall B (DRV5032 class) - position TBD M-IOH1")
 # mounting holes (stock, 6)
 for k, h in g["holes"].items():
     place("H%s" % k, "MP62_IO_MountHole_D3.8_Pad7.5", h["x"], h["y"], 0, "F", "Stock mount hole %s" % k)
@@ -160,14 +160,13 @@ place("U50", "MP62_Intel_i226V_QFN-56_7x7_P0.4_PLACEHOLDER", 78.0, 101.0, 0, "B"
 place("Y4", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 86.0, 104.5, 0, "B", "25 MHz (i226-V)")
 place("U51", "SOIC-8_3.9x4.9mm_P1.27mm", 86.0, 97.0, 90, "B", "i226-V NVM SPI flash (size per Intel)")
 # HDMI
-place("U60", "MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER", 28.5, 108.0, 0, "B", "TDP158 HDMI 2.0 retimer (GPU link 2)")
-place("U61", "SOT-23-5", 20.5, 108.0, 90, "B", "1V1 LDO (TDP158 core)")
+# U60/U61 (TDP158 + LDO) placed after the ESD arrays, next to the HDMI JM (HDMI moved to +X, stock position, 2026-10-02 plate fix)
 # Audio
 place("U70", "LQFP-48_7x7mm_P0.5mm", 38.0, 24.5, 0, "B", "C-Media CM108B USB audio codec (UAC1)")
 place("Y5", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 30.5, 22.0, 90, "B", "12 MHz (CM108B)")
 place("U71", "MSOP-8_3x3mm_P0.65mm", 15.5, 103.0, 0, "B", "PAM8302A mono class-D 2.5 W (speaker)")
 # management
-place("U80", "TSSOP-28_4.4x9.7mm_P0.65mm", 68.5, 110.5, 90, "B", "TLC59116 16-ch I2C LED driver (diag x8, power, light pipes)")
+place("U80", "TSSOP-28_4.4x9.7mm_P0.65mm", 28.5, 108.5, 90, "B", "TLC59116 16-ch I2C LED driver (diag x8, power, light pipes)")
 place("U81", "LGA-12_2x2mm_P0.5mm", 79.0, 115.5, 0, "B", "LIS2DH12 accelerometer (rotate-to-light, optional)")
 place("U82", "SOIC-8_3.9x4.9mm_P1.27mm", 85.5, 115.5, 90, "B", "BL24C64A IOB ID EEPROM @0x51")
 place("U83", "MSOP-8_3x3mm_P0.65mm", 75.0, 121.0, 0, "B", "TCA9517 I2C buffer (I2C_SYS <-> PD bus)")
@@ -194,7 +193,7 @@ place("U90", "MSOP-8_3x3mm_P0.65mm", 65.0, 5.0, 90, "B", "EMC2101 fan controller
 # fan-assembly ANTENNA cable (iFixit 21222 step 8: 2nd fan-assembly cable, plugs into the IO board) -> U.FL; stock spot from the
 # fan photo: silver SMD part ~2.9 x 1.5 at ~(38.4, 16.0) B, UNCONFIRMED (M-IOA1). J9 = optional pass-through to an antenna behind the plastic cover.
 place("J8", "MP62_UFL_Hirose_U.FL-R-SMT-1", 38.4, 16.0, 0, "B", "Fan-assembly antenna coax: U.FL-R-SMT-1(10) C88373 (stock type/position UNCONFIRMED, M-IOA1)")
-place("J9", "MP62_UFL_Hirose_U.FL-R-SMT-1", 24.0, 14.0, 0, "F", "Optional antenna pass-through U.FL C88373 (50 ohm CPW from J8) for an FPC antenna behind the plastic I/O cover; DNP until M-IOA1", dnp=True)
+place("J9", "MP62_UFL_Hirose_U.FL-R-SMT-1", 24.0, 16.0, 0, "F", "Optional antenna pass-through U.FL C88373 (50 ohm CPW from J8) for an FPC antenna behind the plastic I/O cover; DNP until M-IOA1", dnp=True)
 # T8 fan-cable bracket (iFixit 21222 steps 5-6): 2 captive T8 screws into the CONN_C standoffs H14/H15; bracket presses the ribbon plug onto J7.
 _bk = (min(x for x, y in _cs) - 3.0, 0.0, max(x for x, y in _cs) + 3.0, 10.5)
 rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.B_Fab, 0.12); rectd(_bk[0], _bk[1], _bk[2], _bk[3], pcbnew.Dwgs_User, 0.12)
@@ -203,10 +202,55 @@ place("U91", "MP62_ASMedia_ASM1182e_QFN-64_9x9_P0.5_PLACEHOLDER", 24.0, 130.0, 0
 place("U35", "MP62_WCH_CH334R_QFN-24_4x4_P0.5_PLACEHOLDER", 19.0, 59.0, 0, "B", "CH334R hub H3 on H2 port 4: A4 + Bluetooth USB2 (J7) + 2 spare")
 # port-module management (D-IO16): ID EEPROM muxes + PRSNT# expander on I2C_SYS
 place("U95", "TSSOP-24_4.4x7.8mm_P0.65mm", 45.5, 68.0, 0, "B", "TCA9548A @0x70: module ID I2C ch0-5 = C1-C6, ch6-7 = A1-A2")
-place("U96", "TSSOP-24_4.4x7.8mm_P0.65mm", 44.5, 36.5, 0, "B", "TCA9548A @0x71: module ID I2C ch0-1 = A3-A4, ch2 = HDMI, ch3-7 spare")
+place("U96", "TSSOP-24_4.4x7.8mm_P0.65mm", 44.5, 37.6, 90, "B", "TCA9548A @0x71: module ID I2C ch0-1 = A3-A4, ch2 = HDMI, ch3-7 spare")
 place("U97", "TSSOP-24_4.4x7.8mm_P0.65mm", 61.5, 73.0, 0, "B", "TCA9555 @0x27 on U96 ch3 (private): PRSNT# of the 11 port modules (+5 spare), INT# -> PD_INT_N")
 place("Y7", "Crystal_SMD_3225-4Pin_3.2x2.5mm", 19.0, 63.5, 0, "B", "12 MHz hub crystal (H3)")
 
+# ---------------- PMI ESD arrays (D-IO16 rev ~13:40 ET): TI DQA USON-10 on the B side directly UNDER each JMn ----------------
+# Each lane leaves the JM pad through a F->B via to its inner routing layer; the ESD sits on that via's B end (no via stub, shortest GND return
+# into the 6-layer planes). Order = build_sch.py jm_typed(): C1..C6 x3, A1..A4 x2, HDMI x3 -> D200..D228.
+def _bboxes(side):
+    out = []
+    for f in board.GetFootprints():
+        if f.IsFlipped() != (side == "B"): continue
+        cy = f.GetCourtyard(pcbnew.B_CrtYd if side == "B" else pcbnew.F_CrtYd)
+        r = cy.BBox() if cy.OutlineCount() else f.GetBoundingBox(False)
+        x0 = W - (pcbnew.ToMM(r.GetRight()) - OX); x1 = W - (pcbnew.ToMM(r.GetLeft()) - OX); y0 = OY - pcbnew.ToMM(r.GetBottom()); y1 = OY - pcbnew.ToMM(r.GetTop())
+        out.append((x0, y0, x1, y1, f.GetReference()))
+    return out
+_B = _bboxes("B") + [(r[0], r[1], r[2], r[3], "rail") for r in g["rails_B"]]
+_ESD = []; _dn = 200
+for m in MJ["modules"]:
+    n_esd = {"USBC": 3, "USBA": 2, "HDMI": 3}[m["kind"]]; hx, hy = m["jm_plan"]
+    best = None
+    for dy in (0.0, 2.6, -2.6, 5.2, -5.2, 7.8, -7.8):
+        for sx in (3.4, 3.2, 3.6):
+            xs = [hx + sx * (i - (n_esd - 1) / 2) for i in range(n_esd)]
+            boxes = [(x - 1.55, hy + dy - 0.96, x + 1.55, hy + dy + 0.96) for x in xs]
+            hit = [o[4] for bx in boxes for o in _B if bx[0] < o[2] + 0.2 and bx[2] > o[0] - 0.2 and bx[1] < o[3] + 0.2 and bx[3] > o[1] - 0.2]
+            if not hit: best = (xs, hy + dy); break
+        if best: break
+    if not best: print("ESD placement FAILED for", m["slot"]); best = ([hx + 3.4 * (i - (n_esd - 1) / 2) for i in range(n_esd)], hy)
+    for x in best[0]:
+        place("D%d" % _dn, "USON-10_2.5x1.0mm_P0.5mm", x, best[1], 90, "B", "ESD %s (%s)" % (m["slot"], "TPD4E02B04DQAR C106794" if (m["kind"] != "HDMI" and x != best[0][-1]) else "TPD4E05U06DQAR C138714"))
+        _B.append((x - 1.55, best[1] - 0.96, x + 1.55, best[1] + 0.96, "D%d" % _dn)); _ESD.append(("D%d" % _dn, m["slot"], round(x, 2), round(best[1], 2))); _dn += 1
+print("ESD placed:", _ESD)
+# HDMI retimer next to the HDMI module JM (B side), first free spot by distance (HDMI back on the stock +X side 2026-10-02)
+_mh = [m for m in MJ["modules"] if m["kind"] == "HDMI"][0]; _hx, _hy = _mh["jm_plan"]
+def _free_spot(tx, ty, hw, hh, avoid, rmax=16.0):
+    import itertools
+    c = sorted(((tx + dx, ty + dy) for dx in [i * 0.5 for i in range(-int(2 * rmax), int(2 * rmax) + 1)] for dy in [i * 0.5 for i in range(-int(2 * rmax), int(2 * rmax) + 1)]),
+               key=lambda p: math.hypot(p[0] - tx, p[1] - ty))
+    for (x, y) in c:
+        if x - hw < 1.0 or x + hw > W - 1.0: continue
+        if not any(x - hw < o[2] + 0.25 and x + hw > o[0] - 0.25 and y - hh < o[3] + 0.25 and y + hh > o[1] - 0.25 for o in avoid): return (x, y)
+    return None
+_u60 = _free_spot(_hx, _hy, 3.0, 3.0, _B) or (_hx, _hy)
+place("U60", "MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER", _u60[0], _u60[1], 0, "B", "TDP158 HDMI 2.0 retimer (GPU link 2), next to the HDMI JM")
+_B.append((_u60[0] - 3.0, _u60[1] - 3.0, _u60[0] + 3.0, _u60[1] + 3.0, "U60"))
+_u61 = _free_spot(_u60[0], _u60[1], 1.3, 1.9, _B, 10.0) or (_u60[0] + 6, _u60[1])
+place("U61", "SOT-23-5", _u61[0], _u61[1], 90, "B", "1V1 LDO (TDP158 core)")
+print("HDMI retimer U60 at", _u60, "LDO U61 at", _u61, "HDMI JM", (_hx, _hy))
 # ---------------- rule areas / documentation ----------------
 KEEP = []
 def poly(pts):
@@ -229,6 +273,16 @@ pts = [(cx + rr * math.cos(math.radians(a)), sy1 - rr + rr * math.sin(math.radia
       [(cx + rr * math.cos(math.radians(a)), sy0 + rr + rr * math.sin(math.radians(a))) for a in range(180, 361, 10)]
 spk = poly(pts)
 for (x, y) in g["speaker"]["screws"]: spk.BooleanSubtract(circ_poly(x, y, 2.6))
+# MOD-A loop fold: the loop bottom dips to 0.53-0.58 above the board -> F-side keep-out for parts (rule area + Dwgs note, max part height in the name)
+for m in MJ["modules"]:
+    ko = m.get("fold_keepout")
+    if not ko: continue
+    _jm = [o for o in _bboxes("F") if o[4] == "JM%d" % (MJ["modules"].index(m) + 1)][0]
+    if _jm:   # the loop only dips low outboard of the receptacle; the JM body sits under the flat paddle (z 1.55)
+        if m["side"] == "H": ko["x"][1] = min(ko["x"][1], round(_jm[0] - 0.05, 2))
+        else: ko["x"][0] = max(ko["x"][0], round(_jm[2] + 0.05, 2))
+    rule_area("KO_FOLD_%s_F_max_h%.2f" % (m["slot"], ko["max_part_h"]), [pcbnew.F_Cu], poly([(ko["x"][0], ko["y"][0]), (ko["x"][1], ko["y"][0]), (ko["x"][1], ko["y"][1]), (ko["x"][0], ko["y"][1])]), pads=False)
+    rectd(ko["x"][0], ko["y"][0], ko["x"][1], ko["y"][1], pcbnew.Dwgs_User, 0.08); txt("%s loop fold: no F parts (> %.2f)" % (m["slot"], ko["max_part_h"]), (ko["x"][0] + ko["x"][1]) / 2, ko["y"][0] + 0.6, pcbnew.Dwgs_User, 0.5)
 rule_area("KO_SPEAKER_F_no_parts", [pcbnew.F_Cu], spk)
 # AC inlet margin (B side 3 mm around the cutout, F side 1 mm) -- inlet body passes through from the PSU
 wv = g["window"]
@@ -257,7 +311,7 @@ circle(g["coin"]["c"][0], g["coin"]["c"][1], g["coin"]["d"] / 2, U4L, 0.1)
 for (x, y) in g["stock_conn"]["CONN_C_standoffs"]: circle(x, y, 2.0, pcbnew.Dwgs_User, 0.08)
 txt("Dwgs.User: stock CONN_C standoffs (back side) - function unknown, not reproduced", 50, -3, pcbnew.Dwgs_User, 0.7)
 notes = ["MP62 I/O board IOB rev A0 FLOORPLAN (not routed). Viewed from the FRONT (port side). F = front, B = back (PSU side).",
-         "Port grid (stock flex cut-outs, scan 2026-10-02): USB-C Xb 43.09 / 63.69, Y 75.76 / 65.84 / 55.97; USB-A 43.12 / 63.76, Y 42.64 / 32.54; RJ45 (43.15,91.41)/(63.67,91.60); HDMI (42.96,107.07); button (63.79,108.11).",
+         "Port grid (stock flex cut-outs, scan 2026-10-02, MIRRORED to the true back view 2026-10-02 per the outer-face scan): USB-C X 43.13 / 63.73, Y 75.76 / 65.84 / 55.97; USB-A 43.06 / 63.70, Y 42.64 / 32.54; RJ45 ETH2 (43.15,91.60) / ETH1 (63.66,91.41); HDMI (63.86,107.07); button (43.02,108.11).",
          "D0 = 18.0 crown / 16.5 edge: USB-C/USB-A/HDMI = swappable FPC port modules (D-IO16) on printed cradles, axis normal to the plate, JMn DF40C-50DS per module; RJ45 face <= 13.6.",
          "RJ45 vertical on the main board; USB-C/USB-A/HDMI on FPC modules (plan 4.7.9). Dwgs.User: module stiffener outlines + C-fold envelopes.",
          "B top: J1 IOB-HS1 MCIO124 (CB J3), J2 display link MCIO74 (Face P). B bottom: stock PSU DC 12P + signal 6P (pinouts UNCONFIRMED), J5 Micro-Fit -> BP J2, J6 IOB-LINK.",

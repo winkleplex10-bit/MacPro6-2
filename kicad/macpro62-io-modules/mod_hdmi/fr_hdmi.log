@@ -1,0 +1,101 @@
+2026-10-02 14:06:50.710 INFO   Freerouting v2.1.0 (build-date: 2025-04-12)
+2026-10-02 14:06:50.779 WARN   No default constructor found for field: currentLocale
+2026-10-02 14:06:50.780 INFO   Settings were loaded from freerouting.json
+java.util.concurrent.CompletionException: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:722)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+	at java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:614)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:844)
+	at java.base/java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at app.freerouting.management.VersionChecker.processResponse(VersionChecker.java:47)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:718)
+	... 9 more
+2026-10-02 14:06:52.302 INFO   [F0DA0D\62C680] Job 'F0DA0D\62C680' started at 2026-10-02T18:06:52.290871801Z
+2026-10-02 14:06:53.414 INFO   [F0DA0D\62C680] Auto-router pass #1 on board 'a3af26ebdf45ed481f3fa475949b80b6' was completed in 0.94 seconds with the score of 888.42 (3 unrouted), using 0.54 CPU seconds and 184 MB memory.
+2026-10-02 14:06:53.636 INFO   [F0DA0D\62C680] Auto-router pass #2 on board 'd3f7d76fe4a4e54463ba76fa8c4d10ef' was completed in 0.17 seconds with the score of 895.63 (3 unrouted), using 0.54 CPU seconds and 184 MB memory.
+2026-10-02 14:06:53.828 INFO   [F0DA0D\62C680] Auto-router pass #3 on board 'c6bb76f04477e1df2638cc563ac3edc4' was completed in 0.14 seconds with the score of 845.97 (4 unrouted), using 0.54 CPU seconds and 184 MB memory.
+2026-10-02 14:06:54.330 INFO   [F0DA0D\62C680] Auto-router pass #4 on board 'e0f09d0f2f9d113c1be9ec89deece194' was completed in 0.48 seconds with the score of 898.71 (3 unrouted), using 1.56 CPU seconds and 448 MB memory.
+2026-10-02 14:06:54.570 INFO   [F0DA0D\62C680] Auto-router pass #5 on board 'a386ef23ce1d0bb1ace455f1c3973511' was completed in 0.21 seconds with the score of 938.17 (2 unrouted), using 1.56 CPU seconds and 448 MB memory.
+2026-10-02 14:06:54.770 INFO   [F0DA0D\62C680] Auto-router pass #6 on board 'a4af5187a0a460a7c329cacefb3be7a5' was completed in 0.16 seconds with the score of 966.28 (1 unrouted), using 1.56 CPU seconds and 448 MB memory.
+2026-10-02 14:06:54.832 INFO   [F0DA0D\62C680] Auto-router pass #7 on board '587dee55f87b9503c00c2711e8f6034e' was completed in 0.04 seconds with the score of 989.40, using 1.56 CPU seconds and 448 MB memory.
+2026-10-02 14:06:54.857 INFO   [F0DA0D\62C680] Restoring an earlier board that has the score of 989.40.
+2026-10-02 14:06:54.857 INFO   [F0DA0D\62C680] Auto-router pass #8 on board '82d6a1d7b35417b0f4b56ac55264702b' was completed in 0.01 seconds with the score of 989.40, using 1.56 CPU seconds and 448 MB memory.
+{
+  "host": "KiCad's Pcbnew,9.0.2+dfsg-1",
+  "unit": "mm",
+  "board": {
+    "bounding_box": {
+      "x": 1344.7,
+      "y": -952.0,
+      "width": 903.0,
+      "height": -1048.0
+    },
+    "size": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 441.7,
+      "height": 96.0
+    }
+  },
+  "layers": {
+    "total_count": 2,
+    "signal_count": 2
+  },
+  "items": {
+    "total_count": 161,
+    "trace_count": 45,
+    "via_count": 0,
+    "conduction_area_count": 0,
+    "drill_item_count": 84,
+    "pin_count": 0,
+    "component_count": 27,
+    "other_count": 5
+  },
+  "components": {
+    "total_count": 4
+  },
+  "pads": {
+    "total_count": 84
+  },
+  "nets": {
+    "total_count": 12,
+    "class_count": 3
+  },
+  "connections": {
+    "maximum_count": 45,
+    "incomplete_count": 0
+  },
+  "traces": {
+    "total_count": 45,
+    "total_segment_count": 89,
+    "total_length": 1467.3108,
+    "total_weighted_length": 1722526.0,
+    "average_length": 32.606907,
+    "total_vertical_length": 16.511,
+    "total_horizontal_length": 921.782,
+    "total_angled_length": 359.49026
+  },
+  "bends": {
+    "total_count": 44,
+    "90_degree_count": 0,
+    "45_degree_count": 44,
+    "other_angle_count": 0
+  },
+  "vias": {
+    "total_count": 0,
+    "through_hole_count": 0,
+    "blind_count": 0,
+    "buried_count": 0
+  },
+  "clearance_violations": {
+    "total_count": 0
+  }
+}

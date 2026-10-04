@@ -1,7 +1,11 @@
 ** Drc report for mod_hdmi.kicad_pcb **
-** Created on 2026-10-02T12:41:49-0400 **
+** Created on 2026-10-02T14:40:29-0400 **
 
-** Found 0 DRC violations **
+** Found 1 DRC violations **
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(134.5590 mm, 102.8000 mm): Segment on Edge.Cuts
+    @(134.4140 mm, 101.0500 mm): Polygon of U1 on F.Silkscreen
 
 ** Found 0 unconnected pads **
 

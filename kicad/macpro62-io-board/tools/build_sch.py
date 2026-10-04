@@ -45,17 +45,43 @@ usbc = [("A1", "GND_A1", "L"), ("A4", "VBUS_A4", "L"), ("A9", "VBUS_A9", "L"), (
 addsym("USB_C_24P", usbc, "J", "MP62_USB_C_24P_Vertical_PLACEHOLDER", "USB Type-C 24P receptacle, vertical (USB-C spec pinout)")
 addsym("USB_A3", [("1", "VBUS", "L"), ("2", "D-", "L"), ("3", "D+", "L"), ("4", "GND", "L"), ("7", "GND_DRAIN", "L"), ("5", "SSRX-", "R"), ("6", "SSRX+", "R"),
                   ("8", "SSTX-", "R"), ("9", "SSTX+", "R"), ("S", "SHIELD", "R")], "J", "MP62_USB_A3_9P_Vertical_PLACEHOLDER", "USB 3.x Std-A receptacle, vertical (USB 3.2 pinout)")
-# PMI-50 port-module interface (D-IO16, 2026-10-02): DF40C-50DS-0.4V(51) on the main board, one per port module. Row A = odd pins, row B = even pins.
-PMI = [("VBUS",) * 2] * 6 + [("GND", "GND")] * 2 + [("HS0_P", "HS2_P"), ("HS0_N", "HS2_N"), ("GND", "GND"), ("HS1_P", "HS3_P"), ("HS1_N", "HS3_N"), ("GND", "GND"),
-       ("USB2_DP", "SBU1"), ("USB2_DN", "SBU2"), ("GND", "GND"), ("CC1", "HPD"), ("CC2", "UTIL"), ("GND", "GND"), ("ID_SCL", "ID_SDA"), ("3V3_MOD", "PRSNT#"),
-       ("LED#", "GND"), ("GND", "GND"), ("GND", "GND")]
+# PMI-50 v2 port-module interface (D-IO16, rev 2026-10-02 ~13:40 ET): ONE definition in ../macpro62-io-modules/pmi50.py (rows ordered for straight-through
+# 2-layer flex routing; HS lanes HSn_A/HSn_B with per-module-type polarity). DF40C-50DS-0.4V(51) on the main board. Row A = odd pins, row B = even pins.
+import sys as _sys; _sys.path.insert(0, "/workspace/kicad/macpro62-io-modules"); import pmi50
+PMI = pmi50.PMI
 PMI_PIN = {}
 for _k, (_a, _b) in enumerate(PMI):
     for _n, _nm in ((2 * _k + 1, _a), (2 * _k + 2, _b)): PMI_PIN.setdefault(_nm, []).append(str(_n))
 addsym("PMI50", [(str(2 * k + 1 + j), (nm + "_%d" % (2 * k + 1 + j)) if nm in ("VBUS", "GND") else nm, "L" if j == 0 else "R") for k, pr in enumerate(PMI) for j, nm in enumerate(pr)],
-       "J", "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", "PMI-50 port-module receptacle: Hirose DF40C-50DS-0.4V(51) (LCSC C424646), mates DF40C-50DP on the module FPC (plan 4.7.9)")
+       "J", "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", "PMI-50 v2 port-module receptacle: Hirose DF40C-50DS-0.4V(51) (LCSC C424646), mates DF40C-50DP on the module FPC (plan 4.7.9 / 4.7.10)")
+# ESD array, TI DQA USON-10 2.5 x 1.0: IO1 1, IO2 2, GND 3 + 8, IO3 4, IO4 5, NC 6/7/9/10 (TPD4E02B04DQAR 0.25 pF / TPD4E05U06DQAR 0.5 pF share the pinout)
+addsym("ESD4_DQA", [("1", "IO1", "L"), ("2", "IO2", "L"), ("4", "IO3", "L"), ("5", "IO4", "L"), ("3", "GND_3", "R"), ("8", "GND_8", "R"), ("6", "NC_6", "R"), ("7", "NC_7", "R"), ("9", "NC_9", "R"), ("10", "NC_10", "R")],
+       "D", "USON-10_2.5x1.0mm_P0.5mm", "4-ch ESD array, TI DQA USON-10 (TPD4E02B04DQAR C106794 0.25 pF 3.6 V / TPD4E05U06DQAR C138714 0.5 pF 5.5 V), flow-through at the PMI receptacle")
 def pmi(sig):   # role -> list of pin numbers
     return PMI_PIN[sig]
+ESDN = [200]
+def esd(part, ios, what):
+    nets = {"GND_3": "GND", "GND_8": "GND"}
+    for i, n in enumerate(ios):
+        if n: nets["IO%d" % (i + 1)] = n
+    val = {"02B04": "TPD4E02B04DQAR (C106794) 0.25 pF ESD - %s", "05U06": "TPD4E05U06DQAR (C138714) 0.5 pF ESD - %s"}[part] % what
+    add("D%d" % ESDN[0], "ESD4_DQA", val, nets); ESDN[0] += 1
+def jm_typed(slot, kind, what):
+    """PMI-50 v2: wire JMn for its module type from pmi50.ROLES / MB, + the flow-through ESD arrays next to it (D-IO16 rev ~13:40 ET)"""
+    mb = pmi50.MB[kind](slot); roles = {r: mb[f] for r, f in pmi50.ROLES[kind].items() if f in mb}
+    roles["VBUS"] = {"USBC": "VBUS_" + slot, "USBA": "VBUS_" + slot, "HDMI": "HDMI_5V_OUT"}[kind]
+    jm(0, slot, roles, what)
+    if kind == "USBC":
+        esd("02B04", [mb["SSTX1_P"], mb["SSTX1_N"], mb["SSRX1_P"], mb["SSRX1_N"]], slot + " TX1/RX1")
+        esd("02B04", [mb["SSTX2_P"], mb["SSTX2_N"], mb["SSRX2_P"], mb["SSRX2_N"]], slot + " TX2/RX2")
+        esd("05U06", [mb["D_P"], mb["D_N"], mb["SBU1"], mb["SBU2"]], slot + " D+/D-/SBU1/SBU2 (CC: TPS65994AD internal, VERIFY IEC rating)")
+    elif kind == "USBA":
+        esd("02B04", [mb["SSTX_P"], mb["SSTX_N"], mb["SSRX_P"], mb["SSRX_N"]], slot + " SSTX/SSRX (10G)")
+        esd("05U06", [mb["D_P"], mb["D_N"], None, None], slot + " D+/D-")
+    else:
+        esd("05U06", [mb["D2_P"], mb["D2_N"], mb["D1_P"], mb["D1_N"]], "HDMI TMDS D2/D1")
+        esd("05U06", [mb["D0_P"], mb["D0_N"], mb["CK_P"], mb["CK_N"]], "HDMI TMDS D0/CLK")
+        esd("05U06", [mb["DDC_SCL"], mb["DDC_SDA"], "HDMI_HPD", None], "HDMI DDC SCL/SDA + HPD (CEC NC)")
 addsym("HDMI_A", [(str(i), n, "L" if i <= 10 else "R") for i, n in enumerate(
     ["D2+", "D2_S", "D2-", "D1+", "D1_S", "D1-", "D0+", "D0_S", "D0-", "CK+", "CK_S", "CK-", "CEC", "UTIL", "SCL", "SDA", "DDC_GND", "+5V", "HPD"], 1)] + [("S", "SHIELD", "R")],
     "J", "MP62_HDMI_A_Vertical_PLACEHOLDER", "HDMI type A receptacle, vertical (HDMI 1.4/2.0 pinout)")
@@ -126,6 +152,7 @@ addsym("BL24C64A", [("1", "A0", "L"), ("2", "A1", "L"), ("3", "A2", "L"), ("4", 
        "U", "SOIC-8_3.9x4.9mm_P1.27mm", "BL24C64A-SFRC 64 kbit I2C EEPROM", w=12.7)
 addsym("SPI_FLASH", [("1", "CS#", "L"), ("2", "DO", "L"), ("3", "WP#", "L"), ("4", "GND", "L"), ("8", "VCC", "R"), ("7", "HOLD#", "R"), ("6", "CLK", "R"), ("5", "DI", "R")],
        "U", "SOIC-8_3.9x4.9mm_P1.27mm", "25-series SPI NOR flash 3.3 V", w=12.7)
+ic("INA228", ["IN+", "IN-", "VBUS", "VS", "GND"], ["SCL", "SDA", "ALERT", "A0", "A1"], "U", "VSSOP-10_3x3mm_P0.5mm", "TI INA228 20-bit power/energy monitor (LOGICAL pins) - live power target telemetry", w=12.7)
 ic("TCA9517", ["SCLA", "SDAA", "VCCA", "GND"], ["SCLB", "SDAB", "VCCB", "EN"], "U", "MSOP-8_3x3mm_P0.65mm", "TI TCA9517DGKR level-shifting I2C buffer (LOGICAL pins)", w=12.7)
 ic("74LVC1G07", ["A", "GND"], ["Y(OD)", "VCC"], "U", "SOT-23-5", "74LVC1G07 open-drain buffer, Ioff (LOGICAL pins)", w=10.16)
 addsym("HALL_SOT23", [("1", "VDD", "L"), ("3", "GND", "L"), ("2", "OUT", "R")], "U", "SOT-23", "DRV5032 class omnipolar Hall switch, OD/PP out (DBZ pinout - verify)", w=10.16)
@@ -238,9 +265,7 @@ for p in range(1, 7):
     src, nl, aux, hpd, pd, pp = CP[p]
     c = "C%d" % p
     # D-IO16: the receptacle sits on port module MOD-C (../macpro62-io-modules); the main board carries its PMI-50 receptacle JM%d
-    jm(p, c, {"VBUS": "VBUS_" + c, "HS0_P": c + "_SS_TX1_P", "HS0_N": c + "_SS_TX1_N", "HS1_P": c + "_SS_RX1_P", "HS1_N": c + "_SS_RX1_N",
-              "HS2_P": c + "_SS_TX2_P", "HS2_N": c + "_SS_TX2_N", "HS3_P": c + "_SS_RX2_P", "HS3_N": c + "_SS_RX2_N", "USB2_DP": c + "_USB2_DP", "USB2_DN": c + "_USB2_DN",
-              "SBU1": c + "_SBU1", "SBU2": c + "_SBU2", "CC1": c + "_CC1", "CC2": c + "_CC2"}, "MOD-C USB-C (%s)" % src)
+    jm_typed(c, "USBC", "MOD-C USB-C (%s)" % src)
     m = {"SSTXP": "USB3_%s_SSTX_P" % c, "SSTXN": "USB3_%s_SSTX_N" % c, "SSRXP": "USB3_%s_SSRX_P" % c, "SSRXN": "USB3_%s_SSRX_N" % c,
          "AUXP": aux + "_P", "AUXN": aux + "_N", "HPDIN": hpd, "SCL/CTL1": "PD%s_I2C3_SCL" % pd[1], "SDA/CTL0": "PD%s_I2C3_SDA" % pd[1],
          "I2C_EN": "3V3", "A0": "GND" if pp == "A" else "3V3", "A1": "GND", "VCC": "3V3", "GND": "GND", "EP_GND": "GND",
@@ -288,8 +313,7 @@ res("DLINK_PRSNT#", "3V3", "10k (display-link cable present, read via PD #2 GPIO
 for p in range(1, 5):
     section("USB-A A%d (10G) + TUSB1002A U%d + VBUS switch U%d" % (p, 20 + p, 24 + p))
     a = "A%d" % p
-    jm(p, a, {"VBUS": "VBUS_" + a, "HS0_P": a + "_SS_TX_P", "HS0_N": a + "_SS_TX_N", "HS1_P": a + "_SS_RX_P", "HS1_N": a + "_SS_RX_N",
-              "USB2_DP": a + "_USB2_DP", "USB2_DN": a + "_USB2_DN"}, "MOD-A USB-A 10G")
+    jm_typed(a, "USBA", "MOD-A USB-A 10G")
     add("U2%d" % p, "TUSB1002A", "TUSB1002A %s redriver" % a, {"RX1P": "USB3_%s_SSTX_P" % a, "RX1N": "USB3_%s_SSTX_N" % a, "TX1P": a + "_SSC_TX_P", "TX1N": a + "_SSC_TX_N",
         "RX2P": a + "_SS_RX_P", "RX2N": a + "_SS_RX_N", "TX2P": "USB3_%s_SSRX_P" % a, "TX2N": "USB3_%s_SSRX_N" % a, "EN": "3V3", "VCC": "3V3", "GND": "GND",
         "EQ1": "REDRV_EQ", "EQ2": "REDRV_EQ", "EP_GND": "GND"})
@@ -374,7 +398,7 @@ dec("3V3_WL", ["22uF 0805", "1uF", "100nF"]); dec("FAN_12V", ["10uF 25V 0805"])
 # card side = Apple 12+6 AirPort edge (BCM94360CD / iMac 2017 BCM943602-class, P1..P18): 3V3 WiFi, LED_WLAN#, PET/PER/REFCLK, WAKE#, PERST#, CLKREQ#, USB D-/D+, 3V3 BT
 # -> no W_DISABLE# / BT_DISABLE# / SMBus on the card (pins 29/31/33 left NC; the adapter board may still add parts: M-IOC1)
 res("LED_WLAN#", "3V3_WL", "10k DNP (card LED_WLAN# open-drain, unused)", dnp=True)
-res("WL_CLKREQ#", "3V3", "10k"); res("3V3_BT", "3V3_SB", "0R: Bluetooth 3V3 (card P18) from standby so BT can wake in S3; confirm on M-IOC1"); res("3V3_BT", "3V3", "0R DNP alt: BT from S0 3V3", dnp=True)
+res("WL_CLKREQ#", "3V3", "10k"); res("3V3_BT", "3V3_SB", "0R DNP alt: BT from standby (no wake path in rev A: hubs S0-only, no S3) - Aidan 2026-10-02 / ICD O-3", dnp=True); res("3V3_BT", "3V3", "0R: Bluetooth 3V3 (card P18) from S0 3V3 (default, Aidan 2026-10-02 / ICD O-3)")
 
 
 # --- HDMI ---
@@ -385,8 +409,7 @@ add("U60", "TDP158", "TDP158RSBR HDMI retimer", {"IN_D2P": "DL2_ML0_P", "IN_D2N"
     "HPD_SRC": "DL_HPD2", "OE": "3V3", "I2C_EN": "GND", "VCC": "3V3", "VDD": "1V1_HDMI", "GND": "GND", "EP_GND": "GND",
     "OUT_D0P": "TMDS_D0_P", "OUT_D0N": "TMDS_D0_N", "OUT_D1P": "TMDS_D1_P", "OUT_D1N": "TMDS_D1_N", "OUT_D2P": "TMDS_D2_P", "OUT_D2N": "TMDS_D2_N",
     "OUT_CKP": "TMDS_CK_P", "OUT_CKN": "TMDS_CK_N", "SCL_SNK": "HDMI_SCL", "SDA_SNK": "HDMI_SDA", "HPD_SNK": "HDMI_HPD"})
-jm(1, "HDMI", {"VBUS": "HDMI_5V_OUT", "HS0_P": "TMDS_D2_P", "HS0_N": "TMDS_D2_N", "HS1_P": "TMDS_D1_P", "HS1_N": "TMDS_D1_N", "HS2_P": "TMDS_D0_P", "HS2_N": "TMDS_D0_N",
-              "HS3_P": "TMDS_CK_P", "HS3_N": "TMDS_CK_N", "SBU1": "HDMI_SCL", "SBU2": "HDMI_SDA", "HPD": "HDMI_HPD"}, "MOD-H HDMI-A (CEC/UTIL NC)")
+jm_typed("HDMI", "HDMI", "MOD-H HDMI-A (CEC/UTIL NC)")
 # --- port-module management: ID EEPROM muxes + PRSNT# expander, on I2C_PD (3V3, S0 - same domain as the modules' 3V3_MOD) ---
 section("Port modules: TCA9548A U95/U96 (ID EEPROM @0x50 per slot), TCA9555 U97 (PRSNT#)")
 for ref, a0, slots, val in (("U95", "GND", JM_SLOTS[0:8], "TCA9548APWR @0x70: ch0-5 C1-C6, ch6-7 A1-A2"), ("U96", "3V3", JM_SLOTS[8:11], "TCA9548APWR @0x71: ch0-1 A3-A4, ch2 HDMI, ch3 U97 TCA9555 (private), ch4-7 spare")):
@@ -505,7 +528,14 @@ for h in ("HTL", "HTR", "HML", "HMR", "HBL", "HBR"):
 # --- Power tree ---
 section("Power: +12V_MAIN -> TPS259824 eFuse -> 5V_C / 5V_A bucks -> 3V3")
 add("U40", "TPS259824ON", "TPS259824ONRGER eFuse 12 V (ILIM ~10 A)", {"1": "+12V_MAIN", "2": "EFUSE_EN", "3": "EFUSE_ILIM", "4": "EFUSE_DVDT", "5": "GND",
-    "6": "+12V_IOB", "7": "EFUSE_PG", "8": "EFUSE_FLT#", "9": "EFUSE_IMON", "10": "GND"})
+    "6": "+12V_EFUSE_OUT", "7": "EFUSE_PG", "8": "EFUSE_FLT#", "9": "EFUSE_IMON", "10": "GND"})
+# ICD rev 2 (2026-10-02, live power target): IOB 12 V telemetry for the BP MCU. INA228 U98 @0x41 on I2C_SYS (VS = 3V3_SB, so it
+# answers in S5 and never loads the bus unpowered); 1 mOhm 2512 Kelvin shunt RS90 between the eFuse output and +12V_IOB;
+# ALERT (OD) wired-OR onto IOB_INT_N (BP pull-up). Schematic-level only: PCB placement is left to the IOB PCB owner (U-18).
+add("RS90", "R", "1 mOhm 1% 2512 Kelvin shunt (IOB 12 V after U40; 10 A -> 10 mV, 0.1 W)", {"1": "+12V_EFUSE_OUT", "2": "+12V_IOB"}, fp=FPL + ":R_2512_6332Metric")
+add("U98", "INA228", "INA228AIDGSR @0x41 (A0 = VS, A1 = GND), I2C_SYS; ALERT -> IOB_INT_N; power limit alert = LPT allocation + 10 %", {"IN+": "+12V_EFUSE_OUT", "IN-": "+12V_IOB", "VBUS": "+12V_IOB", "VS": "3V3_SB", "GND": "GND",
+    "SCL": "I2C_SYS_SCL", "SDA": "I2C_SYS_SDA", "ALERT": "IOB_INT_N", "A0": "3V3_SB", "A1": "GND"})
+add("C990", "C", "100nF U98 VS", {"1": "3V3_SB", "2": "GND"})
 res("+12V_MAIN", "EFUSE_EN", "UVLO top (~10.5 V on)"); res("EFUSE_EN", "GND", "UVLO bottom")
 res("EFUSE_ILIM", "GND", "ILIM ~10 A (value per datasheet)"); cap("EFUSE_DVDT", "GND", "dVdt (inrush <= 2 A, value per datasheet)")
 res("EFUSE_IMON", "GND", "IMON (value per datasheet)"); res("EFUSE_PG", "3V3_SB", "10k"); res("EFUSE_FLT#", "3V3_SB", "10k")

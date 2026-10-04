@@ -1,15 +1,28 @@
 {
- "rev": "2026-10-02 ~12:35 ET (D-IO16 port modules; axis normal to the plate)",
+ "rev": "2026-10-02 ~13:30 ET (D-IO16 port modules; axis normal to the plate)",
  "stack": {
-  "fpc_t": 0.11,
+  "fpc_t": {
+   "USBC": 0.19,
+   "USBA": 0.11,
+   "HDMI": 0.19
+  },
   "psa_t": 0.05,
   "stiffener_t": 1.0,
-  "stack_t": 1.16,
+  "paddle_stiffener_t": 0.6,
+  "stack_t": {
+   "USBC": 1.24,
+   "USBA": 1.16,
+   "HDMI": 1.24
+  },
   "mated": 1.5,
-  "hdr": [
-   12.6,
-   4.2
+  "hdr_body": [
+   11.52,
+   2.97
   ],
+  "hdr_near": 5.915,
+  "hdr_far": 9.41,
+  "r_rule": 12.0,
+  "r_loop": 15.0,
   "rec": [
    12.9,
    4.4
@@ -27,13 +40,16 @@
     5.0,
     3.4
    ],
-   "sx": 6.0,
+   "sx_out": 6.0,
+   "sx_in": 6.0,
    "sy": 4.4,
-   "tw": 6.5,
+   "tw": 6.4,
+   "fpc_t": 0.19,
    "shell": [
     8.94,
     3.26
    ],
+   "tht": [],
    "slots": [
     "C1",
     "C2",
@@ -45,18 +61,47 @@
   },
   "USBA": {
    "mod": "MOD-A",
-   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
-   "fp": "MP62_USB_A3_9P_Vertical_PLACEHOLDER",
+   "conn": "Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)",
+   "fp": "MP62_MOD_USB_A3_HC-USB3.0-L137-WJ",
    "crt": [
-    7.6,
-    3.4
+    7.45,
+    3.75
    ],
-   "sx": 8.4,
+   "sx_out": 9.0,
+   "sx_in": 8.4,
    "sy": 4.4,
-   "tw": 6.5,
+   "tw": 6.4,
+   "fpc_t": 0.11,
    "shell": [
-    13.2,
+    13.3,
     5.7
+   ],
+   "tht": [
+    [
+     6.575,
+     3.0,
+     "shell leg"
+    ],
+    [
+     -6.575,
+     3.0,
+     "shell leg"
+    ],
+    [
+     4.0,
+     2.0,
+     "pin 5"
+    ],
+    [
+     -4.0,
+     2.0,
+     "pin 9"
+    ],
+    [
+     3.5,
+     2.0,
+     "pin 1"
+    ]
    ],
    "slots": [
     "A1",
@@ -73,12 +118,26 @@
     8.6,
     3.7
    ],
-   "sx": 9.6,
+   "sx_out": 9.6,
+   "sx_in": 9.6,
    "sy": 4.7,
-   "tw": 6.5,
+   "tw": 6.4,
+   "fpc_t": 0.19,
    "shell": [
     15.2,
     5.5
+   ],
+   "tht": [
+    [
+     7.85,
+     2.5,
+     "shell leg"
+    ],
+    [
+     -7.85,
+     2.5,
+     "shell leg"
+    ]
    ],
    "slots": [
     "HDMI"
@@ -86,9 +145,14 @@
   }
  },
  "flap": {
-  "USBC": 1.5,
+  "USBC": 0.9,
   "USBA": 0.5,
   "HDMI": 0.5
+ },
+ "fold_len": {
+  "USBC": 10.362,
+  "USBA": 7.478,
+  "HDMI": 8.614
  },
  "posts": {
   "C": [
@@ -113,232 +177,447 @@
   ],
   "HDMI": [
    [
-    43.8,
+    63.02,
     114.6
    ],
    [
-    56.0,
+    50.82,
     111.0
    ]
   ]
  },
  "checks": [
   {
-   "check": "C1 fold R 3.24 >= 1.0",
-   "value": 3.236,
+   "check": "C1 fold (C) R 3.30 = 17.4 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 3.298,
    "ok": true
   },
   {
-   "check": "C1 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "check": "C1 fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "C1 port stiffener bottom to paddle top >= 0.25",
+   "value": 4.711,
+   "ok": true
+  },
+  {
+   "check": "C1 JM receptacle clear of H13 / clamp posts (flap 0.9)",
    "value": [
-    37.802,
-    50.702
+    37.023,
+    49.923
    ],
    "ok": true
   },
   {
    "check": "C1 fold to speaker body (X) clearance",
-   "value": 1.66,
+   "value": 2.16,
    "ok": true
   },
   {
    "check": "C1 sleeve length along axis (seat -> collar) > 3",
-   "value": 5.05,
+   "value": 4.85,
    "ok": true
   },
   {
-   "check": "C2 fold R 3.24 >= 1.0",
-   "value": 3.236,
+   "check": "C2 fold (C) R 3.30 = 17.4 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 3.298,
    "ok": true
   },
   {
-   "check": "C2 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "check": "C2 fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "C2 port stiffener bottom to paddle top >= 0.25",
+   "value": 4.711,
+   "ok": true
+  },
+  {
+   "check": "C2 JM receptacle clear of H13 / clamp posts (flap 0.9)",
    "value": [
-    37.802,
-    50.702
+    37.023,
+    49.923
    ],
    "ok": true
   },
   {
    "check": "C2 fold to speaker body (X) clearance",
-   "value": 1.66,
+   "value": 2.16,
    "ok": true
   },
   {
    "check": "C2 sleeve length along axis (seat -> collar) > 3",
-   "value": 5.05,
+   "value": 4.85,
    "ok": true
   },
   {
-   "check": "C3 fold R 3.24 >= 1.0",
-   "value": 3.236,
+   "check": "C3 fold (C) R 3.30 = 17.4 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 3.298,
    "ok": true
   },
   {
-   "check": "C3 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "check": "C3 fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "C3 port stiffener bottom to paddle top >= 0.25",
+   "value": 4.711,
+   "ok": true
+  },
+  {
+   "check": "C3 JM receptacle clear of H13 / clamp posts (flap 0.9)",
    "value": [
-    37.802,
-    50.702
+    37.023,
+    49.923
    ],
    "ok": true
   },
   {
    "check": "C3 fold to speaker body (X) clearance",
-   "value": 1.66,
+   "value": 2.16,
    "ok": true
   },
   {
    "check": "C3 sleeve length along axis (seat -> collar) > 3",
-   "value": 5.05,
+   "value": 4.85,
    "ok": true
   },
   {
-   "check": "C4 fold R 3.21 >= 1.0",
-   "value": 3.209,
+   "check": "C4 fold (C) R 3.26 = 17.2 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 3.264,
    "ok": true
   },
   {
-   "check": "C4 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "check": "C4 fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "C4 port stiffener bottom to paddle top >= 0.25",
+   "value": 4.643,
+   "ok": true
+  },
+  {
+   "check": "C4 JM receptacle clear of H13 / clamp posts (flap 0.9)",
    "value": [
-    56.036,
-    68.936
+    56.788,
+    69.688
    ],
    "ok": true
   },
   {
    "check": "C4 sleeve length along axis (seat -> collar) > 3",
-   "value": 5.04,
+   "value": 4.85,
    "ok": true
   },
   {
-   "check": "C5 fold R 3.21 >= 1.0",
-   "value": 3.209,
+   "check": "C5 fold (C) R 3.26 = 17.2 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 3.264,
    "ok": true
   },
   {
-   "check": "C5 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "check": "C5 fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "C5 port stiffener bottom to paddle top >= 0.25",
+   "value": 4.643,
+   "ok": true
+  },
+  {
+   "check": "C5 JM receptacle clear of H13 / clamp posts (flap 0.9)",
    "value": [
-    56.036,
-    68.936
+    56.788,
+    69.688
    ],
    "ok": true
   },
   {
    "check": "C5 sleeve length along axis (seat -> collar) > 3",
-   "value": 5.04,
+   "value": 4.85,
    "ok": true
   },
   {
-   "check": "C6 fold R 3.21 >= 1.0",
-   "value": 3.209,
+   "check": "C6 fold (C) R 3.26 = 17.2 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 3.264,
    "ok": true
   },
   {
-   "check": "C6 JM receptacle clear of H13 / clamp posts (flap 1.5)",
+   "check": "C6 fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "C6 port stiffener bottom to paddle top >= 0.25",
+   "value": 4.643,
+   "ok": true
+  },
+  {
+   "check": "C6 JM receptacle clear of H13 / clamp posts (flap 0.9)",
    "value": [
-    56.036,
-    68.936
+    56.788,
+    69.688
    ],
    "ok": true
   },
   {
    "check": "C6 sleeve length along axis (seat -> collar) > 3",
-   "value": 5.04,
+   "value": 4.85,
    "ok": true
   },
   {
-   "check": "A1 fold R 2.33 >= 1.0",
-   "value": 2.329,
+   "check": "A1 fold (loop) R 1.66 = 15.1 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 1.664,
+   "ok": true
+  },
+  {
+   "check": "A1 fold lowest point above the main board >= 0.3",
+   "value": 0.768,
+   "ok": true
+  },
+  {
+   "check": "A1 port stiffener bottom to paddle top >= 0.25",
+   "value": 0.992,
+   "ok": true
+  },
+  {
+   "check": "A1 THT shell leg over the paddle: untrimmed clearance -0.82, trim stub (1.84) to <= 0.72",
+   "value": 0.72,
+   "ok": true
+  },
+  {
+   "check": "A1 THT shell leg over the paddle: untrimmed clearance 0.40, trim stub (1.84) to <= 1.84",
+   "value": 1.84,
+   "ok": true
+  },
+  {
+   "check": "A1 THT pin 5 over the paddle: untrimmed clearance 0.42, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A1 THT pin 9 over the paddle: untrimmed clearance 1.15, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A1 THT pin 1 over the paddle: untrimmed clearance 0.46, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
    "ok": true
   },
   {
    "check": "A1 JM receptacle clear of H13 / clamp posts (flap 0.5)",
    "value": [
-    36.584,
-    49.484
+    36.796,
+    49.696
    ],
    "ok": true
   },
   {
    "check": "A1 fold to speaker body (X) clearance",
-   "value": 2.72,
+   "value": 2.9,
    "ok": true
   },
   {
    "check": "A1 sleeve length along axis (seat -> collar) > 3",
-   "value": 6.65,
+   "value": 8.65,
    "ok": true
   },
   {
-   "check": "A2 fold R 2.33 >= 1.0",
-   "value": 2.329,
+   "check": "A2 fold (loop) R 1.66 = 15.1 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 1.664,
+   "ok": true
+  },
+  {
+   "check": "A2 fold lowest point above the main board >= 0.3",
+   "value": 0.768,
+   "ok": true
+  },
+  {
+   "check": "A2 port stiffener bottom to paddle top >= 0.25",
+   "value": 0.992,
+   "ok": true
+  },
+  {
+   "check": "A2 THT shell leg over the paddle: untrimmed clearance -0.82, trim stub (1.84) to <= 0.72",
+   "value": 0.72,
+   "ok": true
+  },
+  {
+   "check": "A2 THT shell leg over the paddle: untrimmed clearance 0.40, trim stub (1.84) to <= 1.84",
+   "value": 1.84,
+   "ok": true
+  },
+  {
+   "check": "A2 THT pin 5 over the paddle: untrimmed clearance 0.42, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A2 THT pin 9 over the paddle: untrimmed clearance 1.15, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A2 THT pin 1 over the paddle: untrimmed clearance 0.46, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
    "ok": true
   },
   {
    "check": "A2 JM receptacle clear of H13 / clamp posts (flap 0.5)",
    "value": [
-    36.584,
-    49.484
+    36.796,
+    49.696
    ],
    "ok": true
   },
   {
    "check": "A2 sleeve length along axis (seat -> collar) > 3",
-   "value": 6.65,
+   "value": 8.65,
    "ok": true
   },
   {
-   "check": "A3 fold R 2.29 >= 1.0",
-   "value": 2.289,
+   "check": "A3 fold (loop) R 1.65 = 15.0 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 1.65,
+   "ok": true
+  },
+  {
+   "check": "A3 fold lowest point above the main board >= 0.3",
+   "value": 0.734,
+   "ok": true
+  },
+  {
+   "check": "A3 port stiffener bottom to paddle top >= 0.25",
+   "value": 0.937,
+   "ok": true
+  },
+  {
+   "check": "A3 THT shell leg over the paddle: untrimmed clearance -0.87, trim stub (1.84) to <= 0.67",
+   "value": 0.67,
+   "ok": true
+  },
+  {
+   "check": "A3 THT shell leg over the paddle: untrimmed clearance 0.39, trim stub (1.84) to <= 1.84",
+   "value": 1.84,
+   "ok": true
+  },
+  {
+   "check": "A3 THT pin 5 over the paddle: untrimmed clearance 0.37, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A3 THT pin 9 over the paddle: untrimmed clearance 1.14, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A3 THT pin 1 over the paddle: untrimmed clearance 0.42, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
    "ok": true
   },
   {
    "check": "A3 JM receptacle clear of H13 / clamp posts (flap 0.5)",
    "value": [
-    57.343,
-    70.243
+    56.979,
+    69.879
    ],
    "ok": true
   },
   {
    "check": "A3 sleeve length along axis (seat -> collar) > 3",
-   "value": 6.65,
+   "value": 8.66,
    "ok": true
   },
   {
-   "check": "A4 fold R 2.29 >= 1.0",
-   "value": 2.289,
+   "check": "A4 fold (loop) R 1.65 = 15.0 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 1.65,
+   "ok": true
+  },
+  {
+   "check": "A4 fold lowest point above the main board >= 0.3",
+   "value": 0.734,
+   "ok": true
+  },
+  {
+   "check": "A4 port stiffener bottom to paddle top >= 0.25",
+   "value": 0.937,
+   "ok": true
+  },
+  {
+   "check": "A4 THT shell leg over the paddle: untrimmed clearance -0.87, trim stub (1.84) to <= 0.67",
+   "value": 0.67,
+   "ok": true
+  },
+  {
+   "check": "A4 THT shell leg over the paddle: untrimmed clearance 0.39, trim stub (1.84) to <= 1.84",
+   "value": 1.84,
+   "ok": true
+  },
+  {
+   "check": "A4 THT pin 5 over the paddle: untrimmed clearance 0.37, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A4 THT pin 9 over the paddle: untrimmed clearance 1.14, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
+   "ok": true
+  },
+  {
+   "check": "A4 THT pin 1 over the paddle: untrimmed clearance 0.42, trim stub (0.84) to <= 0.84",
+   "value": 0.84,
    "ok": true
   },
   {
    "check": "A4 JM receptacle clear of H13 / clamp posts (flap 0.5)",
    "value": [
-    57.343,
-    70.243
+    56.979,
+    69.879
    ],
    "ok": true
   },
   {
    "check": "A4 sleeve length along axis (seat -> collar) > 3",
-   "value": 6.65,
+   "value": 8.66,
    "ok": true
   },
   {
-   "check": "HDMI fold R 2.72 >= 1.0",
-   "value": 2.722,
+   "check": "HDMI fold (C) R 2.74 = 14.4 x t >= 12 x t (JLC 10 x + 20 %)",
+   "value": 2.742,
+   "ok": true
+  },
+  {
+   "check": "HDMI fold lowest point above the main board >= 0.3",
+   "value": 1.5,
+   "ok": true
+  },
+  {
+   "check": "HDMI port stiffener bottom to paddle top >= 0.25",
+   "value": 3.599,
+   "ok": true
+  },
+  {
+   "check": "HDMI THT shell leg over the paddle: untrimmed clearance 2.52, trim stub (1.26) to <= 1.26",
+   "value": 1.26,
    "ok": true
   },
   {
    "check": "HDMI JM receptacle clear of H13 / clamp posts (flap 0.5)",
    "value": [
-    35.099,
-    47.999
+    60.195,
+    73.095
    ],
    "ok": true
   },
   {
    "check": "HDMI sleeve length along axis (seat -> collar) > 3",
-   "value": 5.72,
+   "value": 5.53,
    "ok": true
   },
   {
@@ -347,8 +626,8 @@
    "ok": true
   },
   {
-   "check": "header paddle to cradle wall C1/C2 (per side)",
-   "value": 0.36,
+   "check": "cradle ledge bearing width under the stiffener edge C1/C2 (tail/paddle 6.4 + 2 x 0.2)",
+   "value": 1.0,
    "ok": true
   },
   {
@@ -357,8 +636,8 @@
    "ok": true
   },
   {
-   "check": "header paddle to cradle wall C2/C3 (per side)",
-   "value": 0.33,
+   "check": "cradle ledge bearing width under the stiffener edge C2/C3 (tail/paddle 6.4 + 2 x 0.2)",
+   "value": 1.0,
    "ok": true
   },
   {
@@ -367,8 +646,8 @@
    "ok": true
   },
   {
-   "check": "header paddle to cradle wall C4/C5 (per side)",
-   "value": 0.36,
+   "check": "cradle ledge bearing width under the stiffener edge C4/C5 (tail/paddle 6.4 + 2 x 0.2)",
+   "value": 1.0,
    "ok": true
   },
   {
@@ -377,8 +656,8 @@
    "ok": true
   },
   {
-   "check": "header paddle to cradle wall C5/C6 (per side)",
-   "value": 0.33,
+   "check": "cradle ledge bearing width under the stiffener edge C5/C6 (tail/paddle 6.4 + 2 x 0.2)",
+   "value": 1.0,
    "ok": true
   },
   {
@@ -387,8 +666,8 @@
    "ok": true
   },
   {
-   "check": "header paddle to cradle wall A1/A2 (per side)",
-   "value": 0.45,
+   "check": "cradle ledge bearing width under the stiffener edge A1/A2 (tail/paddle 6.4 + 2 x 0.2)",
+   "value": 1.0,
    "ok": true
   },
   {
@@ -397,23 +676,43 @@
    "ok": true
   },
   {
-   "check": "header paddle to cradle wall A3/A4 (per side)",
-   "value": 0.45,
+   "check": "cradle ledge bearing width under the stiffener edge A3/A4 (tail/paddle 6.4 + 2 x 0.2)",
+   "value": 1.0,
    "ok": true
   },
   {
    "check": "H/O stiffener inboard gap C1/C4",
-   "value": 6.75,
+   "value": 6.8,
+   "ok": true
+  },
+  {
+   "check": "H/O header-paddle gap C1/C4",
+   "value": 0.95,
+   "ok": true
+  },
+  {
+   "check": "H/O JM receptacle courtyard gap C1/C4",
+   "value": 6.86,
    "ok": true
   },
   {
    "check": "H/O stiffener inboard gap A1/A3",
-   "value": 1.7,
+   "value": 1.36,
+   "ok": true
+  },
+  {
+   "check": "H/O header-paddle gap A1/A3",
+   "value": 1.36,
+   "ok": true
+  },
+  {
+   "check": "H/O JM receptacle courtyard gap A1/A3",
+   "value": 7.28,
    "ok": true
   },
   {
    "check": "USBC module flap (one design for all slots)",
-   "value": 1.5,
+   "value": 0.9,
    "ok": true
   },
   {
@@ -434,41 +733,303 @@
    "module": "MOD-C",
    "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
    "side": "H",
-   "tilt_deg": -5.27,
+   "tilt_deg": -5.25,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.59,
-   "seat_height": 8.63,
-   "seat_plan_x": 43.915,
+   "mouth_height": 18.79,
+   "seat_height": 8.83,
+   "seat_plan_x": 43.92,
    "y": 75.757,
    "stiffener_bottom_heights": [
-    6.927,
-    8.029
+    7.051,
+    8.149
    ],
    "stiffener_plan_x": [
-    38.047,
-    49.996
+    38.059,
+    50.008
    ],
-   "flap": 1.5,
-   "fold_r": 3.236,
+   "flap": 0.9,
+   "fold_r": 3.298,
+   "fold_ratio": 17.4,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.0,
+   "fold_len": 10.362,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 33.161,
-   "speaker_clearance": 1.66,
+   "fold_outer_x": 33.664,
+   "speaker_clearance": 2.16,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    37.558,
+    52.883
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 4.711,
+   "tht_tips": [],
+   "fold_keepout": null,
+   "path": [
+    [
+     -6.0,
+     49.904,
+     9.289
+    ],
+    [
+     -4.8,
+     48.709,
+     9.18
+    ],
+    [
+     -3.6,
+     47.514,
+     9.07
+    ],
+    [
+     -2.4,
+     46.319,
+     8.96
+    ],
+    [
+     -1.2,
+     45.124,
+     8.85
+    ],
+    [
+     0.0,
+     43.929,
+     8.74
+    ],
+    [
+     1.2,
+     42.734,
+     8.631
+    ],
+    [
+     2.4,
+     41.539,
+     8.521
+    ],
+    [
+     3.6,
+     40.344,
+     8.411
+    ],
+    [
+     4.8,
+     39.149,
+     8.301
+    ],
+    [
+     6.0,
+     37.954,
+     8.191
+    ],
+    [
+     6.9,
+     37.058,
+     8.191
+    ],
+    [
+     7.188,
+     36.771,
+     8.178
+    ],
+    [
+     7.476,
+     36.485,
+     8.141
+    ],
+    [
+     7.763,
+     36.204,
+     8.079
+    ],
+    [
+     8.051,
+     35.93,
+     7.992
+    ],
+    [
+     8.339,
+     35.664,
+     7.882
+    ],
+    [
+     8.627,
+     35.409,
+     7.749
+    ],
+    [
+     8.915,
+     35.166,
+     7.595
+    ],
+    [
+     9.202,
+     34.938,
+     7.419
+    ],
+    [
+     9.49,
+     34.726,
+     7.225
+    ],
+    [
+     9.778,
+     34.532,
+     7.013
+    ],
+    [
+     10.066,
+     34.356,
+     6.785
+    ],
+    [
+     10.354,
+     34.202,
+     6.542
+    ],
+    [
+     10.641,
+     34.069,
+     6.287
+    ],
+    [
+     10.929,
+     33.959,
+     6.021
+    ],
+    [
+     11.217,
+     33.872,
+     5.747
+    ],
+    [
+     11.505,
+     33.81,
+     5.466
+    ],
+    [
+     11.793,
+     33.773,
+     5.18
+    ],
+    [
+     12.08,
+     33.76,
+     4.893
+    ],
+    [
+     12.368,
+     33.773,
+     4.606
+    ],
+    [
+     12.656,
+     33.81,
+     4.32
+    ],
+    [
+     12.944,
+     33.872,
+     4.039
+    ],
+    [
+     13.232,
+     33.959,
+     3.765
+    ],
+    [
+     13.52,
+     34.069,
+     3.499
+    ],
+    [
+     13.807,
+     34.202,
+     3.244
+    ],
+    [
+     14.095,
+     34.356,
+     3.001
+    ],
+    [
+     14.383,
+     34.532,
+     2.773
+    ],
+    [
+     14.671,
+     34.726,
+     2.561
+    ],
+    [
+     14.959,
+     34.938,
+     2.367
+    ],
+    [
+     15.246,
+     35.166,
+     2.191
+    ],
+    [
+     15.534,
+     35.409,
+     2.037
+    ],
+    [
+     15.822,
+     35.664,
+     1.904
+    ],
+    [
+     16.11,
+     35.93,
+     1.794
+    ],
+    [
+     16.398,
+     36.204,
+     1.707
+    ],
+    [
+     16.685,
+     36.485,
+     1.645
+    ],
+    [
+     16.973,
+     36.771,
+     1.608
+    ],
+    [
+     17.261,
+     37.058,
+     1.595
+    ],
+    [
+     33.087,
+     52.883,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    44.252,
+    43.473,
     75.757
    ],
-   "jm_rot": 0,
+   "jm_rot": 180,
    "jm_x_range": [
-    37.802,
-    50.702
+    37.023,
+    49.923
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 27.5,
+   "flex_len": 25.7,
    "plug_standoff": 0.0,
    "frame_back_height": 15.56,
    "collar_top_height": 13.66,
-   "sleeve_len_axis": 5.05,
+   "sleeve_len_axis": 4.85,
    "unfolded": {
     "stiff_u": [
      -6.0,
@@ -478,17 +1039,19 @@
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     7.5,
-     17.666
+     6.9,
+     17.262
     ],
     "hdr_stiff_u": [
-     18.166,
-     32.766
+     17.762,
+     33.087
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 25.466
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.677,
+    "ee_centre_u": 31.412,
+    "fpc_t": 0.19
    }
   },
   {
@@ -497,41 +1060,303 @@
    "module": "MOD-C",
    "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
    "side": "H",
-   "tilt_deg": -5.27,
+   "tilt_deg": -5.25,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.59,
-   "seat_height": 8.63,
-   "seat_plan_x": 43.915,
+   "mouth_height": 18.79,
+   "seat_height": 8.83,
+   "seat_plan_x": 43.92,
    "y": 65.84,
    "stiffener_bottom_heights": [
-    6.927,
-    8.029
+    7.051,
+    8.149
    ],
    "stiffener_plan_x": [
-    38.047,
-    49.996
+    38.059,
+    50.008
    ],
-   "flap": 1.5,
-   "fold_r": 3.236,
+   "flap": 0.9,
+   "fold_r": 3.298,
+   "fold_ratio": 17.4,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.0,
+   "fold_len": 10.362,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 33.161,
-   "speaker_clearance": 1.66,
+   "fold_outer_x": 33.664,
+   "speaker_clearance": 2.16,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    37.558,
+    52.883
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 4.711,
+   "tht_tips": [],
+   "fold_keepout": null,
+   "path": [
+    [
+     -6.0,
+     49.904,
+     9.289
+    ],
+    [
+     -4.8,
+     48.709,
+     9.18
+    ],
+    [
+     -3.6,
+     47.514,
+     9.07
+    ],
+    [
+     -2.4,
+     46.319,
+     8.96
+    ],
+    [
+     -1.2,
+     45.124,
+     8.85
+    ],
+    [
+     0.0,
+     43.929,
+     8.74
+    ],
+    [
+     1.2,
+     42.734,
+     8.631
+    ],
+    [
+     2.4,
+     41.539,
+     8.521
+    ],
+    [
+     3.6,
+     40.344,
+     8.411
+    ],
+    [
+     4.8,
+     39.149,
+     8.301
+    ],
+    [
+     6.0,
+     37.954,
+     8.191
+    ],
+    [
+     6.9,
+     37.058,
+     8.191
+    ],
+    [
+     7.188,
+     36.771,
+     8.178
+    ],
+    [
+     7.476,
+     36.485,
+     8.141
+    ],
+    [
+     7.763,
+     36.204,
+     8.079
+    ],
+    [
+     8.051,
+     35.93,
+     7.992
+    ],
+    [
+     8.339,
+     35.664,
+     7.882
+    ],
+    [
+     8.627,
+     35.409,
+     7.749
+    ],
+    [
+     8.915,
+     35.166,
+     7.595
+    ],
+    [
+     9.202,
+     34.938,
+     7.419
+    ],
+    [
+     9.49,
+     34.726,
+     7.225
+    ],
+    [
+     9.778,
+     34.532,
+     7.013
+    ],
+    [
+     10.066,
+     34.356,
+     6.785
+    ],
+    [
+     10.354,
+     34.202,
+     6.542
+    ],
+    [
+     10.641,
+     34.069,
+     6.287
+    ],
+    [
+     10.929,
+     33.959,
+     6.021
+    ],
+    [
+     11.217,
+     33.872,
+     5.747
+    ],
+    [
+     11.505,
+     33.81,
+     5.466
+    ],
+    [
+     11.793,
+     33.773,
+     5.18
+    ],
+    [
+     12.08,
+     33.76,
+     4.893
+    ],
+    [
+     12.368,
+     33.773,
+     4.606
+    ],
+    [
+     12.656,
+     33.81,
+     4.32
+    ],
+    [
+     12.944,
+     33.872,
+     4.039
+    ],
+    [
+     13.232,
+     33.959,
+     3.765
+    ],
+    [
+     13.52,
+     34.069,
+     3.499
+    ],
+    [
+     13.807,
+     34.202,
+     3.244
+    ],
+    [
+     14.095,
+     34.356,
+     3.001
+    ],
+    [
+     14.383,
+     34.532,
+     2.773
+    ],
+    [
+     14.671,
+     34.726,
+     2.561
+    ],
+    [
+     14.959,
+     34.938,
+     2.367
+    ],
+    [
+     15.246,
+     35.166,
+     2.191
+    ],
+    [
+     15.534,
+     35.409,
+     2.037
+    ],
+    [
+     15.822,
+     35.664,
+     1.904
+    ],
+    [
+     16.11,
+     35.93,
+     1.794
+    ],
+    [
+     16.398,
+     36.204,
+     1.707
+    ],
+    [
+     16.685,
+     36.485,
+     1.645
+    ],
+    [
+     16.973,
+     36.771,
+     1.608
+    ],
+    [
+     17.261,
+     37.058,
+     1.595
+    ],
+    [
+     33.087,
+     52.883,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    44.252,
+    43.473,
     65.84
    ],
-   "jm_rot": 0,
+   "jm_rot": 180,
    "jm_x_range": [
-    37.802,
-    50.702
+    37.023,
+    49.923
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 27.5,
+   "flex_len": 25.7,
    "plug_standoff": 0.0,
    "frame_back_height": 15.56,
    "collar_top_height": 13.66,
-   "sleeve_len_axis": 5.05,
+   "sleeve_len_axis": 4.85,
    "unfolded": {
     "stiff_u": [
      -6.0,
@@ -541,17 +1366,19 @@
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     7.5,
-     17.666
+     6.9,
+     17.262
     ],
     "hdr_stiff_u": [
-     18.166,
-     32.766
+     17.762,
+     33.087
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 25.466
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.677,
+    "ee_centre_u": 31.412,
+    "fpc_t": 0.19
    }
   },
   {
@@ -560,41 +1387,303 @@
    "module": "MOD-C",
    "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
    "side": "H",
-   "tilt_deg": -5.27,
+   "tilt_deg": -5.25,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.59,
-   "seat_height": 8.63,
-   "seat_plan_x": 43.915,
+   "mouth_height": 18.79,
+   "seat_height": 8.83,
+   "seat_plan_x": 43.92,
    "y": 55.972,
    "stiffener_bottom_heights": [
-    6.927,
-    8.029
+    7.051,
+    8.149
    ],
    "stiffener_plan_x": [
-    38.047,
-    49.996
+    38.059,
+    50.008
    ],
-   "flap": 1.5,
-   "fold_r": 3.236,
+   "flap": 0.9,
+   "fold_r": 3.298,
+   "fold_ratio": 17.4,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.0,
+   "fold_len": 10.362,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 33.161,
-   "speaker_clearance": 1.66,
+   "fold_outer_x": 33.664,
+   "speaker_clearance": 2.16,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    37.558,
+    52.883
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 4.711,
+   "tht_tips": [],
+   "fold_keepout": null,
+   "path": [
+    [
+     -6.0,
+     49.904,
+     9.289
+    ],
+    [
+     -4.8,
+     48.709,
+     9.18
+    ],
+    [
+     -3.6,
+     47.514,
+     9.07
+    ],
+    [
+     -2.4,
+     46.319,
+     8.96
+    ],
+    [
+     -1.2,
+     45.124,
+     8.85
+    ],
+    [
+     0.0,
+     43.929,
+     8.74
+    ],
+    [
+     1.2,
+     42.734,
+     8.631
+    ],
+    [
+     2.4,
+     41.539,
+     8.521
+    ],
+    [
+     3.6,
+     40.344,
+     8.411
+    ],
+    [
+     4.8,
+     39.149,
+     8.301
+    ],
+    [
+     6.0,
+     37.954,
+     8.191
+    ],
+    [
+     6.9,
+     37.058,
+     8.191
+    ],
+    [
+     7.188,
+     36.771,
+     8.178
+    ],
+    [
+     7.476,
+     36.485,
+     8.141
+    ],
+    [
+     7.763,
+     36.204,
+     8.079
+    ],
+    [
+     8.051,
+     35.93,
+     7.992
+    ],
+    [
+     8.339,
+     35.664,
+     7.882
+    ],
+    [
+     8.627,
+     35.409,
+     7.749
+    ],
+    [
+     8.915,
+     35.166,
+     7.595
+    ],
+    [
+     9.202,
+     34.938,
+     7.419
+    ],
+    [
+     9.49,
+     34.726,
+     7.225
+    ],
+    [
+     9.778,
+     34.532,
+     7.013
+    ],
+    [
+     10.066,
+     34.356,
+     6.785
+    ],
+    [
+     10.354,
+     34.202,
+     6.542
+    ],
+    [
+     10.641,
+     34.069,
+     6.287
+    ],
+    [
+     10.929,
+     33.959,
+     6.021
+    ],
+    [
+     11.217,
+     33.872,
+     5.747
+    ],
+    [
+     11.505,
+     33.81,
+     5.466
+    ],
+    [
+     11.793,
+     33.773,
+     5.18
+    ],
+    [
+     12.08,
+     33.76,
+     4.893
+    ],
+    [
+     12.368,
+     33.773,
+     4.606
+    ],
+    [
+     12.656,
+     33.81,
+     4.32
+    ],
+    [
+     12.944,
+     33.872,
+     4.039
+    ],
+    [
+     13.232,
+     33.959,
+     3.765
+    ],
+    [
+     13.52,
+     34.069,
+     3.499
+    ],
+    [
+     13.807,
+     34.202,
+     3.244
+    ],
+    [
+     14.095,
+     34.356,
+     3.001
+    ],
+    [
+     14.383,
+     34.532,
+     2.773
+    ],
+    [
+     14.671,
+     34.726,
+     2.561
+    ],
+    [
+     14.959,
+     34.938,
+     2.367
+    ],
+    [
+     15.246,
+     35.166,
+     2.191
+    ],
+    [
+     15.534,
+     35.409,
+     2.037
+    ],
+    [
+     15.822,
+     35.664,
+     1.904
+    ],
+    [
+     16.11,
+     35.93,
+     1.794
+    ],
+    [
+     16.398,
+     36.204,
+     1.707
+    ],
+    [
+     16.685,
+     36.485,
+     1.645
+    ],
+    [
+     16.973,
+     36.771,
+     1.608
+    ],
+    [
+     17.261,
+     37.058,
+     1.595
+    ],
+    [
+     33.087,
+     52.883,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    44.252,
+    43.473,
     55.972
    ],
-   "jm_rot": 0,
+   "jm_rot": 180,
    "jm_x_range": [
-    37.802,
-    50.702
+    37.023,
+    49.923
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 27.5,
+   "flex_len": 25.7,
    "plug_standoff": 0.0,
    "frame_back_height": 15.56,
    "collar_top_height": 13.66,
-   "sleeve_len_axis": 5.05,
+   "sleeve_len_axis": 4.85,
    "unfolded": {
     "stiff_u": [
      -6.0,
@@ -604,17 +1693,19 @@
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     7.5,
-     17.666
+     6.9,
+     17.262
     ],
     "hdr_stiff_u": [
-     18.166,
-     32.766
+     17.762,
+     33.087
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 25.466
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.677,
+    "ee_centre_u": 31.412,
+    "fpc_t": 0.19
    }
   },
   {
@@ -623,41 +1714,343 @@
    "module": "MOD-C",
    "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
    "side": "O",
-   "tilt_deg": 5.47,
+   "tilt_deg": 5.51,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.55,
-   "seat_height": 8.6,
-   "seat_plan_x": 62.825,
+   "mouth_height": 18.75,
+   "seat_height": 8.79,
+   "seat_plan_x": 62.902,
    "y": 75.757,
    "stiffener_bottom_heights": [
-    6.873,
-    8.017
+    6.983,
+    8.135
    ],
    "stiffener_plan_x": [
-    56.742,
-    68.687
+    56.811,
+    68.755
    ],
-   "flap": 1.5,
-   "fold_r": 3.209,
+   "flap": 0.9,
+   "fold_r": 3.264,
+   "fold_ratio": 17.2,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.94,
+   "fold_len": 10.362,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 73.55,
+   "fold_outer_x": 73.12,
    "speaker_clearance": null,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    53.828,
+    69.153
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 4.643,
+   "tht_tips": [],
+   "fold_keepout": null,
+   "path": [
+    [
+     -6.0,
+     56.921,
+     9.275
+    ],
+    [
+     -4.8,
+     58.115,
+     9.159
+    ],
+    [
+     -3.6,
+     59.31,
+     9.044
+    ],
+    [
+     -2.4,
+     60.504,
+     8.929
+    ],
+    [
+     -1.2,
+     61.698,
+     8.814
+    ],
+    [
+     0.0,
+     62.893,
+     8.698
+    ],
+    [
+     1.2,
+     64.087,
+     8.583
+    ],
+    [
+     2.4,
+     65.282,
+     8.468
+    ],
+    [
+     3.6,
+     66.476,
+     8.353
+    ],
+    [
+     4.8,
+     67.671,
+     8.238
+    ],
+    [
+     6.0,
+     68.865,
+     8.122
+    ],
+    [
+     6.9,
+     69.761,
+     8.122
+    ],
+    [
+     7.186,
+     70.047,
+     8.109
+    ],
+    [
+     7.473,
+     70.331,
+     8.072
+    ],
+    [
+     7.759,
+     70.61,
+     8.01
+    ],
+    [
+     8.045,
+     70.883,
+     7.923
+    ],
+    [
+     8.332,
+     71.147,
+     7.813
+    ],
+    [
+     8.618,
+     71.401,
+     7.68
+    ],
+    [
+     8.904,
+     71.642,
+     7.526
+    ],
+    [
+     9.191,
+     71.868,
+     7.351
+    ],
+    [
+     9.477,
+     72.078,
+     7.157
+    ],
+    [
+     9.763,
+     72.271,
+     6.945
+    ],
+    [
+     10.05,
+     72.444,
+     6.717
+    ],
+    [
+     10.336,
+     72.597,
+     6.475
+    ],
+    [
+     10.622,
+     72.727,
+     6.22
+    ],
+    [
+     10.909,
+     72.835,
+     5.955
+    ],
+    [
+     11.195,
+     72.919,
+     5.681
+    ],
+    [
+     11.481,
+     72.979,
+     5.401
+    ],
+    [
+     11.768,
+     73.015,
+     5.117
+    ],
+    [
+     12.054,
+     73.025,
+     4.831
+    ],
+    [
+     12.34,
+     73.01,
+     4.545
+    ],
+    [
+     12.627,
+     72.97,
+     4.262
+    ],
+    [
+     12.913,
+     72.906,
+     3.983
+    ],
+    [
+     13.199,
+     72.817,
+     3.711
+    ],
+    [
+     13.485,
+     72.705,
+     3.448
+    ],
+    [
+     13.772,
+     72.57,
+     3.195
+    ],
+    [
+     14.058,
+     72.413,
+     2.956
+    ],
+    [
+     14.344,
+     72.236,
+     2.73
+    ],
+    [
+     14.631,
+     72.04,
+     2.522
+    ],
+    [
+     14.917,
+     71.827,
+     2.331
+    ],
+    [
+     15.203,
+     71.598,
+     2.16
+    ],
+    [
+     15.49,
+     71.354,
+     2.009
+    ],
+    [
+     15.776,
+     71.098,
+     1.881
+    ],
+    [
+     16.062,
+     70.833,
+     1.775
+    ],
+    [
+     16.349,
+     70.558,
+     1.693
+    ],
+    [
+     16.635,
+     70.278,
+     1.635
+    ],
+    [
+     16.921,
+     69.994,
+     1.602
+    ],
+    [
+     17.208,
+     69.707,
+     1.594
+    ],
+    [
+     17.214,
+     69.701,
+     1.595
+    ],
+    [
+     17.221,
+     69.694,
+     1.595
+    ],
+    [
+     17.228,
+     69.687,
+     1.595
+    ],
+    [
+     17.234,
+     69.681,
+     1.595
+    ],
+    [
+     17.241,
+     69.674,
+     1.595
+    ],
+    [
+     17.248,
+     69.667,
+     1.595
+    ],
+    [
+     17.255,
+     69.661,
+     1.595
+    ],
+    [
+     17.261,
+     69.654,
+     1.595
+    ],
+    [
+     33.087,
+     53.828,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    62.486,
+    63.238,
     75.757
    ],
-   "jm_rot": 180,
+   "jm_rot": 0,
    "jm_x_range": [
-    56.036,
-    68.936
+    56.788,
+    69.688
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 27.4,
+   "flex_len": 25.7,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.52,
-   "collar_top_height": 13.62,
-   "sleeve_len_axis": 5.04,
+   "frame_back_height": 15.51,
+   "collar_top_height": 13.61,
+   "sleeve_len_axis": 4.85,
    "unfolded": {
     "stiff_u": [
      -6.0,
@@ -667,17 +2060,19 @@
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     7.5,
-     17.581
+     6.9,
+     17.262
     ],
     "hdr_stiff_u": [
-     18.081,
-     32.681
+     17.762,
+     33.087
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 25.381
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.677,
+    "ee_centre_u": 31.412,
+    "fpc_t": 0.19
    }
   },
   {
@@ -686,41 +2081,343 @@
    "module": "MOD-C",
    "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
    "side": "O",
-   "tilt_deg": 5.47,
+   "tilt_deg": 5.51,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.55,
-   "seat_height": 8.6,
-   "seat_plan_x": 62.825,
+   "mouth_height": 18.75,
+   "seat_height": 8.79,
+   "seat_plan_x": 62.902,
    "y": 65.84,
    "stiffener_bottom_heights": [
-    6.873,
-    8.017
+    6.983,
+    8.135
    ],
    "stiffener_plan_x": [
-    56.742,
-    68.687
+    56.811,
+    68.755
    ],
-   "flap": 1.5,
-   "fold_r": 3.209,
+   "flap": 0.9,
+   "fold_r": 3.264,
+   "fold_ratio": 17.2,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.94,
+   "fold_len": 10.362,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 73.55,
+   "fold_outer_x": 73.12,
    "speaker_clearance": null,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    53.828,
+    69.153
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 4.643,
+   "tht_tips": [],
+   "fold_keepout": null,
+   "path": [
+    [
+     -6.0,
+     56.921,
+     9.275
+    ],
+    [
+     -4.8,
+     58.115,
+     9.159
+    ],
+    [
+     -3.6,
+     59.31,
+     9.044
+    ],
+    [
+     -2.4,
+     60.504,
+     8.929
+    ],
+    [
+     -1.2,
+     61.698,
+     8.814
+    ],
+    [
+     0.0,
+     62.893,
+     8.698
+    ],
+    [
+     1.2,
+     64.087,
+     8.583
+    ],
+    [
+     2.4,
+     65.282,
+     8.468
+    ],
+    [
+     3.6,
+     66.476,
+     8.353
+    ],
+    [
+     4.8,
+     67.671,
+     8.238
+    ],
+    [
+     6.0,
+     68.865,
+     8.122
+    ],
+    [
+     6.9,
+     69.761,
+     8.122
+    ],
+    [
+     7.186,
+     70.047,
+     8.109
+    ],
+    [
+     7.473,
+     70.331,
+     8.072
+    ],
+    [
+     7.759,
+     70.61,
+     8.01
+    ],
+    [
+     8.045,
+     70.883,
+     7.923
+    ],
+    [
+     8.332,
+     71.147,
+     7.813
+    ],
+    [
+     8.618,
+     71.401,
+     7.68
+    ],
+    [
+     8.904,
+     71.642,
+     7.526
+    ],
+    [
+     9.191,
+     71.868,
+     7.351
+    ],
+    [
+     9.477,
+     72.078,
+     7.157
+    ],
+    [
+     9.763,
+     72.271,
+     6.945
+    ],
+    [
+     10.05,
+     72.444,
+     6.717
+    ],
+    [
+     10.336,
+     72.597,
+     6.475
+    ],
+    [
+     10.622,
+     72.727,
+     6.22
+    ],
+    [
+     10.909,
+     72.835,
+     5.955
+    ],
+    [
+     11.195,
+     72.919,
+     5.681
+    ],
+    [
+     11.481,
+     72.979,
+     5.401
+    ],
+    [
+     11.768,
+     73.015,
+     5.117
+    ],
+    [
+     12.054,
+     73.025,
+     4.831
+    ],
+    [
+     12.34,
+     73.01,
+     4.545
+    ],
+    [
+     12.627,
+     72.97,
+     4.262
+    ],
+    [
+     12.913,
+     72.906,
+     3.983
+    ],
+    [
+     13.199,
+     72.817,
+     3.711
+    ],
+    [
+     13.485,
+     72.705,
+     3.448
+    ],
+    [
+     13.772,
+     72.57,
+     3.195
+    ],
+    [
+     14.058,
+     72.413,
+     2.956
+    ],
+    [
+     14.344,
+     72.236,
+     2.73
+    ],
+    [
+     14.631,
+     72.04,
+     2.522
+    ],
+    [
+     14.917,
+     71.827,
+     2.331
+    ],
+    [
+     15.203,
+     71.598,
+     2.16
+    ],
+    [
+     15.49,
+     71.354,
+     2.009
+    ],
+    [
+     15.776,
+     71.098,
+     1.881
+    ],
+    [
+     16.062,
+     70.833,
+     1.775
+    ],
+    [
+     16.349,
+     70.558,
+     1.693
+    ],
+    [
+     16.635,
+     70.278,
+     1.635
+    ],
+    [
+     16.921,
+     69.994,
+     1.602
+    ],
+    [
+     17.208,
+     69.707,
+     1.594
+    ],
+    [
+     17.214,
+     69.701,
+     1.595
+    ],
+    [
+     17.221,
+     69.694,
+     1.595
+    ],
+    [
+     17.228,
+     69.687,
+     1.595
+    ],
+    [
+     17.234,
+     69.681,
+     1.595
+    ],
+    [
+     17.241,
+     69.674,
+     1.595
+    ],
+    [
+     17.248,
+     69.667,
+     1.595
+    ],
+    [
+     17.255,
+     69.661,
+     1.595
+    ],
+    [
+     17.261,
+     69.654,
+     1.595
+    ],
+    [
+     33.087,
+     53.828,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    62.486,
+    63.238,
     65.84
    ],
-   "jm_rot": 180,
+   "jm_rot": 0,
    "jm_x_range": [
-    56.036,
-    68.936
+    56.788,
+    69.688
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 27.4,
+   "flex_len": 25.7,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.52,
-   "collar_top_height": 13.62,
-   "sleeve_len_axis": 5.04,
+   "frame_back_height": 15.51,
+   "collar_top_height": 13.61,
+   "sleeve_len_axis": 4.85,
    "unfolded": {
     "stiff_u": [
      -6.0,
@@ -730,17 +2427,19 @@
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     7.5,
-     17.581
+     6.9,
+     17.262
     ],
     "hdr_stiff_u": [
-     18.081,
-     32.681
+     17.762,
+     33.087
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 25.381
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.677,
+    "ee_centre_u": 31.412,
+    "fpc_t": 0.19
    }
   },
   {
@@ -749,41 +2448,343 @@
    "module": "MOD-C",
    "conn": "HOAUC HYCW417-USBC24-180B (C5342202) all-SMD",
    "side": "O",
-   "tilt_deg": 5.47,
+   "tilt_deg": 5.51,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.55,
-   "seat_height": 8.6,
-   "seat_plan_x": 62.825,
+   "mouth_height": 18.75,
+   "seat_height": 8.79,
+   "seat_plan_x": 62.902,
    "y": 55.972,
    "stiffener_bottom_heights": [
-    6.873,
-    8.017
+    6.983,
+    8.135
    ],
    "stiffener_plan_x": [
-    56.742,
-    68.687
+    56.811,
+    68.755
    ],
-   "flap": 1.5,
-   "fold_r": 3.209,
+   "flap": 0.9,
+   "fold_r": 3.264,
+   "fold_ratio": 17.2,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.94,
+   "fold_len": 10.362,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 73.55,
+   "fold_outer_x": 73.12,
    "speaker_clearance": null,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    53.828,
+    69.153
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 4.643,
+   "tht_tips": [],
+   "fold_keepout": null,
+   "path": [
+    [
+     -6.0,
+     56.921,
+     9.275
+    ],
+    [
+     -4.8,
+     58.115,
+     9.159
+    ],
+    [
+     -3.6,
+     59.31,
+     9.044
+    ],
+    [
+     -2.4,
+     60.504,
+     8.929
+    ],
+    [
+     -1.2,
+     61.698,
+     8.814
+    ],
+    [
+     0.0,
+     62.893,
+     8.698
+    ],
+    [
+     1.2,
+     64.087,
+     8.583
+    ],
+    [
+     2.4,
+     65.282,
+     8.468
+    ],
+    [
+     3.6,
+     66.476,
+     8.353
+    ],
+    [
+     4.8,
+     67.671,
+     8.238
+    ],
+    [
+     6.0,
+     68.865,
+     8.122
+    ],
+    [
+     6.9,
+     69.761,
+     8.122
+    ],
+    [
+     7.186,
+     70.047,
+     8.109
+    ],
+    [
+     7.473,
+     70.331,
+     8.072
+    ],
+    [
+     7.759,
+     70.61,
+     8.01
+    ],
+    [
+     8.045,
+     70.883,
+     7.923
+    ],
+    [
+     8.332,
+     71.147,
+     7.813
+    ],
+    [
+     8.618,
+     71.401,
+     7.68
+    ],
+    [
+     8.904,
+     71.642,
+     7.526
+    ],
+    [
+     9.191,
+     71.868,
+     7.351
+    ],
+    [
+     9.477,
+     72.078,
+     7.157
+    ],
+    [
+     9.763,
+     72.271,
+     6.945
+    ],
+    [
+     10.05,
+     72.444,
+     6.717
+    ],
+    [
+     10.336,
+     72.597,
+     6.475
+    ],
+    [
+     10.622,
+     72.727,
+     6.22
+    ],
+    [
+     10.909,
+     72.835,
+     5.955
+    ],
+    [
+     11.195,
+     72.919,
+     5.681
+    ],
+    [
+     11.481,
+     72.979,
+     5.401
+    ],
+    [
+     11.768,
+     73.015,
+     5.117
+    ],
+    [
+     12.054,
+     73.025,
+     4.831
+    ],
+    [
+     12.34,
+     73.01,
+     4.545
+    ],
+    [
+     12.627,
+     72.97,
+     4.262
+    ],
+    [
+     12.913,
+     72.906,
+     3.983
+    ],
+    [
+     13.199,
+     72.817,
+     3.711
+    ],
+    [
+     13.485,
+     72.705,
+     3.448
+    ],
+    [
+     13.772,
+     72.57,
+     3.195
+    ],
+    [
+     14.058,
+     72.413,
+     2.956
+    ],
+    [
+     14.344,
+     72.236,
+     2.73
+    ],
+    [
+     14.631,
+     72.04,
+     2.522
+    ],
+    [
+     14.917,
+     71.827,
+     2.331
+    ],
+    [
+     15.203,
+     71.598,
+     2.16
+    ],
+    [
+     15.49,
+     71.354,
+     2.009
+    ],
+    [
+     15.776,
+     71.098,
+     1.881
+    ],
+    [
+     16.062,
+     70.833,
+     1.775
+    ],
+    [
+     16.349,
+     70.558,
+     1.693
+    ],
+    [
+     16.635,
+     70.278,
+     1.635
+    ],
+    [
+     16.921,
+     69.994,
+     1.602
+    ],
+    [
+     17.208,
+     69.707,
+     1.594
+    ],
+    [
+     17.214,
+     69.701,
+     1.595
+    ],
+    [
+     17.221,
+     69.694,
+     1.595
+    ],
+    [
+     17.228,
+     69.687,
+     1.595
+    ],
+    [
+     17.234,
+     69.681,
+     1.595
+    ],
+    [
+     17.241,
+     69.674,
+     1.595
+    ],
+    [
+     17.248,
+     69.667,
+     1.595
+    ],
+    [
+     17.255,
+     69.661,
+     1.595
+    ],
+    [
+     17.261,
+     69.654,
+     1.595
+    ],
+    [
+     33.087,
+     53.828,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    62.486,
+    63.238,
     55.972
    ],
-   "jm_rot": 180,
+   "jm_rot": 0,
    "jm_x_range": [
-    56.036,
-    68.936
+    56.788,
+    69.688
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 27.4,
+   "flex_len": 25.7,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.52,
-   "collar_top_height": 13.62,
-   "sleeve_len_axis": 5.04,
+   "frame_back_height": 15.51,
+   "collar_top_height": 13.61,
+   "sleeve_len_axis": 4.85,
    "unfolded": {
     "stiff_u": [
      -6.0,
@@ -793,269 +2794,1731 @@
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     7.5,
-     17.581
+     6.9,
+     17.262
     ],
     "hdr_stiff_u": [
-     18.081,
-     32.681
+     17.762,
+     33.087
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 25.381
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.677,
+    "ee_centre_u": 31.412,
+    "fpc_t": 0.19
    }
   },
   {
    "slot": "A1",
    "kind": "USBA",
    "module": "MOD-A",
-   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "conn": "Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)",
    "side": "H",
-   "tilt_deg": -5.25,
+   "tilt_deg": -5.29,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.49,
-   "seat_height": 7.04,
-   "seat_plan_x": 44.092,
+   "mouth_height": 18.68,
+   "seat_height": 5.04,
+   "seat_plan_x": 44.203,
    "y": 42.638,
    "stiffener_bottom_heights": [
-    5.113,
-    6.65
+    3.051,
+    4.655
    ],
    "stiffener_plan_x": [
-    35.833,
-    52.563
+    35.348,
+    52.674
    ],
    "flap": 0.5,
-   "fold_r": 2.329,
+   "fold_r": 1.664,
+   "fold_ratio": 15.1,
+   "fold_mode": "loop",
+   "fold_alpha_deg": 38.73,
+   "fold_len": 7.478,
+   "fold_low_h": 0.768,
    "fold_ok": true,
-   "fold_outer_x": 32.85,
-   "speaker_clearance": 2.72,
+   "fold_outer_x": 33.029,
+   "speaker_clearance": 2.9,
+   "fpc_t": 0.11,
+   "stack_t": 1.16,
+   "paddle_x": [
+    37.331,
+    52.656
+   ],
+   "paddle_top_h": 2.26,
+   "stiff_to_paddle_gap": 0.992,
+   "tht_tips": [
+    {
+     "lead": "shell leg",
+     "u": 6.575,
+     "tip_x": 37.933,
+     "tip_h": 1.443,
+     "over_paddle": true,
+     "clr": -0.817,
+     "stub": 1.84,
+     "trim_to": 0.72
+    },
+    {
+     "lead": "shell leg",
+     "u": -6.575,
+     "tip_x": 51.027,
+     "tip_h": 2.655,
+     "over_paddle": true,
+     "clr": 0.395,
+     "stub": 1.84,
+     "trim_to": 1.84
+    },
+    {
+     "lead": "pin 5",
+     "u": 4.0,
+     "tip_x": 40.404,
+     "tip_h": 2.676,
+     "over_paddle": true,
+     "clr": 0.416,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 9",
+     "u": -4.0,
+     "tip_x": 48.37,
+     "tip_h": 3.413,
+     "over_paddle": true,
+     "clr": 1.153,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 1",
+     "u": 3.5,
+     "tip_x": 40.902,
+     "tip_h": 2.722,
+     "over_paddle": true,
+     "clr": 0.462,
+     "stub": 0.84,
+     "trim_to": 0.84
+    }
+   ],
+   "fold_keepout": {
+    "x": [
+     32.73,
+     37.13
+    ],
+    "y": [
+     39.14,
+     46.14
+    ],
+    "max_part_h": 0.57
+   },
+   "path": [
+    [
+     -8.4,
+     52.572,
+     5.756
+    ],
+    [
+     -6.66,
+     50.84,
+     5.595
+    ],
+    [
+     -4.92,
+     49.107,
+     5.435
+    ],
+    [
+     -3.18,
+     47.375,
+     5.274
+    ],
+    [
+     -1.44,
+     45.642,
+     5.114
+    ],
+    [
+     0.3,
+     43.909,
+     4.954
+    ],
+    [
+     2.04,
+     42.177,
+     4.793
+    ],
+    [
+     3.78,
+     40.444,
+     4.633
+    ],
+    [
+     5.52,
+     38.712,
+     4.472
+    ],
+    [
+     7.26,
+     36.979,
+     4.312
+    ],
+    [
+     9.0,
+     35.246,
+     4.151
+    ],
+    [
+     9.5,
+     34.749,
+     4.151
+    ],
+    [
+     9.676,
+     34.573,
+     4.142
+    ],
+    [
+     9.853,
+     34.399,
+     4.114
+    ],
+    [
+     10.029,
+     34.229,
+     4.068
+    ],
+    [
+     10.206,
+     34.064,
+     4.004
+    ],
+    [
+     10.382,
+     33.907,
+     3.923
+    ],
+    [
+     10.559,
+     33.76,
+     3.825
+    ],
+    [
+     10.735,
+     33.624,
+     3.713
+    ],
+    [
+     10.912,
+     33.501,
+     3.587
+    ],
+    [
+     11.088,
+     33.391,
+     3.449
+    ],
+    [
+     11.265,
+     33.297,
+     3.3
+    ],
+    [
+     11.441,
+     33.219,
+     3.142
+    ],
+    [
+     11.617,
+     33.158,
+     2.976
+    ],
+    [
+     11.794,
+     33.116,
+     2.805
+    ],
+    [
+     11.97,
+     33.091,
+     2.63
+    ],
+    [
+     12.147,
+     33.085,
+     2.454
+    ],
+    [
+     12.323,
+     33.098,
+     2.278
+    ],
+    [
+     12.5,
+     33.13,
+     2.105
+    ],
+    [
+     12.676,
+     33.179,
+     1.935
+    ],
+    [
+     12.853,
+     33.246,
+     1.772
+    ],
+    [
+     13.029,
+     33.33,
+     1.617
+    ],
+    [
+     13.206,
+     33.43,
+     1.472
+    ],
+    [
+     13.382,
+     33.545,
+     1.338
+    ],
+    [
+     13.558,
+     33.674,
+     1.217
+    ],
+    [
+     13.735,
+     33.814,
+     1.11
+    ],
+    [
+     13.911,
+     33.965,
+     1.019
+    ],
+    [
+     14.088,
+     34.125,
+     0.944
+    ],
+    [
+     14.264,
+     34.292,
+     0.887
+    ],
+    [
+     14.441,
+     34.464,
+     0.848
+    ],
+    [
+     14.617,
+     34.639,
+     0.827
+    ],
+    [
+     14.794,
+     34.815,
+     0.824
+    ],
+    [
+     14.97,
+     34.991,
+     0.841
+    ],
+    [
+     15.147,
+     35.164,
+     0.875
+    ],
+    [
+     15.323,
+     35.332,
+     0.928
+    ],
+    [
+     15.5,
+     35.494,
+     0.999
+    ],
+    [
+     15.676,
+     35.647,
+     1.086
+    ],
+    [
+     15.852,
+     35.79,
+     1.189
+    ],
+    [
+     15.993,
+     35.903,
+     1.272
+    ],
+    [
+     16.134,
+     36.023,
+     1.346
+    ],
+    [
+     16.274,
+     36.149,
+     1.409
+    ],
+    [
+     16.415,
+     36.279,
+     1.461
+    ],
+    [
+     16.555,
+     36.414,
+     1.502
+    ],
+    [
+     16.696,
+     36.551,
+     1.531
+    ],
+    [
+     16.837,
+     36.691,
+     1.549
+    ],
+    [
+     16.977,
+     36.831,
+     1.555
+    ],
+    [
+     32.803,
+     52.656,
+     1.555
+    ]
+   ],
    "jm_plan": [
-    43.034,
+    43.246,
     42.638
    ],
-   "jm_rot": 0,
+   "jm_rot": 180,
    "jm_x_range": [
-    36.584,
-    49.484
+    36.796,
+    49.696
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 26.0,
+   "flex_len": 25.4,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.56,
-   "collar_top_height": 13.66,
-   "sleeve_len_axis": 6.65,
+   "frame_back_height": 15.55,
+   "collar_top_height": 13.65,
+   "sleeve_len_axis": 8.65,
    "unfolded": {
     "stiff_u": [
      -8.4,
-     8.4
+     9.0
     ],
     "stiff_v": [
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     8.9,
-     16.217
+     9.5,
+     16.978
     ],
     "hdr_stiff_u": [
-     16.717,
-     31.317
+     17.478,
+     32.803
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 24.017
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.393,
+    "ee_centre_u": 31.128,
+    "fpc_t": 0.11
    }
   },
   {
    "slot": "A2",
    "kind": "USBA",
    "module": "MOD-A",
-   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "conn": "Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)",
    "side": "H",
-   "tilt_deg": -5.25,
+   "tilt_deg": -5.29,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.49,
-   "seat_height": 7.04,
-   "seat_plan_x": 44.092,
+   "mouth_height": 18.68,
+   "seat_height": 5.04,
+   "seat_plan_x": 44.203,
    "y": 32.535,
    "stiffener_bottom_heights": [
-    5.113,
-    6.65
+    3.051,
+    4.655
    ],
    "stiffener_plan_x": [
-    35.833,
-    52.563
+    35.348,
+    52.674
    ],
    "flap": 0.5,
-   "fold_r": 2.329,
+   "fold_r": 1.664,
+   "fold_ratio": 15.1,
+   "fold_mode": "loop",
+   "fold_alpha_deg": 38.73,
+   "fold_len": 7.478,
+   "fold_low_h": 0.768,
    "fold_ok": true,
-   "fold_outer_x": 32.85,
+   "fold_outer_x": 33.029,
    "speaker_clearance": null,
+   "fpc_t": 0.11,
+   "stack_t": 1.16,
+   "paddle_x": [
+    37.331,
+    52.656
+   ],
+   "paddle_top_h": 2.26,
+   "stiff_to_paddle_gap": 0.992,
+   "tht_tips": [
+    {
+     "lead": "shell leg",
+     "u": 6.575,
+     "tip_x": 37.933,
+     "tip_h": 1.443,
+     "over_paddle": true,
+     "clr": -0.817,
+     "stub": 1.84,
+     "trim_to": 0.72
+    },
+    {
+     "lead": "shell leg",
+     "u": -6.575,
+     "tip_x": 51.027,
+     "tip_h": 2.655,
+     "over_paddle": true,
+     "clr": 0.395,
+     "stub": 1.84,
+     "trim_to": 1.84
+    },
+    {
+     "lead": "pin 5",
+     "u": 4.0,
+     "tip_x": 40.404,
+     "tip_h": 2.676,
+     "over_paddle": true,
+     "clr": 0.416,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 9",
+     "u": -4.0,
+     "tip_x": 48.37,
+     "tip_h": 3.413,
+     "over_paddle": true,
+     "clr": 1.153,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 1",
+     "u": 3.5,
+     "tip_x": 40.902,
+     "tip_h": 2.722,
+     "over_paddle": true,
+     "clr": 0.462,
+     "stub": 0.84,
+     "trim_to": 0.84
+    }
+   ],
+   "fold_keepout": {
+    "x": [
+     32.73,
+     37.13
+    ],
+    "y": [
+     29.03,
+     36.03
+    ],
+    "max_part_h": 0.57
+   },
+   "path": [
+    [
+     -8.4,
+     52.572,
+     5.756
+    ],
+    [
+     -6.66,
+     50.84,
+     5.595
+    ],
+    [
+     -4.92,
+     49.107,
+     5.435
+    ],
+    [
+     -3.18,
+     47.375,
+     5.274
+    ],
+    [
+     -1.44,
+     45.642,
+     5.114
+    ],
+    [
+     0.3,
+     43.909,
+     4.954
+    ],
+    [
+     2.04,
+     42.177,
+     4.793
+    ],
+    [
+     3.78,
+     40.444,
+     4.633
+    ],
+    [
+     5.52,
+     38.712,
+     4.472
+    ],
+    [
+     7.26,
+     36.979,
+     4.312
+    ],
+    [
+     9.0,
+     35.246,
+     4.151
+    ],
+    [
+     9.5,
+     34.749,
+     4.151
+    ],
+    [
+     9.676,
+     34.573,
+     4.142
+    ],
+    [
+     9.853,
+     34.399,
+     4.114
+    ],
+    [
+     10.029,
+     34.229,
+     4.068
+    ],
+    [
+     10.206,
+     34.064,
+     4.004
+    ],
+    [
+     10.382,
+     33.907,
+     3.923
+    ],
+    [
+     10.559,
+     33.76,
+     3.825
+    ],
+    [
+     10.735,
+     33.624,
+     3.713
+    ],
+    [
+     10.912,
+     33.501,
+     3.587
+    ],
+    [
+     11.088,
+     33.391,
+     3.449
+    ],
+    [
+     11.265,
+     33.297,
+     3.3
+    ],
+    [
+     11.441,
+     33.219,
+     3.142
+    ],
+    [
+     11.617,
+     33.158,
+     2.976
+    ],
+    [
+     11.794,
+     33.116,
+     2.805
+    ],
+    [
+     11.97,
+     33.091,
+     2.63
+    ],
+    [
+     12.147,
+     33.085,
+     2.454
+    ],
+    [
+     12.323,
+     33.098,
+     2.278
+    ],
+    [
+     12.5,
+     33.13,
+     2.105
+    ],
+    [
+     12.676,
+     33.179,
+     1.935
+    ],
+    [
+     12.853,
+     33.246,
+     1.772
+    ],
+    [
+     13.029,
+     33.33,
+     1.617
+    ],
+    [
+     13.206,
+     33.43,
+     1.472
+    ],
+    [
+     13.382,
+     33.545,
+     1.338
+    ],
+    [
+     13.558,
+     33.674,
+     1.217
+    ],
+    [
+     13.735,
+     33.814,
+     1.11
+    ],
+    [
+     13.911,
+     33.965,
+     1.019
+    ],
+    [
+     14.088,
+     34.125,
+     0.944
+    ],
+    [
+     14.264,
+     34.292,
+     0.887
+    ],
+    [
+     14.441,
+     34.464,
+     0.848
+    ],
+    [
+     14.617,
+     34.639,
+     0.827
+    ],
+    [
+     14.794,
+     34.815,
+     0.824
+    ],
+    [
+     14.97,
+     34.991,
+     0.841
+    ],
+    [
+     15.147,
+     35.164,
+     0.875
+    ],
+    [
+     15.323,
+     35.332,
+     0.928
+    ],
+    [
+     15.5,
+     35.494,
+     0.999
+    ],
+    [
+     15.676,
+     35.647,
+     1.086
+    ],
+    [
+     15.852,
+     35.79,
+     1.189
+    ],
+    [
+     15.993,
+     35.903,
+     1.272
+    ],
+    [
+     16.134,
+     36.023,
+     1.346
+    ],
+    [
+     16.274,
+     36.149,
+     1.409
+    ],
+    [
+     16.415,
+     36.279,
+     1.461
+    ],
+    [
+     16.555,
+     36.414,
+     1.502
+    ],
+    [
+     16.696,
+     36.551,
+     1.531
+    ],
+    [
+     16.837,
+     36.691,
+     1.549
+    ],
+    [
+     16.977,
+     36.831,
+     1.555
+    ],
+    [
+     32.803,
+     52.656,
+     1.555
+    ]
+   ],
    "jm_plan": [
-    43.034,
+    43.246,
     32.535
    ],
-   "jm_rot": 0,
+   "jm_rot": 180,
    "jm_x_range": [
-    36.584,
-    49.484
+    36.796,
+    49.696
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 26.0,
+   "flex_len": 25.4,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.56,
-   "collar_top_height": 13.66,
-   "sleeve_len_axis": 6.65,
+   "frame_back_height": 15.55,
+   "collar_top_height": 13.65,
+   "sleeve_len_axis": 8.65,
    "unfolded": {
     "stiff_u": [
      -8.4,
-     8.4
+     9.0
     ],
     "stiff_v": [
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     8.9,
-     16.217
+     9.5,
+     16.978
     ],
     "hdr_stiff_u": [
-     16.717,
-     31.317
+     17.478,
+     32.803
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 24.017
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.393,
+    "ee_centre_u": 31.128,
+    "fpc_t": 0.11
    }
   },
   {
    "slot": "A3",
    "kind": "USBA",
    "module": "MOD-A",
-   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "conn": "Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)",
    "side": "O",
-   "tilt_deg": 5.51,
+   "tilt_deg": 5.49,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.44,
-   "seat_height": 6.99,
-   "seat_plan_x": 62.739,
+   "mouth_height": 18.64,
+   "seat_height": 5.0,
+   "seat_plan_x": 62.507,
    "y": 42.638,
    "stiffener_bottom_heights": [
-    5.033,
-    6.646
+    2.989,
+    4.654
    ],
    "stiffener_plan_x": [
-    54.266,
-    70.989
+    54.035,
+    71.355
    ],
    "flap": 0.5,
-   "fold_r": 2.289,
+   "fold_r": 1.65,
+   "fold_ratio": 15.0,
+   "fold_mode": "loop",
+   "fold_alpha_deg": 39.83,
+   "fold_len": 7.478,
+   "fold_low_h": 0.734,
    "fold_ok": true,
-   "fold_outer_x": 73.936,
+   "fold_outer_x": 73.663,
    "speaker_clearance": null,
+   "fpc_t": 0.11,
+   "stack_t": 1.16,
+   "paddle_x": [
+    54.019,
+    69.344
+   ],
+   "paddle_top_h": 2.26,
+   "stiff_to_paddle_gap": 0.937,
+   "tht_tips": [
+    {
+     "lead": "shell leg",
+     "u": 6.575,
+     "tip_x": 68.765,
+     "tip_h": 1.39,
+     "over_paddle": true,
+     "clr": -0.87,
+     "stub": 1.84,
+     "trim_to": 0.67
+    },
+    {
+     "lead": "shell leg",
+     "u": -6.575,
+     "tip_x": 55.675,
+     "tip_h": 2.648,
+     "over_paddle": true,
+     "clr": 0.388,
+     "stub": 1.84,
+     "trim_to": 1.84
+    },
+    {
+     "lead": "pin 5",
+     "u": 4.0,
+     "tip_x": 66.297,
+     "tip_h": 2.631,
+     "over_paddle": true,
+     "clr": 0.371,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 9",
+     "u": -4.0,
+     "tip_x": 58.334,
+     "tip_h": 3.397,
+     "over_paddle": true,
+     "clr": 1.137,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 1",
+     "u": 3.5,
+     "tip_x": 65.8,
+     "tip_h": 2.679,
+     "over_paddle": true,
+     "clr": 0.419,
+     "stub": 0.84,
+     "trim_to": 0.84
+    }
+   ],
+   "fold_keepout": {
+    "x": [
+     69.54,
+     73.96
+    ],
+    "y": [
+     39.14,
+     46.14
+    ],
+    "max_part_h": 0.53
+   },
+   "path": [
+    [
+     -8.4,
+     54.14,
+     5.754
+    ],
+    [
+     -6.66,
+     55.872,
+     5.587
+    ],
+    [
+     -4.92,
+     57.604,
+     5.421
+    ],
+    [
+     -3.18,
+     59.336,
+     5.254
+    ],
+    [
+     -1.44,
+     61.068,
+     5.088
+    ],
+    [
+     0.3,
+     62.8,
+     4.922
+    ],
+    [
+     2.04,
+     64.532,
+     4.755
+    ],
+    [
+     3.78,
+     66.264,
+     4.589
+    ],
+    [
+     5.52,
+     67.996,
+     4.422
+    ],
+    [
+     7.26,
+     69.728,
+     4.256
+    ],
+    [
+     9.0,
+     71.46,
+     4.089
+    ],
+    [
+     9.5,
+     71.958,
+     4.089
+    ],
+    [
+     9.676,
+     72.134,
+     4.08
+    ],
+    [
+     9.852,
+     72.307,
+     4.052
+    ],
+    [
+     10.028,
+     72.477,
+     4.005
+    ],
+    [
+     10.203,
+     72.64,
+     3.941
+    ],
+    [
+     10.379,
+     72.796,
+     3.86
+    ],
+    [
+     10.555,
+     72.943,
+     3.763
+    ],
+    [
+     10.731,
+     73.078,
+     3.651
+    ],
+    [
+     10.907,
+     73.2,
+     3.525
+    ],
+    [
+     11.083,
+     73.309,
+     3.386
+    ],
+    [
+     11.259,
+     73.402,
+     3.237
+    ],
+    [
+     11.434,
+     73.479,
+     3.079
+    ],
+    [
+     11.61,
+     73.538,
+     2.914
+    ],
+    [
+     11.786,
+     73.58,
+     2.743
+    ],
+    [
+     11.962,
+     73.603,
+     2.569
+    ],
+    [
+     12.138,
+     73.607,
+     2.393
+    ],
+    [
+     12.314,
+     73.593,
+     2.218
+    ],
+    [
+     12.489,
+     73.56,
+     2.045
+    ],
+    [
+     12.665,
+     73.509,
+     1.877
+    ],
+    [
+     12.841,
+     73.441,
+     1.715
+    ],
+    [
+     13.017,
+     73.355,
+     1.562
+    ],
+    [
+     13.193,
+     73.254,
+     1.418
+    ],
+    [
+     13.369,
+     73.138,
+     1.286
+    ],
+    [
+     13.545,
+     73.009,
+     1.167
+    ],
+    [
+     13.72,
+     72.867,
+     1.062
+    ],
+    [
+     13.896,
+     72.716,
+     0.973
+    ],
+    [
+     14.072,
+     72.556,
+     0.901
+    ],
+    [
+     14.248,
+     72.389,
+     0.846
+    ],
+    [
+     14.424,
+     72.217,
+     0.809
+    ],
+    [
+     14.6,
+     72.042,
+     0.791
+    ],
+    [
+     14.776,
+     71.866,
+     0.792
+    ],
+    [
+     14.951,
+     71.691,
+     0.811
+    ],
+    [
+     15.127,
+     71.52,
+     0.848
+    ],
+    [
+     15.303,
+     71.353,
+     0.904
+    ],
+    [
+     15.479,
+     71.193,
+     0.977
+    ],
+    [
+     15.655,
+     71.042,
+     1.067
+    ],
+    [
+     15.831,
+     70.901,
+     1.172
+    ],
+    [
+     15.974,
+     70.787,
+     1.259
+    ],
+    [
+     16.117,
+     70.666,
+     1.336
+    ],
+    [
+     16.261,
+     70.539,
+     1.401
+    ],
+    [
+     16.404,
+     70.406,
+     1.456
+    ],
+    [
+     16.548,
+     70.27,
+     1.499
+    ],
+    [
+     16.691,
+     70.13,
+     1.53
+    ],
+    [
+     16.834,
+     69.988,
+     1.549
+    ],
+    [
+     16.978,
+     69.844,
+     1.555
+    ],
+    [
+     32.803,
+     54.019,
+     1.555
+    ]
+   ],
    "jm_plan": [
-    63.793,
+    63.429,
     42.638
    ],
-   "jm_rot": 180,
+   "jm_rot": 0,
    "jm_x_range": [
-    57.343,
-    70.243
+    56.979,
+    69.879
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 25.9,
+   "flex_len": 25.4,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.51,
-   "collar_top_height": 13.61,
-   "sleeve_len_axis": 6.65,
+   "frame_back_height": 15.52,
+   "collar_top_height": 13.62,
+   "sleeve_len_axis": 8.66,
    "unfolded": {
     "stiff_u": [
      -8.4,
-     8.4
+     9.0
     ],
     "stiff_v": [
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     8.9,
-     16.091
+     9.5,
+     16.978
     ],
     "hdr_stiff_u": [
-     16.591,
-     31.191
+     17.478,
+     32.803
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 23.891
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.393,
+    "ee_centre_u": 31.128,
+    "fpc_t": 0.11
    }
   },
   {
    "slot": "A4",
    "kind": "USBA",
    "module": "MOD-A",
-   "conn": "kinghelm KH-3.0AF180ZJ-11.5JB (C2979037) THT",
+   "conn": "Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)",
    "side": "O",
-   "tilt_deg": 5.51,
+   "tilt_deg": 5.49,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.44,
-   "seat_height": 6.99,
-   "seat_plan_x": 62.739,
+   "mouth_height": 18.64,
+   "seat_height": 5.0,
+   "seat_plan_x": 62.507,
    "y": 32.535,
    "stiffener_bottom_heights": [
-    5.033,
-    6.646
+    2.989,
+    4.654
    ],
    "stiffener_plan_x": [
-    54.266,
-    70.989
+    54.035,
+    71.355
    ],
    "flap": 0.5,
-   "fold_r": 2.289,
+   "fold_r": 1.65,
+   "fold_ratio": 15.0,
+   "fold_mode": "loop",
+   "fold_alpha_deg": 39.83,
+   "fold_len": 7.478,
+   "fold_low_h": 0.734,
    "fold_ok": true,
-   "fold_outer_x": 73.936,
+   "fold_outer_x": 73.663,
    "speaker_clearance": null,
+   "fpc_t": 0.11,
+   "stack_t": 1.16,
+   "paddle_x": [
+    54.019,
+    69.344
+   ],
+   "paddle_top_h": 2.26,
+   "stiff_to_paddle_gap": 0.937,
+   "tht_tips": [
+    {
+     "lead": "shell leg",
+     "u": 6.575,
+     "tip_x": 68.765,
+     "tip_h": 1.39,
+     "over_paddle": true,
+     "clr": -0.87,
+     "stub": 1.84,
+     "trim_to": 0.67
+    },
+    {
+     "lead": "shell leg",
+     "u": -6.575,
+     "tip_x": 55.675,
+     "tip_h": 2.648,
+     "over_paddle": true,
+     "clr": 0.388,
+     "stub": 1.84,
+     "trim_to": 1.84
+    },
+    {
+     "lead": "pin 5",
+     "u": 4.0,
+     "tip_x": 66.297,
+     "tip_h": 2.631,
+     "over_paddle": true,
+     "clr": 0.371,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 9",
+     "u": -4.0,
+     "tip_x": 58.334,
+     "tip_h": 3.397,
+     "over_paddle": true,
+     "clr": 1.137,
+     "stub": 0.84,
+     "trim_to": 0.84
+    },
+    {
+     "lead": "pin 1",
+     "u": 3.5,
+     "tip_x": 65.8,
+     "tip_h": 2.679,
+     "over_paddle": true,
+     "clr": 0.419,
+     "stub": 0.84,
+     "trim_to": 0.84
+    }
+   ],
+   "fold_keepout": {
+    "x": [
+     69.54,
+     73.96
+    ],
+    "y": [
+     29.03,
+     36.03
+    ],
+    "max_part_h": 0.53
+   },
+   "path": [
+    [
+     -8.4,
+     54.14,
+     5.754
+    ],
+    [
+     -6.66,
+     55.872,
+     5.587
+    ],
+    [
+     -4.92,
+     57.604,
+     5.421
+    ],
+    [
+     -3.18,
+     59.336,
+     5.254
+    ],
+    [
+     -1.44,
+     61.068,
+     5.088
+    ],
+    [
+     0.3,
+     62.8,
+     4.922
+    ],
+    [
+     2.04,
+     64.532,
+     4.755
+    ],
+    [
+     3.78,
+     66.264,
+     4.589
+    ],
+    [
+     5.52,
+     67.996,
+     4.422
+    ],
+    [
+     7.26,
+     69.728,
+     4.256
+    ],
+    [
+     9.0,
+     71.46,
+     4.089
+    ],
+    [
+     9.5,
+     71.958,
+     4.089
+    ],
+    [
+     9.676,
+     72.134,
+     4.08
+    ],
+    [
+     9.852,
+     72.307,
+     4.052
+    ],
+    [
+     10.028,
+     72.477,
+     4.005
+    ],
+    [
+     10.203,
+     72.64,
+     3.941
+    ],
+    [
+     10.379,
+     72.796,
+     3.86
+    ],
+    [
+     10.555,
+     72.943,
+     3.763
+    ],
+    [
+     10.731,
+     73.078,
+     3.651
+    ],
+    [
+     10.907,
+     73.2,
+     3.525
+    ],
+    [
+     11.083,
+     73.309,
+     3.386
+    ],
+    [
+     11.259,
+     73.402,
+     3.237
+    ],
+    [
+     11.434,
+     73.479,
+     3.079
+    ],
+    [
+     11.61,
+     73.538,
+     2.914
+    ],
+    [
+     11.786,
+     73.58,
+     2.743
+    ],
+    [
+     11.962,
+     73.603,
+     2.569
+    ],
+    [
+     12.138,
+     73.607,
+     2.393
+    ],
+    [
+     12.314,
+     73.593,
+     2.218
+    ],
+    [
+     12.489,
+     73.56,
+     2.045
+    ],
+    [
+     12.665,
+     73.509,
+     1.877
+    ],
+    [
+     12.841,
+     73.441,
+     1.715
+    ],
+    [
+     13.017,
+     73.355,
+     1.562
+    ],
+    [
+     13.193,
+     73.254,
+     1.418
+    ],
+    [
+     13.369,
+     73.138,
+     1.286
+    ],
+    [
+     13.545,
+     73.009,
+     1.167
+    ],
+    [
+     13.72,
+     72.867,
+     1.062
+    ],
+    [
+     13.896,
+     72.716,
+     0.973
+    ],
+    [
+     14.072,
+     72.556,
+     0.901
+    ],
+    [
+     14.248,
+     72.389,
+     0.846
+    ],
+    [
+     14.424,
+     72.217,
+     0.809
+    ],
+    [
+     14.6,
+     72.042,
+     0.791
+    ],
+    [
+     14.776,
+     71.866,
+     0.792
+    ],
+    [
+     14.951,
+     71.691,
+     0.811
+    ],
+    [
+     15.127,
+     71.52,
+     0.848
+    ],
+    [
+     15.303,
+     71.353,
+     0.904
+    ],
+    [
+     15.479,
+     71.193,
+     0.977
+    ],
+    [
+     15.655,
+     71.042,
+     1.067
+    ],
+    [
+     15.831,
+     70.901,
+     1.172
+    ],
+    [
+     15.974,
+     70.787,
+     1.259
+    ],
+    [
+     16.117,
+     70.666,
+     1.336
+    ],
+    [
+     16.261,
+     70.539,
+     1.401
+    ],
+    [
+     16.404,
+     70.406,
+     1.456
+    ],
+    [
+     16.548,
+     70.27,
+     1.499
+    ],
+    [
+     16.691,
+     70.13,
+     1.53
+    ],
+    [
+     16.834,
+     69.988,
+     1.549
+    ],
+    [
+     16.978,
+     69.844,
+     1.555
+    ],
+    [
+     32.803,
+     54.019,
+     1.555
+    ]
+   ],
    "jm_plan": [
-    63.793,
+    63.429,
     32.535
    ],
-   "jm_rot": 180,
+   "jm_rot": 0,
    "jm_x_range": [
-    57.343,
-    70.243
+    56.979,
+    69.879
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 25.9,
+   "flex_len": 25.4,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.51,
-   "collar_top_height": 13.61,
-   "sleeve_len_axis": 6.65,
+   "frame_back_height": 15.52,
+   "collar_top_height": 13.62,
+   "sleeve_len_axis": 8.66,
    "unfolded": {
     "stiff_u": [
      -8.4,
-     8.4
+     9.0
     ],
     "stiff_v": [
      -4.4,
      4.4
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
-     8.9,
-     16.091
+     9.5,
+     16.978
     ],
     "hdr_stiff_u": [
-     16.591,
-     31.191
+     17.478,
+     32.803
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 23.891
+    "paddle_w": 6.4,
+    "hdr_centre_u": 23.393,
+    "ee_centre_u": 31.128,
+    "fpc_t": 0.11
    }
   },
   {
@@ -1063,42 +4526,325 @@
    "kind": "HDMI",
    "module": "MOD-H",
    "conn": "HOAUC HYC79-HDMIA19-105 (C711353) SMD + THT shell",
-   "side": "H",
-   "tilt_deg": -5.33,
+   "side": "O",
+   "tilt_deg": 5.57,
    "off_normal_deg": 0.0,
-   "mouth_height": 18.4,
-   "seat_height": 7.95,
-   "seat_plan_x": 43.8,
+   "mouth_height": 18.56,
+   "seat_height": 8.1,
+   "seat_plan_x": 63.017,
    "y": 107.069,
    "stiffener_bottom_heights": [
-    5.898,
-    7.682
+    5.939,
+    7.803
    ],
    "stiffener_plan_x": [
-    34.349,
-    53.466
+    53.342,
+    72.451
    ],
    "flap": 0.5,
-   "fold_r": 2.722,
+   "fold_r": 2.742,
+   "fold_ratio": 14.4,
+   "fold_mode": "C",
+   "fold_alpha_deg": 0.0,
+   "fold_len": 8.614,
+   "fold_low_h": 1.5,
    "fold_ok": true,
-   "fold_outer_x": 30.972,
+   "fold_outer_x": 75.897,
    "speaker_clearance": null,
+   "fpc_t": 0.19,
+   "stack_t": 1.24,
+   "paddle_x": [
+    57.235,
+    72.56
+   ],
+   "paddle_top_h": 2.34,
+   "stiff_to_paddle_gap": 3.599,
+   "tht_tips": [
+    {
+     "lead": "shell leg",
+     "u": 7.85,
+     "tip_x": 70.587,
+     "tip_h": 4.855,
+     "over_paddle": true,
+     "clr": 2.515,
+     "stub": 1.26,
+     "trim_to": 1.26
+    },
+    {
+     "lead": "shell leg",
+     "u": -7.85,
+     "tip_x": 54.961,
+     "tip_h": 6.379,
+     "over_paddle": false,
+     "clr": 6.379,
+     "stub": 1.26,
+     "trim_to": 1.26
+    }
+   ],
+   "fold_keepout": null,
+   "path": [
+    [
+     -9.6,
+     53.453,
+     8.942
+    ],
+    [
+     -7.68,
+     55.364,
+     8.756
+    ],
+    [
+     -5.76,
+     57.275,
+     8.57
+    ],
+    [
+     -3.84,
+     59.186,
+     8.383
+    ],
+    [
+     -1.92,
+     61.097,
+     8.197
+    ],
+    [
+     0.0,
+     63.008,
+     8.01
+    ],
+    [
+     1.92,
+     64.919,
+     7.824
+    ],
+    [
+     3.84,
+     66.83,
+     7.638
+    ],
+    [
+     5.76,
+     68.741,
+     7.451
+    ],
+    [
+     7.68,
+     70.652,
+     7.265
+    ],
+    [
+     9.6,
+     72.562,
+     7.079
+    ],
+    [
+     10.1,
+     73.06,
+     7.079
+    ],
+    [
+     10.339,
+     73.299,
+     7.069
+    ],
+    [
+     10.579,
+     73.536,
+     7.037
+    ],
+    [
+     10.818,
+     73.77,
+     6.986
+    ],
+    [
+     11.057,
+     73.998,
+     6.914
+    ],
+    [
+     11.296,
+     74.219,
+     6.822
+    ],
+    [
+     11.536,
+     74.431,
+     6.712
+    ],
+    [
+     11.775,
+     74.633,
+     6.583
+    ],
+    [
+     12.014,
+     74.823,
+     6.437
+    ],
+    [
+     12.254,
+     74.999,
+     6.276
+    ],
+    [
+     12.493,
+     75.16,
+     6.1
+    ],
+    [
+     12.732,
+     75.306,
+     5.91
+    ],
+    [
+     12.971,
+     75.435,
+     5.708
+    ],
+    [
+     13.211,
+     75.545,
+     5.496
+    ],
+    [
+     13.45,
+     75.637,
+     5.275
+    ],
+    [
+     13.689,
+     75.709,
+     5.047
+    ],
+    [
+     13.929,
+     75.76,
+     4.813
+    ],
+    [
+     14.168,
+     75.792,
+     4.576
+    ],
+    [
+     14.407,
+     75.802,
+     4.337
+    ],
+    [
+     14.646,
+     75.792,
+     4.098
+    ],
+    [
+     14.886,
+     75.76,
+     3.861
+    ],
+    [
+     15.125,
+     75.709,
+     3.627
+    ],
+    [
+     15.364,
+     75.637,
+     3.399
+    ],
+    [
+     15.604,
+     75.545,
+     3.178
+    ],
+    [
+     15.843,
+     75.435,
+     2.966
+    ],
+    [
+     16.082,
+     75.306,
+     2.764
+    ],
+    [
+     16.321,
+     75.16,
+     2.574
+    ],
+    [
+     16.561,
+     74.999,
+     2.398
+    ],
+    [
+     16.8,
+     74.823,
+     2.237
+    ],
+    [
+     17.039,
+     74.633,
+     2.091
+    ],
+    [
+     17.279,
+     74.431,
+     1.962
+    ],
+    [
+     17.518,
+     74.219,
+     1.852
+    ],
+    [
+     17.757,
+     73.998,
+     1.76
+    ],
+    [
+     17.996,
+     73.77,
+     1.688
+    ],
+    [
+     18.236,
+     73.536,
+     1.637
+    ],
+    [
+     18.475,
+     73.299,
+     1.605
+    ],
+    [
+     18.714,
+     73.06,
+     1.595
+    ],
+    [
+     34.539,
+     57.235,
+     1.595
+    ]
+   ],
    "jm_plan": [
-    41.549,
+    66.645,
     107.069
    ],
    "jm_rot": 0,
    "jm_x_range": [
-    35.099,
-    47.999
+    60.195,
+    73.095
    ],
    "jm_ok": true,
    "jm_conflicts": [],
-   "flex_len": 28.5,
+   "flex_len": 27.1,
    "plug_standoff": 0.0,
-   "frame_back_height": 15.54,
-   "collar_top_height": 13.64,
-   "sleeve_len_axis": 5.72,
+   "frame_back_height": 15.5,
+   "collar_top_height": 13.6,
+   "sleeve_len_axis": 5.53,
    "unfolded": {
     "stiff_u": [
      -9.6,
@@ -1108,17 +4854,19 @@
      -4.7,
      4.7
     ],
-    "tail_w": 6.5,
+    "tail_w": 6.4,
     "fold_u": [
      10.1,
-     18.651
+     18.714
     ],
     "hdr_stiff_u": [
-     19.151,
-     33.751
+     19.214,
+     34.539
     ],
-    "paddle_w": 8.4,
-    "hdr_centre_u": 26.451
+    "paddle_w": 6.4,
+    "hdr_centre_u": 25.129,
+    "ee_centre_u": 32.864,
+    "fpc_t": 0.19
    }
   }
  ]

@@ -1,0 +1,37 @@
+{
+ "module": "mod_usba",
+ "ses_import": true,
+ "tracks_before": 127,
+ "tracks_after": 162,
+ "teardrops": 64,
+ "pairs": {
+  "D": {
+   "P": 22.058,
+   "N": 24.674,
+   "skew": -2.615,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "SSRX": {
+   "P": 23.381,
+   "N": 20.647,
+   "skew": 2.734,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "SSTX": {
+   "P": 30.918,
+   "N": 28.285,
+   "skew": 2.633,
+   "vias_P": 0,
+   "vias_N": 0
+  }
+ },
+ "singles": {
+  "VBUS": 47.12,
+  "GND": 28.32,
+  "ID_SCL": 4.24,
+  "ID_SDA": 3.34,
+  "3V3_MOD": 5.0
+ }
+}

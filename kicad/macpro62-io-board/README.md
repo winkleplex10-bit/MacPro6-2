@@ -1,3 +1,15 @@
+> **Rev 2026-10-02 ≈ 14:55 ET (plate corrections):**
+> - **HDMI / button back to stock.** The flex trace and cover-scan frame were mirrored, so these moved:
+>   - JM11 HDMI → (66.65, 107.07), rot 0, O side.
+>   - SW1/D20 → X 43.02; J30 → (50.32, 104.5).
+>   - U60/U61 next to JM11 (B); U80 → (28.5, 108.5) B.
+>   - U30/U31 → X 34.8; HDMI pegs → (70.82, 111.9) / (55.62, 106.0).
+>   - J31 → (24.0, 10.0); J9 → (24.0, 16.0).
+>   - RJ45 ETH1 (63.664, 91.407) / ETH2 (43.145, 91.595), with T1/T2.
+> - **`io_geom.json`:** openings_outer is mirrored; the originals are in `openings_outer_asscanned`.
+> - **Checks:** DRC 0 / 0 unconnected; ERC 0 / 0.
+> - **Renders:** floorplan, renders and schematic PNG regenerated (`/workspace/cadenv/bin/python tools/floorplan.py`, since system python has no matplotlib).
+
 # MP62 I/O board (IOB) rev A0: KiCad 9 project
 
 The plan, decisions and measurements are in `/workspace/macpro62-io-board-plan.md`. The plate CAD is in `/workspace/mechanical/io_plate_v2/`.

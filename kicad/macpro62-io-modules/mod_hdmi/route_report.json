@@ -1,0 +1,47 @@
+{
+ "module": "mod_hdmi",
+ "ses_import": true,
+ "tracks_before": 168,
+ "tracks_after": 242,
+ "teardrops": 60,
+ "pairs": {
+  "CK": {
+   "P": 29.191,
+   "N": 29.769,
+   "skew": -0.579,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "D0": {
+   "P": 27.348,
+   "N": 27.847,
+   "skew": -0.499,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "D1": {
+   "P": 27.072,
+   "N": 27.723,
+   "skew": -0.652,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "D2": {
+   "P": 25.434,
+   "N": 25.955,
+   "skew": -0.521,
+   "vias_P": 0,
+   "vias_N": 0
+  }
+ },
+ "singles": {
+  "GND": 28.32,
+  "DDC_SCL": 28.76,
+  "DDC_SDA": 30.11,
+  "VBUS": 43.6,
+  "HPD": 30.27,
+  "ID_SCL": 4.25,
+  "ID_SDA": 3.35,
+  "3V3_MOD": 5.0
+ }
+}

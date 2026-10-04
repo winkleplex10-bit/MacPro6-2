@@ -1,0 +1,55 @@
+{
+ "module": "mod_usbc",
+ "ses_import": true,
+ "tracks_before": 204,
+ "tracks_after": 286,
+ "teardrops": 77,
+ "pairs": {
+  "D": {
+   "P": 24.79,
+   "N": 24.644,
+   "skew": 0.146,
+   "vias_P": 0,
+   "vias_N": 2
+  },
+  "SSRX1": {
+   "P": 30.194,
+   "N": 29.09,
+   "skew": 1.104,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "SSRX2": {
+   "P": 19.695,
+   "N": 20.245,
+   "skew": -0.55,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "SSTX1": {
+   "P": 30.625,
+   "N": 29.501,
+   "skew": 1.124,
+   "vias_P": 0,
+   "vias_N": 0
+  },
+  "SSTX2": {
+   "P": 23.632,
+   "N": 24.653,
+   "skew": -1.022,
+   "vias_P": 0,
+   "vias_N": 0
+  }
+ },
+ "singles": {
+  "GND": 28.32,
+  "VBUS": 48.94,
+  "CC1": 18.29,
+  "SBU2": 18.28,
+  "SBU1": 18.8,
+  "CC2": 26.41,
+  "ID_SCL": 4.25,
+  "ID_SDA": 3.35,
+  "3V3_MOD": 5.0
+ }
+}

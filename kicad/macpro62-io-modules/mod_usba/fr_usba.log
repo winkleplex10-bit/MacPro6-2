@@ -1,0 +1,94 @@
+2026-10-02 14:06:50.789 INFO   Freerouting v2.1.0 (build-date: 2025-04-12)
+2026-10-02 14:06:50.880 WARN   No default constructor found for field: currentLocale
+2026-10-02 14:06:50.881 INFO   Settings were loaded from freerouting.json
+java.util.concurrent.CompletionException: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:315)
+	at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:320)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:722)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+	at java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:614)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:844)
+	at java.base/java.util.concurrent.CompletableFuture$Completion.exec(CompletableFuture.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+Caused by: java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+	at app.freerouting.management.VersionChecker.processResponse(VersionChecker.java:47)
+	at java.base/java.util.concurrent.CompletableFuture$UniAccept.tryFire(CompletableFuture.java:718)
+	... 9 more
+2026-10-02 14:06:52.800 INFO   [5A6B75\72C14A] Job '5A6B75\72C14A' started at 2026-10-02T18:06:52.800173623Z
+2026-10-02 14:06:53.726 INFO   [5A6B75\72C14A] Auto-router pass #1 on board 'd65a2e1bd2ae04ba506a3a988245c759' was completed in 0.64 seconds with the score of 987.12.
+2026-10-02 14:06:53.790 INFO   [5A6B75\72C14A] Auto-router pass #2 on board '31106c6d373b6864a66921768e73ac45' was completed in 0.01 seconds with the score of 987.12.
+{
+  "host": "KiCad's Pcbnew,9.0.2+dfsg-1",
+  "unit": "mm",
+  "board": {
+    "bounding_box": {
+      "x": 1332.29,
+      "y": -955.0,
+      "width": 915.0,
+      "height": -1045.0
+    },
+    "size": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 417.29,
+      "height": 90.0
+    }
+  },
+  "layers": {
+    "total_count": 2,
+    "signal_count": 2
+  },
+  "items": {
+    "total_count": 124,
+    "trace_count": 17,
+    "via_count": 2,
+    "conduction_area_count": 0,
+    "drill_item_count": 72,
+    "pin_count": 0,
+    "component_count": 28,
+    "other_count": 5
+  },
+  "components": {
+    "total_count": 4
+  },
+  "pads": {
+    "total_count": 72
+  },
+  "nets": {
+    "total_count": 7,
+    "class_count": 3
+  },
+  "connections": {
+    "maximum_count": 19,
+    "incomplete_count": 0
+  },
+  "traces": {
+    "total_count": 17,
+    "total_segment_count": 32,
+    "total_length": 729.03204,
+    "total_weighted_length": 1038902.6,
+    "average_length": 42.88424,
+    "total_vertical_length": 10.804,
+    "total_horizontal_length": 568.693,
+    "total_angled_length": 154.78993
+  },
+  "bends": {
+    "total_count": 15,
+    "90_degree_count": 0,
+    "45_degree_count": 15,
+    "other_angle_count": 0
+  },
+  "vias": {
+    "total_count": 2,
+    "through_hole_count": 2,
+    "blind_count": 0,
+    "buried_count": 0
+  },
+  "clearance_violations": {
+    "total_count": 0
+  }
+}

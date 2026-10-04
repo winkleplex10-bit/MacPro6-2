@@ -182,7 +182,7 @@ for src, n in [(STOR, "MP62_TI_RNN0018A_VQFN-HR-18_3.5x3.5mm_PLACEHOLDER"), (STO
     lib = "MP62_Storage" if "RNN" in n else "MP62_Face"
     copy(lib, n, src)
 for lib, n in [("Package_DFN_QFN", "Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm"), ("Package_TO_SOT_SMD", "SOT-23-5"), ("Package_TO_SOT_SMD", "SOT-23-6"),
-               ("Package_TO_SOT_SMD", "SOT-23"), ("Package_TO_SOT_SMD", "SOT-563"), ("Package_SO", "SOIC-8_3.9x4.9mm_P1.27mm"), ("Package_SO", "MSOP-8_3x3mm_P0.65mm"),
+               ("Package_TO_SOT_SMD", "SOT-23"), ("Package_TO_SOT_SMD", "SOT-563"), ("Package_SO", "SOIC-8_3.9x4.9mm_P1.27mm"), ("Package_SO", "MSOP-8_3x3mm_P0.65mm"), ("Package_SO", "VSSOP-10_3x3mm_P0.5mm"), ("Resistor_SMD", "R_2512_6332Metric"),
                ("Package_SO", "TSSOP-28_4.4x9.7mm_P0.65mm"), ("Package_QFP", "LQFP-48_7x7mm_P0.5mm"), ("Package_LGA", "LGA-12_2x2mm_P0.5mm"),
                ("Crystal", "Crystal_SMD_3225-4Pin_3.2x2.5mm"), ("Inductor_SMD", "L_Bourns_SRP1038C_10.0x10.0mm"), ("Inductor_SMD", "L_1008_2520Metric"),
                ("Capacitor_SMD", "C_0402_1005Metric"), ("Capacitor_SMD", "C_0805_2012Metric"), ("Capacitor_SMD", "C_1206_3216Metric"), ("Resistor_SMD", "R_0402_1005Metric"), ("Resistor_SMD", "R_0805_2012Metric"), ("Connector_FFC-FPC", "Hirose_FH12-14S-0.5SH_1x14-1MP_P0.50mm_Horizontal"),

@@ -1,0 +1,163 @@
+(session mod_usba
+  (base_design mod_usba)
+  (placement
+    (resolution um 10)
+    (component "MP62_MOD:MP62_MOD_USB_A3_HC-USB3.0-L137-WJ"
+      (place J1 1000000 -1000000 front 0)
+    )
+    (component MP62_MOD:C_0201_0603Metric
+      (place C1 1305280 -1024000 front 0)
+    )
+    (component "MP62_MOD:MP62_Hirose_DF40C-50DP-0.4V_PLACEHOLDER"
+      (place J2 1233930 -1000000 front 0)
+    )
+    (component "MP62_MOD:DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm"
+      (place U1 1311280 -1000000 front 180)
+    )
+  )
+  (was_is
+  )
+  (routes 
+    (resolution um 10)
+    (parser
+      (host_cad "KiCad's Pcbnew")
+      (host_version "9.0.2+dfsg-1")
+    )
+    (library_out 
+      (padstack "Via[0-1]_550:300_um"
+        (shape
+          (circle F.Cu 5500 0 0)
+        )
+        (shape
+          (circle B.Cu 5500 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_400:200_um"
+        (shape
+          (circle F.Cu 4000 0 0)
+        )
+        (shape
+          (circle B.Cu 4000 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_550:300_um"
+        (shape
+          (circle F.Cu 5500 0 0)
+        )
+        (shape
+          (circle B.Cu 5500 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_550:300_um"
+        (shape
+          (circle F.Cu 5500 0 0)
+        )
+        (shape
+          (circle B.Cu 5500 0 0)
+        )
+        (attach off)
+      )
+      (padstack "Via[0-1]_400:200_um"
+        (shape
+          (circle F.Cu 4000 0 0)
+        )
+        (shape
+          (circle B.Cu 4000 0 0)
+        )
+        (attach off)
+      )
+    )
+    (network_out 
+      (net VBUS
+        (wire
+          (path B.Cu 3000
+            1085500 -996500
+            1072296 -983296
+            1037367 -983296
+            1031416 -989247
+            1031416 -997922
+            1013321 -1016017
+            1006680 -1016017
+            1001983 -1011320
+            1001983 -1004018
+            1008017 -997984
+            1008017 -988679
+            1003321 -983983
+            996680 -983983
+            988097 -992566
+            988097 -995470
+            975567 -1008000
+            965000 -1008000
+          )
+        )
+        (wire
+          (path F.Cu 3000
+            1085500 -1003500
+            1085500 -996500
+          )
+        )
+      )
+      (net D_N
+        (wire
+          (path F.Cu 900
+            990000 -1008000
+            1005438 -1023438
+            1077062 -1023438
+            1086500 -1014000
+          )
+        )
+      )
+      (net D_P
+        (wire
+          (path F.Cu 900
+            1086500 -1012000
+            1084028 -1012000
+            1074257 -1021771
+            1023771 -1021771
+            1010000 -1008000
+          )
+        )
+      )
+      (net SSTX_P
+        (wire
+          (path F.Cu 900
+            960000 -992000
+            972500 -979500
+            1086500 -979500
+          )
+        )
+      )
+      (net SSTX_N
+        (wire
+          (path F.Cu 900
+            980000 -992000
+            990500 -981500
+            1086500 -981500
+          )
+        )
+      )
+      (net SSRX_P
+        (wire
+          (path F.Cu 900
+            1020000 -992000
+            1027226 -984774
+            1085274 -984774
+            1086500 -986000
+          )
+        )
+      )
+      (net SSRX_N
+        (wire
+          (path F.Cu 900
+            1086500 -988000
+            1044000 -988000
+            1040000 -992000
+          )
+        )
+      )
+    )
+  )
+)

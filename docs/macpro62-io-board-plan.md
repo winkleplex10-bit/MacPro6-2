@@ -756,6 +756,221 @@ This is better than the riser design (one connector instead of two DF40s plus a 
 - None at the MCIO / IOB-HS1 / DISPLAY-LINK interfaces. Port nets are unchanged and only their connectors change.
 - The new parts are internal to the IOB, on I2C_PD (U95 0x70, U96 0x71, U97 0x27 private) and PD_INT_N. The ICD I²C table (`/workspace/macpro62-interface-control.md`, I2C_PD row) should list 0x70 / 0x71, and 0x70 / 0x71 must be added to the TPS65994AD address-avoid list (U-10).
 
+### 4.7.10 Changelog 2026-10-02 ≈ 14:55 ET: module follow-ups (D-IO16) and plate corrections (Aidan 13:37 ET)
+
+**A. Plate corrections (Aidan, priority)**
+
+1. **HDMI ↔ power button back to stock.** In the back view, HDMI is now at **+X (63.86, 107.07)** and the button at **−X (43.02, 108.11)**.
+   - Root cause: the 821-2222-A flex trace was digitised from its board-facing side, so it was mirrored. It is now mirrored back about X_M 53.408 (`mechanical/io_plate_v2/mirror_flex_trace.py`; ports move ≤ 0.064).
+   - The frame features and the stock-cover openings had been registered to that same grid. They are mirrored too. As a result the **audio holes move** to (42.17, 19.42) / (63.41, 19.10), and the new scan confirms (42.18, 19.38) / (63.41, 19.31).
+   - AC = (53.30, 130.15), taken from the scan.
+   - **What else had to swap:**
+     - (a) **Flex trace:** yes. It was the cause.
+     - (b) **Main-board placement:** yes.
+       - JM11 HDMI is now **O side, (66.65, 107.07), rot 0**, folding toward +X.
+       - SW1 → (43.02, 108.11); D20 → (43.02, 103.38); J30 → (50.32, 104.5).
+       - U60 TDP158 → (66.65, 111.57) B and U61 → (61.65, 111.57) B, both next to JM11.
+       - U80 → (28.5, 108.5) B, which frees the B side under JM11 for its ESD (D226–D228).
+       - Hall sensors U30/U31 → (34.8, 112 / 104).
+       - HDMI cradle pegs → (70.82, 111.9) / (55.62, 106.0).
+       - J31 flex ZIF → (24.0, 10.0), following the mirrored neck (−X edge). J9 U.FL → (24.0, 16.0).
+       - RJ45: ETH1 J25 (63.664, 91.407) and ETH2 J26 (43.145, 91.595). Labels are kept by position (i226 #1 at +X, #2 at −X), and T1/T2 follow.
+       - `io_geom.json` openings_outer is mirrored; the originals are kept in `openings_outer_asscanned`.
+     - (c) **HDMI module:** no redesign. The same MOD-H is now fitted rotated 180° (like C4–C6). Pin 1 through the fold is verified (item B6). Only the cosmetic orientation of the receptacle trapezoid flips; the plate opening is a rounded rectangle.
+   - Main-board DRC 0 / 0 unconnected; ERC 0 / 0.
+2. **Glued, no clips.**
+   - Removed: clips, the 3.0 × 1.2 rim, the Ø2.4 frame/ear pins, the LED/button-carrier pockets, the frame-screw relief and the 0.2 flex pocket.
+   - The flex is PSA-bonded flat. Assembly is aligned with dummy plugs.
+   - **Glue land:** a perimeter band 0.4–3.4 mm in from the edge, kept 0.6 clear of the flex, neck and openings. It is one continuous land of 992 mm², 1.9–3.0 mm wide on the sides and 4.5 at the ends, interrupted at Y 28–48 on −X by the neck. It is flat inner face with no added material (DXF layer `GLUE_LANDS`).
+3. **1.4 everywhere, edges included.** `SKIN = 1.4`, no rim.
+   - The STL ray-cast gives 1.372–1.423 (STL faceting); the exact B-rep probe gives 1.400 normal at the crown, the long edges and the ends.
+   - The only exception is the port plug seats: 1.09–1.40 in the default variant, 0.61–1.75 in `_tilt12p5`.
+   - All geometry moved 0.2 toward the board because the flex pocket is gone. Module seats: C 8.83 / 8.79, A 5.04 / 5.00, HDMI 8.10. `modules_geom.py`: 101 / 101 checks OK.
+4. **Scan check** (`io_plate_v2_A0_scan_overlay.png`):
+   - Opening order matches: AC → HDMI slot + button → ETH → 3 C rows → 2 A rows → audio → audio light windows.
+   - Outline 163.0 × 52.0 vs design 163.1 × 51.9.
+   - The scan shows glue residue along the long edges, which matches perimeter glue lands. It also shows grey rims around the port groups, which look like light-guide gaskets; the inside scan will settle this.
+
+**B. Module follow-ups**
+
+1. **USB-A part:** HC-USB3.0-L137-WJ (C7501870, 13.7 mm, 645 in stock, ≈ $0.12). Kinghelm C2979037 is the alternate (2 in stock, 2.2 mm taller).
+   - Loop fold R 1.664 / 1.65 at 0.11 FPC, vs the JLC rule 12t = 1.32 and the 15t loop target = 1.65: OK.
+   - Seats 5.04 / 5.00. Plug overmold stand-off 0 with the seats. Flex/plate cut-out margin 0.34.
+2. **ESD:** on the **main board, B side, directly under each JMn**.
+   - Each lane's F→B via ends on the ESD pad, so there is no stub, the GND return is short, and the 0.4 pF/0.5 pF load sits at the connector-side discontinuity rather than on a 12 µm flex.
+   - USB-C module: 2 × TPD4E02B04DQAR (C106794) for SS plus 1 × TPD4E05U06DQAR (C138714) for USB2/CC/SBU.
+   - USB-A: 1 + 1.
+   - HDMI: 3 × TPD4E05U06.
+   - Totals: 16 × 02B04 + 13 × 05U06 (D200–D228).
+3. **ID EEPROM:** BL24C02F-NTRC (C2828222, DFN-8 2 × 3, 9,945 in stock, $0.09). Alternates: AT24C02D-MAHM-T C461609 and BL24C02F-RRRC C498263. No stocked WLCSP 24C02 exists.
+4. **Routing** (JLC FPC, 12 µm Cu; `tools/zsolve.py`):
+   - 50 µm core: 90 Ω = 0.09 / 0.10 solid or 0.12 / 0.10 over the bend hatch 0.10 / 0.25; 100 Ω = 0.08 / 0.15 solid or 0.11 / 0.15 hatched.
+   - MOD-A 25 µm core: 0.10 / 0.10 over a 0.10 / 0.30 cross-hatch (≈ 92 Ω, estimate).
+   - Bends: hatched GND, no vias, teardrops on every pad/via.
+   - **MOD-A:** complete, DRC 0 errors.
+   - **MOD-H:** complete, DRC 0 errors. Intra-pair skew ≤ 0.65.
+   - **MOD-C:** **open.** The port fan-out of the inner A-row group (CC1, D± A-side, SBU1, SSRX2±) is incomplete: 8 unconnected and 1 clearance (CC2 to shell tab, 0.073). The placeholder HYCW417 shell tabs sit on the tail axis and block the centre channel. Fix with the real land pattern plus a hand fan-out on L2 under the stiffened port.
+   - A second via size of 0.40 / 0.20 is allowed (JLC 2-layer FPC charges extra only below a 0.15 hole).
+   - USB-A intra-pair skew ≈ 2.6 comes from the 2.0 mm THT pitch. Compensate at the JMn on the main board.
+5. **TDR coupons:** `macpro62-io-modules/tdr/tdr_coupon_c50` (90 / 100 Ω solid and hatched, plus a 50 Ω SE reference) and `tdr_coupon_a25` (90 Ω cross-hatch ×2, plus SE). Each line is 50 mm with a GSSG/GSG 1.00 launch. DRC 0. Panel them with the modules.
+6. **Pin 1 through the fold** (`tools/check_pin1_3d.py` → `pin1_check_3d.png`): C1, C4, A1, A3 and HDMI (O side) all OK, with the same 1→25 vector and row order header vs JMn. The placeholder pad-row pitches differ (2.6 header vs 3.2 receptacle) and must be checked against the Hirose land patterns.
+
+**Risks added:**
+- Other scan-derived main-board X positions may also be mirrored: speaker, PSU connectors, AC window (board cx 50.43), foam rails, CONN_C standoffs. Check them with the inside-face scan / stock board.
+- AUD_H jack-nose margin 0.04 (assumed Ø6.0).
+- The HDMI flex Y margin 0.165 and plate-opening margin 0.07 are unchanged.
+- The frame-screw head must be ≤ ~1.1 above the frame face (M-IOF2).
+- Glue choice: VHB/PSA die-cut vs bead; bond strength vs plug pull is carried by the clamp plate.
+- §4.7.9 risks 7, 8, 10 and 13 are resolved or updated by this section.
+
+### 4.7.11 Changelog 2026-10-02 ≈ 16:10 / 16:25 ET: plate screwed to the frame — 2× M1.6 centre screws (primary) + 4× M1.6 corner screws (secondary); glue = optional fallback
+
+**Update ≈ 16:25 ET: centre screws are now the PRIMARY plate→frame fixing (Aidan, 16:14 ET: "the couple of holes near the centre definitely have screws"). The 4 corner M1.6 screws below are now secondary.**
+
+*Re-check of the centre features.* Scan 83f0b85e, `io_plate_v2_A0_screw_candidates.png`. The centre features are soft in the scan (out of the focus plane), so all of these are visual reads, ±0.5.
+
+| # | Scan | Flex 821-2222 hole (mirrored trace) | Frame trace (mirrored) | Confidence |
+|---|---|---|---|---|
+| K9 | soft ring Ø≈2.4, core ≈1.0, at (53.2, 76.1) | HOLE_C1 Ø3.30 at (53.64, 75.53) | HOLE_C1 Ø3.17 at (53.89, 75.41) | **high** that a screw is here (Aidan + 3 sources); position ±0.3 |
+| K10 | dark disc Ø≈4.5–5 with bright arcs, at (53.0, 58.6) | HOLE_C2 Ø5.08 at (53.46, 58.16) | HOLE_C2 Ø4.84 at (53.44, 58.38) | **high**; ±0.3 |
+| K11 | faint arc + bright blob at (52.6, 19.3) | PIN_C3 Ø5.67 at (53.44, 19.27) | PIN_C3 Ø3 at (52.33, 19.23), "dark ring, bright centre" | **low**: may be a light pipe or pin; built only with `--c3` |
+| — | small ring at (47.7, 112.2) | BTN_EAR_1 Ø1.8 | — | flex button-carrier locating ear, not a screw |
+
+The three flex holes are larger than the frame holes. They are the clearance holes the stock posts pass through.
+
+**How the plate reaches the frame.** The frame is not 16.5–18 mm away; that is the plate-to-board-top gap. Plate inner face → PSA 0.05 + flex 0.12 + foam 1.0 = **1.17** → frame front face.
+- At the crown: frame front at 18.0 − 1.17 = 16.83 above the board top, frame back at 15.83.
+- The module model has `frame_back_height` 15.50–15.56 at the port columns; this is the same concentric frame.
+
+So the stock plate reaches the frame with a **post on the inner face**:
+- It runs 1.17 to the frame front, plus 0.8 into the frame hole, which is shorter than the 1.0 frame so the washer clamps the frame.
+- Post length 1.97 below the inner face; **local wall 3.37** (the only local exception besides the seats and corner bosses).
+- If M-IOF2 shows a different frame height, set `CENTRE_GAP` = D0(x) − frame-front height.
+
+**Design** (`CENTRE_SCREWS` in `build_plate.py`). Positions are the midpoint of the flex-hole and frame-hole centres.
+
+| Screw | Position | Post | Radial margins | csk (default) | pt (`_screwpt`) |
+|---|---|---|---|---|---|
+| **SCR_C1** | (53.76, 75.47) | Ø2.6 | 0.21 in the flex hole, 0.71 in the foam hole, 0.15 in the frame hole | M1.6 × 6 ISO 7046 countersunk T5 from outside: Ø3.25 csk + Ø1.8 clearance, M1.6 nut + Ø4 washer on the frame back | M1.6 × 4 thread-forming pan T5 + Ø4 washer from the frame side into a blind Ø1.30 pilot, 0.45 skin left |
+| **SCR_C2** | (53.45, 58.27) | Ø4.2 | 0.33 flex, 0.83 foam, 0.21 frame | same; washer **Ø6** because the frame hole is Ø4.84 | same; washer Ø6 |
+
+In csk mode the heads are visible on the outer face between the C columns.
+
+**Clearance (default; pt in brackets where it differs).**
+
+| Check | SCR_C1 | SCR_C2 |
+|---|---|---|
+| Nearest plate opening | C4 3.54 (3.87) | W_TB window 3.54 (3.07) |
+| Flex light pad / LED | LED (53.3, 70.9) 2.69 | PAD_TB 1.26 |
+| Receptacle shells, in plan | C4 2.67 | C6 2.03 |
+| Flex neck | 34.9 | 23.0 |
+| Speaker | 20.3 | 19.0 |
+| J31 | 64.6 | 47.7 |
+| Coin cell | 57.1 | 71.5 |
+| CONN_C / J7 (B side) | 64.9 | 46.7 |
+| J8 (B side) | 56.5 | 38.8 |
+
+- Module paddles and JMs lie under the posts in plan, but they are ≤ 2.34 above the board. The fastener ends 13.73 (14.23) above the board, so there is no conflict.
+- **Needs action 1, module clamp plate C** (PA12 1.6, top 15.26 above the board, 0.57 below the frame back). Both centre fasteners hang into it:
+  - It needs a **Ø5.0 clearance hole at SCR_C1** and a **Ø7.0 hole at SCR_C2**.
+  - At SCR_C1, the C clamp-post M2 screw at (53.19, 70.80) leaves only ≈ 0.3 of web. Move the post (H21) to Y ≤ 69.8, or merge the hole into a slot.
+- **Needs action 2, main board H13.** The frame-centre standoff (53.38, 58.38) sits directly under SCR_C2.
+  - Either drop H13 and use the nut,
+  - or make H13 an M1.6 standoff reaching the frame back (15.8) and run SCR_C2 (csk, M1.6 × 6–8) plate → frame → H13, without the nut. That is not possible in pt mode.
+  - The board is unchanged pending M-IOC4.
+- Existing item noticed: the M2 clamp-post screw heads on the clamp-plate top (15.26) have only 0.57 under the frame centre bar. They need countersinking in the clamp plate or frame clearance.
+- The corner screws were re-checked against the same list:
+  - SCR_B−: the washer/nut footprint overlaps the J31 ZIF in plan by 0.34, but sits 12.7 above the board. J28 is 1.0 away in plan. Check the flex tail route from the neck to J31 clears the SCR_B− nut by ≥ 2.
+  - SCR_T−: 0.61 in plan to the BT1 holder, 4.0 to the cell, 12.7 above the board.
+  - Speaker ≥ 19.8; flex neck ≥ 11.6.
+
+**Wall:**
+- General 1.372–1.423 (exact 1.400).
+- Seats unchanged.
+- Bosses and posts 0.37 (csk lip) to 3.37.
+- All 4 variants are single solids; z extent −4.71..0.
+
+**Centre-screw measurements (M-IOC*)**
+- **M-IOC1:** centre hole positions on the plate from the plate edges and the AC opening (calipers), and on the frame. Diameters: frame C1 Ø3.17 and C2 Ø4.84 (trace), flex Ø3.30 / Ø5.08.
+- **M-IOC2:** the stock post. Is there a post on the inner face, and what are its OD and length (inner face → frame front)? Foam thickness, free and compressed.
+- **M-IOC3:** the stock screw. Which side it is driven from, head type, Ø and height, drive, thread (M1.4 / M1.6 / M2), length. What it threads into: a nut, a clinch nut, a tapped frame, or the plastic post.
+- **M-IOC4:** is the frame also screwed to the board at C2 (decides H13)? Frame thickness at the centre bar, and frame-back height above the board (M-IOF2).
+- **M-IOC5:** is there a third screw at K11, between the audio jacks? Are the centre screws visible from outside with the case on?
+
+
+**Rev 2026-10-02 ≈ 16:10 ET: corner screws replace the glue (Aidan's suggestion, 15:55 ET).**
+
+*Evidence (`screw_candidates.py` → `io_plate_v2_A0_screw_candidates.png`).* Positions are back-view mm, read with the outer-face mapping of scan 83f0b85e.
+
+| # | Scan feature | Position (X, Y) | Size | Confidence | Interpretation / what it fastens to |
+|---|---|---|---|---|---|
+| K1 | sharp ring, image top-left | (74.77, 150.08) | dark core Ø1.0–1.3, ring Ø2.3–2.8 | high that it is a fixing point; X ±0.5, Y ±0.3 | stock plate→metal I/O frame fixing at frame hole CORNER (Ø3.16–3.50) |
+| K2 | sharp ring, image top-right | (29.84, 149.82) | same, ring partly in the corner shadow | high / ±0.5 | same |
+| K3 | sharp ring, image bottom-left | (74.60, 15.05) | same | high / ±0.5 | same |
+| K4 | ring, image bottom-right, half off the scan edge | (29.54, 13.93) | not measurable | medium / ±0.8 | same (inferred by symmetry) |
+| K5 | dark round hole at the +X edge, glue residue | (79.52, 140.89) | Ø≈2.4 | low | clip / latch window, not a screw |
+| K6–K8 | C-shaped hook marks | (30.61, 140.70), (76.61, 23.24), (28.96, 21.08) | 3–4 mm arcs | medium | stock clip points (CLIPS_L), not screws |
+| K9 | soft ring, centre column | (53.4, 75.4) | Ø≈2.5 | medium | frame HOLE_C1 (Ø3.2) locating hole, not a plate screw |
+| K10 | soft dark ring, centre column | (53.4, 58.4) | Ø≈5 | medium | frame centre screw HOLE_C2 (Ø4.85), which goes **frame → board standoff H13**. The plate does not reach it, so it is unchanged. |
+
+**What the four rings are.** K1–K4 form a 44.9–45.2 × 135.3–135.9 rectangle. That matches the frame-trace corner holes (44.2 × 135.3, Ø3.16 / 3.39 / 3.30 / 3.50).
+- The core (Ø1.0–1.3) fits either an M1.4/M1.6 screw recess (T4/T5 Torx) or a Ø1.1–1.3 threaded or pilot hole.
+- The ring (Ø2.3–2.8) fits an M1.4 head (dk 2.6–2.8) or an M1.6 countersunk head (dk 3.0).
+- The scan cannot tell a screw head from a brass insert or a hollow heat stake, so the fastener type has **low** confidence.
+- **Design choice: M1.6**, the middle of the M1.4–M2 range. It is a 3.0 head in a Ø3.2–3.5 frame hole.
+
+**Design (`FIX = "screws"`, `SCREWS`, `SCREW_MODE` in `build_plate.py`).** There are 4 screws, symmetric about the plate centre line, at a 45.1 × 135.25 pitch:
+- SCR_T− (30.64, 149.95)
+- SCR_T+ (75.74, 149.95)
+- SCR_B− (30.64, 14.70)
+- SCR_B+ (75.74, 14.70)
+
+Why symmetric: a symmetric pattern lands in the same place whichever face the scan shows, so the open inner/outer-face question does not move it. The scan rings are symmetric to within about 0.5 mm. The axes are radial, ±11.7°.
+- **Default `csk`:**
+  - Screw: M1.6 × 5 ISO 7046 / DIN 965 countersunk T5, driven from the outer face.
+  - Plate: 90° countersink Ø3.25, so the head sits 0.12 below the face; Ø1.80 clearance hole.
+  - Spigot: Ø2.8 × 0.8 on the inner face, locating in the frame corner hole. It is shorter than the 1.0 frame, so the washer bears on the frame.
+  - Frame back: DIN 125 washer Ø4 × 0.3 + M1.6 nut, or the stock clinch nut if the frame has one.
+  - Local wall 2.2; the lowest fastener point is z −6.71, which leaves 12.7 to the board top.
+- **Variant `--screw pt --tag _screwpt`:**
+  - Screw: M1.6 × 3 thread-forming-for-plastics pan/wafer T5, driven from the frame side.
+  - Plate: blind Ø1.30 pilot with 0.45 skin left, so the outer face is unbroken; same spigot.
+  - Engagement is ≈ 1.75, which is short. Use this variant only for light clamping.
+- **Glue band kept as a fallback:** DXF layer `GLUE_LANDS_OPTIONAL`, one land of 963 mm², now also 0.6 clear of the screw spigots.
+  - New DXF layers: `SCREWS` (countersink, clearance or pilot) and `SCREW_BOSSES` (spigots).
+  - New features-JSON entries: `fixing.screws` (per-screw checks) and `kind = "BOSS"`.
+
+**Clearance (all four screws OK):**
+
+| Check | Clearance |
+|---|---|
+| Outline edge, outer face | ≥ 1.29 (csk) |
+| Outline edge, inner face | ≥ 1.52 |
+| Flex outline (bottom pair) | 3.63 / 4.17 |
+| Flex outline (top pair) | > 30 |
+| Flex neck | ≥ 11.6 |
+| Nearest opening (AC, AUD_H, W_AUD_O) | ≥ 8.4 |
+| Port modules (A2 / A4 at the bottom) | ≥ 9.1 |
+| Fastener stack to board top | 12.7 vertical |
+
+Nearest F-side board parts: BT1 coin holder 2.6 in XY (SCR_T−), J31 flex ZIF 1.7 in XY (SCR_B−), L41 4.2 (SCR_T+). All are well below the nut, which sits 12.7 above the board top.
+
+**Wall:**
+- Outside the bosses: 1.372–1.423, which is STL faceting; exact 1.400.
+- Seats unchanged: 1.09–1.42 default, 0.61–1.75 tilt.
+- Bosses (allowed local exception): 0.37 at the countersink lip up to 2.2 at the spigot.
+
+**Variants rebuilt:** `io_plate_v2_A0`, `_tilt12p5`, `_eth2blank`, `_screwpt` (STEP + STL), with thickness PNGs and iso renders for each.
+
+**Disagreement to resolve.** The 100 dpi frame trace, mirrored as used, puts its corner holes 0.6–2.8 mm from the design screws: X 33.4 / 77.6 at the top, 30.3 / 74.5 at the bottom. It is a 1.3° parallelogram, which is probably scan skew.
+
+**Measurements (before printing):**
+- **M-IOS1:** frame corner-hole centres from the frame edges, and the pitch (X and Y), by caliper. Also the hole Ø, and whether the holes are plain, tapped, or carry clinch nuts or inserts.
+- **M-IOS2:** gap from the plate inner face to the frame front face at the corners (set `CORNER_GAP`), and the frame thickness (M-IOF2).
+- **M-IOS3:** the stock fastener: head type (pan / countersunk / wafer), head Ø and height, drive, thread Ø and pitch (M1.4 × 0.3 / M1.6 × 0.35 / M2 × 0.4), length, and which side it is driven from. Or it may be a heat stake or insert.
+- **M-IOS4:** the plate corner features measured on the part. Ring and core Ø, centres from the plate edges, and whether the hole is through or blind. Is it visible on the outer face with the case on?
+- **M-IOS5:** which face the scan 83f0b85e shows (open). Weak hint: the corner rings are sharp while the centre features are soft, which on a flatbed would favour the concave inner face being on the glass. The translucent light guides blur anyway.
+
 ## 5. Interconnects
 
 ### 5.1 IOB-HS1: MCIO 124 from CB J3 (CR-CB-IO1)

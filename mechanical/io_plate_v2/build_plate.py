@@ -25,7 +25,8 @@ PADS = {p["id"]: p for p in FJ["light_pads"]}
 BTN = FJ["button"]
 
 # ---------------- stack-up (z, mm; 0 = crown of the outer face) ----------------
-SKIN = 1.2                                  # plate wall = stock cover wall [ASSUMED, MEASURE M-IOS1]
+SKIN = 1.4                                  # Aidan 2026-10-02 13:37 ET: the WHOLE faceplate is 1.4 thick, edges included; only the port attachments
+                                            # (plug seats / spot-faces) differ. No rim, no clips, no pockets, no pins (rev ~14:20 ET)
 D0_CROWN, D0_EDGE = 18.0, 16.5            # Aidan 2026-10-02: board top -> cover inner face, crown / outermost port edge
 D0_EDGE_SIDE = "mean"                        # Aidan 10:21 ET: 16.5 read at the outer edge of the outermost port columns -> "mean" | "H" | "O" | a number (|u| in mm)
 _ce = [c for c in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "flex_821-2222_trace.json")))["cutouts"] if "w" in c]
@@ -43,7 +44,7 @@ Z_BOARD = -SKIN - D0_CROWN                   # stock board top at -19.2 (our boa
 FLEX_T, PSA_T = 0.12, 0.05                   # flex + its PSA [Estimate, MEASURE]
 FOAM_T = 1.0                                 # stock foam behind the flex (board side) [Aidan ~1, MEASURE]
 FRAME_T = 1.0                                # metal I/O frame thickness, assumed concentric with the plate [MEASURE M-IOF2]
-FLEX_POCKET = 0.20                           # glue pocket depth into the inner skin
+FLEX_POCKET = 0.0                            # rev ~14:20 ET: no glue pocket (1.4 everywhere); the flex is PSA-bonded flat on the inner face (was 0.20)
 FLEX_CLR = 0.20                              # pocket outline = flex outline + this (also locates the flex: +-0.2)
 LED_H, LED_CLR = 0.60, 0.25                  # plate-side LED chip height above the flex face [MEASURE], pocket clearance per side
 BTN_CARRIER_H = 0.60                         # button carrier ring height above the flex face, plate side [MEASURE]
@@ -52,7 +53,29 @@ MIN_WALL = 0.6                               # outer spot-faces keep at least th
 
 # ---------------- outline, ports ----------------
 PL_C = (53.19, 77.07); PL_W, PL_H, PL_R = 51.9, 163.1, 11.5      # outline (fit of the stock plate scan)
-RIM_H = 3.0; RIM_W = 1.2
+RIM_H = 0.0; RIM_W = 0.0                     # rev ~14:20 ET: rim removed (was 3.0 x 1.2) - the edge is the 1.4 wall itself
+GLUED = True                                 # Aidan 13:37 ET: the plate is GLUED into the frame, not clipped -> no clips; glue lands instead
+# ---- screw fixing (rev 2026-10-02 ~16:05 ET, Aidan: replace the glue with screws at the stock corner points) ----
+FIX = "screws"                               # "screws" (default) | "glue" (fallback: the GLUE_LANDS_OPTIONAL DXF layer / bead plan stays valid either way)
+SCREW_MODE = sys.argv[sys.argv.index("--screw") + 1] if "--screw" in sys.argv else "csk"
+#   "csk": M1.6 x 5 countersunk Torx (ISO 7046 / DIN 965, dk 3.0) from the OUTER face, 90 deg countersink, Ø1.8 clearance, spigot into the
+#          frame corner hole, M1.6 washer Ø4.0 x 0.3 + M1.6 nut (3.2 AF x 1.3) on the frame back (or a stock clinch nut if the frame has one, M-IOS3)
+#   "pt" : M1.6 x 3 thread-forming-for-plastics pan/wafer Torx (Ø4 head or + washer) from the FRAME side into a blind Ø1.30 pilot; outer face unbroken
+# stock corner points from the 300 dpi outer-face flatbed scan 83f0b85e (4 rings: dark core Ø1.0-1.3, ring Ø2.3-2.8): pitch 45.1 x 135.3,
+# centred on the plate X (scan symmetric to +-0.5; a symmetric pattern is the same on either face, so the inner/outer-face question does not move it)
+SCREW_PITCH_X, SCREW_Y = 45.1, (149.95, 14.70)
+SCREWS = [("SCR_T-", PL_C[0] - SCREW_PITCH_X / 2, SCREW_Y[0]), ("SCR_T+", PL_C[0] + SCREW_PITCH_X / 2, SCREW_Y[0]),
+          ("SCR_B-", PL_C[0] - SCREW_PITCH_X / 2, SCREW_Y[1]), ("SCR_B+", PL_C[0] + SCREW_PITCH_X / 2, SCREW_Y[1])] if FIX == "screws" else []
+SCREW_D = 1.6; SCREW_CLR_D = 1.80; SCREW_PILOT_D = 1.30; SCREW_CSK_D = 3.25   # csk Ø at the surface (90 deg): dk 3.0 head sits 0.12 below the outer face
+SCREW_PT_SKIN = 0.45                         # "pt": material left under the blind pilot on the outer face
+SPIGOT_OD = 2.8; SPIGOT_L = 0.8              # locating spigot into the frame corner hole (scan Ø3.16-3.50) - shorter than FRAME_T so the washer/head bears on the frame
+CORNER_GAP = 0.0                             # plate inner face -> frame front face at the corners (glue band lands on the frame lip: assumed 0, MEASURE M-IOS2)
+BASE_OD = 4.6                                # boss base (only if CORNER_GAP > 0)
+GLUE_EDGE, GLUE_KEEP, GLUE_BAND = 0.4, 0.6, 3.0              # glue land = inner-face band from GLUE_EDGE inside the outline to GLUE_KEEP outside the flex / openings
+PLATE_SIDE_POCKETS = False                   # LED / button-carrier pockets: OFF - the mirrored flex trace puts the LEDs + carrier on the BOARD side (inside-face scan to confirm)
+PINS_ON = False                              # Ø2.4 frame pins + ear pins: OFF (1.4 everywhere; glue-in, located by a port-plug jig)
+SCREW_RELIEF_ON = False                      # frame centre-screw head relief: OFF (needs head <= flex + PSA + foam ~1.1 above the frame face, M-IOF2)
+ETH2_BLANK_RECESS = False                    # blank ETH2 legend recess: OFF (would leave 0.8 wall)
 XH, XO = CUT["C1"]["cx"], CUT["C4"]["cx"]                        # USB-C columns from the flex cut-outs (43.09 / 63.69)
 OPEN = []   # (id, kind, cx, cy, w, h, r)   plate opening = straight through the skin
 for i in range(3):
@@ -63,8 +86,8 @@ for a in ("A1", "A2", "A3", "A4"):
 OPEN.append(("ETH1", "RJ45", CUT["ETH1"]["cx"], CUT["ETH1"]["cy"], 13.0, 10.4, 0.5))
 if ETH2 == "open": OPEN.append(("ETH2", "RJ45", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7, 0.5))
 OPEN.append(("HDMI", "HDMI", CUT["HDMI"]["cx"], CUT["HDMI"]["cy"], 15.6, 5.7, 1.0))
-OPEN.append(("AC", "AC", 52.08, 129.95, 34.55, 24.65, 3.0))
-ROUND = [("AUD_H", 43.4, 19.1, 4.8), ("AUD_O", 64.65, 19.4, 4.8), ("PWR_BTN", BTN["cx"], BTN["cy"], 12.4)]   # audio = stock plate positions (stock audio module)
+OPEN.append(("AC", "AC", 53.30, 130.15, 34.55, 24.65, 3.0))   # rev ~14:25 ET: centre from the outer-face flatbed scan 83f0b85e (was 52.08, 129.95 from the cover photo); size kept
+ROUND = [("AUD_H", 42.17, 19.42, 4.8), ("AUD_O", 63.41, 19.1, 4.8), ("PWR_BTN", BTN["cx"], BTN["cy"], 12.4)]   # audio = stock cover-scan holes MIRRORED about X_M 53.408 (2026-10-02 outer-face scan: 42.18,19.38 / 63.41,19.31)
 WINDOWS = [("W_HDMI", PADS["PAD_HDMI"]["cx"], PADS["PAD_HDMI"]["cy"], 7.0, 1.6, 0.6), ("W_ETH", PADS["PAD_ETH"]["cx"], PADS["PAD_ETH"]["cy"], 3.0, 5.0, 1.0),
            ("W_TB", PADS["PAD_TB"]["cx"], PADS["PAD_TB"]["cy"], 3.0, 5.0, 1.0), ("W_USB", PADS["PAD_USB"]["cx"], PADS["PAD_USB"]["cy"], 3.0, 6.0, 1.0),
            ("W_AUD_H", PADS["PAD_AUD_H"]["cx"], PADS["PAD_AUD_H"]["cy"], 4.0, 2.4, 0.8), ("W_AUD_O", PADS["PAD_AUD_O"]["cx"], PADS["PAD_AUD_O"]["cy"], 4.0, 2.4, 0.8)]
@@ -73,10 +96,11 @@ CLIP_B = [(44.1, 2.7)]
 CLIPS = [(x, y, "x-") for x, y in CLIPS_L] + [(2 * PL_C[0] - x, y, "x+") for x, y in CLIPS_L] + \
         [(x, y, "y-") for x, y in CLIP_B] + [(2 * PL_C[0] - x, y, "y-") for x, y in CLIP_B]
 CLIP_T, CLIP_W, CLIP_L, CLIP_HOOK = 1.2, 5.0, 6.0, 0.5
-FRAME_SCREW = (53.38, 58.38); SCREW_POCKET_D, SCREW_POCKET_DEPTH = 6.0, 0.6
-LOCATE_PINS = [("PIN_C1", 52.93, 75.41, 2.4), ("PIN_C3", 54.49, 19.23, 2.4)]; PIN_LEN = 2.5    # frame holes (frame scan); pass the flex holes Ø3.3 / Ø5.67
+FRAME_SCREW = (53.436, 58.38); SCREW_POCKET_D, SCREW_POCKET_DEPTH = 6.0, 0.6   # screw mirrored about X 53.408 with the flex (was 53.38)
+LOCATE_PINS = [("PIN_C1", 53.886, 75.41, 2.4), ("PIN_C3", 52.326, 19.23, 2.4)]   # rev ~14:20 ET mirrored with the flex trace about X 53.408 (were 52.93 / 54.49); PIN_LEN = 2.5    # frame holes (frame scan); pass the flex holes Ø3.3 / Ø5.67
 EAR_PINS = [(h["id"], h["cx"], h["cy"], 1.4) for h in FJ["holes"] if h["id"].startswith("BTN_EAR")]; EAR_PIN_LEN = 0.8   # locate the button end of the flex
-NECK = (76.0, FJ["neck"]["y"][0] - 0.5, 81.5, FJ["neck"]["y"][1] + 0.5)   # rim notch where the flex neck leaves over the +X edge
+_nx = FJ["neck"]["x"]; _out = 1 if (_nx[0] + _nx[1]) / 2 > PL_C[0] else -1     # rev ~14:20 ET: neck side follows the (mirrored) trace -> now the -X edge
+NECK = (_nx[0] - (0.15 if _out > 0 else 0.9), FJ["neck"]["y"][0] - 0.5, _nx[1] + (0.9 if _out > 0 else 0.15), FJ["neck"]["y"][1] + 0.5)   # where the flex neck leaves over the plate edge
 # outer spot-faces (plug overmold relief) per USB-C column: (id, cx, cy, w, h, r); floor = flat, >= MIN_WALL everywhere
 _cy = [CUT["C%d" % k]["cy"] for k in (1, 2, 3)]
 RELIEF = []   # rev 10:30 ET: tilted ports, mouth tangent to the face -> no overmold spot-faces needed
@@ -90,15 +114,16 @@ AXIS_SHIFT_OUT = {}                          # extra OUTBOARD axis shift at the 
 AXIS_BALANCE = True                          # shift each tilted axis along X (at the flex plane) to maximise the smallest flex / foam / frame-slot margin
 TILT_SEAT = True                             # flat plug seats on the OUTER face, perpendicular to the port axis (reduce the overmold stand-off of an off-normal port)
 SEAT_CLR, SEAT_MIN_WALL = 0.25, 0.6          # seat = plug overmold + 2 x SEAT_CLR; the floor keeps >= SEAT_MIN_WALL of skin (inner face stays smooth for the flex)
-RISER_T = 1.16                               # D-IO16 port module: stack below the connector seat = FPC 0.11 + stiffener PSA 0.05 + FR4 stiffener 1.0 (the "riser_*" keys keep their names)
-CONN_H = {"USBC": 10.0, "USBA": 11.5, "HDMI": 10.5}   # catalogue heights of the riser connectors (mating face above the riser top)
+RISER_T = {"USBC": 1.24, "USBA": 1.16, "HDMI": 1.24}   # D-IO16 port module stack below the connector seat = FPC + stiffener PSA 0.05 + FR4 1.0 (rev ~13:30 ET: MOD-C / MOD-H on the
+                                             # JLC 2-layer 50 um PI core FPC 0.19 for 90/100 ohm on a solid GND; MOD-A on the 25 um core 0.11 for its tighter loop fold). Keys keep the "riser_*" names
+CONN_H = {"USBC": 10.0, "USBA": 13.7, "HDMI": 10.5}   # catalogue heights of the riser connectors (mating face above the riser top)
 LEGEND = [("blank ETH2 recess", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7)] if ETH2 == "blank" else []
 # connector envelopes: shell (passes plate + flex), overmold of the mating plug (spec max / typical)
-SHELL = {"USBC": dict(shell=(8.94, 3.26), overmold=(12.35, 6.5)), "USBA": dict(shell=(13.2, 5.7), overmold=(16.0, 8.0)),
+SHELL = {"USBC": dict(shell=(8.94, 3.26), overmold=(12.35, 6.5)), "USBA": dict(shell=(13.3, 5.7), overmold=(16.0, 8.0)),
          "HDMI": dict(shell=(15.2, 5.5), overmold=(20.0, 10.5)), "RJ45": dict(body=(16.2, 17.0), plug=(11.7, 8.2))}
 PARTS = {
     "USBC": dict(mpn="HOAUC HYCW417-USBC24-180B", lcsc="C5342202", h=10.0, note="USB 3.1 Type-C 24P vertical, ALL-SMD (signal + shell tabs) for FPC mounting, L 10.0 (VERIFY drawing: height / shell tabs); alt SHOU HAN TYPE-C 24PLT-H10.5 C3151750 (THT shell legs) with CONN_H 10.5"),
-    "USBA": dict(mpn="kinghelm KH-3.0AF180ZJ-11.5JB", lcsc="C2979037", h=11.5, note="USB 3.0 Type-A 9P vertical, L 11.5, THT signal + shell legs -> through the FPC + drilled FR4 stiffener, JLC selective solder (no all-SMD vertical USB 3 A found on LCSC)"),
+    "USBA": dict(mpn="Hong Cheng HC-USB3.0-L137-WJ", lcsc="C7501870", h=13.7, note="USB 3.0 Type-A 9P vertical, H 13.7, shell 13.30 x 5.70 SPCC Ni (solderable sleeve), THT 9 x D0.70 + 2 shell legs D2.30 at 13.15 (HC drawing, rev A); 35 N mating max, 1500 cycles. Through the FPC + drilled FR4 stiffener, JLC selective solder. Alternate: kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5: set CONN_H 11.5)"),
     "HDMI": dict(mpn="HOAUC HYC79-HDMIA19-105", lcsc="C711353", h=10.5, note="HDMI-A 19P vertical, SMD signals + THT shell legs (through the FR4 stiffener), H 10.5 (front shell must be <= 15.4 x 5.6 to pass the flex: verify); HDMI port module"),
     "RJ45": dict(mpn="Lingqiang ZJLQ-RJ45-SMD-PCB125-8P8C (vertical SMD, unshielded, no magnetics, no LED; height not on LCSC page: VERIFY <= 13.0) + JASN V24P05S 2.5G magnetics", lcsc="C55547809 + C2827281", h=12.0,
                  note="D-IO15: non-magnetic vertical RJ45 on the main board + discrete JASN V24P05S (SMD-24P 15.1 x 7.1, 1:1 CT, 180 uH, 1.5 kVrms, IEEE 802.3bz, LCSC $0.63 @10)")}
@@ -125,6 +150,7 @@ def flex_dist(px, py):   # signed distance to the flex outline (negative inside)
     inside = MPath(FLEX_POLY).contains_point((px, py)) or (NECK[0] <= px <= NECK[2] and NECK[1] <= py <= NECK[3])
     return -d if inside else d
 dropped_clips = []; keep = []
+if GLUED: CLIPS = []                          # glued plate: every clip removed (stock clip points kept only as documentation in CLIPS_L / CLIP_B)
 for x, y, o in CLIPS:
     if (x, y) in CLIPS_L + CLIP_B: keep.append((x, y, o)); continue     # stock clip points always stay (the stock flex lived with them)
     hw, hh = ((CLIP_T + 2 * CLIP_HOOK) / 2, CLIP_W / 2) if o[0] == "x" else (CLIP_W / 2, (CLIP_T + 2 * CLIP_HOOK) / 2)
@@ -133,8 +159,9 @@ for x, y, o in CLIPS:
 CLIPS = keep
 
 plate = prism(PL_W, PL_H, PL_R).intersect(cyl(R0)).cut(cyl(R0 - SKIN))      # constant wall, inner face concentric (one smooth cylinder)
-rim = prism(PL_W, PL_H, PL_R).cut(prism(PL_W - 2 * RIM_W, PL_H - 2 * RIM_W, PL_R - RIM_W)).intersect(cyl(R0 - SKIN + 0.02)).cut(cyl(R0 - SKIN - RIM_H))
-plate = plate.union(rim)
+if RIM_H > 0:
+    rim = prism(PL_W, PL_H, PL_R).cut(prism(PL_W - 2 * RIM_W, PL_H - 2 * RIM_W, PL_R - RIM_W)).intersect(cyl(R0 - SKIN + 0.02)).cut(cyl(R0 - SKIN - RIM_H))
+    plate = plate.union(rim)
 report = []
 for x, y, o in CLIPS:
     z_ = zi(x)
@@ -146,13 +173,12 @@ for x, y, o in CLIPS:
         hook = cq.Workplane("XY").workplane(offset=z_ - CLIP_L + 1.2).center(x, y - (CLIP_T / 2 + CLIP_HOOK / 2)).rect(CLIP_W, CLIP_HOOK).extrude(-1.2)
     plate = plate.union(tab).union(hook)
 for x, y, o in dropped_clips: report.append(("CLIP_DROPPED", "CLIP", x, y, CLIP_T, CLIP_W, "mirrored clip collides with the 821-2222 flex/neck -> removed"))
-plate = plate.cut(cq.Workplane("XY").workplane(offset=zi(FRAME_SCREW[0]) - 0.01).center(*FRAME_SCREW).circle(SCREW_POCKET_D / 2).extrude(SCREW_POCKET_DEPTH + 0.01))
+if SCREW_RELIEF_ON: plate = plate.cut(cq.Workplane("XY").workplane(offset=zi(FRAME_SCREW[0]) - 0.01).center(*FRAME_SCREW).circle(SCREW_POCKET_D / 2).extrude(SCREW_POCKET_DEPTH + 0.01))
 # glue pocket (flex outline + FLEX_CLR, FLEX_POCKET into the skin) + neck notch through the rim
 fl = cq.Workplane("XY").workplane(offset=-20).polyline(FLEX_POLY).close().offset2D(FLEX_CLR).extrude(22)
 fl = fl.union(boxz((NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1], 0.3, -20, 2))
-plate = plate.cut(fl.intersect(cyl(R0 - SKIN + FLEX_POCKET)))
-report.append(("FLEX_POCKET", "GLUE", PL_C[0], PL_C[1], 0, 0, "821-2222-A glue pocket %.2f deep (outline + %.2f), wall left %.2f; inner face otherwise one smooth cylinder (no bosses); rim notched X %.1f-%.1f, Y %.1f-%.1f" % (
-    FLEX_POCKET, FLEX_CLR, SKIN - FLEX_POCKET, NECK[0], NECK[2], NECK[1], NECK[3])))
+if FLEX_POCKET > 0: plate = plate.cut(fl.intersect(cyl(R0 - SKIN + FLEX_POCKET)))
+report.append(("FLEX_BOND", "GLUE", PL_C[0], PL_C[1], 0, 0, "821-2222-A PSA-bonded FLAT on the 1.4 inner face (no pocket; was 0.20 deep). Located by the port-plug jig (+-0.2)"))
 # clearance pockets for the plate-side parts of the flex (LED chips, button carrier ring)
 R_FLEXFACE = R0 - SKIN + FLEX_POCKET - PSA_T          # plate-side face of the flex
 R_LEDPOCKET = R_FLEXFACE + LED_H + POCKET_GAP
@@ -161,10 +187,17 @@ led_cut = None
 for k, l in enumerate(FJ["leds"]):
     b = boxz(l["cx"], l["cy"], l["w"] + 2 * LED_CLR, l["h"] + 2 * LED_CLR, 0.3, -20, 2)
     led_cut = b if led_cut is None else led_cut.union(b)
-plate = plate.cut(led_cut.intersect(cyl(R_LEDPOCKET)))
-plate = plate.cut(cq.Workplane("XY").workplane(offset=-20).center(BTN["cx"], BTN["cy"]).circle(BTN["ring_d"] / 2 + 0.3).extrude(22).intersect(cyl(R_BTNPOCKET)))
-report.append(("LED_POCKETS", "POCKET", 0, 0, 0, 0, "%d pockets (chip + %.2f/side), %.2f above the flex face, wall left %.2f" % (len(FJ["leds"]), LED_CLR, LED_H + POCKET_GAP, R0 - R_LEDPOCKET)))
-report.append(("BTN_CARRIER_POCKET", "POCKET", BTN["cx"], BTN["cy"], BTN["ring_d"] + 0.6, BTN["ring_d"] + 0.6, "Ø%.2f, %.2f above the flex face, wall left %.2f (carrier height TO MEASURE)" % (BTN["ring_d"] + 0.6, BTN_CARRIER_H + POCKET_GAP, R0 - R_BTNPOCKET)))
+if PLATE_SIDE_POCKETS:
+    plate = plate.cut(led_cut.intersect(cyl(R_LEDPOCKET)))
+    plate = plate.cut(cq.Workplane("XY").workplane(offset=-20).center(BTN["cx"], BTN["cy"]).circle(BTN["ring_d"] / 2 + 0.3).extrude(22).intersect(cyl(R_BTNPOCKET)))
+if PLATE_SIDE_POCKETS:
+    report.append(("LED_POCKETS", "POCKET", 0, 0, 0, 0, "%d pockets (chip + %.2f/side), %.2f above the flex face, wall left %.2f" % (len(FJ["leds"]), LED_CLR, LED_H + POCKET_GAP, R0 - R_LEDPOCKET)))
+    report.append(("BTN_CARRIER_POCKET", "POCKET", BTN["cx"], BTN["cy"], BTN["ring_d"] + 0.6, BTN["ring_d"] + 0.6, "carrier pocket"))
+else:
+    report.append(("NO_POCKETS", "NOTE", 0, 0, 0, 0, "no LED / button-carrier pockets: the mirrored 821-2222 trace puts the %d LEDs and the button carrier on the BOARD side of the flex (inside-face scan to confirm)" % len(FJ["leds"])))
+report.append(("NO_CLIPS_NO_RIM", "NOTE", 0, 0, 0, 0, "screwed (glue optional) plate: %d stock clip points + the 3.0 x 1.2 rim removed; edges = the 1.4 wall" % (len(CLIPS_L) * 2 + len(CLIP_B) * 2)))
+if not PINS_ON: report.append(("NO_PINS", "NOTE", 0, 0, 0, 0, "Ø2.4 frame pins and button-ear pins removed (1.4 everywhere); align with dummy plugs in the port openings while the glue cures"))
+if not SCREW_RELIEF_ON: report.append(("NO_SCREW_RELIEF", "NOTE", FRAME_SCREW[0], FRAME_SCREW[1], 0, 0, "frame centre-screw relief removed: head must stay <= ~1.1 above the frame face (flex 0.12 + PSA 0.05 + foam ~1.0), CHECK M-IOF2"))
 # outer spot-faces at the USB-C columns
 relief_info = {}
 for rid, x, y, w, h, r in RELIEF:
@@ -179,7 +212,14 @@ def tilt_of(x):
     if TILT_OVERRIDE_DEG is not None: a = math.copysign(math.radians(TILT_OVERRIDE_DEG), u)
     return a
 fr = json.load(open(os.path.join(HERE, "..", "..", "bracket", "io_frame", "io_frame.json")))["features"]
-SLOT = {"USBC_H": "TALL_R", "USBC_O": "TALL_L", "USBA_H": "SQ_R", "USBA_O": "SQ_L", "HDMI": "SMALL_R1", "ETH2": "SMALL_R2"}
+# rev ~14:20 ET: the frame scan was registered to the (mirrored) stock port grid (pairs incl. HDMI <-> SMALL_R1), so it is mirrored with the flex
+X_MIRROR = FJ.get("mirror", {}).get("x_m")
+if X_MIRROR:
+    for _k, _f in fr.items():
+        if "cx" in _f: _f["cx"] = 2 * X_MIRROR - _f["cx"]
+    SLOT = {"USBC_H": "TALL_L", "USBC_O": "TALL_R", "USBA_H": "SQ_L", "USBA_O": "SQ_R", "HDMI": "SMALL_R1", "ETH1": "SMALL_R2"}   # names = scan names (L/R now = -X/+X)
+else:
+    SLOT = {"USBC_H": "TALL_R", "USBC_O": "TALL_L", "USBA_H": "SQ_R", "USBA_O": "SQ_L", "HDMI": "SMALL_R1", "ETH2": "SMALL_R2"}
 R_FB = R_FLEXFACE - FLEX_T; R_FOAM = R_FB - FOAM_T; R_FRB = R_FOAM - FRAME_T
 _TG = {}
 def tilt_geom(oid, kind, x, y, w):
@@ -238,15 +278,166 @@ for oid, x, y, dd in ROUND:
     plate = plate.cut(cq.Workplane("XY").workplane(offset=10).center(x, y).circle(dd / 2).extrude(-30)); report.append((oid, "ROUND", x, y, dd, dd, "through"))
 for wid, x, y, w, h, r in WINDOWS:
     plate = plate.cut(boxz(x, y, w, h, r, 10.0, -20.0)); report.append((wid, "LIGHT_WINDOW", x, y, w, h, "through window over the flex light-guide pad"))
-for pid, x, y, dd in LOCATE_PINS:
+for pid, x, y, dd in (LOCATE_PINS if PINS_ON else []):
     plate = plate.union(cq.Workplane("XY").workplane(offset=zi(x) + 0.3).center(x, y).circle(dd / 2).extrude(-(PIN_LEN + 0.3)).faces("<Z").chamfer(0.3))
     report.append((pid, "PIN", x, y, dd, dd, "locating pin Ø%.1f x %.1f into the frame hole, through the flex hole" % (dd, PIN_LEN)))
-for pid, x, y, dd in EAR_PINS:
+for pid, x, y, dd in (EAR_PINS if PINS_ON else []):
     plate = plate.union(cq.Workplane("XY").workplane(offset=zi(x) + FLEX_POCKET + 0.01).center(x, y).circle(dd / 2).extrude(-(EAR_PIN_LEN + FLEX_POCKET)).faces("<Z").chamfer(0.2))
     report.append((pid, "PIN", x, y, dd, dd, "flex locating pin Ø%.1f x %.1f in the button-carrier ear hole Ø1.8" % (dd, EAR_PIN_LEN)))
-for nm, x, y, w, h in LEGEND:
+SCREW_CHECK = []
+# ---- centre screws (rev 2026-10-02 ~16:20 ET, Aidan 16:14 ET: the holes near the plate centre DEFINITELY carry plate->frame screws = PRIMARY fixings;
+# the 4 corner M1.6 = secondary). They sit on the flex holes HOLE_C1 (Ø3.3) / HOLE_C2 (Ø5.08), which are the clearance holes the stock posts pass through,
+# and on the frame holes HOLE_C1 (Ø3.17) / HOLE_C2 (Ø4.84). Position = midpoint of the flex-hole and (mirrored) frame-hole centres (0.27 / 0.22 apart).
+# The plate reaches the frame through a POST standing off the inner face: plate inner face -> PSA 0.05 + flex 0.12 + foam 1.0 = 1.17 -> frame front face
+# (frame front at D0_crown 18.0 - 1.17 = 16.83 above the board top, back at 15.83; module model frame_back_height 15.50-15.56 at the port columns).
+CENTRE_GAP = PSA_T + FLEX_T + FOAM_T + FLEX_POCKET   # 1.17: post length from the inner face to the frame front face [M-IOC2]
+CENTRE_C3 = "--c3" in sys.argv                      # third centre point K11 / PIN_C3 (flex hole Ø5.67, frame Ø3 feature): low confidence -> OFF by default
+_fh = {h["id"]: h for h in FJ["holes"]}
+def _mid(hid):
+    f, m = _fh[hid], fr[hid]; return ((f["cx"] + m["cx"]) / 2, (f["cy"] + m["cy"]) / 2)
+CENTRE_SCREWS = [("SCR_C1", *_mid("HOLE_C1"), 2.6, "HOLE_C1", 4.0), ("SCR_C2", *_mid("HOLE_C2"), 4.2, "HOLE_C2", 6.0)] + \
+                ([("SCR_C3", *_mid("PIN_C3"), 2.6, "PIN_C3", 4.0)] if CENTRE_C3 else [])
+CENTRE_SCREWS = CENTRE_SCREWS if FIX == "screws" else []
+# all screws: (id, x, y, post OD, gap inner face -> frame front, frame hole id, washer Ø, role)
+ALL_SCREWS = [(sid, x, y, SPIGOT_OD, CORNER_GAP, None, 4.0, "secondary (corner)") for sid, x, y in SCREWS] + \
+             [(sid, x, y, od, CENTRE_GAP, fh, wd, "PRIMARY (centre)") for sid, x, y, od, fh, wd in CENTRE_SCREWS]
+def _screw_local(mode, od, gap):
+    """post + hole in a local frame: z = 0 on the outer face, -z = radially inward. Returns (add, cut, tip depth)."""
+    z_in = -SKIN; z_tip = z_in - gap - SPIGOT_L
+    add = cq.Workplane("XY").workplane(offset=z_in + 0.3).circle(od / 2).extrude(z_tip - z_in - 0.3).faces("<Z").chamfer(0.2)
+    if 0 < gap and od == SPIGOT_OD and gap == CORNER_GAP: add = add.union(cq.Workplane("XY").workplane(offset=z_in + 0.3).circle(BASE_OD / 2).extrude(-(gap + 0.3)))
+    if mode == "csk":
+        cut = cq.Workplane("XY").workplane(offset=1.0).circle(SCREW_CLR_D / 2).extrude(z_tip - 1.5)
+        rs, rh = SCREW_CSK_D / 2, SCREW_CLR_D / 2
+        cut = cut.union(cq.Workplane("XY").add(cq.Solid.makeCone(rs + 0.5, rh, (rs + 0.5 - rh), cq.Vector(0, 0, 0.5), cq.Vector(0, 0, -1))))
+    else:
+        cut = cq.Workplane("XY").workplane(offset=-SCREW_PT_SKIN).circle(SCREW_PILOT_D / 2).extrude(z_tip - 0.5 + SCREW_PT_SKIN)
+        cut = cut.union(cq.Workplane("XY").add(cq.Solid.makeCone(SCREW_PILOT_D / 2 + 0.3, SCREW_PILOT_D / 2, 0.3, cq.Vector(0, 0, z_tip - 0.01), cq.Vector(0, 0, 1))))
+    return add, cut, -z_tip
+def _place(wp, x, y):
+    a = math.asin((x - PL_C[0]) / R0)
+    return wp.rotate((0, 0, 0), (0, 1, 0), math.degrees(a)).translate((PL_C[0] + R0 * math.sin(a), y, -R0 + R0 * math.cos(a)))
+def _rbox_d(px, py, cx, cy, w, h, r):   # distance from a point to a rounded box (outside > 0)
+    dx = max(abs(px - cx) - (w / 2 - r), 0); dy = max(abs(py - cy) - (h / 2 - r), 0); return math.hypot(dx, dy) - r if (dx or dy) else -min(w / 2 - abs(px - cx), h / 2 - abs(py - cy))
+def _bb_d(px, py, x0, x1, y0, y1): return math.hypot(max(x0 - px, 0, px - x1), max(y0 - py, 0, py - y1))
+_MJ = json.load(open(os.path.join(HERE, "..", "..", "kicad", "macpro62-io-modules", "modules.json"))); _MODS = _MJ["modules"]
+_PLC = json.load(open(os.path.join(HERE, "..", "..", "kicad", "macpro62-io-board", "tools", "placement.json")))
+_GEO = json.load(open(os.path.join(HERE, "..", "..", "kicad", "macpro62-io-board", "tools", "io_geom.json")))
+CLAMP_TOP = max(m["collar_top_height"] for m in _MODS) + _MJ["stack"]["plate_t"]          # module clamp plate top above the board (collar 13.66 + PA12 1.6)
+_CLAMP_GRP = {"C": (47.0, 81.0), "A": (24.0, 51.0), "HDMI": (106.0, 117.5)}                  # clamp plate Y spans (posts +-~2.5 / outer rows + rec/2), X ~ 38-68 (README: ~30 wide)
+_SPK = _GEO["speaker"]; _COIN = _GEO["coin"]
+for sid, x, y, od, gap, fhid, wd, role in ALL_SCREWS:
+    add, cut, tipd = _screw_local(SCREW_MODE, od, gap)
+    plate = plate.union(_place(add, x, y)).cut(_place(cut, x, y))
+    r_out = (SCREW_CSK_D if SCREW_MODE == "csk" else od) / 2; r_in = (BASE_OD if (gap > 0 and fhid is None) else od) / 2
+    r_fast = max(wd / 2, 1.85 if SCREW_MODE == "csk" else 1.6)                               # washer / nut corners (3.2 AF) / pan head, below the frame
+    edge = -_rbox_d(x, y, PL_C[0], PL_C[1], PL_W, PL_H, PL_R)
+    a = math.asin((x - PL_C[0]) / R0); z_o = -R0 + R0 * math.cos(a)
+    prot = (0.3 + 1.3 + 0.5) if SCREW_MODE == "csk" else (0.3 + 1.3)                          # below the frame back: washer + nut + tip | washer + pan head
+    depth = SKIN + gap + FRAME_T + prot; z_low = z_o - depth * math.cos(a); h_low = z_low - Z_BOARD
+    h_frame_back = z_o - (SKIN + gap + FRAME_T) * math.cos(a) - Z_BOARD
+    if fhid:   # post passes the flex hole + foam hole and enters the frame hole
+        fh_, frh = _fh[fhid], fr[fhid]
+        flex = fh_["d"] / 2 - od / 2 - math.hypot(x - fh_["cx"], y - fh_["cy"]); foam = flex + 0.5
+        frame = frh["eq_d"] / 2 - od / 2 - math.hypot(x - frh["cx"], y - frh["cy"])
+    else:
+        flex = flex_dist(x, y) - r_in; foam = flex
+        crn = min(((math.hypot(x - v["cx"], y - v["cy"]), k, v["eq_d"]) for k, v in fr.items() if k.startswith("CORNER")))
+        frame = None
+    neck = _rbox_d(x, y, (NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1], 0.3) - r_in
+    opn = min([(_rbox_d(x, y, ox, oy, w, h, r) - r_out, oid) for oid, k_, ox, oy, w, h, r in OPEN] + [(math.hypot(x - ox, y - oy) - dd / 2 - r_out, oid) for oid, ox, oy, dd in ROUND] +
+              [(_rbox_d(x, y, ox, oy, w, h, r) - r_out, wid) for wid, ox, oy, w, h, r in WINDOWS])
+    pads = min([(_rbox_d(x, y, p["cx"], p["cy"], p["w"], p["h"], 0.3) - r_in, p["id"]) for p in FJ["light_pads"]] + [(_rbox_d(x, y, l["cx"], l["cy"], l["w"], l["h"], 0.05) - r_in, "LED@%.1f,%.1f" % (l["cx"], l["cy"])) for l in FJ["leds"]])
+    def _mod_d(m):   # receptacle shell / stiffener / paddle / fold plan box of each module vs the fastener footprint below the frame
+        xs = [m["stiffener_plan_x"][0], m["stiffener_plan_x"][1], m["paddle_x"][0], m["paddle_x"][1], m["fold_outer_x"]]
+        return _bb_d(x, y, min(xs), max(xs), m["y"] - 6.0, m["y"] + 6.0) - r_fast
+    mods = min((_mod_d(m), m["slot"]) for m in _MODS)
+    shells = min((_bb_d(x, y, m["seat_plan_x"] - SHELL[m["kind"]]["shell"][0] / 2, m["seat_plan_x"] + SHELL[m["kind"]]["shell"][0] / 2, m["y"] - SHELL[m["kind"]]["shell"][1] / 2, m["y"] + SHELL[m["kind"]]["shell"][1] / 2) - r_fast, m["slot"]) for m in _MODS)
+    clamp = [g for g, (y0, y1) in _CLAMP_GRP.items() if y0 - r_fast <= y <= y1 + r_fast and 38.0 - r_fast <= x <= 68.0 + r_fast]
+    posts = min((math.hypot(x - px_, y - py_) - r_fast - 1.9, "post %s (%.2f,%.2f)" % (g, px_, py_)) for g, pp in _MJ["posts"].items() for px_, py_ in pp)
+    named = {}
+    for ref in ("J7", "J8", "J31", "BT1", "H13", "J28", "J9"):
+        v = _PLC.get(ref)
+        if v: named[ref] = dict(side=v["side"], xy=round(_bb_d(x, y, v["xb"][0], v["xb"][1], v["y"][0], v["y"][1]) - r_fast, 2))
+    e_ = ((x - (_SPK["oval_x"][0] + _SPK["oval_x"][1]) / 2) / ((_SPK["oval_x"][1] - _SPK["oval_x"][0]) / 2)) ** 2 + ((y - (_SPK["oval_y"][0] + _SPK["oval_y"][1]) / 2) / ((_SPK["oval_y"][1] - _SPK["oval_y"][0]) / 2)) ** 2
+    named["SPEAKER"] = dict(side="F", xy=round(_bb_d(x, y, *_SPK["oval_x"], *_SPK["oval_y"]) - r_fast, 2), inside_oval=e_ < 1)
+    named["COIN_CELL"] = dict(side="F", xy=round(math.hypot(x - _COIN["c"][0], y - _COIN["c"][1]) - _COIN["d"] / 2 - r_fast, 2))
+    board = sorted((round(_bb_d(x, y, *v["xb"], *v["y"]) - r_fast, 2), k) for k, v in _PLC.items() if v["side"] == "F")[:3]
+    row = dict(id=sid, role=role, x=round(x, 3), y=round(y, 3), mode=SCREW_MODE, post_od=od, post_len_below_inner_face=round(gap + SPIGOT_L, 2), local_wall=round(SKIN + gap + SPIGOT_L, 2),
+               axis_deg=round(math.degrees(a), 2), edge_margin_outer=round(edge - r_out, 2), edge_margin_inner=round(edge - r_in, 2),
+               flex_margin=round(flex, 2), foam_margin=round(foam, 2), frame_hole_margin=None if frame is None else round(frame, 2), neck_margin=round(neck, 2),
+               nearest_opening=[round(opn[0], 2), opn[1]], light_pad_led_margin=[round(pads[0], 2), pads[1]], module_plan_margin=[round(mods[0], 2), mods[1]], shell_margin=[round(shells[0], 2), shells[1]],
+               fastener_r_below_frame=r_fast, frame_back_h=round(h_frame_back, 2), fastener_lowest_h=round(h_low, 2), clamp_plate_top_h=round(CLAMP_TOP, 2), under_clamp_plate=clamp,
+               clamp_plate_gap=round(h_low - CLAMP_TOP, 2) if clamp else None, clamp_post_margin=[round(posts[0], 2), posts[1]], named=named, nearest_F_parts=board)
+    if fhid is None: row["frame_corner_hole"] = dict(id=crn[1], offset=round(crn[0], 2), d=round(crn[2], 2), note="100 dpi frame trace, mirrored with the flex; MEASURE M-IOS1")
+    row["ok_plate"] = row["edge_margin_outer"] >= 0.6 and row["flex_margin"] >= 0.1 and row["neck_margin"] >= 0.3 and row["nearest_opening"][0] >= 1.0 and (frame is None or frame >= 0.05)
+    row["needs_clamp_plate_hole"] = ("Ø%.1f clearance hole in the %s clamp plate (fastener reaches %.2f above the board, clamp plate top %.2f)" % (2 * r_fast + 1.0, "/".join(clamp), h_low, CLAMP_TOP)) if clamp and h_low < CLAMP_TOP + 0.2 else None
+    row["conflicts"] = [k for k, v in named.items() if v["xy"] < 0 and v["side"] == "F"]
+    SCREW_CHECK.append(row)
+    report.append((sid, "BOSS", x, y, round(2 * max(r_out, r_in) + 0.2, 2), round(2 * max(r_out, r_in) + 0.2, 2),
+                   ("%s: M1.6 countersunk from the OUTER face: 90 deg csk Ø%.2f (dk 3.0 head 0.12 below), Ø%.2f clearance, " % (role, SCREW_CSK_D, SCREW_CLR_D) if SCREW_MODE == "csk" else
+                    "%s: M1.6 thread-forming from the frame side: blind pilot Ø%.2f (%.2f skin left on the outer face), " % (role, SCREW_PILOT_D, SCREW_PT_SKIN)) +
+                   "post Ø%.1f standing %.2f off the inner face (%.2f to the frame front + %.1f into the frame hole), local wall %.2f; radial axis %.1f deg" % (od, gap + SPIGOT_L, gap, SPIGOT_L, SKIN + gap + SPIGOT_L, math.degrees(a))))
+for nm, x, y, w, h in (LEGEND if ETH2_BLANK_RECESS else []):
     plate = plate.cut(boxz(x, y, w, h, 0.5, 10.0, -20.0).intersect(cyl(R0)).cut(cyl(R0 - 0.6)))
 tag = "" if ETH2 == "open" else "_eth2blank"
+# ---------------- glue lands (inner face, NO added material): band from GLUE_EDGE inside the outline to GLUE_KEEP clear of the flex (+neck)
+# and of every opening / window. Bead or VHB die-cut goes here; it bonds the plate to the stock metal I/O frame (Aidan: plate is glued in).
+def _wire_pts(w_):
+    from OCP.BRepTools import BRepTools_WireExplorer
+    from OCP.TopAbs import TopAbs_REVERSED
+    ex = BRepTools_WireExplorer(w_.wrapped); pts = []
+    while ex.More():
+        e = cq.Edge(ex.Current()); n = 2 if e.geomType() == "LINE" else 12
+        ts = [i / n for i in range(n)]
+        if ex.Current().Orientation() == TopAbs_REVERSED: ts = [1 - t for t in ts]
+        pts += [(round(e.positionAt(t).x, 3), round(e.positionAt(t).y, 3)) for t in ts]
+        ex.Next()
+    return pts
+def _glue_lands():
+    # perimeter glue band: GLUE_EDGE .. GLUE_EDGE+GLUE_BAND inside the outline (where the plate sits on the frame lip), minus the keep-outs
+    def _rr(inset, h):
+        return cq.Workplane("XY").center(*PL_C).sketch().rect(PL_W - 2 * inset, PL_H - 2 * inset).vertices().fillet(PL_R - inset).finalize().extrude(h)
+    base = _rr(GLUE_EDGE, 1.0).cut(_rr(GLUE_EDGE + GLUE_BAND, 1.0))
+    keep = cq.Workplane("XY").workplane(offset=-1).polyline(FLEX_POLY).close().offset2D(GLUE_KEEP).extrude(3.0)
+    keep = keep.union(boxz((NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0] + 2 * GLUE_KEEP, NECK[3] - NECK[1] + 2 * GLUE_KEEP, 0.3, -1, 2))
+    for oid, kind, x, y, w, h, r in OPEN: keep = keep.union(boxz(x, y, w + 2 * GLUE_KEEP, h + 2 * GLUE_KEEP, r + GLUE_KEEP, -1, 2))
+    for oid, x, y, dd in ROUND: keep = keep.union(cq.Workplane("XY").workplane(offset=-1).center(x, y).circle(dd / 2 + GLUE_KEEP).extrude(3))
+    for wid, x, y, w, h, r in WINDOWS: keep = keep.union(boxz(x, y, w + 2 * GLUE_KEEP, h + 2 * GLUE_KEEP, r + GLUE_KEEP, -1, 2))
+    for sid, x, y, od, *_ in ALL_SCREWS: keep = keep.union(cq.Workplane("XY").workplane(offset=-1).center(x, y).circle(max(od, BASE_OD if CORNER_GAP > 0 else 0) / 2 + GLUE_KEEP).extrude(3))
+    g = base.cut(keep)
+    faces = [f for f in g.faces().vals() if abs(f.Center().z) < 1e-6 and abs(f.normalAt().z) > 0.99]
+    polys = []
+    for f in faces:
+        bb = f.BoundingBox()
+        if f.Area() < 2.0: continue                        # slivers are not usable lands
+        polys.append(dict(area=round(f.Area(), 1), bbox=[round(v, 2) for v in (bb.xmin, bb.ymin, bb.xmax, bb.ymax)],
+                          pts=_wire_pts(f.outerWire()), holes=[_wire_pts(w) for w in f.innerWires()]))
+    return polys
+GLUE = _glue_lands()
+def _glue_paths():
+    from matplotlib.path import Path as _P
+    out = []
+    for gl in GLUE:
+        vs, cs = [], []
+        for ring in [gl["pts"]] + gl["holes"]:
+            vs += list(ring) + [ring[0]]; cs += [_P.MOVETO] + [_P.LINETO] * (len(ring) - 1) + [_P.CLOSEPOLY]
+        out.append(_P(vs, cs))
+    return out
+def _glue_widths():
+    # land width across X at sampled rows, per side (-X / +X half), mm
+    import numpy as _np
+    paths = _glue_paths(); res = {}
+    for y in (0.0, 15.0, 35.0, 55.0, 75.0, 95.0, 115.0, 140.0):
+        xs = _np.arange(PL_C[0] - PL_W / 2, PL_C[0] + PL_W / 2, 0.05)
+        ins = _np.zeros(len(xs), bool)
+        for pa in paths: ins |= pa.contains_points(_np.c_[xs, _np.full(len(xs), y)])
+        lo = ins & (xs < PL_C[0]); hi = ins & (xs >= PL_C[0])
+        res[y] = (round(lo.sum() * 0.05, 2), round(hi.sum() * 0.05, 2))
+    return res
+GLUE_W = _glue_widths()
+report.append(("GLUE_LANDS", "GLUE", PL_C[0], PL_C[1], 0, 0, ("OPTIONAL fallback (FIX = %s): " % FIX) + "%d flat glue lands (perimeter band %.1f-%.1f in from the edge, %.1f clear of flex/neck/openings) on the 1.4 inner face, total %.0f mm2; land width -X/+X at Y: %s; no material added" % (
+    len(GLUE), GLUE_EDGE, GLUE_EDGE + GLUE_BAND, GLUE_KEEP, sum(gl["area"] for gl in GLUE), ", ".join("%g:%.1f/%.1f" % (y, a, b) for y, (a, b) in GLUE_W.items()))))
 tag += TAG
 step = os.path.join(HERE, "io_plate_v2_A0%s.step" % tag); stl = os.path.join(HERE, "io_plate_v2_A0%s.stl" % tag)
 cq.exporters.export(plate, step); cq.exporters.export(plate, stl, tolerance=0.02, angularTolerance=0.1)
@@ -278,7 +469,7 @@ for oid, kind, x, y, w, h, r in OPEN:
                           mouth_centre=[round(Mx + PL_C[0], 3), round(Mz, 3)],
                           mouth_centre_height=round(Mz - Z_BOARD, 2), mouth_recess=round(tg["rec"], 2), mouth_recess_edges=[round(v, 2) for v in tg["rec_e"]],
                           plug_recess=round(tg["stand"], 2), plug_overmold_standoff=round(tg["stand"], 2), d0_at_port=round(d0(x), 3),
-                          riser_top_centre=[round(Bx + PL_C[0], 3), round(Bz, 3)], riser_top_height=round(Bz - Z_BOARD, 2), riser_bottom_height=round(Bz - RISER_T * n[1] - Z_BOARD, 2),
+                          riser_top_centre=[round(Bx + PL_C[0], 3), round(Bz, 3)], riser_top_height=round(Bz - Z_BOARD, 2), riser_bottom_height=round(Bz - RISER_T[kind] * n[1] - Z_BOARD, 2),
                           conn_h=hc, shell_in_flex_cutout_margin=round(min(tg["m"]["flex"] + [_tc["flex_margin_y"]]), 2), part=PARTS[kind]["mpn"], part_h=PARTS[kind]["h"],
                           required_height=round(Mz - Z_BOARD, 2), riser_needed=None, relief=None,
                           overmold_standoff_no_seat=_tc["overmold_standoff_no_seat"],
@@ -303,7 +494,7 @@ for oid, kind, x, y, w, h, r in OPEN:
         pw, ph = SHELL["RJ45"]["plug"]
         sm = min((c["w"] - pw) / 2 - abs(x - c["cx"]), (c["h"] - ph) / 2 - abs(y - c["cy"]))
         STACK.append(dict(port=oid, kind=kind, x=round(x, 3), y=round(y, 3), face_z_max=round(zf, 3), max_height=round(zf - Z_BOARD, 2), plug_in_flex_cutout_margin=round(sm, 2),
-                          note="jack body 16.2 x 17.0 cannot pass the frame slot (H: SMALL_R2 15.6 x 13.0; O: BIG_L leg X 54.2-70.9, Y 85.3-115.5) nor the flex cut-out: face >= 0.3 behind the frame back plane",
+                          note="jack body 16.2 x 17.0 cannot pass the frame slot (SMALL_R2 15.6 x 13.0 on the HDMI side / BIG_L leg on the button side) nor the flex cut-out: face >= 0.3 behind the frame back plane",
                           part=PARTS["RJ45"]["mpn"], part_h=PARTS["RJ45"]["h"]))
 # HDMI fallback if the receptacle shell does not pass the 5.83 flex cut-out
 hd = [s for s in STACK if s["port"] == "HDMI"][0]
@@ -425,7 +616,10 @@ if ETH2 == "open" and not TAG:
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(MRect((x - w / 2, y - h / 2), w, h, fc="#ffff80", ec="k", lw=0.6))
     for pid, x, y, dd in LOCATE_PINS + EAR_PINS: ax.add_patch(MCirc((x, y), dd / 2, fc="#4040ff", ec="k", lw=0.4))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=6)
+    from matplotlib.patches import PathPatch as _PP
+    for pa in _glue_paths(): ax.add_patch(_PP(pa, fc="#80ff80", ec="#208020", lw=0.4, alpha=0.35))
     for x, y, o in dropped_clips: ax.plot(x, y, "rx", ms=9, mew=2)
+    for sid, x, y, od, *_ in ALL_SCREWS: ax.add_patch(MCirc((x, y), od / 2, fc="#ff9090", ec="r", lw=0.8)); ax.text(x, y + 2.0, sid, fontsize=5, ha="center", color="r")
     for row in FLEX_CHECK:
         if "flex_cutout" not in row: continue
         c = row["flex_cutout"]; st = [s for s in STACK if s["port"] == row["port"]]
@@ -439,15 +633,17 @@ if ETH2 == "open" and not TAG:
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "flex_821-2222_check.png"), dpi=170); plt.close(fig)
 
 # ---------------- DXF (openings, back view and front view), features JSON, previews ----------------
-if ETH2 == "open" and TAG:
-    json.dump(dict(params=dict(case_r=round(CASE_R, 3), tag=TAG, d0=dict(board_top_z=Z_BOARD)), parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, check=TILT_CHECK), stack=STACK),
+if TAG:
+    json.dump(dict(params=dict(case_r=round(CASE_R, 3), tag=TAG, d0=dict(board_top_z=Z_BOARD)), parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, check=TILT_CHECK), stack=STACK, fixing=dict(fix=FIX, mode=SCREW_MODE, screws=SCREW_CHECK)),
               open(os.path.join(HERE, "io_plate_v2_A0%s_features.json" % TAG), "w"), indent=1)
 if ETH2 == "open" and not TAG:
     for view in ("backview", "frontview"):
         BW = 101.00496445740619
         fx = (lambda x: x) if view == "backview" else (lambda x: 40 + BW - x)   # front view = KiCad PCB frame x (y kept = Y; KiCad y = 200 - Y)
         doc = ezdxf.new("R2010"); msp = doc.modelspace()
-        for ln in ("OUTLINE", "OPENINGS", "LIGHT_WINDOWS", "SPOTFACES", "CLIPS", "PINS", "NOTES"): doc.layers.add(ln)
+        for ln in ("OUTLINE", "OPENINGS", "LIGHT_WINDOWS", "SPOTFACES", "CLIPS", "PINS", "SCREWS", "SCREW_BOSSES", "GLUE_LANDS_OPTIONAL", "NOTES"): doc.layers.add(ln)
+        for gl in GLUE:
+            for ring in [gl["pts"]] + gl["holes"]: msp.add_lwpolyline([(fx(a_), b_) for a_, b_ in ring], close=True, dxfattribs={"layer": "GLUE_LANDS_OPTIONAL"})
         def rrect(cx, cy, w, h, r, layer): msp.add_lwpolyline([(fx(a), b) for a, b in rr_pts(cx, cy, w, h, r)], close=True, dxfattribs={"layer": layer})
         rrect(PL_C[0], PL_C[1], PL_W, PL_H, PL_R, "OUTLINE")
         for oid, kind, x, y, w, h, r in OPEN:
@@ -457,6 +653,11 @@ if ETH2 == "open" and not TAG:
         for rid, x, y, w, h, r in RELIEF: rrect(x, y, w, h, r, "SPOTFACES")
         for x, y, o in CLIPS: msp.add_circle((fx(x), y), 1.0, dxfattribs={"layer": "CLIPS"})
         for pid, x, y, dd in LOCATE_PINS + EAR_PINS: msp.add_circle((fx(x), y), dd / 2, dxfattribs={"layer": "PINS"})
+        for sid, x, y, od, *_ in ALL_SCREWS:
+            for dd in ((SCREW_CSK_D, SCREW_CLR_D) if SCREW_MODE == "csk" else (SCREW_PILOT_D,)): msp.add_circle((fx(x), y), dd / 2, dxfattribs={"layer": "SCREWS"})
+            msp.add_circle((fx(x), y), od / 2, dxfattribs={"layer": "SCREW_BOSSES"})
+            msp.add_text("%s M1.6 %s" % (sid, "csk 90 Ø%.2f / Ø%.2f thru" % (SCREW_CSK_D, SCREW_CLR_D) if SCREW_MODE == "csk" else "pilot Ø%.2f blind" % SCREW_PILOT_D), dxfattribs={"layer": "NOTES", "height": 0.8}).set_placement((fx(x) - 3, y + 2.2))
+        msp.add_text("GLUE_LANDS_OPTIONAL = fallback only (default fixing: 4x M1.6 screws, layer SCREWS)", dxfattribs={"layer": "NOTES", "height": 1.2}).set_placement((fx(PL_C[0]) - 30, -16))
         msp.add_text("MP62 IO plate v2 A0 - %s - mm - Y up = MEG/base end" % view, dxfattribs={"layer": "NOTES", "height": 2}).set_placement((fx(PL_C[0]) - 30, -12))
         doc.saveas(os.path.join(HERE, "io_plate_v2_A0_openings_%s.dxf" % view))
     json.dump(dict(params=dict(outline=dict(centre=PL_C, w=PL_W, h=PL_H, r=PL_R), case_r=round(CASE_R, 3), r_inner=round(R_INNER, 3), skin=SKIN, rim_h=RIM_H, rim_w=RIM_W,
@@ -467,7 +668,8 @@ if ETH2 == "open" and not TAG:
                                flex=dict(flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, frame_t=FRAME_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK, led_h=LED_H, led_clr=LED_CLR,
                                          btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder, no bosses")),
                    parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, source="M-IOT2 Aidan 2026-10-02 11:47 ET: outward 12.5 deg, mirrored" if TILT_OVERRIDE_DEG else "surface normal (D-IO16 default: full plug seating; stock 12.5 in io_plate_v2_A0_tilt12p5_features.json)", mouth_clr=MOUTH_CLR, axis_balance=AXIS_BALANCE, axis_shift_out=AXIS_SHIFT_OUT, seat=TILT_SEAT, seat_clr=SEAT_CLR, seat_min_wall=SEAT_MIN_WALL, check=TILT_CHECK), stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
-                   features=[dict(id=a, kind=b, x=round(c, 3), y=round(d, 3), w=e, h=f, note=g) for a, b, c, d, e, f, g in report], clips=CLIPS),
+                   features=[dict(id=a, kind=b, x=round(c, 3), y=round(d, 3), w=e, h=f, note=g) for a, b, c, d, e, f, g in report], clips=CLIPS,
+                   fixing=dict(fix=FIX, mode=SCREW_MODE, screws=SCREW_CHECK, glue_optional=dict(layer="GLUE_LANDS_OPTIONAL", lands=len(GLUE), area_mm2=round(sum(gl['area'] for gl in GLUE), 0)))),
               open(os.path.join(HERE, "io_plate_v2_A0_features.json"), "w"), indent=1)
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     from matplotlib.patches import FancyBboxPatch, Circle
@@ -485,10 +687,15 @@ if ETH2 == "open" and not TAG:
     ax.text(BTN["cx"], BTN["cy"], "button\n(cap on the\nflex dome)", ha="center", va="center", fontsize=5)
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(FancyBboxPatch((x - w / 2 + r, y - h / 2 + r), w - 2 * r, h - 2 * r, boxstyle="round,pad=%g" % r, fc="yellow", ec="k"))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=5)
+    for sid, x, y, *_ in ALL_SCREWS:
+        ax.add_patch(Circle((x, y), SCREW_CSK_D / 2, fc="#ff9090", ec="r", lw=0.8)); ax.add_patch(Circle((x, y), SCREW_CLR_D / 2, fc="white", ec="r", lw=0.5)); ax.text(x, y - 2.6, sid, ha="center", fontsize=5, color="r")
+    from matplotlib.patches import PathPatch as _PP
+    for pa in _glue_paths(): ax.add_patch(_PP(pa, fc="#80ff80", ec="#208020", lw=0.4, alpha=0.45))
     ax.set_xlim(20, 86); ax.set_ylim(-8, 162); ax.set_aspect("equal"); ax.grid(alpha=0.2)
-    ax.set_title("IO plate v2 A0, OUTER face (back view)\nyellow = light windows, blue = clips, violet = flat plug seats; USB-C/USB-A/HDMI holes along the port-module axes (%s)" % ("%.1f deg" % TILT_OVERRIDE_DEG if TILT_OVERRIDE_DEG else "normal to the plate"), fontsize=8)
+    ax.set_title("IO plate v2 A0 (1.4 wall, 2x M1.6 centre (primary) + 4x corner screws, no clips/rim), OUTER face (back view)\nred = M1.6 csk screw holes, yellow = light windows, green = OPTIONAL inner-face glue lands, violet = flat plug seats; USB-C/USB-A/HDMI holes along the port-module axes (%s)" % ("%.1f deg" % TILT_OVERRIDE_DEG if TILT_OVERRIDE_DEG else "normal to the plate"), fontsize=8)
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150); plt.close(fig)
     iso = plate.translate((-PL_C[0], -PL_C[1], 0)).rotate((0, 0, 0), (0, 0, 1), 90).rotate((0, 0, 0), (1, 0, 0), 180)
     cq.exporters.export(iso, os.path.join(HERE, "_iso.svg"), opt={"projectionDir": (0.25, -0.45, 1.0), "showHidden": False, "width": 1600, "height": 700,
                                                                  "marginLeft": 40, "marginTop": 40, "strokeWidth": 0.15})
 for row in report: print(row)
+for row in SCREW_CHECK: print("SCREW", json.dumps(row))

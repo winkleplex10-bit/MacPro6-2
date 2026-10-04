@@ -1,3 +1,17 @@
+> **Rev 2026-10-02 ≈ 14:55 ET:**
+> - **Geometry:** rebuilt on the new stack. The plate is 1.4 thick and glued, with the flex flat and no pocket, which moves everything 0.2. HDMI is back on the stock +X side: MOD-H is fitted rotated 180° into JM11 (rot 0).
+> - **Routing status** (`python3 tools/build_modules.py build|route|finish [mod]`, then kicad-cli DRC; reports in `mod_*/drc_report.txt`, lengths in `mod_*/route_report.json`):
+>   - **mod_usba:** complete. DRC 0 errors (2 silk warnings). Skew D −2.6, SSRX +2.7, SSTX +2.6, set by the THT pitch; compensate on the main board.
+>   - **mod_hdmi:** complete. DRC 0 errors (1 silk warning). Skew CK −0.58, D0 −0.50, D1 −0.65, D2 −0.52.
+>   - **mod_usbc:** **open.** 8 unconnected (A-row inner group CC1 / D± A / SBU1 / SSRX2±) and 1 clearance (CC2–shell tab 0.073). The placeholder shell tabs block the centre channel. Next step: the real HYCW417 land pattern plus a hand fan-out on L2 under the stiffened port.
+> - **Router:** the DSN now offers a second via of 0.40 / 0.20 (JLC 2-layer FPC standard; extra cost only below a 0.15 hole) and allows max 500 passes.
+> - **TDR coupons:** `tools/build_tdr.py` → `tdr/tdr_coupon_c50` (90 / 100 Ω solid and bend-hatch, 50 Ω SE) and `tdr/tdr_coupon_a25` (MOD-A 90 Ω cross-hatch). DRC 0.
+> - **Pin 1:** `tools/check_pin1_3d.py` → `pin1_check.json`, `pin1_check_3d.png`. C1, C4, A1, A3 and HDMI all OK.
+> - **Parts:**
+>   - EEPROM BL24C02F-NTRC (C2828222).
+>   - USB-A HC-USB3.0-L137-WJ (C7501870).
+>   - ESD on the main board under each JMn: TPD4E02B04DQAR / TPD4E05U06DQAR, D200–D228.
+
 # MP62 swappable port modules (D-IO16), rev A0 2026-10-02 ≈ 12:45 ET
 
 Each USB-C, USB-A and HDMI port is a **flex-only module**. The receptacle is soldered straight to a JLC 2-layer FPC, like the stock audio jack on its flex. There is **no rigid PCB**. The FPC has a local FR4 1.0 stiffener under the port and a second one under the board-to-board header. The RJ45 jacks stay on the main board.

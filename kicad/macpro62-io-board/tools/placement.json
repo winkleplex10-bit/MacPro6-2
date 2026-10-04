@@ -1,4 +1,438 @@
 {
+"U61": {
+"side": "B",
+"xb": [
+59.9,
+63.39
+],
+"y": [
+109.47,
+113.66
+],
+"value": "1V1 LDO (TDP158 core)",
+"fp": "MP62_IO:SOT-23-5",
+"dnp": false
+},
+"U60": {
+"side": "B",
+"xb": [
+63.4,
+69.89
+],
+"y": [
+108.32,
+114.81
+],
+"value": "TDP158 HDMI 2.0 retimer (GPU link 2), next to the HDMI JM",
+"fp": "MP62_IO:MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER",
+"dnp": false
+},
+"D228": {
+"side": "B",
+"xb": [
+68.5,
+71.59
+],
+"y": [
+106.11,
+108.02
+],
+"value": "ESD HDMI (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D227": {
+"side": "B",
+"xb": [
+65.1,
+68.19
+],
+"y": [
+106.11,
+108.02
+],
+"value": "ESD HDMI (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D226": {
+"side": "B",
+"xb": [
+61.7,
+64.79
+],
+"y": [
+106.11,
+108.02
+],
+"value": "ESD HDMI (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D225": {
+"side": "B",
+"xb": [
+63.58,
+66.67
+],
+"y": [
+31.58,
+33.49
+],
+"value": "ESD A4 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D224": {
+"side": "B",
+"xb": [
+60.18,
+63.27
+],
+"y": [
+31.58,
+33.49
+],
+"value": "ESD A4 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D223": {
+"side": "B",
+"xb": [
+63.58,
+66.67
+],
+"y": [
+41.68,
+43.59
+],
+"value": "ESD A3 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D222": {
+"side": "B",
+"xb": [
+60.18,
+63.27
+],
+"y": [
+41.68,
+43.59
+],
+"value": "ESD A3 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D221": {
+"side": "B",
+"xb": [
+43.4,
+46.49
+],
+"y": [
+31.58,
+33.49
+],
+"value": "ESD A2 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D220": {
+"side": "B",
+"xb": [
+40.0,
+43.09
+],
+"y": [
+31.58,
+33.49
+],
+"value": "ESD A2 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D219": {
+"side": "B",
+"xb": [
+43.4,
+46.49
+],
+"y": [
+44.28,
+46.19
+],
+"value": "ESD A1 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D218": {
+"side": "B",
+"xb": [
+40.0,
+43.09
+],
+"y": [
+44.28,
+46.19
+],
+"value": "ESD A1 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D217": {
+"side": "B",
+"xb": [
+65.09,
+68.18
+],
+"y": [
+55.02,
+56.93
+],
+"value": "ESD C6 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D216": {
+"side": "B",
+"xb": [
+61.69,
+64.78
+],
+"y": [
+55.02,
+56.93
+],
+"value": "ESD C6 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D215": {
+"side": "B",
+"xb": [
+58.29,
+61.38
+],
+"y": [
+55.02,
+56.93
+],
+"value": "ESD C6 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D214": {
+"side": "B",
+"xb": [
+65.09,
+68.18
+],
+"y": [
+64.88,
+66.79
+],
+"value": "ESD C5 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D213": {
+"side": "B",
+"xb": [
+61.69,
+64.78
+],
+"y": [
+64.88,
+66.79
+],
+"value": "ESD C5 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D212": {
+"side": "B",
+"xb": [
+58.29,
+61.38
+],
+"y": [
+64.88,
+66.79
+],
+"value": "ESD C5 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D211": {
+"side": "B",
+"xb": [
+65.09,
+68.18
+],
+"y": [
+77.4,
+79.31
+],
+"value": "ESD C4 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D210": {
+"side": "B",
+"xb": [
+61.69,
+64.78
+],
+"y": [
+77.4,
+79.31
+],
+"value": "ESD C4 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D209": {
+"side": "B",
+"xb": [
+58.29,
+61.38
+],
+"y": [
+77.4,
+79.31
+],
+"value": "ESD C4 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D208": {
+"side": "B",
+"xb": [
+45.33,
+48.42
+],
+"y": [
+55.02,
+56.93
+],
+"value": "ESD C3 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D207": {
+"side": "B",
+"xb": [
+41.93,
+45.02
+],
+"y": [
+55.02,
+56.93
+],
+"value": "ESD C3 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D206": {
+"side": "B",
+"xb": [
+38.53,
+41.62
+],
+"y": [
+55.02,
+56.93
+],
+"value": "ESD C3 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D205": {
+"side": "B",
+"xb": [
+45.33,
+48.42
+],
+"y": [
+59.69,
+61.59
+],
+"value": "ESD C2 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D204": {
+"side": "B",
+"xb": [
+41.93,
+45.02
+],
+"y": [
+59.69,
+61.59
+],
+"value": "ESD C2 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D203": {
+"side": "B",
+"xb": [
+38.53,
+41.62
+],
+"y": [
+59.69,
+61.59
+],
+"value": "ESD C2 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D202": {
+"side": "B",
+"xb": [
+45.33,
+48.42
+],
+"y": [
+74.8,
+76.71
+],
+"value": "ESD C1 (TPD4E05U06DQAR C138714)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D201": {
+"side": "B",
+"xb": [
+41.93,
+45.02
+],
+"y": [
+74.8,
+76.71
+],
+"value": "ESD C1 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
+"D200": {
+"side": "B",
+"xb": [
+38.53,
+41.62
+],
+"y": [
+74.8,
+76.71
+],
+"value": "ESD C1 (TPD4E02B04DQAR C106794)",
+"fp": "MP62_IO:USON-10_2.5x1.0mm_P0.5mm",
+"dnp": false
+},
 "Y7": {
 "side": "B",
 "xb": [
@@ -30,12 +464,12 @@
 "U96": {
 "side": "B",
 "xb": [
-40.61,
-48.4
+40.31,
+48.7
 ],
 "y": [
-32.31,
-40.69
+33.71,
+41.5
 ],
 "value": "TCA9548A @0x71: module ID I2C ch0-1 = A3-A4, ch2 = HDMI, ch3-7 spare",
 "fp": "MP62_IO:TSSOP-24_4.4x7.8mm_P0.65mm",
@@ -90,8 +524,8 @@
 26.25
 ],
 "y": [
-11.46,
-16.54
+13.46,
+18.54
 ],
 "value": "Optional antenna pass-through U.FL C88373 (50 ohm CPW from J8) for an FPC antenna behind the plastic I/O cover; DNP until M-IOA1",
 "fp": "MP62_IO:MP62_UFL_Hirose_U.FL-R-SMT-1",
@@ -450,12 +884,12 @@
 "U80": {
 "side": "B",
 "xb": [
-63.36,
-73.65
+23.36,
+33.65
 ],
 "y": [
-106.61,
-114.39
+104.61,
+112.39
 ],
 "value": "TLC59116 16-ch I2C LED driver (diag x8, power, light pipes)",
 "fp": "MP62_IO:TSSOP-28_4.4x9.7mm_P0.65mm",
@@ -501,34 +935,6 @@
 ],
 "value": "C-Media CM108B USB audio codec (UAC1)",
 "fp": "MP62_IO:LQFP-48_7x7mm_P0.5mm",
-"dnp": false
-},
-"U61": {
-"side": "B",
-"xb": [
-18.76,
-22.25
-],
-"y": [
-105.91,
-110.09
-],
-"value": "1V1 LDO (TDP158 core)",
-"fp": "MP62_IO:SOT-23-5",
-"dnp": false
-},
-"U60": {
-"side": "B",
-"xb": [
-25.26,
-31.75
-],
-"y": [
-104.75,
-111.25
-],
-"value": "TDP158 HDMI 2.0 retimer (GPU link 2)",
-"fp": "MP62_IO:MP62_TI_TDP158_WQFN-40_5x5_P0.4_PLACEHOLDER",
 "dnp": false
 },
 "U51": {
@@ -1374,8 +1780,8 @@
 "U31": {
 "side": "F",
 "xb": [
-70.03,
-73.98
+32.83,
+36.78
 ],
 "y": [
 102.25,
@@ -1388,8 +1794,8 @@
 "U30": {
 "side": "F",
 "xb": [
-70.03,
-73.98
+32.83,
+36.78
 ],
 "y": [
 110.25,
@@ -1486,8 +1892,8 @@
 "D20": {
 "side": "F",
 "xb": [
-62.27,
-65.32
+41.5,
+44.55
 ],
 "y": [
 102.61,
@@ -1500,8 +1906,8 @@
 "J31": {
 "side": "F",
 "xb": [
-76.2,
-89.41
+17.4,
+30.61
 ],
 "y": [
 5.06,
@@ -1514,8 +1920,8 @@
 "J30": {
 "side": "F",
 "xb": [
-53.56,
-59.45
+47.38,
+53.27
 ],
 "y": [
 101.86,
@@ -1528,8 +1934,8 @@
 "SW1": {
 "side": "F",
 "xb": [
-60.9,
-66.69
+40.13,
+45.92
 ],
 "y": [
 106.22,
@@ -1546,8 +1952,8 @@
 50.65
 ],
 "y": [
-93.16,
-105.05
+93.34,
+105.23
 ],
 "value": "ETH2 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J26 posts)",
 "fp": "MP62_IO:MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER",
@@ -1556,12 +1962,12 @@
 "T1": {
 "side": "B",
 "xb": [
-55.63,
-71.72
+55.62,
+71.71
 ],
 "y": [
-93.36,
-105.25
+93.16,
+105.05
 ],
 "value": "ETH1 2.5G magnetics JASN V24P05S C2827281 (B side, clear of the J25 posts)",
 "fp": "MP62_IO:MP62_JASN_V24P05S_SMD-24P_15.1x7.1_PLACEHOLDER",
@@ -1570,12 +1976,12 @@
 "J26": {
 "side": "F",
 "xb": [
-34.51,
-51.8
+34.5,
+51.79
 ],
 "y": [
-83.27,
-99.56
+83.45,
+99.74
 ],
 "value": "ETH2 i226-V #2: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15",
 "fp": "MP62_IO:MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER",
@@ -1584,12 +1990,12 @@
 "J25": {
 "side": "F",
 "xb": [
-55.03,
-72.32
+55.02,
+72.31
 ],
 "y": [
-83.45,
-99.75
+83.26,
+99.55
 ],
 "value": "ETH1 i226-V #1: ZJLQ-RJ45-SMD-PCB125-8P8C C55547809 (no magnetics, height <= 13.0 VERIFY) - D-IO15",
 "fp": "MP62_IO:MP62_RJ45_Vertical_SMD_NoMag_PLACEHOLDER",
@@ -1598,12 +2004,12 @@
 "H45": {
 "side": "F",
 "xb": [
-49.86,
-52.54
+54.28,
+56.96
 ],
 "y": [
-101.66,
-104.34
+104.66,
+107.34
 ],
 "value": "port-module cradle locating peg D1.5",
 "fp": "MP62_IO:MP62_Cradle_Peg_D1.6_NPTH",
@@ -1612,8 +2018,8 @@
 "H44": {
 "side": "F",
 "xb": [
-34.66,
-37.34
+69.48,
+72.16
 ],
 "y": [
 110.56,
@@ -1682,8 +2088,8 @@
 "H25": {
 "side": "F",
 "xb": [
-53.36,
-58.65
+48.18,
+53.47
 ],
 "y": [
 108.35,
@@ -1696,8 +2102,8 @@
 "H24": {
 "side": "F",
 "xb": [
-41.16,
-46.45
+60.38,
+65.67
 ],
 "y": [
 111.95,
@@ -1752,154 +2158,154 @@
 "JM11": {
 "side": "F",
 "xb": [
-35.1,
-47.99
+60.2,
+73.09
 ],
 "y": [
 104.72,
 109.41
 ],
-"value": "MOD-H slot HDMI: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.33 deg)",
+"value": "MOD-H slot HDMI: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 0, axis 5.57 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM10": {
 "side": "F",
 "xb": [
-57.35,
-70.24
+56.98,
+69.87
 ],
 "y": [
 30.19,
 34.88
 ],
-"value": "MOD-A slot A4: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.51 deg)",
+"value": "MOD-A slot A4: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 0, axis 5.49 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM9": {
 "side": "F",
 "xb": [
-57.35,
-70.24
+56.98,
+69.87
 ],
 "y": [
 40.29,
 44.98
 ],
-"value": "MOD-A slot A3: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.51 deg)",
+"value": "MOD-A slot A3: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 0, axis 5.49 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM8": {
 "side": "F",
 "xb": [
-36.59,
-49.48
+36.8,
+49.69
 ],
 "y": [
 30.19,
 34.88
 ],
-"value": "MOD-A slot A2: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.25 deg)",
+"value": "MOD-A slot A2: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 180, axis -5.29 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM7": {
 "side": "F",
 "xb": [
-36.59,
-49.48
+36.8,
+49.69
 ],
 "y": [
 40.29,
 44.98
 ],
-"value": "MOD-A slot A1: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.25 deg)",
+"value": "MOD-A slot A1: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 180, axis -5.29 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM6": {
 "side": "F",
 "xb": [
-56.04,
-68.93
+56.79,
+69.68
 ],
 "y": [
 53.63,
 58.32
 ],
-"value": "MOD-C slot C6: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.47 deg)",
+"value": "MOD-C slot C6: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 0, axis 5.51 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM5": {
 "side": "F",
 "xb": [
-56.04,
-68.93
+56.79,
+69.68
 ],
 "y": [
 63.5,
 68.19
 ],
-"value": "MOD-C slot C5: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.47 deg)",
+"value": "MOD-C slot C5: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 0, axis 5.51 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM4": {
 "side": "F",
 "xb": [
-56.04,
-68.93
+56.79,
+69.68
 ],
 "y": [
 73.41,
 78.1
 ],
-"value": "MOD-C slot C4: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module rot 180, axis 5.47 deg)",
+"value": "MOD-C slot C4: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 0, axis 5.51 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM3": {
 "side": "F",
 "xb": [
-37.81,
-50.7
+37.03,
+49.92
 ],
 "y": [
 53.63,
 58.32
 ],
-"value": "MOD-C slot C3: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.27 deg)",
+"value": "MOD-C slot C3: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 180, axis -5.25 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM2": {
 "side": "F",
 "xb": [
-37.81,
-50.7
+37.03,
+49.92
 ],
 "y": [
 63.5,
 68.19
 ],
-"value": "MOD-C slot C2: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.27 deg)",
+"value": "MOD-C slot C2: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 180, axis -5.25 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 },
 "JM1": {
 "side": "F",
 "xb": [
-37.81,
-50.7
+37.03,
+49.92
 ],
 "y": [
 73.41,
 78.1
 ],
-"value": "MOD-C slot C1: DF40C-50DS-0.4V(51) C424646 (PMI-50) <- module DF40C-50DP C424645 on the C-folded tail (module as drawn, axis -5.27 deg)",
+"value": "MOD-C slot C1: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot 180, axis -5.25 deg)",
 "fp": "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER",
 "dnp": false
 }
