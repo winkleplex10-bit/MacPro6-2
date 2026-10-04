@@ -41,7 +41,7 @@ for ax, view in zip(axs, ("CORE side (F) - as seen from the thermal core", "OUTE
         ax.add_patch(Rectangle((min(x0, x1), 115), 80, 22, fc="#d6eaf8", ec="#1f618d", lw=1))
         ax.add_patch(Rectangle((x0 - 6.5 if x0 > x1 else x0 - 0, 115.0), 6.5, 22, fc="#1f618d")) if False else ax.add_patch(Rectangle((min(x0, x0 + (6.5 if x0 > x1 else -6.5)), 115), 6.5, 22, fc="#1f618d"))
         ax.text((x0 + x1) / 2, 126, "SSD3 2280 (horizontal)", ha="center", va="center", fontsize=9)
-        ax.add_patch(Rectangle((mx(43.5) - 21.1, 14.5), 42.2, 10.07, fc="#7d3c98")); ax.text(mx(43.5), 8, "J1 MCIO 124 RA (x8 wired)", ha="center", fontsize=8)
+        _jx = g["J"]["J_PCIE"]["cx"]; ax.add_patch(Rectangle((mx(_jx) - 21.1, 14.5), 42.2, 10.07, fc="#7d3c98")); ax.text(mx(_jx), 8, "J1 MCIO 124 RA X %.1f (x8 wired, narrow plug)" % _jx, ha="center", fontsize=8)
         ax.add_patch(Rectangle((min(mx(13.5), mx(19.5)), 9.5), 6, 22, fc="#28b463")); ax.text(mx(16.5), 33, "J3 AUX\n(moved)", ha="center", fontsize=7)
         for (x, y, w, h, t) in [(30, 150, 6, 6, "Q1+U3\nrev.blk"), (44, 150, 4, 4, "U2\neFuse"), (58, 148, 3.5, 3.5, "U4\n3V3 buck"), (70, 152, 10, 10, "L1"), (82, 149, 8, 9, "Cout"), (22, 147, 5, 6, "U6\nEEPROM"), (46, 163, 22, 2, "LEDs D1-D7")]:
             xx = mx(x); ax.add_patch(Rectangle((xx - w / 2, y - h / 2), w, h, fc="#f5b041", ec="k", lw=0.5)); ax.text(xx, y - h / 2 - 3.2, t, ha="center", fontsize=6.5)

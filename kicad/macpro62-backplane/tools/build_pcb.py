@@ -40,8 +40,8 @@ ds.m_SilkClearance = FromMM(0.0)
 
 tb = board.GetTitleBlock()
 tb.SetTitle("MacPro6,2 Backplane (BP) - rev A floorplan " + ("v0.2 HUB" if VARIANT == "hub" else "v0.1 DIRECT (saved variant)"))
-tb.SetRevision("A-fp5-hub" if VARIANT == "hub" else "A-fp1-direct")
-tb.SetDate("2026-10-02")
+tb.SetRevision("A-fp6-hub" if VARIANT == "hub" else "A-fp1-direct")
+tb.SetDate("2026-10-04" if VARIANT == "hub" else "2026-10-02")
 tb.SetCompany("MacPro6,2 / Aidan Winkler")
 tb.SetComment(0, "Edge.Cuts: D122 disc + 2x D4 holes at +/-49 mm from Fusion base_board_outline.dxf")
 if VARIANT == "hub":
@@ -219,6 +219,7 @@ notes = ([
     "MP62 BACKPLANE rev A - FIRST-PASS FLOORPLAN, HUB TOPOLOGY (not routed)",
     "J1 = CPU-LINK: Amphenol Mini Cool Edge 224 vertical; CPU board card edge (1.57 mm), MP62 pinout.",
     "PCIe: J1 -> (opt. DS320PR810 x5) -> J9 MCIO 124 Face P x16 / J10 MCIO 124 Face S x4 (AUX: J3 / J4).",
+    "fp6 (ICD O-10): J9/J10 land at s = +5.0 = module J_PCIE X 47.0 (zero jog); straight-straight MCIO 124 cable, NARROW plugs.",
     "No AC caps on BP: host-TX caps on module/CPU board, device-TX caps on face module.",
     "12 V main to CPU board and faces: bus bars / lugs, NOT through the edge.",
 ] if VARIANT == "hub" else [

@@ -45,6 +45,10 @@ kicad-cli sch erc --severity-all -o erc_report.txt macpro62-storage-face.kicad_s
 ## ICD rev 2 (2026-10-02)
 - **U13 INA228** (VSSOP-10, FACE_SMB 0x40, ALERT → FACE_SMB_ALERT#) + **R520** 2 mΩ 2512 between +12V_PROT and +12V_PROT_S (ahead of U2) + C520; B side at (51.5, 143) / (44, 143) / (51.5, 140.5). DRC 0/0, ERC 0, 157 schematic instances. Renders not refreshed.
 
+## ICD rev 3 / O-10 (2026-10-04 ≈ 09:10 ET, Aidan approved)
+- **J1 (J_PCIE, MCIO 124 RA) X 43.5 → 47.0** (+3.5 mm), narrow-plug courtyard (±21.6). Zero-jog landing at BP fp6 s = +5.0. Nearest B courtyard MH080 0.34 mm; M.2 card bottom Y 28.5 vs J1 body top Y 24.57 (3.9 mm). `tools/floorplan.py` reads J_PCIE X from `face_geom.json`.
+- Nothing routed besides the lug nets, so no re-route. DRC 0/0/0, ERC 0/0 (schematic unchanged). `floorplan_storage_SM1.png`, `render_core_side_F.png`, `render_outer_side_B.png` regenerated (kicad-cli svg + rsvg-convert).
+
 ## Next steps
 1. Get the ASM2824 datasheet and ball map, plus the LOTES drawing.
 2. Replace the placeholders.

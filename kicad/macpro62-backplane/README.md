@@ -5,6 +5,13 @@ Topology: **HUB** (Aidan, 2026-10-01). The CPU board plugs into J1 (Amphenol Min
 **Floorplan rev A-fp3 (2026-10-01):** uses Aidan's measurements M1 (GPU-board bottom edges ~15 mm above the BP) and M2 (GPU-board planes ~55 mm from the centre). J9/J10 are now **right-angle** MCIO 124 placeholders (`MP62_MCIO_124P_RightAngle_SMT_PLACEHOLDER`, est. ~9-10 mm high; straight plugs are 15.90 mm and do not fit) with the cable exiting radially under each face edge. J1 sits at the **estimated stock riser-slot chord y = -12.6** (TBD, M2b). The M.2, power and harness connectors moved to the PSU side (-y). The previous fp2 (d = 30 assumed) is archived in `variants/hub_fp2_d30_assumed/`.
 **fp3a (2026-10-01, CPU-carrier cross-check):** the J1 placeholder had contact A1 at +x with the A row toward +y, which no real Mini Cool Edge has (top view, A row up: A1 is at -x). The placeholder now uses the real contact offsets from the Amphenol card drawing (incl. key F), and **J1 is rotated 180 deg**: A1 stays at disc +x (bay -> face mapping unchanged), the **A row (host TX) faces the PSU side** and the B row (host RX) faces the core. Layer use swaps: host RX on L1, host TX via to L6. Mates `/workspace/kicad/macpro62-cpu-carrier/` J1 fingers. The pre-fix state is in `/workspace/scratch/bp_before_fp3a/`.
 
+**fp6 (2026-10-04 ≈ 09:10 ET, ICD rev 3, O-10 approved by Aidan):** zero-jog straight-straight MCIO cable with **narrow plugs**.
+- `tools/hub_floorplan.py`: **J9 r_c 31.2 → 33.0, s −5.2 → +5.0** (origin (20.62, 13.27) → (14.68, 21.75), ≈ 10.4 mm); **J10 r_c 31.5 → 29.5, s −2.0 → +5.0** (origin (−15.74, 18.57) → (−19.28, 12.20), ≈ 7.3 mm). s = +5.0 = module J_PCIE X 47.0 (face spec update 6), so neither cable jogs. Narrow-plug courtyard (±21.6, `make_footprints.py` in the face template): J9–J10 gap 4.28 mm, **J1–J10 2.33 mm**, J1–J9 11.88 mm.
+- **J3 (Face P AUX) (0, 51.4) rot 0 → (42.5, 13.5) rot 45** (≈ 55 mm; beyond J9's outer end, Face-P s ≈ −20.5) and **J4 (Face S AUX) (−38.0, 2.5) rot 135 → (−2.5, 43.5) rot 45** (≈ 54 mm; apex wedge, Face-S s ≈ −28.6). A full free-space search found no other GH15 site; each AUX cable runs along its own face's bottom edge above the MCIO ribbon (≈ 56 mm lateral Face P, ≈ 64 mm Face S; lengths M9).
+- **U3 (0, 41.6) → (−7.5, 49.0)** (≈ 10.5 mm). Redriver row **U10–U14 +2.5 mm in x** (U14 (−19.35, −3.5) → (−16.85, −3.5), 0.51 mm to J10).
+- New F.Cu rule areas `MCIO_RIBBON_J9` / `MCIO_RIBBON_J10` (no footprints/pads) from the courtyard outer edge to n 63, s ± 21.6.
+- Not routed (placeholders only), so nothing to re-route. Fit check ALL OK (27 parts), **DRC 0 violations / 0 unconnected**. System fit check `tools/fitcheck_o10.py` → `fitcheck_mcio_o10.txt` (ALL OK; notes: bend beyond the BP rim r ≤ 65.8 → base ring M1b; S5 under the J9 ribbon, CR-BP-1). Previous fp5 board/scripts: `/workspace/scratch/o10/`.
+
 **fp5 (2026-10-02 ≈ 13:15 ET, ICD rev 2, Aidan: face normals ≈ 45° / 135°):**
 - `tools/hub_floorplan.py` (`FACE_P_ANG` / `FACE_S_ANG`): J9 at r_c 31.2, s −5.2, rot −45°; J10 at r_c 31.5, s −2.0, rot +45° (apex gap 1.3 mm). At 90° between faces both receptacles cannot sit at s = +8.5 (they collide at the apex; J10 is bounded by the G1 keep-out), so **CR-2 is closed by a flat-twinax jog cable** (jogs 13.7 / 10.5 mm, face spec §3.6, feasibility ICD O-6).
 - J3 (0, 51.4) apex wedge; J4 (−38.0, 2.5) rot 135° beyond J10's lower-left end (6.3 mm from G1). Redrivers U10–U14, U1 (0, 15.3), U2 (−9, 6), Y1 (−2.6, 6), U3 (0, 41.6) re-packed in the V; SW1 (30.5, −34) and J8 (−40, −34) moved to the PSU side.
@@ -28,6 +35,7 @@ Spec: `/workspace/macpro62-architecture-spec-v0.2.md` (sections 3 and 4.9). Inte
 | `floorplan.png` / `.svg` | Render of the hub floorplan |
 | `drc_report.txt` | `kicad-cli pcb drc --severity-all`: 0 violations, 0 unconnected |
 | `fitcheck_floorplan.txt` | r_max <= 58 mm, gold-hole distance >= 6 mm and S1-S6 distance >= 3 mm per footprint |
+| `fitcheck_mcio_o10.txt` | O-10 system fit check (`tools/fitcheck_o10.py`, system python3): zero jog, J1 clearance, ribbon corridors, cable lengths, face envelope, SM-1 |
 | `lane_length_estimate.txt` | Estimated BP PCIe lane lengths (J1 -> MCIO) |
 | `docs/cpulink_224_pinout_draft.csv` | CPU-LINK 224 pin list draft with the CB mapping (from `tools/cpulink_pinout.py`) |
 | `backplane_direct.kicad_pcb` | Saved DIRECT variant (4L JLC04161H-7628, no PCIe on BP) |
@@ -45,6 +53,7 @@ python3 tools/build_pcb.py          # VARIANT=direct for backplane_direct.kicad_
 python3 tools/postprocess.py        # VARIANT=direct for the 4L stackup
 kicad-cli pcb drc --severity-all -o drc_report.txt backplane.kicad_pcb
 tools/render.sh backplane.kicad_pcb floorplan
+python3 tools/fitcheck_o10.py       # needs ../macpro62-face-template and ../macpro62-storage-face
 python3 tools/cpulink_pinout.py
 python3 tools/build_sch.py
 kicad-cli sch erc --severity-all -o erc_report.txt backplane.kicad_sch

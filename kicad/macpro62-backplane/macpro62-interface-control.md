@@ -1,11 +1,11 @@
-# MacPro6,2: Interface Control Document (ICD), rev 2
+# MacPro6,2: Interface Control Document (ICD), rev 3
 
 | Item | Value |
 |---|---|
-| Date | 2026-10-02, rev 1 ≈ 12:30 ET; **rev 2 ≈ 13:15 ET** (Aidan's decisions: 445 W ceiling + live power target, face normals ≈ 45°, CR-2 by jog cable, O-3/O-4/O-5 approved; port modules PMI-50) |
+| Date | 2026-10-02, rev 1 ≈ 12:30 ET; **rev 2 ≈ 13:15 ET** (Aidan's decisions: 445 W ceiling + live power target, face normals ≈ 45°, CR-2 by jog cable, O-3/O-4/O-5 approved; port modules PMI-50); **rev 2.1 2026-10-04 ≈ 08:45 ET** (O-6 answered: MCIO plug data sourced, BP mating-face error corrected, the lateral jog does not fit → proposal O-10, J_PCIE X 47.0 + BP fp6); **rev 3 2026-10-04 ≈ 09:15 ET** (Aidan approved **O-10**: J_PCIE X 47.0 / J_DISP X 82.5, narrow plugs, BP fp6 zero-jog landing applied in KiCad; DRC 0; O-10 CLOSED) |
 | Owner | Aidan Winkler (MacPro6,2 project) |
 | Scope | Every inter-board interface: CB (LGA1700/Z790 CPU board), BP (base board / backplane, Ø122), IOB (I/O board rev A0 + risers), face modules (MP62-FACE v0.1, template, SM-1 storage face) |
-| Masters | Architecture spec `macpro62-architecture-spec-v0.2.md` (changes 30–32; §5.5 LPT), face spec `macpro62-face-module-spec-v0.1.md` update 4 (supersedes arch §7), CB plan fl2.3, IOB plan (incl. §4.7.9 port modules), SM-1 plan, `kicad/macpro62-io-modules/README.md` |
+| Masters | Architecture spec `macpro62-architecture-spec-v0.2.md` (changes 30–34; §5.5 LPT), face spec `macpro62-face-module-spec-v0.1.md` update 6 (supersedes arch §7), CB plan fl2.3, IOB plan (incl. §4.7.9 port modules), SM-1 plan, `kicad/macpro62-io-modules/README.md` |
 | Tags | [Sourced], [Estimate], [Inference], [Unverified], [Proposal], TBD — as in the spec |
 
 **Conventions**
@@ -23,8 +23,8 @@
 |---|---|---|---|---|---|
 | I-1 | CPU-LINK | CB J1: card-edge fingers 224 (male tab, 79.89 × 1.57) | BP J1: Amphenol Mini Cool Edge 224 ME1022410103011, vertical SMT (female) | direct mate | `kicad/macpro62-backplane/docs/cpulink_224_pinout_draft.csv` (+ `cb_net` column) — identical copy in `kicad/macpro62-lga1700/docs/` |
 | I-2 | IOB-HS1 | CB J3: MCIO 124 RA receptacle (back side) | IOB J1: MCIO 124 RA receptacle (`MP62_MCIO_124P_RA_SFF-TA-1016`) | MCIO 124 cable, plug–plug, crossed | IOB end `kicad/macpro62-io-board/docs/mp62-iob-hs1_mcio124_pinout_v0.2.csv`; CB end `kicad/macpro62-lga1700/docs/mp62-cb-j3_mcio124_host-end.csv` |
-| I-3 | DISPLAY-LINK | Face P J_DISP (template J2): MCIO 74 RA receptacle, module X 82 | IOB J2: MCIO 74 RA receptacle | MCIO 74 cable, plug–plug, crossed | module end `macpro62-face/pinouts/mp62-face-v0.1_mcio74_displaylink_module-end.csv`; IOB end `kicad/macpro62-io-board/docs/mp62-iob-j2_mcio74_displaylink_iob-end.csv` |
-| I-4 | BP → Face P / Face S PCIe | BP J9 / J10: MCIO 124 RA receptacles (`MP62_MCIO_124P_RA_SFF-TA-1016`) | Module J_PCIE (template J1): MCIO 124 RA receptacle, module X 43.5 | MCIO 124 cable, plug–plug, crossed | module end `macpro62-face/pinouts/mp62-face-v0.1_mcio124_pcie_module-end.csv`; BP end = same, rows swapped |
+| I-3 | DISPLAY-LINK | Face P J_DISP (template J2): MCIO 74 RA receptacle, module **X 82.5** (O-10; narrow plug) | IOB J2: MCIO 74 RA receptacle | MCIO 74 cable, plug–plug, crossed | module end `macpro62-face/pinouts/mp62-face-v0.1_mcio74_displaylink_module-end.csv`; IOB end `kicad/macpro62-io-board/docs/mp62-iob-j2_mcio74_displaylink_iob-end.csv` |
+| I-4 | BP → Face P / Face S PCIe | BP J9 / J10: MCIO 124 RA receptacles (`MP62_MCIO_124P_RA_SFF-TA-1016`) | Module J_PCIE (template J1): MCIO 124 RA receptacle, module **X 47.0** (O-10, rev 3; was 43.5) | MCIO 124 cable, straight plug ↔ straight plug (narrow, no anti-skew flanges), crossed; **zero jog** (BP fp6 s = +5.0), ≈ 55 mm mating face ↔ mating face, custom (U-21) | module end `macpro62-face/pinouts/mp62-face-v0.1_mcio124_pcie_module-end.csv`; BP end = same, rows swapped |
 | I-5 | Face AUX ×2 | BP J3 / J4: JST GH 15P **BM15B-GHS-TBT** vertical | Module J_AUX (template J3): JST GH 15P **SM15B-GHS-TB** RA, module X 16.5 | GH 15P cable, GHR-15V-S both ends, 1:1 | `macpro62-face/pinouts/mp62-face-v0.1_aux_gh15.csv` |
 | I-6 | IOB-LINK | BP J6: JST GH 15P BM15B-GHS-TBT vertical | IOB J6: JST GH 15P BM15B-GHS-TBT vertical | GH 15P cable, 1:1 | IOB plan §5.5 (table §7 here) |
 | I-7 | PSU → IOB | PSU DC-out 12P + PSU data 6P (stock cables, female) | IOB J3 12P (stock CONN_B) + J4 6P (stock CONN_A) headers | stock cables | provisional (§8) |
@@ -128,7 +128,19 @@ Connector: MCIO 124 RA receptacle at both ends (Amphenol G97R24332HR / Molex 217
 | Set B (REFCLK1, PERST1#, …) | not driven by BP rev A | – | | OK |
 | USB2 | **not on the MCIO** (C-3) — on AUX | – | | **FIXED** (arch §7.5 marked superseded) |
 
-**Mechanical (fp5, rev 2; face normals ≈ 45° / 135°, Aidan 2026-10-02):** both BP receptacles use the SFF-TA-1016 RA footprint (pad rows 0.575 / 3.525). Face J_PCIE stays at module X 43.5 → s = +8.5 on both faces (C-2, rotational symmetry; module frame unchanged).
+**Mechanical (fp6, rev 3, O-10 approved by Aidan 2026-10-04 ≈ 08:44 ET; applied):** module J_PCIE **X 47.0** (s = 52 − X = +5.0), J_DISP **X 82.5**, narrow cable plugs. BP J9/J10 both at **s = +5.0 → zero lateral jog**; plain straight ↔ straight MCIO 124 cable.
+
+| | s (= module X 47.0) | r_c | origin (BP frame) | rot | mating face / plug rear n | Fit (rmax ≤ 58 / G-hole ≥ 6 / S-hole ≥ 3) | Cable jog | Free cable / mating face ↔ mating face (M1 15; 23.5) |
+|---|---|---|---|---|---|---|---|---|
+| J9 Face P | **+5.0** | **33.0** (was 31.2) | (14.68, 21.75) (was (20.62, 13.27): Δ 10.4) | −45° | 31.8 / 45.0 | 52.4 / 18.1 / 3.8 → OK | **0** | 26.4 / 52.8 mm; 34.9 / 61.3 mm |
+| J10 Face S | **+5.0** | **29.5** (was 31.5) | (−19.28, 12.20) (was (−15.74, 18.57): Δ 7.3) | +45° | 28.3 / 41.5 | 49.4 / 8.1 / 5.4 → OK | **0** | 29.9 / 56.3 mm; 38.4 / 64.8 mm |
+
+- **Re-pack (fp6):** courtyards sized for the narrow plug (±21.6). J9 ↔ J10 apex gap **4.28 mm**, **J1 ↔ J10 2.33 mm**, J1 ↔ J9 11.88 mm (≥ 1 mm required). **J3** (Face P AUX) (0, 51.4) rot 0 → **(42.5, 13.5) rot 45** (Δ ≈ 55 mm, beyond J9's outer end, Face-P s ≈ −20.5); **J4** (Face S AUX) (−38.0, 2.5) rot 135 → **(−2.5, 43.5) rot 45** (Δ ≈ 54 mm, apex wedge, Face-S s ≈ −28.6); **U3** (0, 41.6) → **(−7.5, 49.0)** (Δ 10.5); redriver row **U10–U14 +2.5 mm in x** (U14 (−19.35, −3.5) → (−16.85, −3.5)). A full free-space search (`scratch/o10/`) found no GH15 site near J10 / G1 / Face S's J_AUX end, so the AUX connectors swapped ends of the V; each AUX cable runs along its own face's bottom edge above the MCIO ribbon (§6).
+- New F.Cu rule areas `MCIO_RIBBON_J9` / `MCIO_RIBBON_J10` (no footprints/pads) from the plug end to n 63, s ± 21.6. The BP is not routed (placeholders only), so nothing was re-routed. **DRC 0 violations / 0 unconnected**; floorplan fit check ALL OK (27 parts); system fit check `kicad/macpro62-backplane/fitcheck_mcio_o10.txt` (`tools/fitcheck_o10.py`) **ALL OK** (zero jog both faces; corridors free, nearest part J3 2.9 mm / J4 6.5 mm; plugs inboard of the boards n ≤ 45 vs 55; ribbon 10.4 mm under the 15 mm edge; J_PCIE / J_DISP narrow plug bodies 1.3 mm apart; envelope h ≥ 17.8 over J_PCIE, h(96.1) 9.1 vs J_DISP body 6.86; SM-1 J1 3.9 mm below the M.2 cards).
+- **Open notes:** the ribbon bend lies just beyond the BP rim (bend outer face n 61.1, r ≤ 65.8 at z 1.5–8.2) → base ring / fillet clearance **M1b**; stock hole **S5** (18.49, 50.72) sits under the J9 ribbon (z ≥ 1.5): no screw head there, purpose TO CHECK (CR-BP-1); AUX cable lengths ≈ 56 / 64 mm lateral (M9); Face P lane estimate 37.6–74.0 mm (Face S 29.9–34.3), intra-x16 skew is absorbed by the PCIe receiver deskew but keep pair-internal matching.
+- Cable RFQ (U-21): draft text prepared 2026-10-04 (Amphenol AssembleTech / Molex / TE), **not sent**.
+
+~~**Mechanical (fp5, rev 2; face normals ≈ 45° / 135°, Aidan 2026-10-02):** both BP receptacles use the SFF-TA-1016 RA footprint (pad rows 0.575 / 3.525). Face J_PCIE stays at module X 43.5 → s = +8.5 on both faces (C-2, rotational symmetry; module frame unchanged).~~ (superseded by fp6)
 
 | | s requested (CR-2) | s placed | r_c | rot | Fit (rmax ≤ 58 / G-hole ≥ 6 / S-hole ≥ 3) | Cable jog |
 |---|---|---|---|---|---|---|
@@ -136,9 +148,49 @@ Connector: MCIO 124 RA receptacle at both ends (Amphenol G97R24332HR / Molex 217
 | J10 Face S | +8.5 | **−2.0** | 31.5 | +45° | 50.4 / 13.4 / 5.0 → OK | **10.5 mm** (by the cable) |
 
 - **Why not s = +8.5:** with 90° between the faces, both receptacles at s = +8.5 collide at the apex (J9/J10 apex gap is 1.3 mm at the placed values), J10 is bounded by the G1 hole keep-out, and J4 only fits beyond J10's lower-left end if J10 s ≤ −2. Scan scripts `scratch/icd2/` (scan2, joint, sepmod, ovl). At 45° the GPU board ends sit at (±75.7, 2.1), 14.7 mm in front of the CB plane → **no CB change**.
-- **CR-2 CLOSED by the cable (Aidan):** MCIO 124 straight-plug ↔ straight-plug, rows crossed (SFF-9402), **85 Ω flat-ribbon twinax, 34 AWG** (Amphenol AssembleTech MCIO family or equal, custom length), vendor-formed lateral jog 13.7 / 10.5 mm ± 1 mm, inside bend radius **≥ 3 mm per ribbon layer** (vendor: ≥ 2.5 × 0.55–0.60 mm), ≤ 2 static bends, no creases (face spec §3.6).
-- **Routing:** BP plug exits radially (along the face normal) → passes under the module bottom edge → 90° up on the outer side → module J_PCIE plug travelling +Y. Plug body 8.2 mm high → **6.8 mm clearance under the 15 mm edge** (M1; 15.3 mm if 23.5, C-16).
-- **Space check [Estimate]:** BP mating faces at n ≈ 43.3 / 43.6 mm; with an assumed 15 mm plug the BP plug rear is at n ≈ 58.3–58.6 and the module plug's cable exit at n ≈ 60.7, Y ≈ −0.5. Free cable between plug rears ≈ **12 mm (M1 = 15) to ≈ 20 mm (23.5)**, one 90° bend R ≈ 2.1–2.4 mm. That is **below the 3 mm bend rule and short for a 10–14 mm jog** → **OPEN O-6** (plug length U-19, M1c, vendor sample).
+- ~~CR-2 CLOSED by the cable (Aidan)~~ **rev 2.1: the jog cable does not work (O-6 answered, below).** Rev 2 asked for an MCIO 124 straight ↔ straight, 85 Ω flat-ribbon twinax cable with a vendor-formed lateral jog of 13.7 / 10.5 mm.
+- **Routing (unchanged, corrected numbers):** the BP plug exits radially (along the face normal) at z ≈ 3 (paddle centreline 3.05 above the BP), passes **under** the module bottom edge, makes one 90° easy-axis bend just outside the board's outer face, and runs up (+Y) into the module J_PCIE plug.
+
+**O-6 result (rev 2.1, 2026-10-04) [Sourced: SFF-TA-1016 Rev 1.3; Amphenol AssembleTech DS-0002; BP `backplane.kicad_pcb`]** — sketch `macpro62-face/docs/o6_mcio_cross_section.png`
+
+| Quantity | Value | Source |
+|---|---|---|
+| 124P plug, mating face (datum B) → plug body end | **12.75 REF** (Amphenol MCIO-124ST-01: L1 13.10) | SFF Table 6-3 N17; Amphenol DS-0002 |
+| 124P plug body thickness / latch top above plug bottom | 7.86 / **10.0 REF** (latch stopper 8.98) | SFF Table 6-3 N04, N16, N11 |
+| 124P plug width | rear 47.80 max with anti-skew flanges, front 44.80; **narrow option 42.15 rear, front = shroud 41.32 max** | SFF Table 6-3 N01/N03/N08 |
+| 74P plug width (J_DISP) | rear 31.60 / front 28.60 with flanges; **narrow 25.95**; thickness 6.86, latch 9.00 REF | SFF Table 6-2 |
+| 124P RA receptacle | width 42.20 max, length 10.07, PCB → card-slot centreline 3.05, mating face → peg line 6.025 | SFF Table 5-4 |
+| Plug bottom vs PCB (RA, mated) | ≈ flush (datum A → E 3.10 max vs 3.05) | SFF Tables 5-4, 6-3 |
+| Other plug styles (Amphenol 124P) | RA plug: L 12.82, H1 11.15, mating height 13.95 (exits ⟂ PCB); left/right side-exit: L **49.30**, H 22.90 (exits sideways, ribbon on edge) | Amphenol DS-0002 |
+| Ribbon bend | ≥ 2.5 × ribbon thickness (0.55–0.60 mm, 34 AWG) → design rule inner R ≥ 3 mm; 3M foldable twinax: one-time static fold R 1.0 mm at 45/90/180°, but 13–20 Ω impedance dips at hard creases | Amphenol DS-0002 (as cited in face spec §3.6); 3M 8KXX product spec; 3M twinax assembly catalogue |
+| **BP mating faces (correction)** | the footprint courtyard includes the 13.1 mm plug zone; mating face = origin + 6.025 toward the opening → **J9 n 29.99, J10 n 30.29** (rev 2 used the plug-zone end, 43.3 / 43.6, as the mating face) | `backplane.kicad_pcb`, `MP62_MCIO_124P_RA_SFF-TA-1016` |
+| BP plug rear (13.2 incl. tolerance) | J9 n **43.2**, J10 n **43.5**, z 0–7.9 (latch 10.0) — entirely inboard of the face board (n 55–56.6), ≥ 5 mm clear of the board edge (z 15) | derived |
+| Module plug rear | n 56.6–64.5, Y 14.5 − 13.2 = **Y ≈ 1.3** (z 16.3 at M1 15); cable centre at n 59.65 | face spec §3.5 + SFF |
+| Path (centreline, one 90° bend R_c 3.6) | Δn 16.5 / 16.2, Δz 13.25 → **free cable ≈ 28 mm (M1 15) / ≈ 37 mm (M1 23.5)** between plug rears; mating face ↔ mating face ≈ 54 / 63 mm | derived |
+| Straight runs available for a jog | horizontal ≈ 12.9 mm (ribbon flat, width along X), vertical ≈ 9.7 mm (M1 15) / 18.2 mm (M1 23.5) (ribbon parallel to the board, width along X) | derived |
+
+- **Verdict: the 13.7 / 10.5 mm jog does NOT fit.** The jog is along X, which is in the ribbon's own plane in both straight runs, i.e. the hard axis. A flat twinax ribbon can only do that by folding, and a 45°/45° Z-fold needs a straight run ≥ the ribbon width (≈ 17–20 mm per 16-pair ribbon, 38.6 mm paddle) against 12.9 / 9.7 mm available. Twisting the ribbon to bend on edge needs ≥ 2–3 ribbon widths. Loose-pair (discrete) twinax in a sleeve has a bundle bend radius of several bundle diameters, far more than the space. Rev 2's worry about short free length is gone: there is ≈ 28 mm, and the 90° bend at R_c 3.6 mm fits with ≈ 10 mm under the board edge. The **lateral offset** is the blocker.
+- **Centreline fallback (J_PCIE at module X 52 on all modules): rejected.** The BP cannot land both receptacles at s = 0: at 90° between the faces they collide at the apex, or with r_c ≥ 36 they hit the S-holes and the rim. The best BP placement for X 52 still leaves **3.5 mm** of jog (J9 r_c 27.5 / J10 r_c 33.5 at s = −3.5), and the module change is larger (8.5 mm) and pushes J_PCIE into J_DISP.
+- **Other options checked:** (a) keep X 43.5 with the best BP re-pack: still a **3.5 mm** jog; (b) RA or side-exit plugs: do not remove the offset; side-exit is 49 mm long, and an RA plug at the module end would stand 11–14 mm proud; (c) 3M foldable twinax, custom 124P with four 8-pair ribbons each Z-folded: geometrically marginal at M1 23.5, there is no catalogue 124P part, and crease impedance dips are a risk at Gen4/5 → backup only; (d) **rigid-flex MCIO jumper** (1.57 mm gold-finger paddle ends into the SFF receptacles, jog drawn into the flex outline): fits any offset, but has no latch (needs a clip), needs a Gen4/5 SI and impedance check, and is a custom JLC rigid-flex → **backup B1**.
+- **Zero-jog solution exists (scan `scratch/o6/scan_common.py`, J1 clearance included):** both receptacles can land at the same s only for s ∈ [+3.5, +5.0] (module X 47.0–48.5) or s ∈ [−5.0, −3.5] (X 55.5–57.0). X 47.0 is the smallest module move (+3.5 mm) → **proposal O-10** (§16).
+
+**O-10 (APPROVED by Aidan 2026-10-04 ≈ 08:44 ET; APPLIED in rev 3, see fp6 above).** Proposal table as approved (rev 2.1 estimates; the as-built fp6 numbers are in the fp6 table):
+
+| Item | Rev 2 | O-10 |
+|---|---|---|
+| Module J_PCIE centre | X 43.5 | **X 47.0** (mating face Y 14.5, opening −Y unchanged); keep-out X 25.5–68.5, Y 1.4–25.1 |
+| Module J_DISP centre | X 82.0, keep-out 67.5–96.5 | **X 82.5**, keep-out 69.0–96.0 (narrow 74P plug 69.5–95.5; h(95.5) = 9.5 vs 6.86 body) |
+| Cable plugs | any SFF plug | **narrow option (no anti-skew flanges)** on J_PCIE (≤ 42.15) and J_DISP (≤ 25.95) cables; plug-to-plug gap ≈ 1.4 mm. Amphenol MCIO-124ST-01 is the flanged plug (W 44.75): if the vendor has no narrow 124P plug, J_DISP goes to **X 84.5** instead (flanged rear 70.9 vs J_DISP narrow 71.5; h(97.5) = 8.2 vs 6.86 body) |
+| BP J9 (Face P) | r_c 31.2, s −5.2, origin (20.62, 13.27) | **r_c 33.0, s +5.0**, origin (14.68, 21.75), rot −45°; mating face n 31.8; plug rear n 45.0 |
+| BP J10 (Face S) | r_c 31.5, s −2.0, origin (−15.74, 18.57) | **r_c 29.5, s +5.0**, origin (−19.28, 12.20), rot +45°; mating face n 28.3; plug rear n 41.5 |
+| J9 ↔ J10 apex gap / rim / G-hole / S-hole | 1.32 / 51.8 / 6.2 / 3.8 | 2.62 / 53.2 / 16.4 / 3.8 (J9); 50.3 / 6.4 / 5.4 (J10); J1 ≥ 1.0 |
+| BP re-pack (fp6) | – | courtyard overlaps to clear: **J3** −2.4 and **U3** −2.1 (apex, move ≈ 3 mm), **U14** −1.3, **J4** −6.4 (relocate); then DRC / fit check. **As built:** J3 → (42.5, 13.5), J4 → (−2.5, 43.5), U3 → (−7.5, 49.0), U10–U14 +2.5 x; DRC 0/0 |
+| Cable | jog cable, custom | **plain straight ↔ straight MCIO 124, no jog**; free ≈ 26 mm (J9) / ≈ 30 mm (J10) at M1 15, +8.5 at M1 23.5; mating face ↔ mating face ≈ 53 / 56 mm (M1 15) |
+
+- **Parts and prices [Sourced, fetched 2026-10-04 ET]:**
+  - Receptacles (unchanged): Amphenol **G97R24332HR** MCIO 124 RA, LCSC **C4867471**, $9.59 @1 / $9.07 @100, **stock 0**; Amphenol **G97R22332HR** MCIO 74 RA, LCSC **C5433520**, $7.94 @1 / $5.69 @100, stock 4. Alternative 74P RA: ACES 52730-0740D-021, Digikey $6.34 @1 (225 in stock at the time of the Digikey highlight).
+  - Cable (straight ↔ straight 124P, x16, 85 Ω, 30–34 AWG twinax): **custom length ≈ 55 mm from Amphenol AssembleTech (MCIO-124ST plug family, DS-0002), Molex Mini Cool Edge or TE — quote needed (U-21)**. Catalogue reference for the M4 fit sample: **Molex 216610-1121** (straight–straight 124P x16, 30 AWG, 150 mm, shortest standard length). No distributor price or stock found: Digikey has no listing and RADIOMAG shows it unavailable. Other catalogue parts (Molex 216611-1141 RA–straight, TE 2366xxx straight–RA, Cablexa CAB-MCIOi16-RAMCIOi16 0.5 m) have an RA end, which fits neither end here (BP: exits upward, needs a U-turn; module: stands 11–14 mm proud of the outer side).
+- **Space check [rev 2.1]:** see the table above. Clearances: cable ↔ board bottom edge ≈ 10 mm; BP plug latch (z 10.0) is inboard of the board (n ≤ 45); vertical cable run 1.5 mm off the board outer face below the edge.
 - Lane estimates (BP, CPU-LINK → J9/J10): Face P 39–65 mm, Face S 40–43 mm (`lane_length_estimate.txt`).
 
 ---
@@ -159,7 +211,7 @@ Connector: MCIO 124 RA receptacle at both ends (Amphenol G97R24332HR / Molex 217
 | 13 / 14 | USB2 D+ / D− | bi | CPU-LINK USB2_FACEP / USB2_FACES | optional | OK (C-3) |
 | 15 | MOD_LED# | module → BP, OD ≤ 5 mA | MCU mirrors it to the face LED | SSD activity wired-OR | **FIXED** (BP had GH14, no pin 15) |
 
-- **FIXED:** BP J3/J4 GH14 (BM14B) → **GH15 BM15B-GHS-TBT**; `face_aux` stub gained FACE_MOD_LED_N. Gender: both ends are GH headers (BP vertical, module RA); the cable carries GHR-15V-S housings. Positions **fp5 (rev 2):** **J3 (0, 51.4) rot 0** in the apex wedge (Face P's J_AUX end); **J4 (−38.0, 2.5) rot 135°** beyond J10's lower-left end, 6.3 mm from G1 (Face S frame n 28.6, s 25.1).
+- **FIXED:** BP J3/J4 GH14 (BM14B) → **GH15 BM15B-GHS-TBT**; `face_aux` stub gained FACE_MOD_LED_N. Gender: both ends are GH headers (BP vertical, module RA); the cable carries GHR-15V-S housings. Positions **fp6 (rev 3, O-10):** **J3 (42.5, 13.5) rot 45°** beyond J9's outer end (Face-P s ≈ −20.5; the Face P J_AUX is at module X 16.5 = s +35.5 → ≈ 56 mm lateral run along the Face P bottom edge, above the MCIO ribbon); **J4 (−2.5, 43.5) rot 45°** in the apex wedge (Face-S s ≈ −28.6 → ≈ 64 mm lateral run along the Face S bottom edge). ~~fp5: J3 (0, 51.4) rot 0, J4 (−38.0, 2.5) rot 135°~~ (no GH15 site left near J10 / G1 with the fp6 MCIO positions).
 - Cable length: TBD (U-6).
 
 ---
@@ -365,14 +417,14 @@ Standby (11 V SB, 5 W): BP MCU/sensors ≤ 0.3 W, faces ≤ 0.1 W, CB 5V_SBY 1�
 |---|---|---|
 | CR-BP-1 | Ø6 rule-area keep-outs (all copper layers, no footprints/tracks/vias/pour) at S1 (−52.64, 13.81), S2 (−26.57, −46.65), S3 (26.49, −46.64), S4 (−18.12, 50.70), S5 (18.49, 50.72), S6 (52.80, 13.88); fit check courtyard ≥ 3.0 from each centre | **APPLIED** |
 | U4 | (−27, −46.5) → **(−30, −38)** (S2 was inside its courtyard) | **FIXED** |
-| J6 / J3 / J4 / J8 / U3 / Y1 | moved for S3 / S4 / S5 and the new J9 (§6, §7); fp5: J3 (0, 51.4), J4 (−38.0, 2.5), J8 (−40, −34), SW1 (30.5, −34), U3 (0, 41.6), Y1 (−2.6, 6) | **FIXED** |
+| J6 / J3 / J4 / J8 / U3 / Y1 | moved for S3 / S4 / S5 and the new J9 (§6, §7); fp5: J3 (0, 51.4), J4 (−38.0, 2.5), J8 (−40, −34), SW1 (30.5, −34), U3 (0, 41.6), Y1 (−2.6, 6). **fp6 (rev 3):** J3 (42.5, 13.5) rot 45, J4 (−2.5, 43.5) rot 45, U3 (−7.5, 49.0), U10–U14 +2.5 x, J9 (14.68, 21.75), J10 (−19.28, 12.20) | **FIXED** |
 | J5 (fan) | removed | **FIXED** |
-| Fit check | fp5: all 27 BP parts rmax ≤ 58 (max 57.8), gold-hole ≥ 6, S ≥ 3: **ALL OK**; DRC 0 / 0, ERC 0 | OK |
+| Fit check | fp6: all 27 BP parts rmax ≤ 58 (max 57.8), gold-hole ≥ 6, S ≥ 3: **ALL OK**; DRC 0 / 0, ERC 0; `fitcheck_mcio_o10.txt` ALL OK | OK |
 | Face normals | **≈ 45° / 135° (Aidan 2026-10-02, M2c answered; C-18 closed)**. BP fp5 re-placed J9/J10/J3/J4, redrivers, MCU, SW1/J8; CB unaffected (GPU board ends 14.7 mm in front of the CB plane); module frame unchanged. Residual: caliper check of each GPU face | **RESOLVED** (U-7 residual) |
 | GPU-board bottom edge above the BP | 15 mm (M1) vs ≈ 23.5 implied by the standoffs (**M1c / C-16**) | OPEN |
 | CB tab ↔ BP J1 | slot y −12.5 ± 0.3 (scan) vs J1 −12.6 | OK |
-| MCIO clearance under the cards | plug body 8.2 mm → 6.8 mm under the 15 mm edge (15.3 at 23.5); jog cable feasibility **O-6** | OPEN (O-6) |
-| Cable lengths | MCIO BP→faces: only ≈ 12–20 mm free between plug rears (rev 2 space check; was 30–60 mm) (M4, C-9); HS1 CB→IOB and DISPLAY-LINK (M9); GH15 AUX ×2, IOB-LINK, Micro-Fit harness — none measured | OPEN (U-6) |
+| MCIO clearance under the cards | rev 2.1: BP plug (z ≤ 10.0 at the latch) ends at n 43.2 / 43.5, inboard of the board (n 55); cable passes ≈ 10 mm under the 15 mm edge; **jog infeasible (O-6 answered)** → **O-10 applied (rev 3):** fp6 plugs end at n 45.0 / 41.5, ribbon 10.4 mm under the edge, zero jog | **CLOSED** (bend vs base ring: M1b) |
+| Cable lengths | MCIO BP→faces: fp6: 26.4 / 29.9 mm free between plug rears at M1 15 (34.9 / 38.4 at 23.5), **52.8 / 56.3 mm mating face ↔ mating face** (61.3 / 64.8 at 23.5) → one ≈ 55 mm custom part (RFQ drafted, U-21) — below the 150 mm catalogue minimum → custom length (M4, C-9); HS1 CB→IOB and DISPLAY-LINK (M9); GH15 AUX ×2, IOB-LINK, Micro-Fit harness — none measured | OPEN (U-6) |
 | IOB riser / plate geometry | being re-tilted by another worker (change 29); not touched here | – |
 
 ---
@@ -396,12 +448,13 @@ Standby (11 V SB, 5 W): BP MCU/sensors ≤ 0.3 W, faces ≤ 0.1 W, CB 5V_SBY 1�
 
 | ID | Decision | Outcome (rev 2) | Status |
 |---|---|---|---|
-| ~~O-1~~ | BP J10 cannot meet CR-2 | **Aidan: flat-ribbon twinax MCIO cables that bend and jog.** At 45° both J9 and J10 need the jog (13.7 / 10.5 mm); J_PCIE stays at X 43.5 | CLOSED → feasibility O-6 |
+| ~~O-1~~ | BP J10 cannot meet CR-2 | **Aidan: flat-ribbon twinax MCIO cables that bend and jog.** At 45° both J9 and J10 need the jog (13.7 / 10.5 mm); J_PCIE stays at X 43.5. **Rev 2.1: the jog does not fit (O-6) → O-10** | CLOSED → O-6 → O-10 |
 | ~~O-2~~ | 12 V budget > 405 W | **Aidan: 445 W ceiling (PSU 450 W) + live power target** (§13.1, §13.2); D-IO1 pool cap stays mandatory | CLOSED |
 | ~~O-3~~ | IOB 3V3_BT rail | **S0: R149 fitted, R148 DNP** (IOB `build_sch.py`, ERC 0) | CLOSED |
 | ~~O-4~~ | CB ID EEPROM on I2C0 + PCH SMBus isolated | **approved** (CB plan fl2.3) | CLOSED |
 | ~~O-5~~ | EMC2101 fail-safe | **approved:** BP MCU reloads LUT/TCRIT/PWM/fan-fail at every S0 entry + read-back (check the power-on default duty, U-14) | CLOSED |
-| **O-6** | **Jog-cable feasibility:** only ≈ 12–20 mm free cable between plug rears (M1 15 → 23.5) vs 10.5–13.7 mm jogs and a ≥ 3 mm bend rule | Get the MCIO plug drawing (length to cable exit, U-19), measure M1c, ask Amphenol/vendor for a jog sample (M4). Fallbacks: (a) shorter or side-exit BP plug; (b) move the BP receptacles inward (fp6, smaller r_c; fit/J1 limits); (c) raise Y_mate on the module (≤ 28.5, MECH rev); (d) J_PCIE at module X 52 on all modules (template + SM-1 J1 move, ≈ 4–5 mm jogs) | **OPEN** |
+| ~~O-6~~ | Jog-cable feasibility (13.7 / 10.5 mm) | **Answered (rev 2.1, §5):** plug data sourced (SFF-TA-1016 r1.3, Amphenol DS-0002); BP mating faces corrected to n 30.0 / 30.3 → ≈ 28 mm free cable, the 90° bend fits; the **lateral jog does not fit** in a flat twinax ribbon (in-plane, needs ≥ 17–20 mm per fold vs 9.7–12.9 mm). Centreline fallback (X 52) rejected: ≥ 3.5 mm jog remains | **CLOSED → O-10** |
+| ~~O-10~~ | Zero-jog MCIO landing: module J_PCIE X 43.5 → **47.0**, J_DISP X 82.0 → **82.5**, narrow (no-flange) cable plugs; BP fp6 J9 r_c 33.0 / J10 r_c 29.5, both s = +5.0; plain straight ↔ straight custom-length MCIO 124 cable | **Approved by Aidan (2026-10-04 ≈ 08:44 ET) and applied (rev 3):** face spec update 6 (§3.5/§3.6), template J1/J2 and SM-1 J1 moved, narrow-plug footprints, BP fp6 re-pack (J9, J10, J3, J4, U3, U10–U14), DRC 0 on all three boards, `fitcheck_mcio_o10.txt` ALL OK. Cable quote → U-21 (RFQ drafted, not sent). Backup B1 (rigid-flex jumper) no longer needed | **CLOSED** |
 | **O-7** | Do PECI power-limit writes (WrPkgConfig) work on Raptor Lake client parts? | If not: SMM mailbox only (already the primary path) | OPEN [Unverified] |
 | **O-8** | TPS65994 PDO renegotiation timing (source caps + SSrC) and sink behaviour (Apple/USB-PD devices) | Measure at bring-up; LPT assumes ≈ 1 s | OPEN [Unverified] |
 | **O-9** | INA228 (VSSOP-10) LCSC part number, stock and pin numbering of the symbol | Verify against the TI datasheet before schematic freeze (CB U15, IOB U98, SM-1 U13, template U5) | OPEN [Unverified] |
@@ -417,7 +470,7 @@ Standby (11 V SB, 5 W): BP MCU/sensors ≤ 0.3 W, faces ≤ 0.1 W, CB 5V_SBY 1�
 | U-3 | Which PSU terminal pair feeds the CB and lug polarity | CB LUG1/2 | M-CC16, M-CC7 |
 | U-4 | Face lug positions, polarity per face, bus-bar ampacity | Face J20–J23 | M5 |
 | U-5 | CONN_C pinout, fan current, FG pole count, antenna receptacle | IOB J7/J8, fan | M-IOC1, M-IOC3, M-IOA1, M7 |
-| U-6 | Cable lengths and routes: MCIO BP→faces (30–60 mm, custom), HS1 CB J3→IOB J1, DISPLAY-LINK, GH15 ×3, Micro-Fit harness | ordering | M4, M9, C-9 |
+| U-6 | Cable lengths and routes: MCIO BP→faces (≈ 53–56 mm mating face ↔ mating face at M1 15, ≈ 62–65 at 23.5; custom; vendor minimum length unknown), HS1 CB J3→IOB J1, DISPLAY-LINK, GH15 ×3, Micro-Fit harness | ordering | M4, M9, C-9 |
 | U-7 | ~~Face-normal angle~~ **answered ≈ 45° / 135° (rev 2)**; residual caliper check of each GPU face; GPU-board edge height 15 vs 23.5 mm | J9/J10 jog, O-6 | M2c (residual), M1c, C-16 |
 | U-8 | ASM1182e: downstream REFCLK outputs and per-port PERST# (IOB wires the host I226_PERST# straight to U50/U52/U91/J7) | i226 #2, AirPort | ASM1182e datasheet |
 | U-9 | I/O-wall flex LED MCU addresses and supply | I2C_SYS map | IOB §9.5 |
@@ -430,7 +483,8 @@ Standby (11 V SB, 5 W): BP MCU/sensors ≤ 0.3 W, faces ≤ 0.1 W, CB 5V_SBY 1�
 | U-16 | CB 5V_SBY S5 draw | standby budget | measure |
 | U-17 | IOB PCB value text for U90 still says "I2C_SYS" (placement.json; next IOB PCB rebuild by the riser worker) | docs only | – |
 | U-18 | IOB PCB placement of **U98 INA228 + RS90 1 mΩ** (schematic only in rev 2; RS90 in the 12 V path right after U40, Kelvin pair, U98 ≤ 10 mm) | IOB PCB | IOB PCB owner |
-| U-19 | MCIO 124 cable plug length (mating face → cable exit) and exit style (straight / side) | O-6, cable order | plug drawing, M4 |
+| ~~U-19~~ | MCIO 124 cable plug length: **answered** 12.75 REF (SFF Table 6-3) / 13.10 (Amphenol MCIO-124ST-01); straight plug, cable exits along the mating axis. Residual: overmold/strain-relief length of the chosen vendor | O-10, cable order | vendor drawing, M4 |
+| U-21 | Shortest custom MCIO 124 straight ↔ straight assembly a vendor will build (≈ 55 mm, fp6: 52.8 / 56.3 at M1 15; RFQ text drafted 2026-10-04, not sent; catalogue minimum 150 mm, Molex 216610-1121), MOQ, price, sideband wiring (OQ-1, OQ-3) | O-10 cable | vendor quote (Amphenol AT / Molex / TE / Luxshare) |
 | U-20 | Stock PSU behaviour at 445 W for > 1 s (OCP/OPP point) | 445 W ceiling | M6 |
 
 ---
@@ -457,3 +511,18 @@ Standby (11 V SB, 5 W): BP MCU/sensors ≤ 0.3 W, faces ≤ 0.1 W, CB 5V_SBY 1�
 - **SM-1** `macpro62-storage-board-plan.md` (§10 O-1 row).
 - **Master spec** `macpro62-architecture-spec-v0.2.md` (change 30; §1.2, §3.8, §3.9, §4.1, §4.3, §4.4, §4.6, §4.7, §4.8, §4.9, §5.1, §5.3, §5.4, §7 banner/§7.5/§7.6/§7.8/§7.9, M7).
 - This ICD.
+
+### 18.2 Rev 2.1 (2026-10-04 ≈ 08:20–08:50 ET)
+
+- ICD: header, I-4 row, §5 mechanical (O-6 result table, verdict, O-10 proposal), §14 rows, §16 O-1/O-6/O-10, §17 U-6/U-19/U-21.
+- Face spec sources `macpro62-face/src/spec_part1.md` (changelog update 5), `spec_part2.md` (§3.5 BP landing; §3.6 routing, plug data, jog, space check), `spec_part5.md` (C-9, OQ-1, M4) → rebuilt `macpro62-face-module-spec-v0.1.md`; new sketch `macpro62-face/docs/o6_mcio_cross_section.png` (script `scratch/o6/sketch.py`).
+- Architecture spec: changelog item 33.
+- No KiCad files changed (O-10 is a proposal). Scripts: `scratch/o6/cand3.py`, `scan_common.py`, `jogmin.py`.
+
+### 18.3 Rev 3 (2026-10-04 ≈ 08:45–09:15 ET, O-10 applied)
+
+- **Face** `macpro62-face/tools/face_geom.py` (J_PCIE X 47.0 / J_DISP X 82.5, narrow-plug keep-outs, LANDING s +5.0) → `face_geom.json` (copied to the template and SM-1 `tools/`), `make_drawing.py` → `macpro62-face-v0.1-mech.png`, `make_dxf.py` → `macpro62-face-v0.1-outline.dxf`; spec sources `src/spec_part1.md` (update 6), `spec_part2.md` (§3.5 table + rules, §3.6), `spec_part4.md` (checklist 10/11, §9 note), `spec_part5.md` (C-2, C-9, CR status, OQ-1, MF-3) → rebuilt `macpro62-face-module-spec-v0.1.md`.
+- **Face template** `kicad/macpro62-face-template/`: `tools/make_footprints.py` (narrow-plug courtyards 124P ±21.6 / 74P ±13.6), `MP62_Face.pretty`, regenerated PCB (J1 X 47.0, J2 X 82.5), `drc_report.txt` (0/0/0), `template_render.png`, `README.md`.
+- **SM-1** `kicad/macpro62-storage-face/`: `tools/make_footprints.py`, `tools/floorplan.py` (J_PCIE X from `face_geom.json`), regenerated PCB (J1 X 47.0), `drc_report.txt` (0/0/0), `erc_report.txt` (0), `floorplan_storage_SM1.png`, `render_core_side_F.png`, `render_outer_side_B.png`, `README.md`.
+- **BP** `kicad/macpro62-backplane/`: `tools/hub_floorplan.py` (fp6), `tools/build_pcb.py` (rev A-fp6-hub), new `tools/fitcheck_o10.py` → `fitcheck_mcio_o10.txt`; regenerated `MP62_Placeholders.pretty/MP62_MCIO_124P_RA_SFF-TA-1016.kicad_mod`, `backplane.kicad_pcb`, `drc_report.txt` (0/0), `erc_report.txt` (0, schematic unchanged), `fitcheck_floorplan.txt`, `lane_length_estimate.txt`, `floorplan.png/.svg`, `README.md`. fp5 backups and search scripts in `scratch/o10/`.
+- Architecture spec: changelog item 34. This ICD (header, I-1 rows I-3/I-4, §5 fp6, §6 AUX positions, §14, §16 O-10 CLOSED, §17 U-21).

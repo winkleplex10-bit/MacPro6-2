@@ -30,18 +30,18 @@ def mcio(npos):
     # npos = 74 (8i: 37 per row) or 124 (16i: 62 per row)
     if npos == 124:
         xs = [-18.90 + 0.6 * i for i in range(37)] + [4.50 + 0.6 * i for i in range(25)]
-        peg, slot, body_w, plug_w = 40.645, 41.70, 42.20, 46.0
+        peg, slot, body_w, plug_w = 40.645, 41.70, 42.20, 42.7   # O-10: narrow plug (SFF Table 6-3 N01 42.15 +/-0.15), was 46.0 (flanged)
         name = "MP62_MCIO_124P_RA_SFF-TA-1016"
         descr = ("MCIO 124P (16i, x16 + 2 sideband sets) right-angle receptacle, SFF-TA-1016 Rev 1.3 Table A-2 recommended footprint. "
                  "Amphenol G97R24332HR (LCSC C4867471) / JPC / Molex 2173463021 class. Pad rows assumed behind datum Y (verify vs vendor drawing). "
-                 "Courtyard includes the straight-plug zone (13.1 mm) in front of the mating face.")
+                 "Courtyard includes the straight-plug zone (13.1 mm) in front of the mating face, sized for the NARROW plug option (no anti-skew flanges, <= 42.30 wide; ICD O-10).")
     else:
         xs = [-10.80 + 0.6 * i for i in range(37)]
-        peg, slot, body_w, plug_w = 24.445, 25.50, 25.80, 29.0
+        peg, slot, body_w, plug_w = 24.445, 25.50, 25.80, 26.7   # O-10: narrow plug (SFF Table 6-2 L01 25.95 +/-0.15), was 29.0
         name = "MP62_MCIO_74P_RA_SFF-TA-1016"
         descr = ("MCIO 74P (8i, 8 pairs/row + sideband) right-angle receptacle, SFF-TA-1016 Rev 1.3 Table A-1 recommended footprint. "
                  "Amphenol G97R22332HR (LCSC C5433520) / JPC P947B0743313 class. Pad rows assumed behind datum Y (verify vs vendor drawing). "
-                 "Courtyard includes the plug zone.")
+                 "Courtyard includes the plug zone, sized for the NARROW plug option (no anti-skew flanges, <= 26.10 wide; ICD O-10).")
     L = head(name, descr, "MCIO SFF-TA-1016 MP62")
     yf, yr = -6.025, 4.045                     # mating face, body rear (Table 5-4: 6.025 face-to-peg, 10.07 long)
     L += [rect(-body_w / 2, yf, body_w / 2, yr, "F.Fab"),
