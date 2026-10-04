@@ -825,6 +825,16 @@ This is better than the riser design (one connector instead of two DF40s plus a 
 
 ### 4.7.11 Changelog 2026-10-02 ≈ 16:10 / 16:25 ET: plate screwed to the frame — 2× M1.6 centre screws (primary) + 4× M1.6 corner screws (secondary); glue = optional fallback
 
+> **Update 2026-10-04 ≈ 12:35 ET: power-button features in the plate, and H21 moved (Aidan; not pushed).** `build_plate.py` `BUTTON_FEATURES` (default on), `button_closeup.py` → `io_plate_v2_A0_button_closeup.png`. All variants, previews, DXFs and checks were regenerated; details are in the `io_plate_v2` README.
+> - **Inner face at the flex button (43.02, 108.11).** Positions come from the 821-2222-A trace. The outer-face scan 83f0b85e shows the features through the plate.
+>   - Keyed counterbore **Ø15.0 × 0.50** (wall 0.90) around the Ø12.4 opening, with a key notch 2.6 wide, r 7.0–9.8, at 140°.
+>   - **2 ear posts Ø1.6 × 1.0** through the carrier ear holes Ø1.8 (0.10/side), with a core Ø0.8 × 1.9 for a heat-stake or M1.0 thread-forming screw. These are the retainer mounts; no taller boss fits outside the flex.
+>   - **Locating rib 0.5 × 5.6 × 1.0** in the 0.8 flex slot at X 51.23.
+>   - No plate light pipe: the 2 button LEDs sit inside the Ø12.4 opening and the clear cap carries the light.
+>   - Confidence: positions high; depth, heights and the key are medium-low (scan only). Measure M-IOPB1–7.
+> - **Margins:** pocket to AC 2.21; post tips 0.17 short of the frame front; BTN_POST_1 to the HDMI clamp-post M2 head **0.09 in plan / 0.08 vertical** (tight). Wall 1.4 elsewhere.
+> - **H21** (clamp post C upper) moved **(53.19, 70.80) → (53.19, 69.80)** (`tools/modules_geom.py` `POSTS` → `modules.json` → `build_pcb.py`). Web between the C1 Ø5.0 clamp-plate hole and the post is now **1.3** (was 0.3). modules_geom 114/114 OK; main-board **DRC 0 / 0 unconnected**; schematic untouched (ERC not re-run).
+
 > **Update 2026-10-04 ≈ 10:35 / 11:15 ET (Aidan's test print).** `mechanical/io_plate_v2/build_plate.py` (`SCREW_SHIFT_Y`, `CENTRE_TRIM`), all variants / previews / DXFs regenerated:
 > - **Corner screws +1.0 in Y** (toward the top edge, away from the audio jacks): SCR_T± (30.64 / 75.74, **150.95**), SCR_B± (30.64 / 75.74, **15.70**). Top countersink edge margin 1.29 → 0.92 (≥ 0.6 OK); SCR_B− now clears J31 (+0.66). Boss height unchanged.
 > - **Centre screws (corrected ≈ 11:15 ET, Aidan: the ≈ 10:35 build removed the wrong post):** **SCR_C2** (lower, 53.45, 58.27) is **removed**; it is the stock alignment post we don't have. The C2 notes (Ø7.0 clamp-plate hole, H13 standoff conflict) no longer apply.
@@ -1479,6 +1489,13 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | **M-IOA2** | iMac card in the fan-assembly adapter: do the 4 stock antenna leads reach its U.FL row; which lead is BT; trimmed-section clearance. |
 | **M-IOB2** | T8 fan-cable bracket: outline, thickness, standoff height and thread, ground contact; confirm the B keep-out X 38.06–62.92 / Y 0–10.5. |
 | **M-IOK1** | Plate clip positions by caliper from the cover edge (the phone scan cannot resolve them). |
+| **M-IOPB1** | Stock button: hole Ø on both plate faces; cap OD, flange OD/thickness, key tab (plate model: opening Ø12.4, pocket Ø15.0 × 0.50; scan hole Ø11.9). |
+| **M-IOPB2** | The Ø≈15 ring around the button on the inner face: recess or raised collar, exact Ø and depth/height. |
+| **M-IOPB3** | Key notch: angle (model 140° back view), width (2.6), radial extent (r 7.0–9.8). |
+| **M-IOPB4** | Ear features at BTN_EAR_1/2: pin or screw boss, OD, bore, height above the inner face, heat-staked or screwed (screw size/length). Model: Ø1.6 × 1.0 posts, Ø0.8 core. |
+| **M-IOPB5** | Rib along the 0.8 flex slot between the carrier ring and the flex body: present? Thickness, length, height, X (model 0.5 × 5.6 × 1.0 at X 51.23). |
+| **M-IOPB6** | Button carrier thickness at the ring and the ear lugs, and which flex face carries the carrier, the dome and the LEDs. |
+| **M-IOPB7** | What backs the dome (retainer under the ears, frame tab?), its thickness, and the plate-to-frame gap at the button (1.17 assumed). Supersedes M-IOW3 for the plate. |
 | M-IOR1 | RJ45 ZJLQ-RJ45-SMD-PCB125-8P8C height (≤ 13.0) and latch orientation; V24P05S pin map. |
 | M-IOR2 | Riser underside gaps after assembly (DF40 C-fold space 4.4–6.5; pogo working height 5.9–7.1). |
 | M-IOB1 | I/O-wall flex J31: count, pitch, contact side, button pair, GND, I²C, LED supply (§9.5). |

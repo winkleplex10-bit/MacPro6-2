@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MP62")(type "KiCad")(uri "${KIPRJMOD}/MP62_AM5_Stubs.kicad_sym")(options "")(descr "MP62 AM5 CB block-stub symbols (non-BOM)"))
+)

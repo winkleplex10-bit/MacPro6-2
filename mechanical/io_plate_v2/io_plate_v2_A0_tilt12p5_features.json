@@ -323,6 +323,167 @@
    }
   ]
  },
+ "button": {
+  "features": [
+   {
+    "id": "BTN_POCKET",
+    "kind": "BTN",
+    "x": 43.023,
+    "y": 108.111,
+    "w": 15.0,
+    "h": 15.0,
+    "depth": 0.5,
+    "wall": 0.9,
+    "note": "keyed counterbore \u00d815.0 x 0.50 on the inner face around the \u00d812.4 button opening (button-cap flange seat / anti-rotation); scan ring \u00d815.1+-0.3",
+    "conf": "medium-low"
+   },
+   {
+    "id": "BTN_KEY",
+    "kind": "BTN",
+    "x": 36.58822667780059,
+    "y": 113.51041592136694,
+    "w": 2.6,
+    "h": 2.6,
+    "depth": 0.5,
+    "note": "key notch 2.6 wide, r 7.0-9.8 at 140 deg (back view), same depth as the pocket",
+    "conf": "medium-low"
+   },
+   {
+    "id": "BTN_POST_1",
+    "kind": "BTN",
+    "x": 49.653,
+    "y": 113.531,
+    "w": 1.6,
+    "h": 1.6,
+    "length": 1.0,
+    "core": [
+     0.8,
+     1.9
+    ],
+    "ear_hole_d": 1.8,
+    "radial_clr": 0.1,
+    "note": "ear post \u00d81.6 x 1.0 (radial) through the carrier ear hole \u00d81.8; \u00d80.8 x 1.9 core = heat-stake core or M1.0 thread-forming pilot for the button retainer",
+    "conf": "position high / size medium"
+   },
+   {
+    "id": "BTN_POST_2",
+    "kind": "BTN",
+    "x": 36.233,
+    "y": 103.031,
+    "w": 1.6,
+    "h": 1.6,
+    "length": 1.0,
+    "core": [
+     0.8,
+     1.9
+    ],
+    "ear_hole_d": 1.8,
+    "radial_clr": 0.1,
+    "note": "ear post \u00d81.6 x 1.0 (radial) through the carrier ear hole \u00d81.8; \u00d80.8 x 1.9 core = heat-stake core or M1.0 thread-forming pilot for the button retainer",
+    "conf": "position high / size medium"
+   },
+   {
+    "id": "BTN_RIB",
+    "kind": "BTN",
+    "x": 51.23,
+    "y": 106.1,
+    "w": 0.5,
+    "h": 5.6000000000000085,
+    "length": 1.0,
+    "note": "locating rib 0.5 x 5.6 x 1.0 in the 0.8 slot between the carrier ring and the flex body (X 50.83-51.63)",
+    "conf": "medium-low"
+   }
+  ],
+  "check": {
+   "pocket": {
+    "d": 15.0,
+    "depth": 0.5,
+    "wall": 0.9,
+    "to_AC_opening": 2.21,
+    "to_ETH2_opening": 3.67,
+    "to_HDMI_opening": 5.53,
+    "key_corners_to_AC": 3.04,
+    "key_corners_to_plate_edge": 7.44,
+    "flex_ring_r": 7.79,
+    "note": "pocket r 7.50 is inside the flex ring r 7.79: the flex covers it (only the key notch reaches past the flex edge)"
+   },
+   "posts": [
+    {
+     "id": "BTN_POST_1",
+     "x": 49.653,
+     "y": 113.531,
+     "radial_clr_in_ear_hole": 0.1,
+     "web_to_pocket": 0.26,
+     "frame_open_margin": 1.15,
+     "tip_to_frame_front": 0.17,
+     "tip_above_board": 16.94,
+     "hdmi_post_head_plan": 0.09,
+     "hdmi_post_head_vert": 0.08
+    },
+    {
+     "id": "BTN_POST_2",
+     "x": 36.233,
+     "y": 103.031,
+     "radial_clr_in_ear_hole": 0.1,
+     "web_to_pocket": 0.18,
+     "frame_open_margin": -0.51,
+     "tip_to_frame_front": 0.17,
+     "tip_above_board": 15.7,
+     "hdmi_post_head_plan": 13.92,
+     "hdmi_post_head_vert": -1.16
+    }
+   ],
+   "rib": {
+    "slot_margin": [
+     0.15,
+     0.15
+    ],
+    "frame_open_margin": 1.17,
+    "hdmi_post_head_plan": 0.21,
+    "tip_to_frame_front": 0.17,
+    "tip_above_board": 16.98
+   },
+   "button_leds": [
+    {
+     "cx": 43.133,
+     "cy": 112.776,
+     "far_corner_r": 5.87
+    },
+    {
+     "cx": 42.333,
+     "cy": 103.226,
+     "far_corner_r": 6.19
+    }
+   ],
+   "hdmi_clamp": {
+    "post": [
+     50.82,
+     111.0
+    ],
+    "head_top_above_board": 16.86,
+    "clamp_plate_top": 15.26
+   },
+   "frame_big_l": {
+    "leg_x": [
+     35.94,
+     52.65
+    ],
+    "leg_y": [
+     85.3,
+     115.48
+    ],
+    "top_x": [
+     36.73,
+     73.94
+    ],
+    "top_y": [
+     115.48,
+     144.01
+    ]
+   },
+   "button_led_opening_margin": 0.01
+  }
+ },
  "stack": [
   {
    "port": "C1",
@@ -1321,8 +1482,8 @@
     ],
     "clamp_plate_gap": -0.53,
     "clamp_post_margin": [
-     0.8,
-     "post C (53.19,70.80)"
+     1.8,
+     "post C (53.19,69.80)"
     ],
     "named": {
      "J7": {
@@ -1365,12 +1526,12 @@
     },
     "nearest_F_parts": [
      [
-      0.02,
-      "H21"
-     ],
-     [
       0.95,
       "JM4"
+     ],
+     [
+      1.02,
+      "H21"
      ],
      [
       1.75,

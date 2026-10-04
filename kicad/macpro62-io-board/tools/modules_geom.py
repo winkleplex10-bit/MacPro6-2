@@ -47,8 +47,9 @@ TYPES = {
 def stack_t(T): return T["fpc_t"] + PSA_T + STIF_T
 H13 = (53.38, 58.38, 2.65)                      # I/O-frame centre standoff (courtyard r)
 SPK = dict(x=(8.3, 31.5), y=(36.5, 97.0))       # stock speaker (F side), stadium
-POSTS = {"C": [(53.19, 70.8), (53.19, 49.3)], "A": [(53.19, 49.3), (53.19, 25.5)], "HDMI": [(63.02, 114.6), (50.82, 111.0)]}   # rev ~14:25 ET: HDMI moved to the +X column (stock order, scan 83f0b85e) -> posts mirrored about the HDMI axis swap (were 43.8 / 56.0)   # clamp-screw posts (M2 SMT nut in the main board)
+POSTS = {"C": [(53.19, 69.8), (53.19, 49.3)], "A": [(53.19, 49.3), (53.19, 25.5)], "HDMI": [(63.02, 114.6), (50.82, 111.0)]}   # rev ~14:25 ET: HDMI moved to the +X column (stock order, scan 83f0b85e) -> posts mirrored about the HDMI axis swap (were 43.8 / 56.0)   # clamp-screw posts (M2 SMT nut in the main board)
 POST_R = 2.2
+# rev 2026-10-04 ~12:35 ET (Aidan): clamp post C upper (H21) 70.8 -> 69.8 so its Ø3.8 post clears the plate SCR_C1 Ø5.0 clamp-plate hole at (53.76, 75.47): web 0.3 -> 1.3
 def spk_halfw(y):   # stadium half-width at Y
     r = (SPK["x"][1] - SPK["x"][0]) / 2; c = (SPK["x"][0] + SPK["x"][1]) / 2
     if y < SPK["y"][0] or y > SPK["y"][1]: return None

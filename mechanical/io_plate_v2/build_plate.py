@@ -287,6 +287,53 @@ for pid, x, y, dd in (LOCATE_PINS if PINS_ON else []):
 for pid, x, y, dd in (EAR_PINS if PINS_ON else []):
     plate = plate.union(cq.Workplane("XY").workplane(offset=zi(x) + FLEX_POCKET + 0.01).center(x, y).circle(dd / 2).extrude(-(EAR_PIN_LEN + FLEX_POCKET)).faces("<Z").chamfer(0.2))
     report.append((pid, "PIN", x, y, dd, dd, "flex locating pin Ø%.1f x %.1f in the button-carrier ear hole Ø1.8" % (dd, EAR_PIN_LEN)))
+# ---- power-button area features (rev 2026-10-04 ~12:35 ET, Aidan: build the stock button mounts / plastic features into the plate) ----
+# Evidence: outer-face flatbed scan 83f0b85e (the plate is translucent enough that the inner-face features show; registration offset vs the flex
+# trace ~(-0.5, -1.0), so every position below is taken from the 821-2222-A flex trace = what the stock flex needs):
+#   * ring band around the Ø11.9 (scan) button hole out to Ø15.1 +-0.3, lighter = thinner wall -> inner-face counterbore, with an anti-rotation
+#     key notch at ~140 deg (back view, from +X) reaching r ~9.8;
+#   * a "crater" (ring Ø~2.5 around a dark Ø~1.1 core) at BOTH carrier-ear holes (BTN_EAR_1/2, Ø1.8) -> posts with a core through the ear holes;
+#   * a straight line at X ~51.2 (flex frame) along the 0.8-wide slot between the carrier ring and the flex body (X 50.83-51.63, Y 102.9-111.2) -> rib.
+# No other boss is visible, and no tall boss fits outside the flex (the flex covers the frame BIG_L leg opening; the AC opening is 1.7 above the
+# pocket), so the ear posts are the retainer mounts (heat-stake or M1.0 thread-forming into the Ø0.8 core). Inner-face depth/heights: ASSUMED [M-IOPB*].
+BUTTON_FEATURES = "--no-button" not in sys.argv
+BTN_POCKET_D, BTN_POCKET_DEPTH = 15.0, 0.50        # keyed counterbore (button-cap flange seat), wall left 0.90 [M-IOPB1 / M-IOPB2]
+BTN_KEY_ANG, BTN_KEY_W, BTN_KEY_R0, BTN_KEY_R1 = 140.0, 2.6, 7.0, 9.8   # key notch: angle (back view), width, radial span [M-IOPB3]
+BTN_POST_D, BTN_POST_L = 1.6, 1.0                  # ear posts: Ø1.6 in the Ø1.8 ear holes (0.10/side), 1.0 below the inner face (frame front at 1.17) [M-IOPB4]
+BTN_POST_CORE_D, BTN_POST_CORE_DEPTH = 0.8, 1.9    # blind core from the post tip (stake core / M1.0 pilot); leaves 0.5 of skin at the outer face. 0 = solid
+BTN_RIB = dict(x=51.23, y0=103.3, y1=108.9, t=0.5, h=1.0)   # locating rib in the flex slot (0.15/side); Y end stops 0.25 short of the HDMI clamp-post M2 head (50.82, 111.0)
+_BTN_EARS = [(h["id"], h["cx"], h["cy"], h["d"]) for h in FJ["holes"] if h["id"].startswith("BTN_EAR")]
+BTN_FEATS = []
+def _bplace(wp, x, y):   # radial placement (same as _place below)
+    a = math.asin((x - PL_C[0]) / R0)
+    return wp.rotate((0, 0, 0), (0, 1, 0), math.degrees(a)).translate((PL_C[0] + R0 * math.sin(a), y, -R0 + R0 * math.cos(a)))
+if BUTTON_FEATURES:
+    _bx, _by = BTN["cx"], BTN["cy"]; _ka = math.radians(BTN_KEY_ANG)
+    _pk = cq.Workplane("XY").workplane(offset=-20).center(_bx, _by).circle(BTN_POCKET_D / 2).extrude(22)
+    _key = cq.Workplane("XY").workplane(offset=-20).center(_bx, _by).transformed(rotate=(0, 0, BTN_KEY_ANG)).center((BTN_KEY_R0 + BTN_KEY_R1) / 2, 0) \
+        .sketch().rect(BTN_KEY_R1 - BTN_KEY_R0, BTN_KEY_W).vertices().fillet(0.4).finalize().extrude(22)
+    plate = plate.cut(_pk.union(_key).intersect(cyl(R0 - SKIN + BTN_POCKET_DEPTH)))
+    _kx, _ky = _bx + (BTN_KEY_R0 + BTN_KEY_R1) / 2 * math.cos(_ka), _by + (BTN_KEY_R0 + BTN_KEY_R1) / 2 * math.sin(_ka)
+    BTN_FEATS.append(dict(id="BTN_POCKET", kind="BTN", x=_bx, y=_by, w=BTN_POCKET_D, h=BTN_POCKET_D, depth=BTN_POCKET_DEPTH, wall=round(SKIN - BTN_POCKET_DEPTH, 2),
+                          note="keyed counterbore Ø%.1f x %.2f on the inner face around the Ø%.1f button opening (button-cap flange seat / anti-rotation); scan ring Ø15.1+-0.3" % (BTN_POCKET_D, BTN_POCKET_DEPTH, [q for q in ROUND if q[0] == "PWR_BTN"][0][3]), conf="medium-low"))
+    BTN_FEATS.append(dict(id="BTN_KEY", kind="BTN", x=_kx, y=_ky, w=BTN_KEY_W, h=BTN_KEY_W, depth=BTN_POCKET_DEPTH,
+                          note="key notch %.1f wide, r %.1f-%.1f at %.0f deg (back view), same depth as the pocket" % (BTN_KEY_W, BTN_KEY_R0, BTN_KEY_R1, BTN_KEY_ANG), conf="medium-low"))
+    for eid, ex_, ey_, ed in _BTN_EARS:
+        add = cq.Workplane("XY").workplane(offset=-SKIN + 0.3).circle(BTN_POST_D / 2).extrude(-(BTN_POST_L + 0.3)).faces("<Z").chamfer(0.2)
+        plate = plate.union(_bplace(add, ex_, ey_))
+        if BTN_POST_CORE_D > 0:
+            core = cq.Workplane("XY").workplane(offset=-SKIN - BTN_POST_L - 0.1).circle(BTN_POST_CORE_D / 2).extrude(BTN_POST_CORE_DEPTH + 0.1)
+            plate = plate.cut(_bplace(core, ex_, ey_))
+        BTN_FEATS.append(dict(id="BTN_POST_" + eid[-1], kind="BTN", x=ex_, y=ey_, w=BTN_POST_D, h=BTN_POST_D, length=BTN_POST_L, core=[BTN_POST_CORE_D, BTN_POST_CORE_DEPTH],
+                              ear_hole_d=ed, radial_clr=round((ed - BTN_POST_D) / 2, 3),
+                              note="ear post Ø%.1f x %.1f (radial) through the carrier ear hole Ø%.1f; Ø%.1f x %.1f core = heat-stake core or M1.0 thread-forming pilot for the button retainer" % (BTN_POST_D, BTN_POST_L, ed, BTN_POST_CORE_D, BTN_POST_CORE_DEPTH), conf="position high / size medium"))
+    rb = BTN_RIB
+    plate = plate.union(boxz(rb["x"], (rb["y0"] + rb["y1"]) / 2, rb["t"], rb["y1"] - rb["y0"], 0.2, zi(rb["x"]) + 0.3, zi(rb["x"]) - rb["h"]))
+    BTN_FEATS.append(dict(id="BTN_RIB", kind="BTN", x=rb["x"], y=(rb["y0"] + rb["y1"]) / 2, w=rb["t"], h=rb["y1"] - rb["y0"], length=rb["h"],
+                          note="locating rib %.1f x %.1f x %.1f in the 0.8 slot between the carrier ring and the flex body (X 50.83-51.63)" % (rb["t"], rb["y1"] - rb["y0"], rb["h"]), conf="medium-low"))
+    for f in BTN_FEATS: report.append((f["id"], "BTN", f["x"], f["y"], f["w"], f["h"], f["note"]))
+else:
+    report.append(("NO_BUTTON_FEATURES", "NOTE", BTN["cx"], BTN["cy"], 0, 0, "button-area features off (--no-button)"))
 SCREW_CHECK = []
 # ---- centre screws (rev 2026-10-02 ~16:20 ET, Aidan 16:14 ET: the holes near the plate centre DEFINITELY carry plate->frame screws = PRIMARY fixings;
 # the 4 corner M1.6 = secondary). They sit on the flex holes HOLE_C1 (Ø3.3) / HOLE_C2 (Ø5.08), which are the clearance holes the stock posts pass through,
@@ -536,19 +583,58 @@ LED_CHECK = []
 feats = [(o[0], o[2], o[3], o[4], o[5]) for o in OPEN] + [(q[0], q[1], q[2], q[3], q[3]) for q in ROUND] + [(q[0], q[1], q[2], q[3], q[4]) for q in WINDOWS] + \
         [(q[0], q[1], q[2], q[3] + 0.6, q[3] + 0.6) for q in LOCATE_PINS + EAR_PINS] + [("FRAME_SCREW_RELIEF", FRAME_SCREW[0], FRAME_SCREW[1], SCREW_POCKET_D, SCREW_POCKET_D)] + \
         [("CLIP", x, y, (CLIP_T + 2 * CLIP_HOOK) if o[0] == "x" else CLIP_W, CLIP_W if o[0] == "x" else CLIP_T + 2 * CLIP_HOOK) for x, y, o in CLIPS] + \
-        [("RIM_NECK_NOTCH", (NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1])]
+        [("RIM_NECK_NOTCH", (NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1])] + \
+        [(f["id"], f["x"], f["y"], f["w"], f["h"]) for f in BTN_FEATS if f["id"] != "BTN_POCKET"]
 for k, l in enumerate(FJ["leds"]):
     hits = [f[0] for f in feats if rect_hit(l, f[1], f[2], f[3], f[4], LED_CLR)]
     in_rim = (l["cx"] - l["w"] / 2 < PL_C[0] - PL_W / 2 + RIM_W + 0.3) or (l["cx"] + l["w"] / 2 > PL_C[0] + PL_W / 2 - RIM_W - 0.3)
     rel = [rid for rid, ri in relief_info.items() if rect_hit(l, ri["cx"], ri["cy"], ri["w"], ri["h"], LED_CLR)]
     btn = math.hypot(l["cx"] - BTN["cx"], l["cy"] - BTN["cy"]) < BTN["ring_d"] / 2
-    if btn: hits = [h_ for h_ in hits if h_ != "PWR_BTN"]   # button LEDs sit under the button cap by design (they light it)
+    if btn: hits = [h_ for h_ in hits if h_ not in ("PWR_BTN", "BTN_KEY")]   # button LEDs sit under the button cap by design (they light it)
     LED_CHECK.append(dict(led=k, cx=l["cx"], cy=l["cy"], w=l["w"], h=l["h"], conflicts=hits + (["RIM"] if in_rim else []) + rel, in_button_pocket=btn,
                           ok=not (hits or in_rim or rel)))
 for row in FLEX_CHECK: print("FLEXCHECK", row)
 for row in LED_CHECK:
     if not row["ok"]: print("LED CONFLICT", row)
 
+# ---- button-area checks (plan + height) ----
+BTN_CHECK = {}
+if BUTTON_FEATURES:
+    _bx, _by = BTN["cx"], BTN["cy"]
+    _leg = fr["BIG_L"]; _xm = X_MIRROR or 0.0
+    LEG_X = sorted([2 * _xm - _leg["x_range_leg"][0], 2 * _xm - _leg["x_range_leg"][1]]) if X_MIRROR else list(_leg["x_range_leg"]); LEG_Y = list(_leg["y_range_leg"])
+    TOP_X = sorted([2 * _xm - _leg["x_range_top"][0], 2 * _xm - _leg["x_range_top"][1]]) if X_MIRROR else list(_leg["x_range_top"]); TOP_Y = list(_leg["y_range_top"])
+    def _in_frame_open(px, py, rad):   # min distance from a circle to the frame BIG_L opening edge (positive = fully inside the opening)
+        d1 = min(px - LEG_X[0], LEG_X[1] - px, py - LEG_Y[0], LEG_Y[1] - py)
+        d2 = min(px - TOP_X[0], TOP_X[1] - px, py - TOP_Y[0], TOP_Y[1] - py)
+        return round(max(d1, d2) - rad, 2)
+    _ac = [o for o in OPEN if o[0] == "AC"][0]; _e2 = [o for o in OPEN if o[0] == "ETH2"]; _hd = [o for o in OPEN if o[0] == "HDMI"][0]
+    rp = BTN_POCKET_D / 2; _ka = math.radians(BTN_KEY_ANG)
+    _kc = [(_bx + BTN_KEY_R1 * math.cos(_ka) + sx_ * BTN_KEY_W / 2 * -math.sin(_ka), _by + BTN_KEY_R1 * math.sin(_ka) + sx_ * BTN_KEY_W / 2 * math.cos(_ka)) for sx_ in (-1, 1)]
+    head_r, head_h = 1.9, 1.6                                 # M2 pan head on the HDMI clamp plate (ISO 7045 dk 3.8, k 1.6) [assumed]
+    hp = [q for q in _MJ["posts"]["HDMI"] if q[0] < PL_C[0]][0]
+    head_top = CLAMP_TOP + head_h
+    BTN_CHECK = dict(
+        pocket=dict(d=BTN_POCKET_D, depth=BTN_POCKET_DEPTH, wall=round(SKIN - BTN_POCKET_DEPTH, 2),
+                    to_AC_opening=round(_rbox_d(_bx, _by, _ac[2], _ac[3], _ac[4], _ac[5], _ac[6]) - rp, 2),
+                    to_ETH2_opening=round(_rbox_d(_bx, _by, _e2[0][2], _e2[0][3], _e2[0][4], _e2[0][5], _e2[0][6]) - rp, 2) if _e2 else None,
+                    to_HDMI_opening=round(_rbox_d(_bx, _by, _hd[2], _hd[3], _hd[4], _hd[5], _hd[6]) - rp, 2),
+                    key_corners_to_AC=round(min(_rbox_d(px_, py_, _ac[2], _ac[3], _ac[4], _ac[5], _ac[6]) for px_, py_ in _kc), 2),
+                    key_corners_to_plate_edge=round(min(-_rbox_d(px_, py_, PL_C[0], PL_C[1], PL_W, PL_H, PL_R) for px_, py_ in _kc), 2),
+                    flex_ring_r=round(BTN["ring_d"] / 2, 2), note="pocket r %.2f is inside the flex ring r %.2f: the flex covers it (only the key notch reaches past the flex edge)" % (rp, BTN["ring_d"] / 2)),
+        posts=[dict(id="BTN_POST_" + eid[-1], x=ex_, y=ey_, radial_clr_in_ear_hole=round((ed - BTN_POST_D) / 2, 2), web_to_pocket=round(math.hypot(ex_ - _bx, ey_ - _by) - BTN_POST_D / 2 - rp, 2),
+                    frame_open_margin=_in_frame_open(ex_, ey_, BTN_POST_D / 2), tip_to_frame_front=round(CENTRE_GAP - BTN_POST_L, 2),
+                    tip_above_board=round(d0(ex_) - BTN_POST_L, 2),
+                    hdmi_post_head_plan=round(math.hypot(ex_ - hp[0], ey_ - hp[1]) - head_r - BTN_POST_D / 2, 2), hdmi_post_head_vert=round(d0(ex_) - BTN_POST_L - head_top, 2))
+               for eid, ex_, ey_, ed in _BTN_EARS],
+        rib=dict(slot_margin=[round(BTN_RIB["x"] - BTN_RIB["t"] / 2 - 50.83, 2), round(51.63 - BTN_RIB["x"] - BTN_RIB["t"] / 2, 2)], frame_open_margin=round(min(BTN_RIB["x"] - BTN_RIB["t"] / 2 - LEG_X[0], LEG_X[1] - BTN_RIB["x"] - BTN_RIB["t"] / 2, BTN_RIB["y0"] - LEG_Y[0], LEG_Y[1] - BTN_RIB["y1"]), 2),
+                 hdmi_post_head_plan=round(math.hypot(max(abs(hp[0] - BTN_RIB["x"]) - BTN_RIB["t"] / 2, 0), max(hp[1] - BTN_RIB["y1"], 0)) - head_r, 2),
+                 tip_to_frame_front=round(CENTRE_GAP - BTN_RIB["h"], 2), tip_above_board=round(d0(BTN_RIB["x"]) - BTN_RIB["h"], 2)),
+        button_leds=[dict(cx=l["cx"], cy=l["cy"], far_corner_r=round(math.hypot(abs(l["cx"] - _bx) + l["w"] / 2, abs(l["cy"] - _by) + l["h"] / 2), 2)) for l in FJ["leds"] if math.hypot(l["cx"] - _bx, l["cy"] - _by) < rp],
+        hdmi_clamp=dict(post=hp, head_top_above_board=round(head_top, 2), clamp_plate_top=round(CLAMP_TOP, 2)),
+        frame_big_l=dict(leg_x=[round(v, 2) for v in LEG_X], leg_y=[round(v, 2) for v in LEG_Y], top_x=[round(v, 2) for v in TOP_X], top_y=[round(v, 2) for v in TOP_Y]))
+    BTN_CHECK["button_led_opening_margin"] = round([q for q in ROUND if q[0] == "PWR_BTN"][0][3] / 2 - max(l["far_corner_r"] for l in BTN_CHECK["button_leds"]), 2) if BTN_CHECK["button_leds"] else None
+    print("BTNCHECK", json.dumps(BTN_CHECK))
 # ---------------- trace DXF, foam DXF, check image (ETH2 open build only) ----------------
 def rr_pts(cx, cy, w, h, r, n=9):
     r = min(r, w / 2, h / 2); pts = []
@@ -594,6 +680,7 @@ if ETH2 == "open" and not TAG:
         else: msp.add_lwpolyline(rr_pts(c["cx"], c["cy"], c["w"] + 0.6, c["h"] + 0.6, c["r"] + 0.3), close=True, dxfattribs={"layer": "CUT_INNER"})
     for hh in FJ["holes"]:
         if not hh["id"].startswith("BTN_EAR"): msp.add_circle((hh["cx"], hh["cy"]), hh["d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
+        elif BUTTON_FEATURES: msp.add_circle((hh["cx"], hh["cy"]), BTN_POST_D / 2 + 0.3, dxfattribs={"layer": "CUT_INNER"})   # rev 2026-10-04: clear the plate ear posts
     msp.add_circle((BTN["cx"], BTN["cy"]), BTN["ring_d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
     msp.add_text("MP62 IO flex foam / insulator A0 (back view, mm, scan-based outline): 1.0 PE/PORON foam with PSA (stock-like) OR 0.25 Formex GK-10; laser/die cut; VERIFY against the flex",
                  dxfattribs={"layer": "NOTES", "height": 1.6}).set_placement((20, -12))
@@ -622,6 +709,10 @@ if ETH2 == "open" and not TAG:
     for oid, x, y, dd in ROUND: ax.add_patch(MCirc((x, y), dd / 2, fc="none", ec="k", lw=0.6))
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(MRect((x - w / 2, y - h / 2), w, h, fc="#ffff80", ec="k", lw=0.6))
     for pid, x, y, dd in LOCATE_PINS + EAR_PINS: ax.add_patch(MCirc((x, y), dd / 2, fc="#4040ff", ec="k", lw=0.4))
+    for f in BTN_FEATS:
+        if f["id"] == "BTN_POCKET": ax.add_patch(MCirc((f["x"], f["y"]), f["w"] / 2, fc="none", ec="#0060c0", lw=0.7, ls="--"))
+        elif f["id"].startswith("BTN_POST"): ax.add_patch(MCirc((f["x"], f["y"]), f["w"] / 2, fc="#4040ff", ec="k", lw=0.4))
+        elif f["id"] == "BTN_RIB": ax.add_patch(MRect((f["x"] - f["w"] / 2, f["y"] - f["h"] / 2), f["w"], f["h"], fc="#4040ff", ec="k", lw=0.4))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=6)
     from matplotlib.patches import PathPatch as _PP
     for pa in _glue_paths(): ax.add_patch(_PP(pa, fc="#80ff80", ec="#208020", lw=0.4, alpha=0.35))
@@ -641,14 +732,14 @@ if ETH2 == "open" and not TAG:
 
 # ---------------- DXF (openings, back view and front view), features JSON, previews ----------------
 if TAG:
-    json.dump(dict(params=dict(case_r=round(CASE_R, 3), tag=TAG, d0=dict(board_top_z=Z_BOARD)), parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, check=TILT_CHECK), stack=STACK, fixing=dict(fix=FIX, mode=SCREW_MODE, screws=SCREW_CHECK)),
+    json.dump(dict(params=dict(case_r=round(CASE_R, 3), tag=TAG, d0=dict(board_top_z=Z_BOARD)), parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, check=TILT_CHECK), button=dict(features=BTN_FEATS, check=BTN_CHECK), stack=STACK, fixing=dict(fix=FIX, mode=SCREW_MODE, screws=SCREW_CHECK)),
               open(os.path.join(HERE, "io_plate_v2_A0%s_features.json" % TAG), "w"), indent=1)
 if ETH2 == "open" and not TAG:
     for view in ("backview", "frontview"):
         BW = 101.00496445740619
         fx = (lambda x: x) if view == "backview" else (lambda x: 40 + BW - x)   # front view = KiCad PCB frame x (y kept = Y; KiCad y = 200 - Y)
         doc = ezdxf.new("R2010"); msp = doc.modelspace()
-        for ln in ("OUTLINE", "OPENINGS", "LIGHT_WINDOWS", "SPOTFACES", "CLIPS", "PINS", "SCREWS", "SCREW_BOSSES", "GLUE_LANDS_OPTIONAL", "NOTES"): doc.layers.add(ln)
+        for ln in ("OUTLINE", "OPENINGS", "LIGHT_WINDOWS", "SPOTFACES", "CLIPS", "PINS", "SCREWS", "SCREW_BOSSES", "GLUE_LANDS_OPTIONAL", "BUTTON_INNER_FEATURES", "NOTES"): doc.layers.add(ln)
         for gl in GLUE:
             for ring in [gl["pts"]] + gl["holes"]: msp.add_lwpolyline([(fx(a_), b_) for a_, b_ in ring], close=True, dxfattribs={"layer": "GLUE_LANDS_OPTIONAL"})
         def rrect(cx, cy, w, h, r, layer): msp.add_lwpolyline([(fx(a), b) for a, b in rr_pts(cx, cy, w, h, r)], close=True, dxfattribs={"layer": layer})
@@ -664,6 +755,16 @@ if ETH2 == "open" and not TAG:
             for dd in ((SCREW_CSK_D, SCREW_CLR_D) if SCREW_MODE == "csk" else (SCREW_PILOT_D,)): msp.add_circle((fx(x), y), dd / 2, dxfattribs={"layer": "SCREWS"})
             msp.add_circle((fx(x), y), od / 2, dxfattribs={"layer": "SCREW_BOSSES"})
             msp.add_text("%s M1.6 %s" % (sid, "csk 90 Ø%.2f / Ø%.2f thru" % (SCREW_CSK_D, SCREW_CLR_D) if SCREW_MODE == "csk" else "pilot Ø%.2f blind" % SCREW_PILOT_D), dxfattribs={"layer": "NOTES", "height": 0.8}).set_placement((fx(x) - 3, y + 2.2))
+        for f in BTN_FEATS:
+            if f["id"] == "BTN_POCKET": msp.add_circle((fx(f["x"]), f["y"]), f["w"] / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
+            elif f["id"] == "BTN_KEY":
+                _a = math.radians(BTN_KEY_ANG); _u = (math.cos(_a), math.sin(_a)); _v = (-_u[1], _u[0])
+                _pts = [(BTN["cx"] + r_ * _u[0] + s_ * BTN_KEY_W / 2 * _v[0], BTN["cy"] + r_ * _u[1] + s_ * BTN_KEY_W / 2 * _v[1]) for r_, s_ in ((BTN_KEY_R0, -1), (BTN_KEY_R1, -1), (BTN_KEY_R1, 1), (BTN_KEY_R0, 1))]
+                msp.add_lwpolyline([(fx(a_), b_) for a_, b_ in _pts], close=True, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
+            elif f["id"].startswith("BTN_POST"):
+                msp.add_circle((fx(f["x"]), f["y"]), f["w"] / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"}); msp.add_circle((fx(f["x"]), f["y"]), BTN_POST_CORE_D / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
+            else: rrect(f["x"], f["y"], f["w"], f["h"], 0.2, "BUTTON_INNER_FEATURES")
+        if BTN_FEATS: msp.add_text("BUTTON_INNER_FEATURES (inner face): pocket Ø%.1f x %.2f deep + key, 2 ear posts Ø%.1f x %.1f (core Ø%.1f), rib %.1f x %.1f x %.1f" % (BTN_POCKET_D, BTN_POCKET_DEPTH, BTN_POST_D, BTN_POST_L, BTN_POST_CORE_D, BTN_RIB["t"], BTN_RIB["y1"] - BTN_RIB["y0"], BTN_RIB["h"]), dxfattribs={"layer": "NOTES", "height": 0.9}).set_placement((fx(PL_C[0]) - 30, -19))
         msp.add_text("GLUE_LANDS_OPTIONAL = fallback only (default fixing: 4x M1.6 screws, layer SCREWS)", dxfattribs={"layer": "NOTES", "height": 1.2}).set_placement((fx(PL_C[0]) - 30, -16))
         msp.add_text("MP62 IO plate v2 A0 - %s - mm - Y up = MEG/base end" % view, dxfattribs={"layer": "NOTES", "height": 2}).set_placement((fx(PL_C[0]) - 30, -12))
         doc.saveas(os.path.join(HERE, "io_plate_v2_A0_openings_%s.dxf" % view))
@@ -673,7 +774,8 @@ if ETH2 == "open" and not TAG:
                                                outline_width=52.4, outline_length=160.3, verdict="2D layout confirmed (+-0.5); R 100-110 consistent; ends, clips, pins, wall below resolution -> geometry unchanged"),
                                clip=dict(t=CLIP_T, w=CLIP_W, l=CLIP_L, hook=CLIP_HOOK), port_grid=dict(usbc_x=[XH, XO], source="flex 821-2222-A cut-out centres (scan)"),
                                flex=dict(flex_t=FLEX_T, psa_t=PSA_T, foam_t=FOAM_T, frame_t=FRAME_T, pocket=FLEX_POCKET, pocket_clr=FLEX_CLR, neck_notch=NECK, led_h=LED_H, led_clr=LED_CLR,
-                                         btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder, no bosses")),
+                                         btn_carrier_h=BTN_CARRIER_H, inner_face="smooth cylinder (1.4) except the screw posts and the button-area features")),
+                   button=dict(features=BTN_FEATS, check=BTN_CHECK),
                    parts=PARTS, tilt=dict(override_deg=TILT_OVERRIDE_DEG, source="M-IOT2 Aidan 2026-10-02 11:47 ET: outward 12.5 deg, mirrored" if TILT_OVERRIDE_DEG else "surface normal (D-IO16 default: full plug seating; stock 12.5 in io_plate_v2_A0_tilt12p5_features.json)", mouth_clr=MOUTH_CLR, axis_balance=AXIS_BALANCE, axis_shift_out=AXIS_SHIFT_OUT, seat=TILT_SEAT, seat_clr=SEAT_CLR, seat_min_wall=SEAT_MIN_WALL, check=TILT_CHECK), stack=STACK, spotfaces=relief_info, flex_check=FLEX_CHECK, led_check=LED_CHECK,
                    features=[dict(id=a, kind=b, x=round(c, 3), y=round(d, 3), w=e, h=f, note=g) for a, b, c, d, e, f, g in report], clips=CLIPS,
                    fixing=dict(fix=FIX, mode=SCREW_MODE, screws=SCREW_CHECK, glue_optional=dict(layer="GLUE_LANDS_OPTIONAL", lands=len(GLUE), area_mm2=round(sum(gl['area'] for gl in GLUE), 0)))),

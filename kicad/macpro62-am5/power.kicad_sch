@@ -1,0 +1,360 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "773b984a-3f7d-4bbc-85c4-16d5f87b9284")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: Platform power: 12 V entry, eFuse, CPU aux + PROM21 rails")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_POWER"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_POWER"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_POWER_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -41.91)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_POWER_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "5V_SBY" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "3V3_SB" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "RAIL_EN_S5" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "RAIL_EN_S0" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "RAILS_PGOOD" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "12V_CB" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -15.24 0)
+					(length 2.54)
+					(name "5V_VIN_BULK" (effects (font (size 1.0 1.0))))
+					(number "7" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -17.78 0)
+					(length 2.54)
+					(name "3V3_S5" (effects (font (size 1.0 1.0))))
+					(number "8" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -20.32 0)
+					(length 2.54)
+					(name "3V3_S0" (effects (font (size 1.0 1.0))))
+					(number "9" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -22.86 0)
+					(length 2.54)
+					(name "VDD_18_S5" (effects (font (size 1.0 1.0))))
+					(number "10" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -25.40 0)
+					(length 2.54)
+					(name "VDD_33_S5" (effects (font (size 1.0 1.0))))
+					(number "11" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -27.94 0)
+					(length 2.54)
+					(name "VDD_MISC_S5" (effects (font (size 1.0 1.0))))
+					(number "12" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -30.48 0)
+					(length 2.54)
+					(name "VDDIO_MEM_S3" (effects (font (size 1.0 1.0))))
+					(number "13" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -33.02 0)
+					(length 2.54)
+					(name "PROM21_RAILS" (effects (font (size 1.0 1.0))))
+					(number "14" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -35.56 0)
+					(length 2.54)
+					(name "I2C0_SCL" (effects (font (size 1.0 1.0))))
+					(number "15" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -38.10 0)
+					(length 2.54)
+					(name "I2C0_SDA" (effects (font (size 1.0 1.0))))
+					(number "16" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -40.64 0)
+					(length 2.54)
+					(name "PWR_ALERT_N" (effects (font (size 1.0 1.0))))
+					(number "17" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "5V_SBY"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "2fcc2b78-289d-4427-aa3d-59eba425fd69")
+	)
+	(hierarchical_label "3V3_SB"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6f1637f0-1b20-46e9-a464-13a259df83b9")
+	)
+	(hierarchical_label "RAIL_EN_S5"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "4ed98ddf-de7b-4238-8b90-5adf75da8adf")
+	)
+	(hierarchical_label "RAIL_EN_S0"
+		(shape input)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e1fd3d4e-0154-4e2c-9284-6eae08783575")
+	)
+	(hierarchical_label "RAILS_PGOOD"
+		(shape output)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "5f1feb03-8727-470d-8470-2eb0ed8f7c0b")
+	)
+	(hierarchical_label "12V_CB"
+		(shape output)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "20084e4a-3824-4471-87f2-0e1c08342b1c")
+	)
+	(hierarchical_label "5V_VIN_BULK"
+		(shape output)
+		(at 38.1 45.72 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "95846757-88ac-49f6-9a2e-16c7099ee2cf")
+	)
+	(hierarchical_label "3V3_S5"
+		(shape output)
+		(at 38.1 48.26 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "c915fcc8-6f67-447d-bb95-b6a53430a2be")
+	)
+	(hierarchical_label "3V3_S0"
+		(shape output)
+		(at 38.1 50.80 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3237582b-adf3-42ea-a56d-993776437fa6")
+	)
+	(hierarchical_label "VDD_18_S5"
+		(shape output)
+		(at 38.1 53.34 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "12bc476c-0148-4c8d-9a15-4d60c1ede4aa")
+	)
+	(hierarchical_label "VDD_33_S5"
+		(shape output)
+		(at 38.1 55.88 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "82149216-aba5-49a7-b41a-5b165d41f1aa")
+	)
+	(hierarchical_label "VDD_MISC_S5"
+		(shape output)
+		(at 38.1 58.42 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6bfb2a14-d9f3-45b2-960a-578b94395414")
+	)
+	(hierarchical_label "VDDIO_MEM_S3"
+		(shape output)
+		(at 38.1 60.96 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "7de132b4-a04b-417d-a914-17e8c2e8c82f")
+	)
+	(hierarchical_label "PROM21_RAILS"
+		(shape output)
+		(at 38.1 63.50 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "05cf1a87-c209-4fb9-b8ec-354c67eaa7d9")
+	)
+	(hierarchical_label "I2C0_SCL"
+		(shape bidirectional)
+		(at 38.1 66.04 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "a166825c-7fe7-4591-b5bb-4c27e05eeac9")
+	)
+	(hierarchical_label "I2C0_SDA"
+		(shape bidirectional)
+		(at 38.1 68.58 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "24f53d6a-2dee-4ae7-9432-1206ebc19463")
+	)
+	(hierarchical_label "PWR_ALERT_N"
+		(shape output)
+		(at 38.1 71.12 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "5b9a77c1-f14c-480a-862a-44dcd7a5f350")
+	)
+	(symbol
+		(lib_id "MP62:STUB_POWER")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "d968df0d-86f7-447d-97c2-899d38f6d4b6")
+		(property "Reference" "#BLK6"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_POWER"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "d83be121-765e-4e05-b2ae-e4d8d97926a5")
+		)
+		(pin "2"
+			(uuid "2d6f2080-b663-40b2-b010-a9d232fda74d")
+		)
+		(pin "3"
+			(uuid "2940bc80-a679-4e08-be05-23a0f05c36ca")
+		)
+		(pin "4"
+			(uuid "268ad54a-76aa-4745-80b7-5c8d3972c0c3")
+		)
+		(pin "5"
+			(uuid "253536fc-919a-45ed-bf23-84b43133b063")
+		)
+		(pin "6"
+			(uuid "1a1aa659-f31c-4a69-9506-a8f796355ea2")
+		)
+		(pin "7"
+			(uuid "ac91b546-f2c7-4790-bd97-c55e76b89f53")
+		)
+		(pin "8"
+			(uuid "313fe409-c5f6-4e51-9355-4900f6cf20d0")
+		)
+		(pin "9"
+			(uuid "95c2d430-885a-4d85-b191-833de63e3f9c")
+		)
+		(pin "10"
+			(uuid "bbfd82fc-fe8d-421f-9fa3-3ecc7063622b")
+		)
+		(pin "11"
+			(uuid "9c4a24da-ec28-4051-b5a0-4da718b55650")
+		)
+		(pin "12"
+			(uuid "48a5cc5d-3712-4b0d-a00d-3650b2e314c2")
+		)
+		(pin "13"
+			(uuid "09e52c65-fabf-4b7c-9071-c33a786f70a3")
+		)
+		(pin "14"
+			(uuid "db4bfa24-bde3-4f1c-8c74-4192fc1bd807")
+		)
+		(pin "15"
+			(uuid "78fa3971-83c9-4d38-8b1b-7f04309aeabe")
+		)
+		(pin "16"
+			(uuid "5ad11b08-a788-4c42-b634-3ccc57204575")
+		)
+		(pin "17"
+			(uuid "0545c2f8-ed0c-4740-ae4f-eb78300cdef5")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/6d524b37-813e-41d6-a09e-1d459045585f"
+					(reference "#BLK6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "d5dd05fe-8796-4721-be1a-b5546a477fee")
+	)
+	(text "- LUG1/LUG2 stock 12 V entry -> U11 TPS259851 eFuse -> 12V_CB; U15 INA228 0x45 on I2C0, ALERT + FLT# -> PWR_ALERT_N (as LGA1700)"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "af1bed0f-01b0-4fd6-a896-3355546cf255")
+	)
+	(text "- U4 CPU S5/aux: VDD_18_S5, VDD_33_S5, VDD_MISC_S5 (USB PHY) from 5V_SBY / 3V3_SB [rail list Unverified, AMD NDA]"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "0ee12650-ef27-4f53-9443-aa9c170c69fc")
+	)
+	(text "- U8 VDDIO_MEM_S3 1.1 V (DDR5 PHY); U7 5 V VIN_BULK for 4 UDIMM PMICs; U6 PROM21 rails (core ~1.0 V, 1.8 V, 3.3 V) [Estimate]"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "88c1801f-3a00-46b3-829c-d1c401e7a328")
+	)
+	(text "- 3V3_S0 load switch (hub, M.2); sequencing by the EC (RAIL_EN_S5 / RAIL_EN_S0, RAILS_PGOOD)"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "b5cad2b3-d28e-42ce-b1d5-d85c8acc4dfa")
+	)
+)

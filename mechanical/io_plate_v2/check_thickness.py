@@ -23,8 +23,8 @@ def main(stl, fj, png=None):
     T = load_stl(stl); F = json.load(open(fj)); feats = [(f["id"], f["kind"], f["x"], f["y"], f["w"], f["h"]) if isinstance(f, dict) else f for f in F["features"]]; ol = F["params"]["outline"]
     N = np.cross(T[:, 1] - T[:, 0], T[:, 2] - T[:, 0]); N /= np.linalg.norm(N, axis=1, keepdims=True) + 1e-12
     cx, cy = ol["centre"]; W, H = ol["w"], ol["h"]
-    port = [f for f in feats if f[1] in ("SEAT", "SPOTFACE", "CRADLE", "BOSS")]
-    opens = [f for f in feats if f[1] not in ("SEAT", "SPOTFACE", "GLUE", "CRADLE", "BOSS") and f[4] > 0]
+    port = [f for f in feats if f[1] in ("SEAT", "SPOTFACE", "CRADLE", "BOSS", "BTN")]   # rev 2026-10-04: + button-area features (pocket 0.9 wall, posts, rib)
+    opens = [f for f in feats if f[1] not in ("SEAT", "SPOTFACE", "GLUE", "CRADLE", "BOSS", "BTN") and f[4] > 0]
     xmin, xmax = T[:, :, 0].min(1), T[:, :, 0].max(1); ymin, ymax = T[:, :, 1].min(1), T[:, :, 1].max(1)
     res = []
     for x in np.arange(cx - W / 2 + 0.25, cx + W / 2, 0.5):
@@ -55,7 +55,7 @@ def main(stl, fj, png=None):
         import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(4.6, 11)); sc = ax.scatter(R[:, 0], R[:, 1], c=R[:, 2], s=3, cmap="viridis", vmin=1.3, vmax=max(1.5, R[:, 2].max()))
         plt.colorbar(sc, ax=ax, label="wall thickness normal to skin, mm"); ax.set_aspect("equal")
-        ax.set_title("%s (STL facets add +-0.03; exact B-rep probe = 1.400 normal)\nwall: general %.3f-%.3f mm (n=%d); port seats + screw bosses %s-%s" % (stl.split("/")[-1], g[:, 2].min(), g[:, 2].max(), len(g), out["port_attach"]["min"], out["port_attach"]["max"]), fontsize=7)
+        ax.set_title("%s (STL facets add +-0.03; exact B-rep probe = 1.400 normal)\nwall: general %.3f-%.3f mm (n=%d); port seats + screw bosses + button features %s-%s" % (stl.split("/")[-1], g[:, 2].min(), g[:, 2].max(), len(g), out["port_attach"]["min"], out["port_attach"]["max"]), fontsize=7)
         fig.tight_layout(); fig.savefig(png, dpi=130)
     return out
 

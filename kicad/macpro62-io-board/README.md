@@ -1,3 +1,10 @@
+> **Rev 2026-10-04 ≈ 12:35 ET (clamp post H21 moved; not pushed):**
+> - **H21** (port-module clamp post C, upper, M2 SMT nut) moved **(53.19, 70.80) → (53.19, 69.80)** in plan, which is KiCad (87.815, 129.2) → (87.815, 130.2). Source: `tools/modules_geom.py` `POSTS["C"]` → `../macpro62-io-modules/modules.json` → `tools/build_pcb.py`.
+> - Why: the I/O plate's centre screw SCR_C1 (53.76, 75.47) needs a Ø5.0 hole in clamp plate C. The web to the Ø3.8 post is now **1.3** (was 0.3).
+> - Nothing else moved. modules_geom 114/114 checks OK (none changed).
+> - **Checks:** DRC 0 violations / 0 unconnected / 0 footprint errors. Schematic untouched, so ERC was not re-run. Floorplan and 3D renders regenerated.
+> - MCIO footprints untouched; `make_fps.py` not run.
+
 > **Rev 2026-10-04 ≈ 10:40 ET (real DF40C-50DS receptacle, new HDMI lane map; not pushed):**
 > - **JM1–JM11 = real Hirose DF40C-50DS-0.4V(51)** (684-4009-0 51, LCSC **C424646**, 4,973 in stock, $0.550 @1 / $0.389 @30 on 2026-10-04 09:44 ET) from the Hirose DF40 land drawing + JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com) data (`tools/easyeda/`): 50 × 0.20 copper 1.24 at ±1.27, solderable 0.70 at ±1.54 (inner part under resist), courtyard 12.9 × 4.4. Footprint `MP62_Hirose_DF40C-50DS-0.4V` (`tools/make_fps_modules.py`); the placeholder is deleted. Mates with the module DF40C-50DP-0.4V(51) C424645.
 > - **Placement:** the modules' flaps grew for the real plug / 6.5 paddle (`modules_geom.py`), so JM1–JM10 moved ±0.04 (C) / ±0.24 (A) and JM11 +0.535 in X; their ESD arrays and U60 / U61 follow. Nothing else moved (42 of 165 footprints).

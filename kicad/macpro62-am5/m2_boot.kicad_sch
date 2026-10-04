@@ -1,0 +1,153 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "7f8d136f-01c1-42c3-948e-184b2910b30c")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: Boot M.2 J8 (CPU GPP x4)")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_M2_BOOT"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_M2_BOOT"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_M2_BOOT_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -8.89)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_M2_BOOT_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "PCIE_GPP_M2_X4" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "GPP_CLK_M2" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "PCIE_RST_L" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "3V3_S0" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "PCIE_GPP_M2_X4"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "c379082c-c58b-48a9-85b0-35308907ca58")
+	)
+	(hierarchical_label "GPP_CLK_M2"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "60ce16b6-fde3-4f69-a667-be7874f5a66f")
+	)
+	(hierarchical_label "PCIE_RST_L"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "0d12cbd3-1b3a-474a-94bb-c2465d1dca00")
+	)
+	(hierarchical_label "3V3_S0"
+		(shape input)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "ddc5a6ac-a496-4813-b7b4-51eb6e5a24d5")
+	)
+	(symbol
+		(lib_id "MP62:STUB_M2_BOOT")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "4f0c4c37-c7c6-4d4c-bd76-6ef69669d232")
+		(property "Reference" "#BLK10"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_M2_BOOT"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "5e46fde2-9d07-4705-9bc7-f5d94d499e30")
+		)
+		(pin "2"
+			(uuid "d1c96b78-ec04-4f72-87c1-d5467a95797f")
+		)
+		(pin "3"
+			(uuid "5a3e5bde-4680-4700-9fa3-12239059046f")
+		)
+		(pin "4"
+			(uuid "ff9d3425-b0ef-4972-b5d2-5fb8ce5af18e")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/e1d84f42-466a-4a43-b7a7-8643d643f922"
+					(reference "#BLK10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "bf03715e-d866-476e-8b22-2f2507fa3d2c")
+	)
+	(text "- J8 M.2 2280 M-key (back, same position as the LGA1700 CB); source moves from PCH x4 to CPU GPP PCIe 4.0 x4"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "9a671c74-4233-4de3-937e-f61c1008b97d")
+	)
+	(text "- REFCLK = CPU GPP_CLK; PERST# = PCIE_RST_L; 3V3_S0 ~2.5 A"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "8449ca82-ea13-4430-abb1-f3b2af53d65a")
+	)
+)

@@ -1,3 +1,34 @@
+> **Update 2026-10-04 ≈ 12:35 ET: power-button features built into the plate, and clamp post H21 moved (Aidan; not pushed).** `build_plate.py` (`BUTTON_FEATURES`, on by default; `--no-button` turns it off), new `button_closeup.py`. Every variant, preview, DXF and check was regenerated.
+> - **Evidence.** In the outer-face scan 83f0b85e the plate is translucent enough to show the inner-face features. Around the Ø11.9 button hole (scan) there is a lighter ring out to Ø15.1 ± 0.3 (thinner wall, so a counterbore) with a key notch at about 140° (back view). There is a "crater" (ring Ø≈2.5 with a dark Ø≈1.1 core) at **both** carrier-ear holes. There is also a straight line along the 0.8 slot between the carrier ring and the flex body. The flex scan (06ea8deb) shows the carrier: a black ring Ø15.57 with 2 diagonal ear lugs (Ø1.8 holes) and a small key tab, with the dome and 2 LEDs on the scanned (board-facing) side. The scan is registered about (−0.5, −1.0) off the flex trace, so **every position is taken from the flex trace**. There is no inside-face scan; the phone splat scan cannot resolve heights (README in `io_cover_scan`).
+> - **Added (inner face, at the flex button (43.02, 108.11)):**
+>   | Feature | Size | Confidence |
+>   |---|---|---|
+>   | `BTN_POCKET` keyed counterbore around the Ø12.4 opening (button-cap flange seat, anti-rotation) | Ø15.0 × 0.50 deep, wall left 0.90 | position high; Ø medium; depth **assumed** |
+>   | `BTN_KEY` key notch, same depth | 2.6 wide, r 7.0–9.8, at 140° (back view) | medium-low (scan only) |
+>   | `BTN_POST_1/2` ear posts through the carrier ear holes; double as the retainer mounts (heat-stake, or an M1.0 thread-forming screw in the core) | Ø1.6 × 1.0 (radial), 0.10/side in the Ø1.8 holes; core Ø0.8 × 1.9 (0.5 skin left at the outer face; `BTN_POST_CORE_D = 0` makes them solid) | position high (flex trace ±0.15 + scan); length/core medium-low |
+>   | `BTN_RIB` locating rib in the 0.8 flex slot | 0.5 × 5.6 × 1.0, X 51.23, Y 103.3–108.9 (0.15/side in the slot) | medium-low |
+>   | Light / LED | No separate light pipe in the plate. The 2 button LEDs sit inside the Ø12.4 opening footprint (far corner r 6.19, margin 0.01), so the clear cap is the light pipe. | LED positions high |
+> - **No tall screw bosses.** None fits outside the flex: the flex covers the frame BIG_L leg opening, the AC opening is 2.2 above the pocket, and the frame sits 1.17 behind the inner face everywhere else. So the ear posts are the retainer mounts.
+> - **Checks** (`button` in `io_plate_v2_A0_features.json`):
+>   - pocket to the AC / ETH2 / HDMI openings: 2.21 / 3.67 / 5.53; key corners to AC 3.04, to the plate edge 7.44;
+>   - post web to the pocket 0.26 / 0.18;
+>   - post tips 0.17 short of the modelled frame front. BTN_POST_2 overlaps the frame leg edge by 0.51 in plan, which is why it stops at 1.0;
+>   - BTN_POST_1 to the main-board HDMI clamp-post M2 head (50.82, 111.0): **0.09 in plan, 0.08 vertical** (pan head k 1.6 assumed, top 16.86). Tight but clear. The rib stops 0.21 short of that head;
+>   - no LED conflicts.
+> - **Wall check:** general 1.341–1.466 (STL faceting, unchanged elsewhere). Local exceptions: pocket floor 0.90 and 0.50 over the post cores. Existing exceptions unchanged: countersinks ≥ 0.37 and seats/bosses up to 2.39.
+> - **Foam DXF:** now has Ø2.2 holes at the two ear posts.
+> - **New DXF layer:** `BUTTON_INNER_FEATURES` (back and front view).
+> - **Close-up:** `io_plate_v2_A0_button_closeup.png` (plan with scan underlay + sections A-A through both posts and B-B along X + 3D inner face).
+> - **H21 moved:** main-board clamp post C upper H21 (53.19, 70.80) → **(53.19, 69.80)** in `kicad/macpro62-io-board/tools/modules_geom.py` (`POSTS`), so `modules.json`, the PCB and this plate follow. Distance to SCR_C1 is now 5.70, so the web between the clamp-plate Ø5.0 hole and the Ø3.8 post is **0.3 → 1.3**, and `clamp_post_margin` is 0.80 → 1.80. modules_geom 114/114 checks OK. Main-board DRC: 0 violations, 0 unconnected; schematic untouched.
+> - **Measure on the stock plate (M-IOPB1–7):**
+>   1. Button hole Ø on both faces; stock cap OD, flange OD/thickness and key tab.
+>   2. Is the Ø≈15 ring a recess or a raised collar, and what is its depth/height and exact Ø?
+>   3. Key notch angle, width and radial extent.
+>   4. Ear features: pin or screw boss? OD, bore, height above the inner face; heat-staked or screwed (screw size and length)?
+>   5. Rib along the flex slot: present? Thickness, length, height, X.
+>   6. Carrier: thickness at the ring and the ear lugs, and which flex face it, the dome and the LEDs are on.
+>   7. What backs the dome (retainer/bracket under the ears? frame tab?), its thickness, and the plate-inner-face-to-frame gap at the button (1.17 assumed).
+
 > **Update 2026-10-04 ≈ 10:35 / 11:15 ET (Aidan's test print; not pushed).** Applied in `build_plate.py` (`SCREW_SHIFT_Y`, `CENTRE_TRIM`); every variant, preview, DXF and check regenerated.
 > 1. **All 4 corner mounts +1.0 in Y**, i.e. toward the plate's **top** edge (the end away from the audio jacks at Y ≈ 19). Pitch unchanged (45.1 × 135.25):
 >    SCR_T− (30.64, **150.95**), SCR_T+ (75.74, **150.95**), SCR_B− (30.64, **15.70**), SCR_B+ (75.74, **15.70**).
@@ -232,10 +263,11 @@ Coordinates are in the stock back-view frame: X to the right seen from behind, Y
 | `io_plate_v2_A0_preview.png` | Outer face plus inner isometric |
 | `io_plate_v2_A0_section.png` | Sections through the USB-C, USB-A and RJ45 rows: plate, flex, foam, frame, board top, connectors on risers |
 | `io_plate_v2_A0_outer.png`, `io_plate_v2_A0_iso_inner.png` | Extra previews |
+| `io_plate_v2_A0_button_closeup.png` (`button_closeup.py`) | Power-button area (rev 2026-10-04): plan with the scan underlay, flex trace, frame opening and HDMI clamp post; sections A-A (both ear posts) and B-B (along X); 3D inner face |
 | `flex_821-2222_trace.dxf` / `.json` | Scan-based, idealised trace of the plate-facing side: outline, cut-outs, holes, pads, silver frames, 19 LEDs, button, tail + contacts, `IGNORED_BLACK_TAB`, reference layers. ±0.15; VERIFY by caliper |
 | `flex_821-2222_scan_vs_photo_deltas.md` | Deltas against the 09:06 photo trace |
 | `flex_821-2222_check.png` | Flex against openings, shells, frame slots, LEDs, pins and clips, with margins and required heights |
-| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut: flex outline minus cut-outs + 0.3, holes + 0.5, button ring + 0.5 |
+| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut: flex outline minus cut-outs + 0.3, holes + 0.5, button ring + 0.5, ear-post holes Ø2.2 (2026-10-04) |
 
 ## Geometry (mm)
 

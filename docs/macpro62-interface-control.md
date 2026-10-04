@@ -227,7 +227,7 @@ Connector: MCIO 124 RA receptacle at both ends (Amphenol G97R24332HR / Molex 217
 | 8 / 9 | I2C_SYS SCL / SDA | bi, OD | MCU master, pull-ups on 3V3_SB | IOB devices (§11) | OK |
 | 10 | IOB_INT_N | IOB → BP, OD | **pull-up on the BP** | U84 (PD IRQs), LIS2DH12 INT1, **U98 INA228 ALERT (rev 2)** | **FIXED** (missing in BP stub) |
 | 11 | IOB_PRSNT_N | IOB → BP | **BP 10 k pull-up to 3V3_SB**, MCU input | tied to GND | **FIXED** (arch §4.8 / BP treated as GND/not present) |
-| 13 / 14 | USB2_LINK D+ / D− | bi | CPU-LINK USB2_SPARE | hub H2 (USB-A A1–A4, Bluetooth via 4th CH334R) | **FIXED** (no BP route before) |
+| 13 / 14 | USB2_LINK D+ / D− | bi | CPU-LINK USB2_SPARE | hub H2 (USB-A A1–A4, Bluetooth via 4th CH334F) | **FIXED** (no BP route before) |
 
 Positions: BP J6 (11.4, −48.8) rot 180 (moved 1.6 mm for S3); IOB J6 B side, Xb 68.4–91.7, Y 8.7–15.3. Cable length TBD (U-6).
 
@@ -269,7 +269,7 @@ Positions: BP J6 (11.4, −48.8) rot 180 (moved 1.6 mm for S3); IOB J6 B side, X
 
 | Interface | IOB part | Signals | Status |
 |---|---|---|---|
-| CONN_C (fan + AirPort) | J7 DF12-40 placeholder at the stock spot (50.49, 5.18) B, H14/H15 standoffs, T8 bracket keep-out | fan 12 V / PWM / TACH (U90 EMC2101), AirPort PCIe x1 (U91 downstream 1) + USB2 BT (CH334R U35), PERST#, REFCLK (U-8), antenna J8 U.FL | pinout **M-IOC1 / M-IOC3 (U-5)** |
+| CONN_C (fan + AirPort) | J7 DF12-40 placeholder at the stock spot (50.49, 5.18) B, H14/H15 standoffs, T8 bracket keep-out | fan 12 V / PWM / TACH (U90 EMC2101), AirPort PCIe x1 (U91 downstream 1) + USB2 BT (CH334F U35), PERST#, REFCLK (U-8), antenna J8 U.FL | pinout **M-IOC1 / M-IOC3 (U-5)** |
 | I/O wall flex | J31 14P 0.5 at (82.8, 10.0) F | P3 → PWRBTN_IN_N, P6 → GND fitted; others DNP 0R matrix (I2C_SYS, 3V3_SB, IOB_INT_N, 5V_A, 3V3) | pins provisional (§9.5 probing) |
 
 ### 10.1 I-12 PMI-50 port-module interface (internal to the IOB) [Proposal, D-IO16]
@@ -526,3 +526,31 @@ Standby (11 V SB, 5 W): BP MCU/sensors ≤ 0.3 W, faces ≤ 0.1 W, CB 5V_SBY 1�
 - **SM-1** `kicad/macpro62-storage-face/`: `tools/make_footprints.py`, `tools/floorplan.py` (J_PCIE X from `face_geom.json`), regenerated PCB (J1 X 47.0), `drc_report.txt` (0/0/0), `erc_report.txt` (0), `floorplan_storage_SM1.png`, `render_core_side_F.png`, `render_outer_side_B.png`, `README.md`.
 - **BP** `kicad/macpro62-backplane/`: `tools/hub_floorplan.py` (fp6), `tools/build_pcb.py` (rev A-fp6-hub), new `tools/fitcheck_o10.py` → `fitcheck_mcio_o10.txt`; regenerated `MP62_Placeholders.pretty/MP62_MCIO_124P_RA_SFF-TA-1016.kicad_mod`, `backplane.kicad_pcb`, `drc_report.txt` (0/0), `erc_report.txt` (0, schematic unchanged), `fitcheck_floorplan.txt`, `lane_length_estimate.txt`, `floorplan.png/.svg`, `README.md`. fp5 backups and search scripts in `scratch/o10/`.
 - Architecture spec: changelog item 34. This ICD (header, I-1 rows I-3/I-4, §5 fp6, §6 AUX positions, §14, §16 O-10 CLOSED, §17 U-21).
+
+### 18.4 Informative note (2026-10-04 ≈ 12:30 ET, no interface change)
+
+- New **separate** draft project `kicad/macpro62-am5/` + plan `macpro62-am5-board-plan.md` (architecture spec changelog item 35). `kicad/macpro62-lga1700/` untouched. ICD rev stays **3**; only §18.4 and §19 were added.
+
+---
+
+## 19. AM5 CB draft: CB-side delta (informative, not adopted)
+
+If the AM5 CPU board (Ryzen 8000G + PROM21, `macpro62-am5-board-plan.md` §7) replaces the LGA1700 CB:
+
+- **I-1 CPU-LINK and I-2 IOB-HS1:** physicals, positions, contact numbers and **signal names are unchanged**. The BP, the IOB and their pinout CSVs stay valid. Only the **CB-side source** of each net changes:
+  - per-contact tables: `kicad/macpro62-am5/docs/cpulink_224_pinout_am5.csv`, `.../mp62-cb-j3_mcio124_host-end_am5.csv`
+  - counts: `pinout_delta_summary.txt`
+- **I-1 counts:** 115 SAME, 109 re-mapped. The re-mapped contacts:
+  - FP lanes 0–7 = CPU GFX x8 Gen4. **FP lanes 8–15 are routed but not driven by 8000G**, so Face P trains x8. 7000/9000 restore x16.
+  - FS = CPU GPP x4.
+  - FP/FS REFCLK come from the CPU GPP_CLK, which **closes U-12 on AM5**.
+  - SATA0 and USB2 MCU/FACEP/FACES come from PROM21. USB2_SPARE comes from the CPU.
+  - Sideband pins keep their Intel-style names but are driven from FCH signals: SLP_S3_L, SLP_S5_L (no SLP_S4), PCIE_RST_L, PROCHOT_L, WAKE_L, SMBus0.
+- **§12 lane map (AM5 variant):**
+  - CPU: GFX x8 → Face P, GPP x4 → Face S, GPP x4 → CB M.2 (was PCH RP9–12), x4 → PROM21.
+  - IOB USB-C: C1/C2 = CPU 10G, C3–C6 = PROM21 10G #0–3.
+  - IOB USB-A: A1–A4 = CB hub U16 (VL822) on PROM21 10G #4; the four ports share 10 Gb/s.
+  - i226 #1 / ASM1182e = PROM21 PCIe x1 / x1.
+  - DDI-B / DDI-C = APU DP0 (4 lanes) / DP1 (2 lanes).
+- **§5.5 LPT:** the UART0 LPT_SET payload becomes PPT/TDC/EDC, which is a BP MCU firmware delta. The fallback is fixed cTDP 45 W plus CARRIER_HOT# (PROCHOT_L), unchanged.
+- **§13 power:** the CB stays inside its allocation: PPT ≈ 61 W at cTDP 45 W vs PL2 65 W, and PROM21 ≈ +1 W vs Z790.

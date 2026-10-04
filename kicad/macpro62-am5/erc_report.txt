@@ -1,0 +1,25 @@
+ERC report (2026-10-04T12:25:44-0400, Encoding UTF8)
+
+***** Sheet /
+
+***** Sheet /CPU: Socket AM5 (Ryzen 7 8700G / Ryzen 5 8600G; 7000/9000 later)/
+
+***** Sheet /SVI3 VRM: VDDCR + VDDCR_SOC + VDD_MISC/
+
+***** Sheet /DDR5 2DPC: 4 x UDIMM vertical (back)/
+
+***** Sheet /PROM21 chipset (218-0891025 preferred)/
+
+***** Sheet /USB 10G hub (U16 VL822-Q7)/
+
+***** Sheet /Platform power: 12 V entry, eFuse, CPU aux + PROM21 rails/
+
+***** Sheet /EC, firmware, clocks, RTC, debug/
+
+***** Sheet /CPU-LINK J1 (Mini Cool Edge 224 fingers) - AM5 map/
+
+***** Sheet /IOB-HS J3 (MCIO 124 RA, back) - AM5 map/
+
+***** Sheet /Boot M.2 J8 (CPU GPP x4)/
+
+ ** ERC messages: 0  Errors 0  Warnings 0

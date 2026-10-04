@@ -1,0 +1,834 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "c8fc5270-bb11-4f1e-807b-4cf0d938ab89")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: CPU: Socket AM5 (Ryzen 7 8700G / Ryzen 5 8600G; 7000/9000 later)")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_CPU_AM5"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_CPU_AM5"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_CPU_AM5_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -118.11)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_CPU_AM5_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "VDDCR" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "VDDCR_SOC" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "VDD_MISC" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "VDDIO_MEM_S3" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "VDD_18_S5" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "VDD_33_S5" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -15.24 0)
+					(length 2.54)
+					(name "VDD_MISC_S5" (effects (font (size 1.0 1.0))))
+					(number "7" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -17.78 0)
+					(length 2.54)
+					(name "SVI3_CLK" (effects (font (size 1.0 1.0))))
+					(number "8" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -20.32 0)
+					(length 2.54)
+					(name "SVI3_DAT" (effects (font (size 1.0 1.0))))
+					(number "9" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -22.86 0)
+					(length 2.54)
+					(name "SVI3_ALERT_L" (effects (font (size 1.0 1.0))))
+					(number "10" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -25.40 0)
+					(length 2.54)
+					(name "PROCHOT_L" (effects (font (size 1.0 1.0))))
+					(number "11" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -27.94 0)
+					(length 2.54)
+					(name "DDR5_CHA" (effects (font (size 1.0 1.0))))
+					(number "12" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -30.48 0)
+					(length 2.54)
+					(name "DDR5_CHB" (effects (font (size 1.0 1.0))))
+					(number "13" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -33.02 0)
+					(length 2.54)
+					(name "SMB0_SCL" (effects (font (size 1.0 1.0))))
+					(number "14" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -35.56 0)
+					(length 2.54)
+					(name "SMB0_SDA" (effects (font (size 1.0 1.0))))
+					(number "15" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -38.10 0)
+					(length 2.54)
+					(name "FCH_SPI" (effects (font (size 1.0 1.0))))
+					(number "16" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -40.64 0)
+					(length 2.54)
+					(name "PCIE_GFX_L0_7" (effects (font (size 1.0 1.0))))
+					(number "17" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -43.18 0)
+					(length 2.54)
+					(name "PCIE_GFX_L8_15" (effects (font (size 1.0 1.0))))
+					(number "18" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -45.72 0)
+					(length 2.54)
+					(name "PCIE_GPP_FS_X4" (effects (font (size 1.0 1.0))))
+					(number "19" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -48.26 0)
+					(length 2.54)
+					(name "PCIE_GPP_M2_X4" (effects (font (size 1.0 1.0))))
+					(number "20" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -50.80 0)
+					(length 2.54)
+					(name "PCIE_PROM21_X4" (effects (font (size 1.0 1.0))))
+					(number "21" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -53.34 0)
+					(length 2.54)
+					(name "GPP_CLK_FP" (effects (font (size 1.0 1.0))))
+					(number "22" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -55.88 0)
+					(length 2.54)
+					(name "GPP_CLK_FS" (effects (font (size 1.0 1.0))))
+					(number "23" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -58.42 0)
+					(length 2.54)
+					(name "GPP_CLK_M2" (effects (font (size 1.0 1.0))))
+					(number "24" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -60.96 0)
+					(length 2.54)
+					(name "GPP_CLK_PROM21" (effects (font (size 1.0 1.0))))
+					(number "25" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -63.50 0)
+					(length 2.54)
+					(name "PCIE_RST_L" (effects (font (size 1.0 1.0))))
+					(number "26" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -66.04 0)
+					(length 2.54)
+					(name "USB10G_CPU0" (effects (font (size 1.0 1.0))))
+					(number "27" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -68.58 0)
+					(length 2.54)
+					(name "USB10G_CPU1" (effects (font (size 1.0 1.0))))
+					(number "28" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -71.12 0)
+					(length 2.54)
+					(name "USB2_CPU0" (effects (font (size 1.0 1.0))))
+					(number "29" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -73.66 0)
+					(length 2.54)
+					(name "DP0_ML" (effects (font (size 1.0 1.0))))
+					(number "30" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -76.20 0)
+					(length 2.54)
+					(name "DP0_AUX" (effects (font (size 1.0 1.0))))
+					(number "31" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -78.74 0)
+					(length 2.54)
+					(name "DP1_ML" (effects (font (size 1.0 1.0))))
+					(number "32" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -81.28 0)
+					(length 2.54)
+					(name "DP1_AUX" (effects (font (size 1.0 1.0))))
+					(number "33" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -83.82 0)
+					(length 2.54)
+					(name "HPD_B" (effects (font (size 1.0 1.0))))
+					(number "34" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -86.36 0)
+					(length 2.54)
+					(name "HPD_C" (effects (font (size 1.0 1.0))))
+					(number "35" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -88.90 0)
+					(length 2.54)
+					(name "CLK_48M" (effects (font (size 1.0 1.0))))
+					(number "36" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -91.44 0)
+					(length 2.54)
+					(name "RTC_32K" (effects (font (size 1.0 1.0))))
+					(number "37" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -93.98 0)
+					(length 2.54)
+					(name "VBAT_RTC_CB" (effects (font (size 1.0 1.0))))
+					(number "38" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -96.52 0)
+					(length 2.54)
+					(name "PWR_BTN_L" (effects (font (size 1.0 1.0))))
+					(number "39" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -99.06 0)
+					(length 2.54)
+					(name "SYS_RESET_L" (effects (font (size 1.0 1.0))))
+					(number "40" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -101.60 0)
+					(length 2.54)
+					(name "RSMRST_L" (effects (font (size 1.0 1.0))))
+					(number "41" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -104.14 0)
+					(length 2.54)
+					(name "PWR_GOOD" (effects (font (size 1.0 1.0))))
+					(number "42" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -106.68 0)
+					(length 2.54)
+					(name "WAKE_L" (effects (font (size 1.0 1.0))))
+					(number "43" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -109.22 0)
+					(length 2.54)
+					(name "SLP_S3_L" (effects (font (size 1.0 1.0))))
+					(number "44" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -111.76 0)
+					(length 2.54)
+					(name "SLP_S5_L" (effects (font (size 1.0 1.0))))
+					(number "45" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -114.30 0)
+					(length 2.54)
+					(name "THERMTRIP_L" (effects (font (size 1.0 1.0))))
+					(number "46" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -116.84 0)
+					(length 2.54)
+					(name "FCH_UART0" (effects (font (size 1.0 1.0))))
+					(number "47" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "VDDCR"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f13d11f2-4901-4638-8d76-6095fe16d6ca")
+	)
+	(hierarchical_label "VDDCR_SOC"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "7067d6f0-226e-4396-b904-2f45d85a9a24")
+	)
+	(hierarchical_label "VDD_MISC"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3c92551e-cd54-4864-b9fc-14c118c44f72")
+	)
+	(hierarchical_label "VDDIO_MEM_S3"
+		(shape input)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "781c4bcb-1341-4cd9-b9f1-002df6337940")
+	)
+	(hierarchical_label "VDD_18_S5"
+		(shape input)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "1487c4e5-0052-471c-823e-2c1b1ac4611a")
+	)
+	(hierarchical_label "VDD_33_S5"
+		(shape input)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3758cdf1-6fe3-4207-8d70-96126f32b2a3")
+	)
+	(hierarchical_label "VDD_MISC_S5"
+		(shape input)
+		(at 38.1 45.72 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "cbd4dfea-0690-40e2-9c25-4542e0a765e1")
+	)
+	(hierarchical_label "SVI3_CLK"
+		(shape bidirectional)
+		(at 38.1 48.26 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "4fe9bd3b-f5bf-4f5f-bc5b-22e4847d5f44")
+	)
+	(hierarchical_label "SVI3_DAT"
+		(shape bidirectional)
+		(at 38.1 50.80 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "2ecda5cb-4871-4636-b0ae-ccdd36449754")
+	)
+	(hierarchical_label "SVI3_ALERT_L"
+		(shape bidirectional)
+		(at 38.1 53.34 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "61931f4a-a08e-4e5b-9c5f-e64811c47c76")
+	)
+	(hierarchical_label "PROCHOT_L"
+		(shape bidirectional)
+		(at 38.1 55.88 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6157b0a8-d17f-47fe-9121-a1461a471cf8")
+	)
+	(hierarchical_label "DDR5_CHA"
+		(shape bidirectional)
+		(at 38.1 58.42 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "357eb628-cbeb-44bb-ab88-9786b858a19f")
+	)
+	(hierarchical_label "DDR5_CHB"
+		(shape bidirectional)
+		(at 38.1 60.96 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "fb89b2d8-793d-4ebc-b9c2-614690a559a6")
+	)
+	(hierarchical_label "SMB0_SCL"
+		(shape bidirectional)
+		(at 38.1 63.50 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "355594f5-2d13-4290-abfe-3f4f6c0e2a97")
+	)
+	(hierarchical_label "SMB0_SDA"
+		(shape bidirectional)
+		(at 38.1 66.04 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "ac876869-832b-4ce2-a53d-a4bc99aba0cb")
+	)
+	(hierarchical_label "FCH_SPI"
+		(shape bidirectional)
+		(at 38.1 68.58 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "a12681fb-f4e0-4c86-a65c-9c3e0939a54b")
+	)
+	(hierarchical_label "PCIE_GFX_L0_7"
+		(shape output)
+		(at 38.1 71.12 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "9f77e6fe-feb3-4786-a639-85b9c55315e3")
+	)
+	(hierarchical_label "PCIE_GFX_L8_15"
+		(shape output)
+		(at 38.1 73.66 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "0d1154d4-0d72-4c08-848b-3ad5ff4025a8")
+	)
+	(hierarchical_label "PCIE_GPP_FS_X4"
+		(shape output)
+		(at 38.1 76.20 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "d952c6fd-6444-4895-96bb-cfd1e08c5501")
+	)
+	(hierarchical_label "PCIE_GPP_M2_X4"
+		(shape output)
+		(at 38.1 78.74 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "dc742b91-145a-4f1d-b653-e4f18b385f72")
+	)
+	(hierarchical_label "PCIE_PROM21_X4"
+		(shape bidirectional)
+		(at 38.1 81.28 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "ee8adf3c-1193-427e-9286-d56c568299aa")
+	)
+	(hierarchical_label "GPP_CLK_FP"
+		(shape output)
+		(at 38.1 83.82 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b8d41480-c755-49a6-8e73-dab5cb4e2cef")
+	)
+	(hierarchical_label "GPP_CLK_FS"
+		(shape output)
+		(at 38.1 86.36 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "0726d64a-e5f4-4a24-aebb-db97f29f532c")
+	)
+	(hierarchical_label "GPP_CLK_M2"
+		(shape output)
+		(at 38.1 88.90 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "10f9ddf7-1807-43d8-aced-f800fdae5445")
+	)
+	(hierarchical_label "GPP_CLK_PROM21"
+		(shape output)
+		(at 38.1 91.44 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "091c1c7a-82ee-4c50-ac4b-595901e3d2b7")
+	)
+	(hierarchical_label "PCIE_RST_L"
+		(shape output)
+		(at 38.1 93.98 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3b1f4175-3083-4213-be2d-aa3a6314615c")
+	)
+	(hierarchical_label "USB10G_CPU0"
+		(shape output)
+		(at 38.1 96.52 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6e597700-15bf-4b59-a4dd-5c90acd02548")
+	)
+	(hierarchical_label "USB10G_CPU1"
+		(shape output)
+		(at 38.1 99.06 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "71db0cb6-3f97-4666-8021-1463b9f79444")
+	)
+	(hierarchical_label "USB2_CPU0"
+		(shape output)
+		(at 38.1 101.60 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "bdc04782-d783-4f13-8011-ae30e88c795a")
+	)
+	(hierarchical_label "DP0_ML"
+		(shape output)
+		(at 38.1 104.14 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6429a3ce-4f5f-484a-8a18-b17847a46718")
+	)
+	(hierarchical_label "DP0_AUX"
+		(shape bidirectional)
+		(at 38.1 106.68 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "66adc7e4-14ad-436e-9322-c3f7ce36690c")
+	)
+	(hierarchical_label "DP1_ML"
+		(shape output)
+		(at 38.1 109.22 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "72ee0c88-d97a-4d05-9fcb-62375e708a14")
+	)
+	(hierarchical_label "DP1_AUX"
+		(shape bidirectional)
+		(at 38.1 111.76 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "c64953dd-644e-4d7f-abd5-1e5cda63783c")
+	)
+	(hierarchical_label "HPD_B"
+		(shape input)
+		(at 38.1 114.30 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "feeff815-d94d-4bc1-a067-4563dc8c5336")
+	)
+	(hierarchical_label "HPD_C"
+		(shape input)
+		(at 38.1 116.84 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "7f49e376-b2d4-4f9f-9045-6d8cdcaa8375")
+	)
+	(hierarchical_label "CLK_48M"
+		(shape input)
+		(at 38.1 119.38 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "225d2ce3-85ba-465f-8a4d-f9de7057b7c5")
+	)
+	(hierarchical_label "RTC_32K"
+		(shape input)
+		(at 38.1 121.92 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "50d1ae1a-888c-44f8-9307-841fe2e74c87")
+	)
+	(hierarchical_label "VBAT_RTC_CB"
+		(shape input)
+		(at 38.1 124.46 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "11fd978a-d2ee-4930-a351-22b11dce4d15")
+	)
+	(hierarchical_label "PWR_BTN_L"
+		(shape input)
+		(at 38.1 127.00 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "fc789792-bf99-4b18-ab22-1e65f2dde1a3")
+	)
+	(hierarchical_label "SYS_RESET_L"
+		(shape input)
+		(at 38.1 129.54 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3f0f71ba-3e5d-4e88-a9a1-6f901e4502a9")
+	)
+	(hierarchical_label "RSMRST_L"
+		(shape input)
+		(at 38.1 132.08 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3e735167-558b-48fb-93a7-89749604ced6")
+	)
+	(hierarchical_label "PWR_GOOD"
+		(shape input)
+		(at 38.1 134.62 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "dfb37d09-bc90-4fe2-9d5b-60085d072eea")
+	)
+	(hierarchical_label "WAKE_L"
+		(shape bidirectional)
+		(at 38.1 137.16 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b4444c24-b267-434b-8d0b-5c16a04ec624")
+	)
+	(hierarchical_label "SLP_S3_L"
+		(shape output)
+		(at 38.1 139.70 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6212a9d0-893c-43c4-8e70-739aa2511c8c")
+	)
+	(hierarchical_label "SLP_S5_L"
+		(shape output)
+		(at 38.1 142.24 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "78c8784a-20ea-4173-9f96-1311ed872a18")
+	)
+	(hierarchical_label "THERMTRIP_L"
+		(shape output)
+		(at 38.1 144.78 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "2c81810b-f7e5-4ed6-a58a-cce79ab4de39")
+	)
+	(hierarchical_label "FCH_UART0"
+		(shape bidirectional)
+		(at 38.1 147.32 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "9f6424c7-928e-4dc9-bf19-bcacdb410f51")
+	)
+	(symbol
+		(lib_id "MP62:STUB_CPU_AM5")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "9e9df337-e2c1-4504-8c9a-2739372b565f")
+		(property "Reference" "#BLK1"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_CPU_AM5"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "945db308-f243-4174-974c-1c836df61676")
+		)
+		(pin "2"
+			(uuid "0b748d04-6498-4d5c-9902-2d79758ddfd6")
+		)
+		(pin "3"
+			(uuid "2bde8649-8fed-41ea-9395-2610288d1f18")
+		)
+		(pin "4"
+			(uuid "a291bde3-7f68-4cae-af7e-d6464559fa78")
+		)
+		(pin "5"
+			(uuid "8a20b159-2c43-4d8d-9e0a-ca01b786b1bf")
+		)
+		(pin "6"
+			(uuid "39e48fb7-1807-4339-b134-4a73ce52d3a7")
+		)
+		(pin "7"
+			(uuid "85d69d9a-d21c-49ea-a7a9-12f2f39f0357")
+		)
+		(pin "8"
+			(uuid "9e4ebd31-2d83-4031-939a-79e8ea104686")
+		)
+		(pin "9"
+			(uuid "27057f2a-97e0-41e4-9e61-ee0a092c4d3c")
+		)
+		(pin "10"
+			(uuid "f5ae388b-74ee-4f69-b477-d9551c010037")
+		)
+		(pin "11"
+			(uuid "c1fd122b-f532-4e03-ad3c-e7b49f3f164b")
+		)
+		(pin "12"
+			(uuid "ff802f8d-fbe3-4e26-a096-676c7e067940")
+		)
+		(pin "13"
+			(uuid "08ea02fe-6147-4afe-8279-b4c928a314e2")
+		)
+		(pin "14"
+			(uuid "5a85c8bb-9b77-4256-b02d-a7b959188faa")
+		)
+		(pin "15"
+			(uuid "6ffbce11-c760-4202-b476-4e949f01199b")
+		)
+		(pin "16"
+			(uuid "a357bce8-59ec-43d3-ad0c-7a79b8e19e0f")
+		)
+		(pin "17"
+			(uuid "f1f58aef-ca28-4642-888a-479adf05da3f")
+		)
+		(pin "18"
+			(uuid "05cdd1e8-3069-40f5-a54f-fb6d937d804a")
+		)
+		(pin "19"
+			(uuid "6660da66-04eb-4ade-858d-bec39d846513")
+		)
+		(pin "20"
+			(uuid "0d2f8a11-d6ef-413a-9edd-23fb43ae6ed6")
+		)
+		(pin "21"
+			(uuid "2bd02369-c671-4fe4-8083-cd30c3251bcc")
+		)
+		(pin "22"
+			(uuid "f51903db-c045-4006-a993-be527ad9cf44")
+		)
+		(pin "23"
+			(uuid "5cf6da7b-eabb-4aaa-83c5-0b7f04d3fdcb")
+		)
+		(pin "24"
+			(uuid "134aaa85-bba7-4dba-814a-12bb55dd1cbe")
+		)
+		(pin "25"
+			(uuid "11a46653-a7a5-4dc3-b2bb-130e2bc2c9de")
+		)
+		(pin "26"
+			(uuid "82ae3e2a-0626-4452-a3ac-118f1faf6def")
+		)
+		(pin "27"
+			(uuid "4e3a0666-4250-42a4-bd44-666ff310439c")
+		)
+		(pin "28"
+			(uuid "c4acece4-0603-4398-9eba-22df1629e0c1")
+		)
+		(pin "29"
+			(uuid "5b0702ee-4d10-4e47-89e9-4f67e7624ecc")
+		)
+		(pin "30"
+			(uuid "18cbcbae-0e67-479d-91e8-fad6c4b9dbad")
+		)
+		(pin "31"
+			(uuid "ad5e952b-5122-412d-9f2a-e6c16cc4c8c5")
+		)
+		(pin "32"
+			(uuid "63309f3d-728a-4e58-aad7-38a4841f1d8b")
+		)
+		(pin "33"
+			(uuid "be4937ce-a484-4c29-ad69-c15cd9c05b01")
+		)
+		(pin "34"
+			(uuid "f27a8e81-3a19-455b-930d-9d6433a8663e")
+		)
+		(pin "35"
+			(uuid "b4a1737f-c15e-4c73-83eb-37a006faedd2")
+		)
+		(pin "36"
+			(uuid "9e75e193-e231-4fac-a397-1653ee2e3e67")
+		)
+		(pin "37"
+			(uuid "44d2aeda-12bb-4c47-b8c9-c7d7396379ae")
+		)
+		(pin "38"
+			(uuid "33871737-8c3b-47f6-89e3-c74d71b196a6")
+		)
+		(pin "39"
+			(uuid "bdcaf6f4-8f9f-430a-a9b8-a86e3d93462c")
+		)
+		(pin "40"
+			(uuid "47eda260-27de-4ce3-863f-8562bc57c2ae")
+		)
+		(pin "41"
+			(uuid "64c91964-3d57-4257-be8c-fd855598fee6")
+		)
+		(pin "42"
+			(uuid "f865364e-155d-450a-90cf-0d8e1b45dd9f")
+		)
+		(pin "43"
+			(uuid "3ddd3350-b6f9-40f2-b1a0-212171dd8a76")
+		)
+		(pin "44"
+			(uuid "e8ed9585-618f-425f-ae5f-68e9b8c125d6")
+		)
+		(pin "45"
+			(uuid "796bee58-9ed1-4e6e-98cf-0e069bea7f38")
+		)
+		(pin "46"
+			(uuid "0608850d-e9c6-4a6b-bb14-f6dd9611f709")
+		)
+		(pin "47"
+			(uuid "112f4524-eee4-429c-8b36-7321b6455e75")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/d3fbcfef-5933-403c-ac19-6df9af70a15a"
+					(reference "#BLK1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "fb66105b-5e95-454e-a306-2b3ac6ed8c73")
+	)
+	(text "- U1 Socket AM5 LGA1718 (Foxconn PE17181/PE17186 or Lotes AZIFS055), MP62 contact frame on the 69.5 x 55 core holes (no stock ILM)"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "1ed3c3e8-7815-4d98-8642-2e90f7c77d85")
+	)
+	(text "- Primary CPU: Ryzen 8000G (Phoenix) - the only AM5 family Dasharo (coreboot + openSIL) boots today; cTDP 45 W (PPT ~61 W)"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "61fe328a-fc93-4b40-aecc-86ab63693b57")
+	)
+	(text "- 8000G PCIe 4.0: 20 lanes / 16 usable = GFX x8 (Face P) + GPP x4 (Face S) + GPP x4 (M.2 boot) + x4 PROM21 uplink"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "360a83b3-53d6-47b6-9e49-a36525bbb95b")
+	)
+	(text "- GFX lanes 8-15 are routed to J1 but unused by 8000G; live with Ryzen 7000/9000 (x16 Gen5, AC caps fitted)"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "5c749796-70c7-412a-9fbb-8ec73169fd8b")
+	)
+	(text "- USB: 2 x USB 10G -> J3 C1/C2, 1 x USB2 -> CPU-LINK SPARE; 2 x USB4 unused in rev A (option: run them at 10G instead of the hub [firmware risk])"
+		(exclude_from_sim no)
+		(at 76.20 50.80 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "3d312b0d-cd31-42e8-9189-7f229fdfd655")
+	)
+	(text "- Display: DP0 4-lane -> J3 DDIB, DP1 2-lane -> J3 DDIC (AUX AC-coupled, HPD from the IOB); 7000/9000 iGPU = 2 lanes class TBD"
+		(exclude_from_sim no)
+		(at 76.20 54.61 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "d1a37443-bb76-4342-8343-20c3e3f4643b")
+	)
+	(text "- FCH (in the CPU): GPP_CLK refclks (closes U-12 on AM5), SPI ROM, SMBus0 (SPD), SLP_S3_L/SLP_S5_L, RSMRST_L, PWR_GOOD, PCIE_RST_L, THERMTRIP_L, PROCHOT_L"
+		(exclude_from_sim no)
+		(at 76.20 58.42 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "2d9d51c8-06c2-48de-bc9c-f6a0627918ee")
+	)
+	(text "- Pin names are functional placeholders: the AM5 pin list/land map is AMD NDA"
+		(exclude_from_sim no)
+		(at 76.20 62.23 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "1858fe98-cbd0-4bb5-89de-c29f5c40a706")
+	)
+)

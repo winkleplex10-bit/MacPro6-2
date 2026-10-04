@@ -1,0 +1,59 @@
+# MP62 AM5 CB fp0 - placeholder flags (every placed footprint). PLACEHOLDER-NDA = synthetic pads, DO NOT FAB.
+ref   side status                                 note
+U1    F    PLACEHOLDER-NDA                        1718 synthetic lands on the sourced 0.81 x 0.94 hex pitch; AMD land map + socket drawing needed; orientation [Inference]
+H1    F    FIXED (measured)                       stock core hole, same as LGA1700
+H2    F    FIXED (measured)                       stock core hole, same as LGA1700
+H3    F    FIXED (measured)                       stock core hole, same as LGA1700
+H4    F    FIXED (measured)                       stock core hole, same as LGA1700
+H5    F    REUSED (LGA1700 pattern)               MP62 own frame seat screw; hole edge ~3.3 mm from the estimated AM5 housing - re-check with the socket drawing
+H6    F    REUSED (LGA1700 pattern)               MP62 own frame seat screw; hole edge ~3.3 mm from the estimated AM5 housing - re-check with the socket drawing
+H7    F    REUSED (LGA1700 pattern)               MP62 own frame seat screw; hole edge ~3.3 mm from the estimated AM5 housing - re-check with the socket drawing
+H8    F    REUSED (LGA1700 pattern)               MP62 own frame seat screw; hole edge ~3.3 mm from the estimated AM5 housing - re-check with the socket drawing
+Q1    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L1    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q2    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L2    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q3    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L3    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q4    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L4    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q5    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L5    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q6    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L6    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q7    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L7    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+Q8    F    SOURCED-DIMS                           SiC654 5x5 MLP55-31L; pads approximate; current per AM5 IccMax (NDA) TBD
+L8    F    SOURCED-DIMS                           Eaton FP4 10.2 x 6.8 x 5.0; value 150 nH [Estimate]
+CIN1  F    AREA                                   12 V input MLCC field
+COUT1 F    AREA                                   output caps; values from AMD VR design guide (NDA)
+U3    F    AREA                                   SVI3 triple-rail controller candidate; part not frozen, config tools under NDA
+U4    F    AREA                                   CPU S5/aux rails (1.8/3.3/MISC_S5); rail list [Unverified] until the AMD datasheet (NDA)
+U5    F    AREA                                   CPU seq/straps/SVI3 pull-ups; rail list [Unverified] until the AMD datasheet (NDA)
+U6    F    AREA                                   PROM21 rails; rail list [Unverified] until the AMD datasheet (NDA)
+U7    F    AREA                                   5V VIN_BULK 4x UDIMM; rail list [Unverified] until the AMD datasheet (NDA)
+U8    F    AREA                                   VDDIO_MEM_S3 1.1V; rail list [Unverified] until the AMD datasheet (NDA)
+U2    F    PLACEHOLDER-NDA                        19 x 19 body sourced; 484 synthetic balls at 0.8 (ballout NDA); thermal pad to the core plate (~7 W)
+Y1    F    AREA                                   48 MHz [Unverified]
+U9    F    AREA                                   same as LGA1700, AM5 GPIO map
+U10   F    AREA                                   FCH SPI ROM
+J4    F    AREA                                   optional
+J5    F    AREA                                   debug
+U11   F    AREA                                   same as LGA1700
+U15   F    AREA                                   same as LGA1700
+U16   F    AREA                                   NEW: VL822-Q7 9x9 QFN-76 (LCSC C42419379)
+U17   F    AREA                                   NEW: PROM21 own FW flash [Unverified]
+LUG1  F    PLACEHOLDER                            stock lug position +-0.8 (photo); polarity M-CC7; same as LGA1700
+LUG2  F    PLACEHOLDER                            stock lug position +-0.8 (photo); polarity M-CC7; same as LGA1700
+J1    F    SOURCED (Amphenol AIC card drawing)    physical identical to LGA1700; AM5 net map in docs/cpulink_224_pinout_am5.csv
+CAC1  F    AREA                                   AC caps
+J6    B    SOURCED-DIMS (UMAX C-90414)            pads approximate; 2DPC on AM5 = DDR5-3600 (8600G spec) [Sourced]
+J7    B    SOURCED-DIMS (UMAX C-90414)            pads approximate; 2DPC on AM5 = DDR5-3600 (8600G spec) [Sourced]
+J9    B    SOURCED-DIMS (UMAX C-90414)            pads approximate; 2DPC on AM5 = DDR5-3600 (8600G spec) [Sourced]
+J10   B    SOURCED-DIMS (UMAX C-90414)            pads approximate; 2DPC on AM5 = DDR5-3600 (8600G spec) [Sourced]
+J8    B    PLACEHOLDER                            M.2 2280 M-key outline; source changes PCH -> CPU GPP x4
+J3    B    AREA (part = LGA1700 CB J3)            same physical/position; AM5 host-end sources re-mapped
+BT1   B    AREA                                   same as LGA1700
+CB1   B    AREA                                   same as LGA1700
+CB2   B    AREA                                   same as LGA1700
+U14   B    AREA                                   same as LGA1700

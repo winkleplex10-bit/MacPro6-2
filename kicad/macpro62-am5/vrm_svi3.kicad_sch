@@ -1,0 +1,291 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "5b95fcc6-afad-4200-b9e8-0c20f61a24e3")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: SVI3 VRM: VDDCR + VDDCR_SOC + VDD_MISC")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_VRM_SVI3"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_VRM_SVI3"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_VRM_SVI3_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -29.21)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_VRM_SVI3_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "12V_CB" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "VR_EN" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "VR_PGOOD" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "SVI3_CLK" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "SVI3_DAT" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "SVI3_ALERT_L" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -15.24 0)
+					(length 2.54)
+					(name "PROCHOT_L" (effects (font (size 1.0 1.0))))
+					(number "7" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -17.78 0)
+					(length 2.54)
+					(name "VDDCR" (effects (font (size 1.0 1.0))))
+					(number "8" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -20.32 0)
+					(length 2.54)
+					(name "VDDCR_SOC" (effects (font (size 1.0 1.0))))
+					(number "9" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -22.86 0)
+					(length 2.54)
+					(name "VDD_MISC" (effects (font (size 1.0 1.0))))
+					(number "10" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -25.40 0)
+					(length 2.54)
+					(name "I2C0_SCL" (effects (font (size 1.0 1.0))))
+					(number "11" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -27.94 0)
+					(length 2.54)
+					(name "I2C0_SDA" (effects (font (size 1.0 1.0))))
+					(number "12" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "12V_CB"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "0d91282b-fb44-496d-9bdb-df4b1f6df3e3")
+	)
+	(hierarchical_label "VR_EN"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f86018cb-3423-4b34-902d-e7ded037b754")
+	)
+	(hierarchical_label "VR_PGOOD"
+		(shape output)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6d5364aa-10b7-4f22-87d1-1d23e89c872a")
+	)
+	(hierarchical_label "SVI3_CLK"
+		(shape bidirectional)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3ebbb658-25e2-4231-9681-7611a7f47d11")
+	)
+	(hierarchical_label "SVI3_DAT"
+		(shape bidirectional)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b1f74d4d-614b-4260-8f6e-07724699124c")
+	)
+	(hierarchical_label "SVI3_ALERT_L"
+		(shape bidirectional)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "2fb6e84e-a695-435e-a5f5-753091743315")
+	)
+	(hierarchical_label "PROCHOT_L"
+		(shape bidirectional)
+		(at 38.1 45.72 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "aad0a8a0-5c44-4a70-afd6-ee0ee55ebce0")
+	)
+	(hierarchical_label "VDDCR"
+		(shape output)
+		(at 38.1 48.26 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f36c403c-16ed-4679-99d4-002362a44771")
+	)
+	(hierarchical_label "VDDCR_SOC"
+		(shape output)
+		(at 38.1 50.80 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "fe9cdea8-51e3-4803-a214-2e17634939cb")
+	)
+	(hierarchical_label "VDD_MISC"
+		(shape output)
+		(at 38.1 53.34 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b41ccc64-c2ce-4109-9537-8e973c58089f")
+	)
+	(hierarchical_label "I2C0_SCL"
+		(shape bidirectional)
+		(at 38.1 55.88 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f97796eb-783f-4007-b2f5-84822e6f4517")
+	)
+	(hierarchical_label "I2C0_SDA"
+		(shape bidirectional)
+		(at 38.1 58.42 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "07807d1f-b01d-4d5e-a9e8-a846204a59d1")
+	)
+	(symbol
+		(lib_id "MP62:STUB_VRM_SVI3")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "19a4255f-da8f-45b1-9d80-11854f05b4ae")
+		(property "Reference" "#BLK2"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_VRM_SVI3"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "b770d0e7-3b01-4b71-ae84-f09cb7dbe7b8")
+		)
+		(pin "2"
+			(uuid "9c0c958f-e710-4579-b360-781e1257ca3a")
+		)
+		(pin "3"
+			(uuid "993c0cec-562a-404c-a72f-ecebf33b0d1f")
+		)
+		(pin "4"
+			(uuid "0abef690-a015-4475-9767-239f512028a9")
+		)
+		(pin "5"
+			(uuid "97f4d5e3-70a3-4d07-bfca-c35142c7243e")
+		)
+		(pin "6"
+			(uuid "2a26b07d-6033-4612-944d-dd5fe5d99347")
+		)
+		(pin "7"
+			(uuid "1f850420-57d8-4400-a3be-d7526e4bcd81")
+		)
+		(pin "8"
+			(uuid "b3f1b542-f8ef-4193-bbf5-b99875a933f2")
+		)
+		(pin "9"
+			(uuid "0a5aff9f-287c-4a8c-8af8-7ced239cb684")
+		)
+		(pin "10"
+			(uuid "2003b1b3-b798-4247-93ce-8be391b86ff9")
+		)
+		(pin "11"
+			(uuid "95e26ab0-591c-48d8-b4b5-265dae643f20")
+		)
+		(pin "12"
+			(uuid "70a55f08-2ba5-4be4-bf69-11f9e1e7a3de")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/dca705fb-17fc-43fc-b307-c278ca399c5c"
+					(reference "#BLK2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "f1013ed4-d72a-427e-9a6f-cbe408decad1")
+	)
+	(text "- U3 AMD SVI3 3-rail digital controller: Renesas RAA229139 (X+Y+Z <= 8) or MPS MP2857 / uPI uP9533P; RAA229621 / XDPE192C3B = 2 rails + separate MISC"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "79463632-fec7-4ce2-b7ca-738695c16659")
+	)
+	(text "- Q1-Q5 + L1-L5: VDDCR 5 phases | Q6-Q7 + L6-L7: VDDCR_SOC 2 phases | Q8 + L8: VDD_MISC 1 phase (SVI3 Type II rail)"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "55303813-fa8b-4028-8aa2-3325640f11a5")
+	)
+	(text "- SiC654 50 A smart power stages (MLP55-31L 5x5) + Eaton FP4 0.15 uH (5.0 mm) - same parts and column as the LGA1700 CB"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "7ec32cba-e57b-48a4-8b85-a0c2c1f5689c")
+	)
+	(text "- Load line, IccMax/TDC/EDC and telemetry from the AMD AM5 VR design guide (NDA); 8000G at 45 W cTDP needs ~60-90 A VDDCR peak [Estimate]"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "3cb5756d-0044-496b-8230-b5ba74a06a21")
+	)
+	(text "- VR_HOT_L wired into PROCHOT_L; PMBus to the EC for telemetry (optional)"
+		(exclude_from_sim no)
+		(at 76.20 50.80 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "a668d594-f722-4349-adf0-76ef51824589")
+	)
+)
