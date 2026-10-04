@@ -1281,38 +1281,38 @@
     "conflicts": []
    },
    {
-    "id": "SCR_C2",
+    "id": "SCR_C1",
     "role": "PRIMARY (centre)",
-    "x": 53.45,
-    "y": 58.273,
+    "x": 53.764,
+    "y": 75.469,
     "mode": "pt",
-    "post_od": 4.2,
+    "post_od": 2.6,
     "post_len_below_inner_face": 0.97,
     "local_wall": 2.37,
-    "axis_deg": 0.13,
-    "edge_margin_outer": 23.59,
-    "edge_margin_inner": 23.59,
-    "flex_margin": 0.33,
-    "foam_margin": 0.83,
-    "frame_hole_margin": 0.21,
-    "neck_margin": 22.99,
+    "axis_deg": 0.3,
+    "edge_margin_outer": 24.08,
+    "edge_margin_inner": 24.08,
+    "flex_margin": 0.21,
+    "foam_margin": 0.71,
+    "frame_hole_margin": 0.15,
+    "neck_margin": 34.89,
     "nearest_opening": [
-     3.07,
-     "W_TB"
+     3.87,
+     "C4"
     ],
     "light_pad_led_margin": [
-     1.26,
-     "PAD_TB"
+     2.69,
+     "LED@53.3,70.9"
     ],
     "module_plan_margin": [
-     -2.66,
-     "C6"
+     -1.97,
+     "C4"
     ],
     "shell_margin": [
-     2.03,
-     "C6"
+     2.67,
+     "C4"
     ],
-    "fastener_r_below_frame": 3.0,
+    "fastener_r_below_frame": 2.0,
     "frame_back_h": 16.83,
     "fastener_lowest_h": 15.23,
     "clamp_plate_top_h": 15.26,
@@ -1321,67 +1321,65 @@
     ],
     "clamp_plate_gap": -0.03,
     "clamp_post_margin": [
-     4.08,
-     "post A (53.19,49.30)"
+     0.8,
+     "post C (53.19,70.80)"
     ],
     "named": {
      "J7": {
       "side": "B",
-      "xy": 46.74
+      "xy": 64.94
      },
      "J8": {
       "side": "B",
-      "xy": 38.78
+      "xy": 56.45
      },
      "J31": {
       "side": "F",
-      "xy": 47.67
+      "xy": 64.58
      },
      "BT1": {
       "side": "F",
-      "xy": 68.31
+      "xy": 53.29
      },
      "H13": {
       "side": "F",
-      "xy": -3.0
+      "xy": 12.44
      },
      "J28": {
       "side": "F",
-      "xy": 41.62
+      "xy": 59.82
      },
      "J9": {
       "side": "F",
-      "xy": 45.15
+      "xy": 61.23
      },
      "SPEAKER": {
       "side": "F",
-      "xy": 18.95,
+      "xy": 20.26,
       "inside_oval": false
      },
      "COIN_CELL": {
       "side": "F",
-      "xy": 71.45
+      "xy": 57.11
      }
     },
     "nearest_F_parts": [
      [
-      -3.0,
-      "H13"
+      0.02,
+      "H21"
      ],
      [
-      0.26,
-      "JM6"
+      0.95,
+      "JM4"
      ],
      [
-      0.44,
-      "JM3"
+      1.75,
+      "JM1"
      ]
     ],
     "ok_plate": true,
-    "needs_clamp_plate_hole": "\u00d87.0 clearance hole in the C clamp plate (fastener reaches 15.23 above the board, clamp plate top 15.26)",
-    "conflicts": [
-     "H13"
-    ]
+    "needs_clamp_plate_hole": "\u00d85.0 clearance hole in the C clamp plate (fastener reaches 15.23 above the board, clamp plate top 15.26)",
+    "conflicts": []
    }
   ]
  }

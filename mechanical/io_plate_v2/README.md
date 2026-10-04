@@ -1,12 +1,13 @@
-> **Update 2026-10-04 ≈ 10:35 ET (Aidan's test print; not pushed).** Applied in `build_plate.py` (`SCREW_SHIFT_Y`, `C2_TRIM`); every variant, preview, DXF and check regenerated.
+> **Update 2026-10-04 ≈ 10:35 / 11:15 ET (Aidan's test print; not pushed).** Applied in `build_plate.py` (`SCREW_SHIFT_Y`, `CENTRE_TRIM`); every variant, preview, DXF and check regenerated.
 > 1. **All 4 corner mounts +1.0 in Y**, i.e. toward the plate's **top** edge (the end away from the audio jacks at Y ≈ 19). Pitch unchanged (45.1 × 135.25):
 >    SCR_T− (30.64, **150.95**), SCR_T+ (75.74, **150.95**), SCR_B− (30.64, **15.70**), SCR_B+ (75.74, **15.70**).
 >    - Outer edge margin of the top Ø3.25 countersinks 1.29 → **0.92** (rule ≥ 0.6; inner 1.14). Bottom row unchanged at 1.77 / 1.78.
 >    - SCR_B− now clears J31 in plan (−0.34 → **+0.66**); SCR_T− to BT1 0.61 → 1.61. All `ok_plate`.
 >    - They now sit 1.5–3.1 from the 100 dpi frame-trace corner holes (were 0.6–2.8); that trace was already low confidence (M-IOS1), the print wins.
 >    - Not changed: boss height (spigot 0.8 below the inner face, `CORNER_GAP` 0). If "up" meant taller bosses, that is `SPIGOT_L` / `CORNER_GAP`.
-> 2. **SCR_C2 post 1.0 shorter** (`C2_TRIM`): 1.97 → **0.97** below the inner face (0.17 to the modelled frame front + 0.8 spigot), local wall 3.37 → 2.37. Position unchanged (53.45, 58.27). Its fastener now ends 14.73 above the board (was 13.73): it still needs the Ø7.0 hole in clamp plate C (0.53 into it, was 1.53) and still sits over the H13 standoff.
-> 3. **SCR_C1 removed** (stock alignment post we don't have). Flex hole HOLE_C1 is left free; the C1 clamp-plate hole and the H21 clamp-post web issue go away. SCR_C2 is now the only centre screw.
+> 2. **Centre screw = SCR_C1 only** (corrected ≈ 11:15 ET; the ≈ 10:35 build had removed the wrong one). SCR_C1, upper, (53.76, 75.47): M1.6 in frame hole C1 Ø3.17, post Ø2.6, csk Ø3.25 / Ø1.8 clearance (pt: Ø1.30 pilot), washer Ø4. **Post 1.0 shorter** (`CENTRE_TRIM`): 1.97 → **0.97** below the inner face (0.17 to the modelled frame front + 0.8 spigot), local wall 3.37 → 2.37. Margins unchanged: flex hole 0.21, foam 0.71, frame hole 0.15, nearest opening C4 3.54 (pt 3.87), LED (53.3, 70.9) 2.69, C4 shell 2.67.
+> 3. **SCR_C2 removed** (lower, (53.45, 58.27): the stock alignment post we don't have). Flex hole HOLE_C2 is left free. The Ø7.0 clamp-plate hole and the H13-standoff conflict no longer apply.
+> - **Still open at SCR_C1 (module clamp plate C, top 15.26 above the board):** the fastener ends 14.73 above the board (pt variant 15.23), so the plate still needs a **Ø5.0 clearance hole at SCR_C1**. The C clamp-post M2 screw at **(53.19, 70.80)** (H21) is 4.70 away centre-to-centre, which leaves only ≈ 0.3 of web between that hole and the post (Ø3.8). Move H21 to Y ≤ 69.8, or merge the hole into a slot. In plan the fastener clears the post by 0.8; the H21 SMT nut on the board sits right under its edge (0.02) but far below it in height.
 > - **Wall check** (`check_thickness.py`): general 1.341–1.466 (STL faceting, unchanged); port seats / bosses max 3.37 → 2.39.
 > - **Print file:** `io_plate_v2_A0.stl` (csk default, ETH2 open). Variants: `_eth2blank`, `_screwpt`, `_tilt12p5` (.step / .stl).
 

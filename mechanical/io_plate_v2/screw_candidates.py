@@ -93,7 +93,7 @@ def section(a, tag, mode, sid):
     a.set_title("%s (%.2f, %.2f) %s, radial section y = %.2f, axis %.1f deg - %s\npost Ø%.1f x %.2f below the inner face (%.2f to the frame + 0.8 into the frame hole), wall %.2f\n%s\n"
                 "black = plate STL, orange = PSA+flex, cream = foam, green = frame 1.0 (schematic)" % (sid, s0["x"], s0["y"], s0["role"], s0["y"], s0["axis_deg"], mode, od, s0["post_len_below_inner_face"], gap, s0["local_wall"], txt), fontsize=6.3)
     a.set_xlabel("X, mm"); a.set_ylabel("Z, mm (0 = outer crown, board top -19.4)")
-for j, (tag, mode, sid) in enumerate((("", "csk (default)", "SCR_C2"), ("_screwpt", "pt (_screwpt)", "SCR_C2"), ("", "csk (default)", "SCR_T+"))):
+for j, (tag, mode, sid) in enumerate((("", "csk (default)", "SCR_C1"), ("_screwpt", "pt (_screwpt)", "SCR_C1"), ("", "csk (default)", "SCR_T+"))):
     section(fig.add_axes([0.665, 0.655 - j * 0.32, 0.33, 0.235]), tag, mode, sid)
-fig.suptitle(y=0.995, t="IO plate v2 A0 - stock screw points: 2 centre (PRIMARY, Aidan 16:14 ET) + 4 corner (secondary) - scan evidence vs design (rev 2026-10-02 ~16:25 ET)", fontsize=12)
+fig.suptitle(y=0.995, t="IO plate v2 A0 - stock screw points: centre SCR_C1 (PRIMARY; C2 = stock alignment post, not fitted) + 4 corner (secondary, +1.0 Y) - scan evidence vs design (rev 2026-10-04 ~11:15 ET)", fontsize=12)
 fig.savefig("io_plate_v2_A0_screw_candidates.png", dpi=110); print("ok")

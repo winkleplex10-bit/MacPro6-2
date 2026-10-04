@@ -825,9 +825,11 @@ This is better than the riser design (one connector instead of two DF40s plus a 
 
 ### 4.7.11 Changelog 2026-10-02 ≈ 16:10 / 16:25 ET: plate screwed to the frame — 2× M1.6 centre screws (primary) + 4× M1.6 corner screws (secondary); glue = optional fallback
 
-> **Update 2026-10-04 ≈ 10:35 ET (Aidan's test print).** `mechanical/io_plate_v2/build_plate.py` (`SCREW_SHIFT_Y`, `C2_TRIM`), all variants / previews / DXFs regenerated:
+> **Update 2026-10-04 ≈ 10:35 / 11:15 ET (Aidan's test print).** `mechanical/io_plate_v2/build_plate.py` (`SCREW_SHIFT_Y`, `CENTRE_TRIM`), all variants / previews / DXFs regenerated:
 > - **Corner screws +1.0 in Y** (toward the top edge, away from the audio jacks): SCR_T± (30.64 / 75.74, **150.95**), SCR_B± (30.64 / 75.74, **15.70**). Top countersink edge margin 1.29 → 0.92 (≥ 0.6 OK); SCR_B− now clears J31 (+0.66). Boss height unchanged.
-> - **SCR_C1 removed** (stock alignment post we don't have). **SCR_C2** (53.45, 58.27) is the only centre screw; its **post is 1.0 shorter** (1.97 → 0.97 below the inner face, wall 2.37). It still needs the Ø7.0 hole in clamp plate C and still sits over H13.
+> - **Centre screws (corrected ≈ 11:15 ET, Aidan: the ≈ 10:35 build removed the wrong post):** **SCR_C2** (lower, 53.45, 58.27) is **removed**; it is the stock alignment post we don't have. The C2 notes (Ø7.0 clamp-plate hole, H13 standoff conflict) no longer apply.
+>   **SCR_C1** (upper, 53.76, 75.47) is the only centre screw: M1.6, post Ø2.6 into frame hole C1 Ø3.17 (0.15 radial), washer Ø4. Its **post is 1.0 shorter**: 1.97 → **0.97** below the inner face, wall 2.37.
+>   **Open at C1:** the fastener ends 14.73 above the board (pt 15.23) vs clamp plate C top 15.26, so clamp plate C needs a **Ø5.0 hole at SCR_C1**. The C clamp-post M2 screw (H21) at **(53.19, 70.80)** is 4.70 away, which leaves ≈ 0.3 of web. Move H21 to Y ≤ 69.8 or slot the hole.
 > - The positions and tables below are the 2026-10-02 state; the README in `io_plate_v2` has the current numbers.
 
 **Update ≈ 16:25 ET: centre screws are now the PRIMARY plate→frame fixing (Aidan, 16:14 ET: "the couple of holes near the centre definitely have screws"). The 4 corner M1.6 screws below are now secondary.**
