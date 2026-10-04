@@ -1,6 +1,7 @@
 """Footprints for the D-IO16 port modules (2026-10-02 ~13:30 ET: HC USB-A, mirrored DF40C-DP, DFN-8 EEPROM, USON-10 ESD). PLACEHOLDER land patterns from catalogue data: replace with vendor drawings before fab.
 Main board (MP62_IO.pretty): clamp-post SMT nut, cradle locating peg, TSSOP-24 (TCA9548A / TCA9555).
-Modules (MP62_MOD.pretty): all-SMD vertical USB-C, DF40C-50DP header, WLCSP-4 ID EEPROM, sleeve GND rings, copies of the USB-A / HDMI placeholders and 0201/0402."""
+Modules (MP62_MOD.pretty): all-SMD vertical USB-C, DF40C-50DP header, WLCSP-4 ID EEPROM, sleeve GND rings, copies of the USB-A placeholder and 0201/0402.
+2026-10-04 ~10:30 ET: REAL Hirose DF40C-50DP (module) / DF40C-50DS (main board) lands from the Hirose catalogue; HDMI = tools/make_fp_hyc79.py (modules)."""
 import os, shutil
 IO = "/workspace/kicad/macpro62-io-board/MP62_IO.pretty"; MOD = "/workspace/kicad/macpro62-io-modules/MP62_MOD.pretty"; SYS = "/usr/share/kicad/footprints"
 def hdr(name, descr, attr="smd"):
@@ -30,14 +31,37 @@ for i in range(12):
 for sx in (-1, 1):
     for sy in (-1, 1): L.append(smd("S", sx * 4.3, sy * 1.4, 1.2, 2.0))
 L += [rect(-4.47, -1.63, 4.47, 1.63, "F.Fab", 0.1), rect(-5.0, -3.4, 5.0, 3.4, "F.CrtYd")]; write(MOD, "MP62_MOD_USB_C_24P_Vertical_SMD_PLACEHOLDER", L)
-# DF40C-50DP header (module paddle), 0.4 mm, 2 x 25 [PLACEHOLDER]: pads 0.23 x 0.7, rows 2.6 apart, fitting pads
-L = hdr("MP62_Hirose_DF40C-50DP-0.4V_PLACEHOLDER", "Hirose DF40C-50DP-0.4V(51) header (LCSC C424645) on the port-module paddle (FPC + FR4 1.0 stiffener on the back), mates DF40C-50DS-0.4V(51) (C424646) on the main board, mated 1.5. PLACEHOLDER lands.")
+# Hirose DF40C-50DP-0.4V(51) header (LCSC C424645) on the module paddle - REAL land pattern (2026-10-04 ~10:30 ET), from the Hirose DF40 catalogue
+# (tools/easyeda/Hirose_DF40_catalog_LCSC_C424646.pdf p.10 "Header - Recommended PCB layout"): 2 x 25 contacts 0.23 at P 0.4 (B = 9.6), row outer 3.37 / inner 2.05
+# -> pads 0.23 x 0.66 at y +-1.355; the 4 corner contacts are the metal fittings (Note 3: not for signal / power): 0.35 x 0.66, inner edge 0.30 and outer
+# edge 0.65 beyond the last contact centre -> x +-5.275. EasyEDA C424645 (CONN-SMD_DF40C-50DP-0.4V) agrees except its 0.20 contact width (Hirose 0.23 used).
+# Numbering = mating mirror of the DS receptacle footprint (DS: odd pads at +y): the header is flipped face-down onto the DS by the 180 deg fold -> odd
+# pads at -y here (tools/check_pin1_3d.py: pin n over pin n for every slot). DF40 is not polarised (Hirose Note 5), so the body pin-1 mark has no meaning.
+NM_DP = "MP62_Hirose_DF40C-50DP-0.4V"
+L = hdr(NM_DP, "Hirose DF40C-50DP-0.4V(51) header (LCSC C424645), 2 x 25 at 0.4, mated 1.5 with DF40C-50DS-0.4V(51) (C424646) on the main board. Hirose catalogue land pattern: contacts 0.23 x 0.66 (rows 3.37 / 2.05), corner fittings 0.35 x 0.66 (MP, no net).")
 for i in range(25):
-    # mating mirror of the DS receptacle footprint (DS: odd pads at +y): the header is flipped face-down onto the DS by the 180 deg fold (about the
-    # fold line, parallel to the pad rows' normal) -> odd pads at -y here. Verified by tools/check_pin1_3d.py (pin n over pin n for every slot).
-    x = -4.8 + 0.4 * i; L.append(smd(str(2 * i + 1), x, -1.3, 0.23, 0.7)); L.append(smd(str(2 * i + 2), x, 1.3, 0.23, 0.7))
-L += [rect(-5.76, -1.485, 5.76, 1.485, "F.Fab", 0.1), rect(-6.01, -1.9, 6.01, 1.9, "F.CrtYd")]   # body 11.52 x 2.97 (Hirose); no fitting pads on the DP header (VERIFY)
-write(MOD, "MP62_Hirose_DF40C-50DP-0.4V_PLACEHOLDER", L)
+    x = -4.8 + 0.4 * i; L.append(smd(str(2 * i + 1), x, -1.355, 0.23, 0.66, "rect")); L.append(smd(str(2 * i + 2), x, 1.355, 0.23, 0.66, "rect"))
+for sx in (-1, 1):
+    for sy in (-1, 1): L.append(smd("MP", sx * 5.275, sy * 1.355, 0.35, 0.66, "rect"))
+L += [rect(-5.76, -1.485, 5.76, 1.485, "F.Fab", 0.1), rect(-6.01, -1.94, 6.01, 1.94, "F.CrtYd"),
+      '  (fp_circle (center -4.8 -2.15) (end -4.68 -2.15) (stroke (width 0.1) (type solid)) (fill solid) (layer "F.Fab"))']   # body 11.52 x 2.97 (Hirose A / 2.97)
+write(MOD, NM_DP, L)
+# Hirose DF40C-50DS-0.4V(51) receptacle (LCSC C424646) on the main board (JMn) - REAL land pattern, Hirose DF40 catalogue p.4 "Stacking height 1.5 mm -
+# Recommended PCB layout, DF40C (without reinforcing metal fitting)": 2 x 25 at P 0.4, pad width 0.20, copper outer 3.78, solderable (resist-free) inner
+# edge 2.38, copper inner gap <= 1.5 MAX with the inner part under resist (Note 3 "resist coating area"). Lands: copper 0.20 x 1.24 (|y| 0.65 .. 1.89, gap 1.30)
+# with mask + paste only on the 0.20 x 0.70 outer part (|y| 1.19 .. 1.89; aperture pads). No fitting pads (DF40C). Body A 12.6 x 3.38.
+# EasyEDA C424646 (CONN-SMD_DF40C-50DS-0.4V51): 0.20 x 1.40 at |y| 1.19 (outer 3.78, inner gap 0.98) = same outer edge, no resist split.
+# Numbering as the PMI-50 placeholder (pin 1 at x -4.8, odd row +y) - the connector is not polarised (Hirose Note 4).
+NM_DS = "MP62_Hirose_DF40C-50DS-0.4V"
+L = hdr(NM_DS, "Hirose DF40C-50DS-0.4V(51) receptacle (LCSC C424646), 2 x 25 at 0.4, mated 1.5 with the DF40C-50DP-0.4V(51) header on the port-module FPC. Hirose catalogue land pattern: copper 0.20 x 1.24 (outer 3.78, inner gap 1.30 <= 1.5 max), solder mask / paste opening 0.20 x 0.70 on the outer part (inner 2.38).")
+for i in range(25):
+    x = -4.8 + 0.4 * i
+    for n, sy in ((2 * i + 1, 1), (2 * i + 2, -1)):
+        L.append(smd(str(n), x, sy * 1.27, 0.20, 1.24, "rect", '"F.Cu"'))
+        L.append(smd("", x, sy * 1.54, 0.20, 0.70, "rect", '"F.Paste" "F.Mask"'))
+L += [rect(-6.3, -1.69, 6.3, 1.69, "F.Fab", 0.1), rect(-6.45, -2.2, 6.45, 2.2, "F.CrtYd"),
+      '  (fp_circle (center -4.8 2.35) (end -4.68 2.35) (stroke (width 0.1) (type solid)) (fill solid) (layer "F.Fab"))']
+write(IO, NM_DS, L)
 # Hong Cheng HC-USB3.0-L137-WJ (C7501870) vertical USB 3.0 A, from the HC drawing (rev A, "recommended PCB layout, top view"): row 9..5 (2.0 pitch, +-4.0) and row 1..4
 # (+-3.5 / +-1.0) 1.60 apart, 9 x D0.70; shell legs 2 x D2.30 at 13.15, 1.45 below the 9..5 row. Pin 5 sits over pin 4, pin 9 over pin 1.
 L = hdr("MP62_MOD_USB_A3_HC-USB3.0-L137-WJ", "Hong Cheng HC-USB3.0-L137-WJ (LCSC C7501870) USB 3.0 Type-A 9P vertical, H 13.7, THT through the FPC + drilled FR4 stiffener (stiffener holes = drill + 0.2). From the HC drawing rev A (VERIFY 1.60 / 1.45 row offsets on a sample).", "through_hole")
@@ -64,7 +88,7 @@ for kind, (hx, hy) in {"USBC": (5.25, 3.65), "USBA": (7.65, 3.65), "HDMI": (8.85
           smd("G", -hx - w / 2, 0, w, 2 * hy, "rect", ly), smd("G", hx + w / 2, 0, w, 2 * hy, "rect", ly),
           rect(-hx - w, -hy - w, hx + w, hy + w, "F.Fab", 0.05)]   # no courtyard: the ring surrounds the port courtyard by design
     write(MOD, nm, L)
-for n in ("MP62_USB_A3_9P_Vertical_PLACEHOLDER", "MP62_HDMI_A_Vertical_PLACEHOLDER", "C_0402_1005Metric"):   # kinghelm footprint kept as the MOD-A alternate
+for n in ("MP62_USB_A3_9P_Vertical_PLACEHOLDER", "C_0402_1005Metric"):   # kinghelm footprint kept as the MOD-A alternate
     shutil.copy(os.path.join(IO, n + ".kicad_mod"), os.path.join(MOD, n + ".kicad_mod"))
 shutil.copy(os.path.join(SYS, "Capacitor_SMD.pretty", "C_0201_0603Metric.kicad_mod"), os.path.join(MOD, "C_0201_0603Metric.kicad_mod"))
 print("ok")

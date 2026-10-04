@@ -22,12 +22,12 @@ def view(ax, elev, azim, title):
     ax.view_init(elev=elev, azim=azim); ax.set_axis_off(); ax.set_title(title, fontsize=8); ax.set_box_aspect((mx[0] - mn[0], mx[1] - mn[1], mx[2] - mn[2] + 4), zoom=1.25)
     ax.set_proj_type("ortho")
 fig = plt.figure(figsize=(8, 10)); ax = fig.add_subplot(111, projection="3d")
-view(ax, -55, -75, "IO plate v2 A0%s - INNER face (2x M1.6 centre posts PRIMARY + 4x corner bosses, glue optional; no clips/rim/pins/pockets; 1.4 wall except port seats + bosses)" % tag)
+view(ax, -55, -75, "IO plate v2 A0%s - INNER face (1x M1.6 centre post SCR_C2 PRIMARY (C1 removed) + 4x corner bosses, glue optional; no clips/rim/pins/pockets; 1.4 wall except port seats + bosses)" % tag)
 fig.tight_layout(); out_iso = os.path.join(HERE, "io_plate_v2_A0%s_iso_inner.png" % tag); fig.savefig(out_iso, dpi=120); plt.close(fig)
 if tag == "":
     ims = [os.path.join(HERE, f) for f in ("flex_821-2222_check.png", "io_plate_v2_A0_outer.png", "io_plate_v2_A0_iso_inner.png", "io_plate_v2_A0_thickness.png")]
     fig, axs = plt.subplots(1, len(ims), figsize=(26, 13))
     for a_, f in zip(axs, ims): a_.imshow(plt.imread(f)); a_.set_axis_off(); a_.set_title(os.path.basename(f), fontsize=9)
-    fig.suptitle("IO plate v2 A0 (rev 2026-10-02 ~16:25 ET): 2x M1.6 centre screws on posts (PRIMARY, frame holes C1/C2) + 4x M1.6 corner screws (secondary); glue band = optional fallback, HDMI +X / button -X, 1.4 wall incl. edges", fontsize=12)
+    fig.suptitle("IO plate v2 A0 (rev 2026-10-04 ~10:30 ET, test-print fixes): 1x M1.6 centre screw SCR_C2 on a 0.97 post (PRIMARY; SCR_C1 removed) + 4x M1.6 corner screws (secondary, +1.0 Y); glue band = optional fallback, HDMI +X / button -X, 1.4 wall incl. edges", fontsize=12)
     fig.tight_layout(); fig.savefig(os.path.join(HERE, "io_plate_v2_A0_preview.png"), dpi=90)
 print("ok", out_iso)

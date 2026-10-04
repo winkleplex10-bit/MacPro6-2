@@ -1,35 +1,35 @@
 ** Drc report for panel_a25.kicad_pcb **
-** Created on 2026-10-04T09:34:04-0400 **
+** Created on 2026-10-04T10:34:19-0400 **
 
 ** Found 8 DRC violations **
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
-    @(49.2230 mm, 15.2000 mm): Segment on Edge.Cuts
-    @(49.0780 mm, 13.4500 mm): Polygon of U1_A1 on F.Silkscreen
+    @(50.0580 mm, 15.2500 mm): Segment on Edge.Cuts
+    @(49.9130 mm, 13.4500 mm): Polygon of U1_A1 on F.Silkscreen
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
-    @(49.2230 mm, 27.0000 mm): Segment on Edge.Cuts
-    @(49.0780 mm, 25.2500 mm): Polygon of U1_A2 on F.Silkscreen
+    @(50.0580 mm, 38.8500 mm): Segment on Edge.Cuts
+    @(49.9130 mm, 37.0500 mm): Polygon of U1_A3 on F.Silkscreen
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
-    @(49.2230 mm, 50.6000 mm): Segment on Edge.Cuts
-    @(49.0780 mm, 48.8500 mm): Polygon of U1_A4 on F.Silkscreen
+    @(50.0580 mm, 50.6500 mm): Segment on Edge.Cuts
+    @(49.9130 mm, 48.8500 mm): Polygon of U1_A4 on F.Silkscreen
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
-    @(49.2230 mm, 38.8000 mm): Segment on Edge.Cuts
-    @(49.0780 mm, 37.0500 mm): Polygon of U1_A3 on F.Silkscreen
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(9.2000 mm, 8.9000 mm): Rectangle of J1_A1 on F.Silkscreen
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(9.2000 mm, 32.5000 mm): Rectangle of J1_A3 on F.Silkscreen
+    @(50.0580 mm, 27.0500 mm): Segment on Edge.Cuts
+    @(49.9130 mm, 25.2500 mm): Polygon of U1_A2 on F.Silkscreen
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(9.2000 mm, 20.7000 mm): Rectangle of J1_A2 on F.Silkscreen
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(9.2000 mm, 44.3000 mm): Rectangle of J1_A4 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(9.2000 mm, 8.9000 mm): Rectangle of J1_A1 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(9.2000 mm, 32.5000 mm): Rectangle of J1_A3 on F.Silkscreen
 
 ** Found 0 unconnected pads **
 

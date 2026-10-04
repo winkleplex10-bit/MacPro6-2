@@ -53,7 +53,7 @@ PMI_PIN = {}
 for _k, (_a, _b) in enumerate(PMI):
     for _n, _nm in ((2 * _k + 1, _a), (2 * _k + 2, _b)): PMI_PIN.setdefault(_nm, []).append(str(_n))
 addsym("PMI50", [(str(2 * k + 1 + j), (nm + "_%d" % (2 * k + 1 + j)) if nm in ("VBUS", "GND") else nm, "L" if j == 0 else "R") for k, pr in enumerate(PMI) for j, nm in enumerate(pr)],
-       "J", "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", "PMI-50 v2 port-module receptacle: Hirose DF40C-50DS-0.4V(51) (LCSC C424646), mates DF40C-50DP on the module FPC (plan 4.7.9 / 4.7.10)")
+       "J", "MP62_Hirose_DF40C-50DS-0.4V", "PMI-50 v2 port-module receptacle: Hirose DF40C-50DS-0.4V(51) (LCSC C424646), mates DF40C-50DP on the module FPC (plan 4.7.9 / 4.7.10)")
 # ESD array, TI DQA USON-10 2.5 x 1.0: IO1 1, IO2 2, GND 3 + 8, IO3 4, IO4 5, NC 6/7/9/10 (TPD4E02B04DQAR 0.25 pF / TPD4E05U06DQAR 0.5 pF share the pinout)
 addsym("ESD4_DQA", [("1", "IO1", "L"), ("2", "IO2", "L"), ("4", "IO3", "L"), ("5", "IO4", "L"), ("3", "GND_3", "R"), ("8", "GND_8", "R"), ("6", "NC_6", "R"), ("7", "NC_7", "R"), ("9", "NC_9", "R"), ("10", "NC_10", "R")],
        "D", "USON-10_2.5x1.0mm_P0.5mm", "4-ch ESD array, TI DQA USON-10 (TPD4E02B04DQAR C106794 0.25 pF 3.6 V / TPD4E05U06DQAR C138714 0.5 pF 5.5 V), flow-through at the PMI receptacle")

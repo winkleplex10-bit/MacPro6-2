@@ -864,32 +864,32 @@
     "id": "SCR_T-",
     "role": "secondary (corner)",
     "x": 30.64,
-    "y": 149.95,
+    "y": 150.95,
     "mode": "pt",
     "post_od": 2.8,
     "post_len_below_inner_face": 0.8,
     "local_wall": 2.2,
     "axis_deg": -11.68,
-    "edge_margin_outer": 1.52,
-    "edge_margin_inner": 1.52,
-    "flex_margin": 34.48,
-    "foam_margin": 34.48,
+    "edge_margin_outer": 1.14,
+    "edge_margin_inner": 1.14,
+    "flex_margin": 35.44,
+    "foam_margin": 35.44,
     "frame_hole_margin": null,
-    "neck_margin": 100.92,
+    "neck_margin": 101.92,
     "nearest_opening": [
-     9.02,
+     9.81,
      "AC"
     ],
     "light_pad_led_margin": [
-     36.53,
+     37.5,
      "LED@43.1,112.8"
     ],
     "module_plan_margin": [
-     41.31,
+     42.16,
      "HDMI"
     ],
     "shell_margin": [
-     45.16,
+     46.02,
      "HDMI"
     ],
     "fastener_r_below_frame": 2.0,
@@ -899,51 +899,51 @@
     "under_clamp_plate": [],
     "clamp_plate_gap": null,
     "clamp_post_margin": [
-     39.97,
+     40.86,
      "post HDMI (50.82,111.00)"
     ],
     "named": {
      "J7": {
       "side": "B",
-      "xy": 140.06
+      "xy": 141.05
      },
      "J8": {
       "side": "B",
-      "xy": 129.53
+      "xy": 130.53
      },
      "J31": {
       "side": "F",
-      "xy": 134.91
+      "xy": 135.91
      },
      "BT1": {
       "side": "F",
-      "xy": 0.61
+      "xy": 1.61
      },
      "H13": {
       "side": "F",
-      "xy": 89.16
+      "xy": 90.14
      },
      "J28": {
       "side": "F",
-      "xy": 134.33
+      "xy": 135.33
      },
      "J9": {
       "side": "F",
-      "xy": 129.48
+      "xy": 130.48
      },
      "SPEAKER": {
       "side": "F",
-      "xy": 50.95,
+      "xy": 51.95,
       "inside_oval": false
      },
      "COIN_CELL": {
       "side": "F",
-      "xy": 4.02
+      "xy": 4.8
      }
     },
     "nearest_F_parts": [
      [
-      0.61,
+      1.61,
       "BT1"
      ],
      [
@@ -951,13 +951,13 @@
       "HTL"
      ],
      [
-      34.27,
+      35.26,
       "U30"
      ]
     ],
     "frame_corner_hole": {
      "id": "CORNER_TL",
-     "offset": 2.81,
+     "offset": 3.09,
      "d": 3.16,
      "note": "100 dpi frame trace, mirrored with the flex; MEASURE M-IOS1"
     },
@@ -969,32 +969,32 @@
     "id": "SCR_T+",
     "role": "secondary (corner)",
     "x": 75.74,
-    "y": 149.95,
+    "y": 150.95,
     "mode": "pt",
     "post_od": 2.8,
     "post_len_below_inner_face": 0.8,
     "local_wall": 2.2,
     "axis_deg": 11.68,
-    "edge_margin_outer": 1.52,
-    "edge_margin_inner": 1.52,
-    "flex_margin": 32.85,
-    "foam_margin": 32.85,
+    "edge_margin_outer": 1.14,
+    "edge_margin_inner": 1.14,
+    "flex_margin": 33.85,
+    "foam_margin": 33.85,
     "frame_hole_margin": null,
-    "neck_margin": 110.44,
+    "neck_margin": 111.35,
     "nearest_opening": [
-     8.88,
+     9.68,
      "AC"
     ],
     "light_pad_led_margin": [
-     33.68,
+     34.66,
      "PAD_HDMI"
     ],
     "module_plan_margin": [
-     34.88,
+     35.88,
      "HDMI"
     ],
     "shell_margin": [
-     38.46,
+     39.45,
      "HDMI"
     ],
     "fastener_r_below_frame": 2.0,
@@ -1004,65 +1004,65 @@
     "under_clamp_plate": [],
     "clamp_plate_gap": null,
     "clamp_post_margin": [
-     33.67,
+     34.61,
      "post HDMI (63.02,114.60)"
     ],
     "named": {
      "J7": {
       "side": "B",
-      "xy": 140.67
+      "xy": 141.66
      },
      "J8": {
       "side": "B",
-      "xy": 134.05
+      "xy": 135.01
      },
      "J31": {
       "side": "F",
-      "xy": 142.16
+      "xy": 143.11
      },
      "BT1": {
       "side": "F",
-      "xy": 41.9
+      "xy": 41.97
      },
      "H13": {
       "side": "F",
-      "xy": 89.08
+      "xy": 90.05
      },
      "J28": {
       "side": "F",
-      "xy": 134.5
+      "xy": 135.5
      },
      "J9": {
       "side": "F",
-      "xy": 138.42
+      "xy": 139.36
      },
      "SPEAKER": {
       "side": "F",
-      "xy": 67.0,
+      "xy": 67.77,
       "inside_oval": false
      },
      "COIN_CELL": {
       "side": "F",
-      "xy": 44.37
+      "xy": 44.61
      }
     },
     "nearest_F_parts": [
      [
-      2.15,
+      3.15,
       "L41"
      ],
      [
-      14.15,
-      "C40"
+      14.84,
+      "HTR"
      ],
      [
-      14.5,
-      "U41"
+      15.14,
+      "C40"
      ]
     ],
     "frame_corner_hole": {
      "id": "CORNER_TR",
-     "offset": 2.41,
+     "offset": 3.14,
      "d": 3.39,
      "note": "100 dpi frame trace, mirrored with the flex; MEASURE M-IOS1"
     },
@@ -1074,7 +1074,7 @@
     "id": "SCR_B-",
     "role": "secondary (corner)",
     "x": 30.64,
-    "y": 14.7,
+    "y": 15.7,
     "mode": "pt",
     "post_od": 2.8,
     "post_len_below_inner_face": 0.8,
@@ -1085,21 +1085,21 @@
     "flex_margin": 4.17,
     "foam_margin": 4.17,
     "frame_hole_margin": null,
-    "neck_margin": 11.62,
+    "neck_margin": 10.62,
     "nearest_opening": [
-     8.66,
+     8.32,
      "AUD_H"
     ],
     "light_pad_led_margin": [
-     6.84,
+     6.92,
      "PAD_AUD_H"
     ],
     "module_plan_margin": [
-     10.07,
+     9.03,
      "A2"
     ],
     "shell_margin": [
-     14.5,
+     13.6,
      "A2"
     ],
     "fastener_r_below_frame": 2.0,
@@ -1109,13 +1109,13 @@
     "under_clamp_plate": [],
     "clamp_plate_gap": null,
     "clamp_post_margin": [
-     21.1,
+     20.69,
      "post A (53.19,25.50)"
     ],
     "named": {
      "J7": {
       "side": "B",
-      "xy": 12.81
+      "xy": 13.25
      },
      "J8": {
       "side": "B",
@@ -1123,19 +1123,19 @@
      },
      "J31": {
       "side": "F",
-      "xy": -0.34
+      "xy": 0.66
      },
      "BT1": {
       "side": "F",
-      "xy": 109.56
+      "xy": 108.56
      },
      "H13": {
       "side": "F",
-      "xy": 43.69
+      "xy": 42.79
      },
      "J28": {
       "side": "F",
-      "xy": 1.01
+      "xy": 1.49
      },
      "J9": {
       "side": "F",
@@ -1143,21 +1143,21 @@
      },
      "SPEAKER": {
       "side": "F",
-      "xy": 19.8,
+      "xy": 18.8,
       "inside_oval": false
      },
      "COIN_CELL": {
       "side": "F",
-      "xy": 109.66
+      "xy": 108.67
      }
     },
     "nearest_F_parts": [
      [
-      -0.34,
+      0.66,
       "J31"
      ],
      [
-      1.01,
+      1.49,
       "J28"
      ],
      [
@@ -1167,21 +1167,19 @@
     ],
     "frame_corner_hole": {
      "id": "CORNER_BL",
-     "offset": 0.6,
+     "offset": 1.52,
      "d": 3.3,
      "note": "100 dpi frame trace, mirrored with the flex; MEASURE M-IOS1"
     },
     "ok_plate": true,
     "needs_clamp_plate_hole": null,
-    "conflicts": [
-     "J31"
-    ]
+    "conflicts": []
    },
    {
     "id": "SCR_B+",
     "role": "secondary (corner)",
     "x": 75.74,
-    "y": 14.7,
+    "y": 15.7,
     "mode": "pt",
     "post_od": 2.8,
     "post_len_below_inner_face": 0.8,
@@ -1192,21 +1190,21 @@
     "flex_margin": 3.63,
     "foam_margin": 3.63,
     "frame_hole_margin": null,
-    "neck_margin": 45.43,
+    "neck_margin": 45.15,
     "nearest_opening": [
-     9.07,
-     "W_AUD_O"
+     8.99,
+     "AUD_O"
     ],
     "light_pad_led_margin": [
-     6.48,
+     6.56,
      "PAD_AUD_O"
     ],
     "module_plan_margin": [
-     10.02,
+     8.98,
      "A4"
     ],
     "shell_margin": [
-     14.37,
+     13.46,
      "A4"
     ],
     "fastener_r_below_frame": 2.0,
@@ -1216,13 +1214,13 @@
     "under_clamp_plate": [],
     "clamp_plate_gap": null,
     "clamp_post_margin": [
-     21.1,
+     20.69,
      "post A (53.19,25.50)"
     ],
     "named": {
      "J7": {
       "side": "B",
-      "xy": 17.83
+      "xy": 18.17
      },
      "J8": {
       "side": "B",
@@ -1230,19 +1228,19 @@
      },
      "J31": {
       "side": "F",
-      "xy": 43.16
+      "xy": 43.21
      },
      "BT1": {
       "side": "F",
-      "xy": 117.86
+      "xy": 116.93
      },
      "H13": {
       "side": "F",
-      "xy": 43.52
+      "xy": 42.62
      },
      "J28": {
       "side": "F",
-      "xy": 5.46
+      "xy": 5.67
      },
      "J9": {
       "side": "F",
@@ -1250,21 +1248,21 @@
      },
      "SPEAKER": {
       "side": "F",
-      "xy": 47.32,
+      "xy": 46.89,
       "inside_oval": false
      },
      "COIN_CELL": {
       "side": "F",
-      "xy": 121.32
+      "xy": 120.41
      }
     },
     "nearest_F_parts": [
      [
-      5.46,
+      5.67,
       "J28"
      ],
      [
-      14.56,
+      13.79,
       "JM10"
      ],
      [
@@ -1274,113 +1272,12 @@
     ],
     "frame_corner_hole": {
      "id": "CORNER_BR",
-     "offset": 2.07,
+     "offset": 2.92,
      "d": 3.5,
      "note": "100 dpi frame trace, mirrored with the flex; MEASURE M-IOS1"
     },
     "ok_plate": true,
     "needs_clamp_plate_hole": null,
-    "conflicts": []
-   },
-   {
-    "id": "SCR_C1",
-    "role": "PRIMARY (centre)",
-    "x": 53.764,
-    "y": 75.469,
-    "mode": "pt",
-    "post_od": 2.6,
-    "post_len_below_inner_face": 1.97,
-    "local_wall": 3.37,
-    "axis_deg": 0.3,
-    "edge_margin_outer": 24.08,
-    "edge_margin_inner": 24.08,
-    "flex_margin": 0.21,
-    "foam_margin": 0.71,
-    "frame_hole_margin": 0.15,
-    "neck_margin": 34.89,
-    "nearest_opening": [
-     3.87,
-     "C4"
-    ],
-    "light_pad_led_margin": [
-     2.69,
-     "LED@53.3,70.9"
-    ],
-    "module_plan_margin": [
-     -1.94,
-     "C4"
-    ],
-    "shell_margin": [
-     2.67,
-     "C4"
-    ],
-    "fastener_r_below_frame": 2.0,
-    "frame_back_h": 15.83,
-    "fastener_lowest_h": 14.23,
-    "clamp_plate_top_h": 15.26,
-    "under_clamp_plate": [
-     "C"
-    ],
-    "clamp_plate_gap": -1.03,
-    "clamp_post_margin": [
-     0.8,
-     "post C (53.19,70.80)"
-    ],
-    "named": {
-     "J7": {
-      "side": "B",
-      "xy": 64.94
-     },
-     "J8": {
-      "side": "B",
-      "xy": 56.45
-     },
-     "J31": {
-      "side": "F",
-      "xy": 64.58
-     },
-     "BT1": {
-      "side": "F",
-      "xy": 53.29
-     },
-     "H13": {
-      "side": "F",
-      "xy": 12.44
-     },
-     "J28": {
-      "side": "F",
-      "xy": 59.82
-     },
-     "J9": {
-      "side": "F",
-      "xy": 61.23
-     },
-     "SPEAKER": {
-      "side": "F",
-      "xy": 20.26,
-      "inside_oval": false
-     },
-     "COIN_CELL": {
-      "side": "F",
-      "xy": 57.11
-     }
-    },
-    "nearest_F_parts": [
-     [
-      0.02,
-      "H21"
-     ],
-     [
-      1.03,
-      "JM4"
-     ],
-     [
-      1.84,
-      "JM1"
-     ]
-    ],
-    "ok_plate": true,
-    "needs_clamp_plate_hole": "\u00d85.0 clearance hole in the C clamp plate (fastener reaches 14.23 above the board, clamp plate top 15.26)",
     "conflicts": []
    },
    {
@@ -1390,8 +1287,8 @@
     "y": 58.273,
     "mode": "pt",
     "post_od": 4.2,
-    "post_len_below_inner_face": 1.97,
-    "local_wall": 3.37,
+    "post_len_below_inner_face": 0.97,
+    "local_wall": 2.37,
     "axis_deg": 0.13,
     "edge_margin_outer": 23.59,
     "edge_margin_inner": 23.59,
@@ -1408,7 +1305,7 @@
      "PAD_TB"
     ],
     "module_plan_margin": [
-     -2.62,
+     -2.66,
      "C6"
     ],
     "shell_margin": [
@@ -1416,13 +1313,13 @@
      "C6"
     ],
     "fastener_r_below_frame": 3.0,
-    "frame_back_h": 15.83,
-    "fastener_lowest_h": 14.23,
+    "frame_back_h": 16.83,
+    "fastener_lowest_h": 15.23,
     "clamp_plate_top_h": 15.26,
     "under_clamp_plate": [
      "C"
     ],
-    "clamp_plate_gap": -1.03,
+    "clamp_plate_gap": -0.03,
     "clamp_post_margin": [
      4.08,
      "post A (53.19,49.30)"
@@ -1472,16 +1369,16 @@
       "H13"
      ],
      [
-      0.34,
+      0.26,
       "JM6"
      ],
      [
-      0.53,
+      0.44,
       "JM3"
      ]
     ],
     "ok_plate": true,
-    "needs_clamp_plate_hole": "\u00d87.0 clearance hole in the C clamp plate (fastener reaches 14.23 above the board, clamp plate top 15.26)",
+    "needs_clamp_plate_hole": "\u00d87.0 clearance hole in the C clamp plate (fastener reaches 15.23 above the board, clamp plate top 15.26)",
     "conflicts": [
      "H13"
     ]

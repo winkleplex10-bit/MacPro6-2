@@ -20,11 +20,11 @@ PSTIF_T = 0.6                                   # FR4 paddle stiffener (JLC 0.6;
 MATED = 1.5                                     # DF40C-50DS + DF40C-50DP mated height
 HDR_BODY_L, HDR_BODY_W = 11.52, 2.97            # DF40C-50DP-0.4V(51) body (Hirose drawing); 25 pads/row at 0.4
 REC_L, REC_W = 12.9, 4.4                        # DF40C-50DS courtyard on the main board
-PADDLE_W = 6.4                                  # header paddle (stiffened) and tail width: 6.4 leaves 1.0 cradle ledges at |v| 3.4-4.4 under the stiffener edges (8.4 left none)
+PADDLE_W = 6.5                                  # header paddle (stiffened) and tail width (rev 2026-10-04 ~10:30 ET 6.4 -> 6.5: the real DF40C-50DP pad rows end at |v| 1.685, 8 x 0.156 paddle lanes + 0.3 edge keep-out need 3.25); leaves 0.95 cradle ledges at |v| 3.45-4.4
 STIF_M = 1.0                                    # JLC: stiffener >= 1.0 beyond pads (tail-entry side)
-HDR_PAD_END = 4.915                             # outermost header pad edge from the header centre (25 x 0.4 pitch, pad 0.23)
-HDR_CRT = 6.01                                  # header courtyard half-length (body 11.52 + 0.25; no metal fittings on DF40C-DP: VERIFY)
-HDR_NEAR = STIF_M + HDR_PAD_END                 # paddle stiffener start -> header centre (5.92: JLC >= 1.0 beyond the pads; body overhang 0.16 inside the stiffener)
+HDR_PAD_END = 5.45                              # outermost header pad edge from the header centre: Hirose DF40C-50DP corner fitting pads 0.35 at +-5.275 (catalogue layout, was 4.915 = last contact)
+HDR_CRT = 6.01                                  # header courtyard half-length (body 11.52 / 2 + 0.25; the corner fitting pads end at 5.45, inside the body)
+HDR_NEAR = STIF_M + HDR_PAD_END                 # paddle stiffener start -> header centre (6.45: JLC >= 1.0 beyond the pads incl. the fitting pads)
 EE_CRT = 1.675                                  # BL24C02F-NTRC DFN-8 2 x 3 courtyard half-length along u (KiCad DFN-8-1EP_2x3mm, rotated 180)
 EE_OFF = HDR_CRT + EE_CRT + 0.05                # header centre -> EEPROM centre (7.735)
 HDR_FAR = EE_OFF + 1.375 + 0.3                  # header centre -> free paddle end (EEPROM pad end + 0.3 copper-to-edge) = 9.41
@@ -41,8 +41,8 @@ TYPES = {
  "USBA": dict(mod="MOD-A", conn="Hong Cheng HC-USB3.0-L137-WJ (C7501870) THT, H 13.7; alt kinghelm KH-3.0AF180ZJ-11.5JB (C2979037, H 11.5)", fp="MP62_MOD_USB_A3_HC-USB3.0-L137-WJ",
               crt=(7.45, 3.75), sx_out=9.0, sx_in=8.4, sy=4.4, tw=PADDLE_W, fpc_t=0.11, shell=(13.3, 5.7),
               tht=[(6.575, 3.0, "shell leg"), (-6.575, 3.0, "shell leg"), (4.0, 2.0, "pin 5"), (-4.0, 2.0, "pin 9"), (3.5, 2.0, "pin 1")], slots=["A1", "A2", "A3", "A4"]),
- "HDMI": dict(mod="MOD-H", conn="HOAUC HYC79-HDMIA19-105 (C711353) SMD + THT shell", fp="MP62_HDMI_A_Vertical_PLACEHOLDER", crt=(8.6, 3.7), sx_out=9.6, sx_in=9.6, sy=4.7,
-              tw=PADDLE_W, fpc_t=0.19, shell=(15.2, 5.5), tht=[(7.85, 2.5, "shell leg"), (-7.85, 2.5, "shell leg")], slots=["HDMI"]),
+ "HDMI": dict(mod="MOD-H", conn="HOAUC HYC79-HDMIA19-105 (C711353) 19 SMD (1 row, 0.5) + 3 THT legs D1.3", fp="HOAUC_HYC79-HDMIA19-105", crt=(8.9, 4.75), sx_out=9.6, sx_in=9.6, sy=4.85,
+              tw=PADDLE_W, fpc_t=0.19, shell=(14.0, 4.55), tht=[(7.25, 2.2, "leg"), (-7.25, 2.2, "leg"), (0.0, 2.2, "centre leg")], slots=["HDMI"]),   # rev ~10:30 ET real land pattern (tools/make_fp_hyc79.py): pad row at |v| 2.5-4.5 -> sy 4.7 -> 4.85 (0.35 copper-to-edge; the FPC ends at the stiffener edge on the +-v sides, so the JLC 1.0 stiffener overhang applies on the tail-exit edge only; 5.5 would hit the HDMI clamp post at Y 114.6); legs ~2.0 below the seat (drawing scale, +0.2)
 }
 def stack_t(T): return T["fpc_t"] + PSA_T + STIF_T
 H13 = (53.38, 58.38, 2.65)                      # I/O-frame centre standoff (courtyard r)

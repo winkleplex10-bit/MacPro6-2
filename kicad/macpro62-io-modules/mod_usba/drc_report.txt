@@ -1,11 +1,11 @@
 ** Drc report for mod_usba.kicad_pcb **
-** Created on 2026-10-04T09:23:55-0400 **
+** Created on 2026-10-04T10:25:14-0400 **
 
 ** Found 2 DRC violations **
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
-    @(132.8230 mm, 102.8000 mm): Segment on Edge.Cuts
-    @(132.6780 mm, 101.0500 mm): Polygon of U1 on F.Silkscreen
+    @(133.6580 mm, 102.8500 mm): Segment on Edge.Cuts
+    @(133.5130 mm, 101.0500 mm): Polygon of U1 on F.Silkscreen
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(92.8000 mm, 96.5000 mm): Rectangle of J1 on F.Silkscreen

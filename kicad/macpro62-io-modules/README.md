@@ -1,3 +1,17 @@
+> **Rev 2026-10-04 ≈ 10:40 ET (MOD-A + MOD-H hand-routed, real DF40 + HDMI land patterns; not pushed):**
+> - **Real Hirose DF40 lands** (`../macpro62-io-board/tools/make_fps_modules.py`, Hirose DF40 catalogue + JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com) data in `tools/easyeda/`):
+>   - module **DF40C-50DP-0.4V(51)** (Hirose 684-4014-0 51, LCSC **C424645**): 50 × 0.23 × 0.66 at 0.4, rows at ±1.355 (outer 3.37 / inner 2.05), plus 4 metal-fitting pads 0.35 × 0.66 at (±5.275, ±1.355), no net (Hirose: not for signal / power);
+>   - main board **DF40C-50DS-0.4V(51)** (Hirose 684-4009-0 51, LCSC **C424646**): 50 × 0.20 copper 1.24 long at ±1.27, solderable 0.70 at ±1.54 (inner part under resist, per the Hirose land drawing), no fittings.
+>   - Paddle 6.4 → **6.5** wide (8 lanes beyond the fitting-pad rows at |v| 1.685); flaps / flats re-derived in `modules_geom.py` (C +1.0, A +0.8, H +0.5 longer). PMI-50 pin numbering unchanged.
+> - **MOD-H: real HOAUC HYC79-HDMIA19-105 (C711353)** (`tools/make_fp_hyc79.py`, EasyEDA checked against HOAUC drawing HYC-HDMI17102115): ONE row of 19 SMD pads 0.30 × 2.00 at 0.5, 2 dummy pads (no net), 3 THT GND legs Ø1.30 drill on **Ø1.90 pads = 0.30 ring** (placeholder shell ring was 0.20 < JLC 0.25).
+> - **Hand fan-outs, no Freerouting on any module** (`tools/fanout_usba.py`, `tools/fanout_hdmi.py`; reports in `mod_*/fanout_report.json`, board totals in `mod_*/route_report.json`):
+>   - MOD-A: SSRX / SSTX / D length-matched to **0.000** (were 2.70 / 2.64 / 2.52), 0 signal vias, 0.10 / 0.10 over the L2 hatch (90 Ω).
+>   - MOD-H: staircase out of the pad row, bundle climbs over the outboard leg; DDC / HPD wrap down to row B; +5V drops to L2 at pin 18. **All four TMDS pairs intra-pair 0.000**, 0 signal vias, 0.08 / 0.15 (100 Ω) on solid L2.
+>   - **New HDMI lane map** (`pmi50.ROLES["HDMI"]`, PMI-50 table itself unchanged): CK = USB2_A/B (k8/9 row A), D0 = LS_A1/A2 (k11/12), D1 = HS3 (k14/15), D2 = HS0 (k17/18), SCL / SDA / HPD = row B k8 / k9 / k11. Needed because the real single-row land fixes the planar order; the old map needed ~37 crossings. The main-board schematic follows automatically (JM11 re-wired, ERC 0).
+> - **DRC:** mod_usbc / mod_usba / mod_hdmi 0 errors, 0 unconnected, 0 footprint errors (1 / 2 / 1 silk warnings). Panels 0 errors (7 / 8 silk). TDR coupons unchanged (0).
+> - **finish fix:** the L1 GND island stitch vias now use the board's own GND net and keep clear of L2 non-GND copper (one had landed on the MOD-H +5V L2 run).
+> - **Panels:** `panel_c50` 99.3 × 98.1 (was 97.2 × 97.8), `panel_a25` 74.0 × 82.2.
+
 > **Rev 2026-10-04 ≈ 09:40 ET (MOD-C routed, 3-mil rule, fab outputs, panels):**
 > - **MOD-C (`mod_usbc`) complete.**
 >   - Real HOAUC HYCW417-USBC24-180B land pattern (`tools/make_fp_hycw417.py`). Source: JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com), checked against HOAUC drawing HYC-2212201742. The raw data is in `tools/easyeda/`.
@@ -97,7 +111,7 @@ Row A holds the odd pins (2k−1) and row B the even pins (2k).
 - **ID EEPROM:** a 24C02 at 0x50 on every module, behind U95/U96 (TCA9548A at 0x70/0x71). Channels: C1–C6 = U95 ch 0–5, A1–A2 = U95 ch 6–7, A3–A4 = U96 ch 0–1, HDMI = U96 ch 2.
 - **USB-C mapping:** HS0 TX1, HS1 RX1, HS2 TX2, HS3 RX2.
 - **USB-A mapping:** HS0 SSTX, HS1 SSRX. HS2/HS3, CC, SBU and HPD are not connected.
-- **HDMI mapping:** HS0 D2, HS1 D1, HS2 D0, HS3 CLK. SBU1/2 carry DDC SCL/SDA, HPD is HPD, UTIL is CEC (not connected), and VBUS is +5V.
+- **HDMI mapping (rev 2026-10-04, `pmi50.ROLES`):** row A: USB2_A/B = CK−/CK+, LS_A1/A2 = D0−/D0+, HS3_A/B = D1−/D1+, HS0_A/B = D2−/D2+; row B: LS_B1 = DDC SCL, LS_B2 = DDC SDA, SPARE_B1 = HPD; CEC / UTIL not connected; VBUS = +5V. (The table above is the old v1 layout; `pmi50.py` is the authority.)
 
 ## Flex construction (JLC FPC)
 
@@ -120,7 +134,7 @@ Row A holds the odd pins (2k−1) and row B the even pins (2k).
 | Item | MOD-C | MOD-A | MOD-H |
 |---|---|---|---|
 | Receptacle | 1.13 | 0.16 | 0.49 |
-| DF40C-50DP (module) + DF40C-50DS (main board) | 0.6 + 0.84 | same | same |
+| DF40C-50DP C424645 (module) + DF40C-50DS C424646 (main board), LCSC 2026-10-04 | 0.66 + 0.55 | same | same |
 | 24C02 + 0201 cap | ≈ 0.2 | ≈ 0.2 | ≈ 0.2 |
 | SUS304 sleeve (laser cut + bent) | 1–3 | 1–3 | 1–3 |
 | FPC + 2 FR4 stiffeners | JLC FPC 5–10 pcs about $15–30 per design, plus a stencil | | |
@@ -132,16 +146,17 @@ Row A holds the odd pins (2k−1) and row B the even pins (2k).
 python3 ../macpro62-io-board/tools/modules_geom.py        # modules.json (plate features → geometry + checks)
 python3 ../macpro62-io-board/tools/make_fps_modules.py    # MP62_MOD.pretty + main-board cradle footprints
 python3 tools/make_fp_hycw417.py                          # HOAUC HYCW417 land pattern from tools/easyeda/
-for s in build route finish; do python3 tools/build_modules.py $s; done   # mod_usbc (hand fan-out) / mod_usba / mod_hdmi
+python3 tools/make_fp_hyc79.py                            # HOAUC HYC79 HDMI land pattern from tools/easyeda/
+python3 tools/build_modules.py build && python3 tools/build_modules.py finish   # all hand-routed (finish is not idempotent: always build first)
 for m in mod_usbc mod_usba mod_hdmi; do kicad-cli pcb drc --severity-all -o $m/drc_report.txt $m/$m.kicad_pcb; done
 python3 tools/build_tdr.py && python3 tools/make_fab.py && python3 tools/make_panel.py && python3 tools/make_fab.py
-python3 tools/plot_copper.py mod_usbc                    # previews (pcbnew dump + cadenv matplotlib)
+for m in mod_usbc mod_usba mod_hdmi; do python3 tools/plot_copper.py $m; done   # previews incl. *_fanout.png (pcbnew dump + cadenv matplotlib)
 ```
 
 ## Status
 
 - **Outlines, stiffeners, bend zones, footprints:** placed. DRC 0 / 0 on all three (`*/drc_report.txt`).
-- **Routing:** complete on all three (2026-10-04). MOD-C is hand-routed; MOD-A and MOD-H use Freerouting fan-outs. MOD-A SS skew (≈ 2.7 mm) is still open.
-- **Placeholders:** the DF40 land pattern and the HDMI receptacle are still placeholders. The USB-C pattern (HYCW417, EasyEDA, checked against the HOAUC drawing) is real. The USB-A pattern comes from the HC drawing and still needs checking against it.
+- **Routing:** complete on all three, all hand-routed (2026-10-04 ≈ 10:40 ET), every pair intra-pair 0.000 except USB-C USB2 orientation B (−2.09, B7 hop).
+- **Placeholders:** none on the modules any more (DF40C-50DP and HYC79 real since 2026-10-04 ≈ 10:40 ET). The USB-C pattern (HYCW417, EasyEDA, checked against the HOAUC drawing) is real. The USB-A pattern comes from the HC drawing and still needs checking against it.
 - **EEPROM part:** the WLCSP-4 EEPROM (AT24CSW020-UUM0B class) has no LCSC number yet. If the paddle can grow by 1.5 mm, fall back to a SOT-23-5 24C02.
 - **Geometry basis:** the geometry is for the default build (axis normal to the plate). Re-run `modules_geom.py` on the `_tilt12p5` features to get the stock-tilt variant.

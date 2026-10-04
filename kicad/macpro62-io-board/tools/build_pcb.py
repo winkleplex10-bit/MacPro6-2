@@ -78,7 +78,7 @@ XH, XO = 43.13, 63.73
 CY = [75.76, 65.84, 55.97]
 MJ = json.load(open("/workspace/kicad/macpro62-io-modules/modules.json"))
 for k, m in enumerate(MJ["modules"]):
-    place("JM%d" % (k + 1), "MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER", m["jm_plan"][0], m["jm_plan"][1], m["jm_rot"], "F",
+    place("JM%d" % (k + 1), "MP62_Hirose_DF40C-50DS-0.4V", m["jm_plan"][0], m["jm_plan"][1], m["jm_rot"], "F",
           "%s slot %s: DF40C-50DS-0.4V(51) C424646 (PMI-50 v2) <- module DF40C-50DP C424645 on the folded tail (JM rot %d, axis %.2f deg)" % (m["module"], m["slot"], m["jm_rot"], m["tilt_deg"]))
     x0, x1 = m["stiffener_plan_x"]; t = MJ["types"][m["kind"]]
     rectd(x0, m["y"] - t["sy"], x1, m["y"] + t["sy"], pcbnew.Dwgs_User, 0.12); txt("%s %s" % (m["slot"], m["module"]), (x0 + x1) / 2, m["y"] + t["sy"] - 1.0, pcbnew.Dwgs_User, 0.6)

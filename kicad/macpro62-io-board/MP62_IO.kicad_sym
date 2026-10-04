@@ -277,7 +277,7 @@
   (symbol "PMI50" (pin_names (offset 0.508)) (exclude_from_sim no) (in_bom yes) (on_board yes)
     (property "Reference" "J" (at 0 34.52 0) (effects (font (size 1.27 1.27))))
     (property "Value" "PMI50" (at 0 -34.52 0) (effects (font (size 1.27 1.27))))
-    (property "Footprint" "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V_PLACEHOLDER" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
+    (property "Footprint" "MP62_IO:MP62_Hirose_DF40C-50DS-0.4V" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Description" "PMI-50 v2 port-module receptacle: Hirose DF40C-50DS-0.4V(51) (LCSC C424646), mates DF40C-50DP on the module FPC (plan 4.7.9 / 4.7.10)" (at 0 0 0) (effects (font (size 1.27 1.27)) (hide yes)))
     (symbol "PMI50_0_1" (rectangle (start -11.43 33.02) (end 11.43 -33.02) (stroke (width 0.254) (type default)) (fill (type background))))

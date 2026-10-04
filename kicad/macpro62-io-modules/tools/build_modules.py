@@ -31,18 +31,20 @@ LANES = {
  "USBC": [(("USB2_A", "USB2_B"), "usb", 0.93), (("LS_A1",), "se", 1.36), (("LS_A2",), "se", 1.66), (("HS3_A", "HS3_B"), "usb", 2.06), (("HS0_A", "HS0_B"), "usb", 2.6),
           (("LS_B1",), "se", -1.35), (("LS_B2",), "se", -1.65), (("HS2_A", "HS2_B"), "usb", -2.05), (("HS1_A", "HS1_B"), "usb", -2.6)],
  "USBA": [(("HS3_A", "HS3_B"), "usb", 1.3), (("HS0_A", "HS0_B"), "usb", 1.95), (("LS_B1", "LS_B2"), "usb", -1.3)],
- "HDMI": [(("LS_A2",), "se", 0.75), (("HS3_A", "HS3_B"), "tmds", 1.12), (("HS0_A", "HS0_B"), "tmds", 1.8),
-          (("LS_B1",), "se", -0.75), (("LS_B2",), "se", -1.05), (("HS2_A", "HS2_B"), "tmds", -1.42), (("HS1_A", "HS1_B"), "tmds", -2.1)],
+ # HDMI (rev 2026-10-04 ~10:45 ET, real single-row HYC79 land + hand fan-out tools/fanout_hdmi.py): the four TMDS pairs on the +v side (row A k8/9, k11/12, k14/15, k17/18),
+ # DDC + HPD on the -v side (row B k8, k9, k11); tail levels = the fan-out's levels over the outboard shell leg (pmi50.ROLES["HDMI"])
+ "HDMI": [(("USB2_A", "USB2_B"), "tmds", 1.015), (("LS_A1", "LS_A2"), "tmds", 1.575), (("HS3_A", "HS3_B"), "tmds", 2.135), (("HS0_A", "HS0_B"), "tmds", 2.695),
+          (("LS_B1",), "se", -0.85), (("LS_B2",), "se", -1.10), (("SPARE_B1",), "se", -1.35)]   # SE pitch 0.25: the 45 deg paddle jogs (0.078) need >= 0.221,
 }
-VB = {"USBC": (-0.3, 1.5, 1.3), "USBA": (0.0, 1.2, 1.0), "HDMI": (0.0, 0.3, 0.0)}
-PORT_ROT = {"USBC": 0, "USBA": 0, "HDMI": 180}
+VB = {"USBC": (-0.3, 1.5, 1.3), "USBA": (0.0, 1.2, 1.0), "HDMI": (0.0, 0.6, 0.3)}   # HDMI: no L1 VBUS in the tail (L1 strip only on the paddle), L2 VBUS band 0.3 at v 0 fed by the fan-out
+PORT_ROT = {"USBC": 0, "USBA": 0, "HDMI": 0}       # HDMI rot 0 since 2026-10-04 (real land: pad row at v -4.5..-2.5, pin 1 at u -4.21)
 VIA_D, VIA_P = 0.3, 0.55          # JLC FPC regular via
-PAD_V = 1.3                       # DF40C-50DP pad-row centre |v| (placeholder: VERIFY Hirose land pattern)
+PAD_V = 1.355                     # DF40C-50DP pad-row centre |v| (Hirose catalogue: rows 3.37 outer / 2.05 inner, pads 0.23 x 0.66; rev 2026-10-04 ~10:30 ET, was 1.3 placeholder)
 # 2026-10-04 cost review: JLC FPC charges +20 % when any trace width OR spacing is 2-3 mil -> every copper width / gap >= TMIN = 0.078 (3.07 mil)
-# (jlcpcb.com/help/article/fpc-extra-charges s.5). Paddle band: 8 traces per side between the DF40 pad ends (|v| 1.65) and the 0.3 edge keep-out (|v| 2.9):
-# 8 x (w + s) = 1.25 -> w = s = 0.078 (was 0.075 / 0.075).
+# (jlcpcb.com/help/article/fpc-extra-charges s.5). Paddle band: 8 traces per side between the DF40 pad ends (|v| 1.685, real Hirose land) and the 0.3 edge
+# keep-out (|v| 2.95 with the 6.5 paddle): 8 x (w + s) = 1.248 -> w = s = 0.078; last lane edge 2.933.
 TMIN = 0.078
-LANE_V0, LANE_DP, LANE_DN = 1.65 + TMIN * 1.5, 2 * TMIN, 2 * TMIN   # paddle lane band: first trace centre, same-pair pitch, lane-to-lane pitch
+LANE_V0, LANE_DP, LANE_DN = 1.685 + TMIN * 1.5, 2 * TMIN, 2 * TMIN   # paddle lane band: first trace centre, same-pair pitch, lane-to-lane pitch
 KEEP = []
 def shape(b, kind, a, c, layer, w=0.05, m=None):
     s = pcbnew.PCB_SHAPE(b)
@@ -142,7 +144,7 @@ def build(name, kind, title):
     for p in J1.Pads():
         nm = PAD_NETS[kind].get(p.GetNumber())
         if nm: p.SetNet(net(b, nm))
-    J2 = place(b, "J2", "MP62_Hirose_DF40C-50DP-0.4V_PLACEHOLDER", uh, 0, 0, "DF40C-50DP-0.4V(51) C424645 -> JMn DF40C-50DS (PMI-50 v2)")
+    J2 = place(b, "J2", "MP62_Hirose_DF40C-50DP-0.4V", uh, 0, 0, "DF40C-50DP-0.4V(51) C424645 -> JMn DF40C-50DS (PMI-50 v2)")
     R = pmi50.ROLES[kind]
     def pmi_net(role):
         if role == "VBUS": return "VBUS"
@@ -150,6 +152,7 @@ def build(name, kind, title):
         if role in ("ID_SCL", "ID_SDA", "3V3_MOD"): return role
         return R.get(role)
     for p in J2.Pads():
+        if not p.GetNumber().isdigit(): continue          # MP = Hirose corner fitting contacts (no net, Note 3)
         n_ = int(p.GetNumber()); k = (n_ + 1) // 2; role = pmi50.PMI[k - 1][0 if n_ % 2 else 1]; nm = pmi_net(role)
         if nm: p.SetNet(net(b, nm))
     U1 = place(b, "U1", "DFN-8-1EP_2x3mm_P0.5mm_EP0.61x2.2mm", ue, 0, 180, "BL24C02F-NTRC (C2828222) 24C02 ID EEPROM @0x50")
@@ -192,13 +195,14 @@ def build(name, kind, title):
             LOG.append((nm, k, round(vt, 3), round(vpm, 3)))
     # ---- VBUS strip (L1 track), paddle VBUS feed, stitching ----
     vv, w1, w2 = VB[kind]
-    trk(b, "VBUS", [((7.2 if kind == "USBC" else us + w1 / 2 - 0.35), vv), (uk(1) - 0.3, vv)], w1)   # USBC: L1 strip starts past the CC2/SBU2 peg wrap
+    u_ve = uk(1) - 0.3 if abs(vv) + w1 / 2 < 0.95 else uk(1) - 1.5   # a wide strip stops short of the DF40 corner fitting pads (|v| >= 1.025 at uk(1) - 0.65)
+    trk(b, "VBUS", [((7.2 if kind == "USBC" else (p0 + 0.4 if kind == "HDMI" else us + w1 / 2 - 0.35)), vv), (u_ve, vv)], w1)   # USBC: L1 strip starts past the CC2/SBU2 peg wrap
     trk(b, "VBUS", [(uk(1) - 0.6, 0.0), (uk(6) - 0.3, 0.0)], 1.0 if kind != "HDMI" else 0.6)
     if abs(vv) > 1e-6: trk(b, "VBUS", [(uk(1) - 0.6, vv), (uk(1) - 0.6, 0.0)], min(w1, 1.0))
     for k in range(1, 7):
         for sd in (1, -1): trk(b, "VBUS", [(uk(k), sd * PAD_V), (uk(k), 0.0)], 0.2)
     if w2 > 0:
-        for (uu, dvv) in (((sxo - 0.45, -0.35), (sxo - 0.45, 0.35)) if kind != "USBC" else ()) + ((p0 + 0.7, -0.35), (p0 + 0.7, 0.35)): via(b, "VBUS", uu, vv + dvv)
+        for (uu, dvv) in (((sxo - 0.45, -0.35), (sxo - 0.45, 0.35)) if kind == "USBA" else ()) + ((p0 + 0.7, -0.35), (p0 + 0.7, 0.35)): via(b, "VBUS", uu, vv + dvv)
     # ---- paddle GND vias between the rows ----
     for k in (7, 10, 13, 16, 19, 21):
         du = 0.2 if k == 7 else (-0.1 if k == 21 else 0.0)
@@ -216,6 +220,12 @@ def build(name, kind, title):
     for vv_ in (0.25, -0.25): trk(b, "GND", [(ue + 0.94, vv_), (ue, vv_)], 0.15)
     trk(b, "GND", [(ue - 0.28, -2.4), (ue + 0.5, -2.45)], 0.15)
     # ---- USB-C: hand fan-out of the real HYCW417 land pattern (tools/fanout_usbc.py); no autorouter ----
+    if kind == "USBA":   # hand fan-out round the THT pins with length matching (tools/fanout_usba.py, rev 2026-10-04 ~10:30 ET); no autorouter
+        import fanout_usba as FOA
+        rep_fo = FOA.route(b, sys.modules[__name__], START, LANE_L, us)
+    if kind == "HDMI":   # hand fan-out of the real HYC79 single-row land (tools/fanout_hdmi.py, rev 2026-10-04 ~10:45 ET); no autorouter
+        import fanout_hdmi as FOH
+        rep_fo = FOH.route(b, sys.modules[__name__], START, LANE_L, us)
     if kind == "USBC":
         import fanout_usbc as FO
         rep_fo = FO.route(b, sys.modules[__name__], START, LANE_L, us)
@@ -227,7 +237,6 @@ def build(name, kind, title):
             shape(b, "A", (x_, y_ + d_ / 2), (x_, y_ - d_ / 2), pcbnew.User_1, m=(x_ + d_ / 2, y_)); shape(b, "A", (x_, y_ - d_ / 2), (x_, y_ + d_ / 2), pcbnew.User_1, m=(x_ - d_ / 2, y_))
         text(b, "stiffener openings: 4 x 2.0 x 1.5 (shell legs), 2 x 0.9 (pegs)", 0, sy + 1.6, pcbnew.User_1, 0.5)
     # ---- temporary keep-outs for the autorouter (removed in "finish"): tail + paddle on both layers ----
-    if kind != "USBC": zone(b, None, [(sxo - 0.15, -hw - 0.5), (p1 + 0.5, -hw - 0.5), (p1 + 0.5, hw + 0.5), (sxo - 0.15, hw + 0.5)], [pcbnew.F_Cu, pcbnew.B_Cu], name="TMP_FR_KEEPOUT", rule=dict(vias=True, tracks=True))
     tb = b.GetTitleBlock(); tb.SetTitle(title); tb.SetDate("2026-10-02"); tb.SetRevision("A1"); tb.SetCompany("MP62 I/O - port modules (D-IO16)")
     st = "JLC FPC 2-layer %.2f mm (PI %s um core, Cu 12/12 um), ENIG, coverlay PI %s" % (t, "50" if t > 0.15 else "25", "25 + 25 adh." if t > 0.15 else "12.5 + 15 adh.")
     tb.SetComment(0, st + ". Stiffeners: FR4 1.0 (B) under the port, FR4 0.6 (B) under the paddle")
@@ -250,7 +259,7 @@ def build(name, kind, title):
     d["net_settings"]["netclass_assignments"] = None
     json.dump(d, open(fn.replace(".kicad_pcb", ".kicad_pro"), "w"), indent=2)
     json.dump(dict(lanes=LOG, vp=vp, us=us, lane_len={k_: round(v_, 4) for k_, v_ in LANE_L.items()}), open(os.path.join(out, "lanes.json"), "w"), indent=1)
-    if kind == "USBC": json.dump(rep_fo, open(os.path.join(out, "fanout_report.json"), "w"), indent=1)
+    json.dump(rep_fo, open(os.path.join(out, "fanout_report.json"), "w"), indent=1)
     print("built", fn, "flat length %.1f" % (p1 + sxi))
     return fn
 def export_dsn(fn):
@@ -385,7 +394,7 @@ def finish(nm, kind):
     fn = os.path.join(PRJ, nm, nm + ".kicad_pcb"); ses = fn.replace(".kicad_pcb", ".ses")
     b = pcbnew.LoadBoard(fn)
     n0 = len([t for t in b.GetTracks()])
-    ok = pcbnew.ImportSpecctraSES(b, ses) if kind != "USBC" else "hand-routed (no SES)"
+    ok = "hand-routed (no SES)"
     # SWIG wrappers go stale after the SES import / zone removal -> save, drop the TMP_FR_KEEPOUT zone in the file text, reload
     tmp_ = fn.replace(".kicad_pcb", "_ses_tmp.kicad_pcb"); pcbnew.SaveBoard(tmp_, b); KEEP.append(b)
     txt_ = open(tmp_).read(); out_ = []; i_ = 0
@@ -422,6 +431,9 @@ def finish(nm, kind):
     Z("GND", outline, pcbnew.B_Cu, 0, name="L2_GND", therm=(kind != "USBC"))   # USBC: solid to the THT shell slots
     hatch = (0.10, 0.30) if kind == "USBA" else (0.10, 0.25)
     hz0, hz1 = (sxo, p0) if kind == "USBA" else (f0 - 0.25, f1 + 0.25)
+    if kind == "USBA":   # 25 um core: the port fan-out pairs (0.10 / 0.10) need the same cross-hatch L2 as the tail for 90 ohm -> hatch under the port too
+        import fanout_usba as FOA
+        Z("GND", FOA.L2_HATCH_PORT, pcbnew.B_Cu, 1, hatch=hatch, name="L2_GND_HATCH_PORT")
     Z("GND", [(hz0, -hw), (hz1, -hw), (hz1, hw), (hz0, hw)], pcbnew.B_Cu, 1, hatch=hatch, name="L2_GND_HATCH_BEND")
     vv, w1, w2 = VB[kind]
     if w2 > 0: Z("VBUS", [(sxo - 0.8, vv - w2 / 2), (uk(6) - 0.3, vv - w2 / 2), (uk(6) - 0.3, vv + w2 / 2), (sxo - 0.8, vv + w2 / 2)], pcbnew.B_Cu, 3, name="L2_VBUS", therm=False)
@@ -440,6 +452,15 @@ def finish(nm, kind):
     # stitch every L1 GND island to L2 with one 0.55/0.3 via at a point >= 0.3 inside the island (port and paddle zones)
     from shapely.geometry import Polygon as _Poly
     n_st = 0
+    from shapely.geometry import LineString as _LS
+    l2_other_ = [_LS([(ToMM(t.GetStart().x), ToMM(t.GetStart().y)), (ToMM(t.GetEnd().x), ToMM(t.GetEnd().y))]).buffer(ToMM(t.GetWidth()) / 2)
+                 for t in b.GetTracks() if t.GetClass() == "PCB_TRACK" and t.GetLayer() == pcbnew.B_Cu and t.GetNetname() != "GND"]
+    for z_ in b.Zones():
+        if z_.GetIsRuleArea() or z_.GetNetname() == "GND" or not z_.IsOnLayer(pcbnew.B_Cu): continue
+        fz_ = z_.GetFilledPolysList(pcbnew.B_Cu)
+        for i_ in range(fz_.OutlineCount()):
+            o_ = fz_.Outline(i_); q_ = [(ToMM(o_.CPoint(k).x), ToMM(o_.CPoint(k).y)) for k in range(o_.PointCount())]
+            if len(q_) >= 3: l2_other_.append(_Poly(q_))
     for z_ in list(b.Zones()):
         if z_.GetIsRuleArea() or z_.GetNetname() != "GND" or not z_.IsOnLayer(pcbnew.F_Cu): continue
         fp_ = z_.GetFilledPolysList(pcbnew.F_Cu)
@@ -450,10 +471,11 @@ def finish(nm, kind):
             if pg.is_empty or pg.area < 0.05: continue
             from shapely.geometry import Point as _Pt
             cands = [pg.representative_point()] + [_Pt(x0_ + (x1_ - x0_) * i / 8, y0_ + (y1_ - y0_) * j / 8) for (x0_, y0_, x1_, y1_) in [pg.bounds] for i in range(9) for j in range(9)]
-            cands = [c for c in cands if pg.contains(c) and all(math.hypot(c.x - hx, c.y - hy) - hr - 0.15 >= 0.3 for hx, hy, hr in holes_)]
+            cands = [c for c in cands if pg.contains(c) and all(math.hypot(c.x - hx, c.y - hy) - hr - 0.15 >= 0.3 for hx, hy, hr in holes_)
+                     and all(c.distance(g_) >= 0.275 + 0.1 for g_ in l2_other_)]   # 2026-10-04: also clear of L2 non-GND copper (MOD-H +5V L2 run)
             if not cands: continue
             c_ = cands[0]; v_ = pcbnew.PCB_VIA(b); v_.SetPosition(pcbnew.VECTOR2I(FromMM(c_.x), FromMM(c_.y)))
-            v_.SetWidth(FromMM(0.55)); v_.SetDrill(FromMM(0.3)); v_.SetNet(net(b, "GND")); b.Add(v_); n_st += 1
+            v_.SetWidth(FromMM(0.55)); v_.SetDrill(FromMM(0.3)); v_.SetNet(nt("GND")); b.Add(v_); n_st += 1   # nt(): the loaded board's GND (net() made a duplicate NETINFO here)
     pcbnew.ZONE_FILLER(b).Fill(b.Zones()); print("GND island stitch vias", n_st)
     pj_ = fn.replace(".kicad_pcb", ".kicad_pro")
     if os.path.exists(pj_):
@@ -472,6 +494,9 @@ def finish(nm, kind):
     rep = dict(module=nm, ses_import=bool(ok), tracks_before=n0, tracks_after=len(b.GetTracks()), teardrops=td,
                pairs={p_: dict(P=round(L[p_ + "_P"], 3), N=round(L[p_ + "_N"], 3), skew=round(L[p_ + "_P"] - L[p_ + "_N"], 3), vias_P=vias.get(p_ + "_P", 0), vias_N=vias.get(p_ + "_N", 0)) for p_ in pairs},
                singles={n: round(l, 2) for n, l in L.items() if not (n.endswith("_P") or n.endswith("_N"))})
+    if kind in ("USBA", "HDMI"):
+        fo_ = json.load(open(os.path.join(PRJ, nm, "fanout_report.json"))); rep["hand_fanout"] = fo_
+        rep["check_total_vs_fanout"] = {k_: round(rep["pairs"][k_]["skew"] - fo_["pairs"][k_]["skew_P_minus_N"], 4) for k_ in fo_["pairs"]}
     if kind == "USBC":
         fo_ = json.load(open(os.path.join(PRJ, nm, "fanout_report.json"))); rep["hand_fanout"] = fo_
         # per-net board totals for the SS pairs must equal the hand fan-out bookkeeping (no stubs / vias on SS lanes)
@@ -489,7 +514,6 @@ if __name__ == "__main__":
         fn = os.path.join(PRJ, nm, nm + ".kicad_pcb")
         if stage == "build":
             build(nm, kd, ti)
-            if kd != "USBC": export_dsn(fn)
         elif stage == "route":
-            if kd != "USBC": route(fn)
+            pass   # all three modules are hand-routed since 2026-10-04 (no Freerouting)
         elif stage == "finish": finish(nm, kd)

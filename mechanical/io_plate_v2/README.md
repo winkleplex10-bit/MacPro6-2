@@ -1,3 +1,15 @@
+> **Update 2026-10-04 ≈ 10:35 ET (Aidan's test print; not pushed).** Applied in `build_plate.py` (`SCREW_SHIFT_Y`, `C2_TRIM`); every variant, preview, DXF and check regenerated.
+> 1. **All 4 corner mounts +1.0 in Y**, i.e. toward the plate's **top** edge (the end away from the audio jacks at Y ≈ 19). Pitch unchanged (45.1 × 135.25):
+>    SCR_T− (30.64, **150.95**), SCR_T+ (75.74, **150.95**), SCR_B− (30.64, **15.70**), SCR_B+ (75.74, **15.70**).
+>    - Outer edge margin of the top Ø3.25 countersinks 1.29 → **0.92** (rule ≥ 0.6; inner 1.14). Bottom row unchanged at 1.77 / 1.78.
+>    - SCR_B− now clears J31 in plan (−0.34 → **+0.66**); SCR_T− to BT1 0.61 → 1.61. All `ok_plate`.
+>    - They now sit 1.5–3.1 from the 100 dpi frame-trace corner holes (were 0.6–2.8); that trace was already low confidence (M-IOS1), the print wins.
+>    - Not changed: boss height (spigot 0.8 below the inner face, `CORNER_GAP` 0). If "up" meant taller bosses, that is `SPIGOT_L` / `CORNER_GAP`.
+> 2. **SCR_C2 post 1.0 shorter** (`C2_TRIM`): 1.97 → **0.97** below the inner face (0.17 to the modelled frame front + 0.8 spigot), local wall 3.37 → 2.37. Position unchanged (53.45, 58.27). Its fastener now ends 14.73 above the board (was 13.73): it still needs the Ø7.0 hole in clamp plate C (0.53 into it, was 1.53) and still sits over the H13 standoff.
+> 3. **SCR_C1 removed** (stock alignment post we don't have). Flex hole HOLE_C1 is left free; the C1 clamp-plate hole and the H21 clamp-post web issue go away. SCR_C2 is now the only centre screw.
+> - **Wall check** (`check_thickness.py`): general 1.341–1.466 (STL faceting, unchanged); port seats / bosses max 3.37 → 2.39.
+> - **Print file:** `io_plate_v2_A0.stl` (csk default, ETH2 open). Variants: `_eth2blank`, `_screwpt`, `_tilt12p5` (.step / .stl).
+
 > **Update ≈ 16:25 ET: centre screws are now the PRIMARY plate→frame fixing (Aidan, 16:14 ET: "the couple of holes near the centre definitely have screws"). The 4 corner M1.6 screws below are now secondary.**
 >
 > *Re-check of the centre features.* Scan 83f0b85e, `io_plate_v2_A0_screw_candidates.png`. The centre features are soft in the scan (out of the focus plane), so all of these are visual reads, ±0.5.

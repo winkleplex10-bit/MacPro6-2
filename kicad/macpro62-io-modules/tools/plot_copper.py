@@ -99,6 +99,20 @@ def plot(nm, fn):
         for net, p in lab.items(): ax.text(7.0, p[1] + 0.03, net, fontsize=7, va="bottom", ha="left", color="k", zorder=9)
         ax.set_title("MOD-C tail start: outboard shell slots, NPTH peg (5.5, -1.3), lane starts u = 6.4, VBUS feed vias", fontsize=10)
         fig.tight_layout(); fig.savefig(os.path.join(out, "preview_mod_usbc_tailstart.png"), dpi=150); plt.close(fig)
+    if nm in ("mod_usba", "mod_hdmi"):   # 2026-10-04: hand fan-out zooms for MOD-A / MOD-H
+        us_ = json.load(open(os.path.join(out, "lanes.json")))["us"]
+        fig, ax = plt.subplots(figsize=(17, 9)); draw(ax, 33.0, True)
+        ax.set_xlim(-7.6 if nm == "mod_usba" else -9.2, us_ + 1.6); ax.set_ylim(-4.9, 4.9)
+        lab = {}
+        for (a, c, w, tl, net) in D["tracks"]:
+            if tl == "F" and abs(a[0] - us_) < 0.01 and abs(c[0] - us_) > 0.05 and net not in lab: lab[net] = a
+        for net, p in lab.items(): ax.text(us_ + 0.15, p[1], net, fontsize=7, va="center", ha="left", color="k", zorder=9)
+        for (lays, net, pts, ref, c) in D["pads"]:
+            if ref.startswith("J1:") and ref not in ("J1:S", "J1:", "J1:MP"): ax.text(c[0], c[1], ref[3:], fontsize=6, ha="center", va="center", rotation=90 if nm == "mod_hdmi" else 0, zorder=9)
+        ttl = {"mod_usba": "MOD-A port fan-out (hand-routed, tools/fanout_usba.py) - Hong Cheng HC-USB3.0-L137-WJ; SS pairs + D length-matched to 0 skew",
+               "mod_hdmi": "MOD-H port fan-out (hand-routed, tools/fanout_hdmi.py) - HOAUC HYC79-HDMIA19-105 real land; 4 TMDS pairs matched to 0 skew"}[nm]
+        ax.set_title(ttl + "; F.Cu red, B.Cu blue, vias grey; u, v [mm]", fontsize=10)
+        fig.tight_layout(); fig.savefig(os.path.join(out, "preview_%s_fanout.png" % nm), dpi=170); plt.close(fig)
     print("plots written")
 if __name__ == "__main__":
     if "--plot" in sys.argv: plot(sys.argv[1], sys.argv[3])

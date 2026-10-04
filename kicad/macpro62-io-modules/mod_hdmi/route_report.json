@@ -1,47 +1,160 @@
 {
  "module": "mod_hdmi",
  "ses_import": true,
- "tracks_before": 168,
- "tracks_after": 242,
- "teardrops": 60,
+ "tracks_before": 310,
+ "tracks_after": 315,
+ "teardrops": 77,
  "pairs": {
   "CK": {
-   "P": 29.198,
-   "N": 29.771,
-   "skew": -0.573,
+   "P": 28.272,
+   "N": 28.272,
+   "skew": 0.0,
    "vias_P": 0,
    "vias_N": 0
   },
   "D0": {
-   "P": 27.448,
-   "N": 27.835,
-   "skew": -0.386,
+   "P": 31.741,
+   "N": 31.741,
+   "skew": -0.0,
    "vias_P": 0,
    "vias_N": 0
   },
   "D1": {
-   "P": 27.038,
-   "N": 27.696,
-   "skew": -0.658,
+   "P": 35.211,
+   "N": 35.211,
+   "skew": -0.0,
    "vias_P": 0,
    "vias_N": 0
   },
   "D2": {
-   "P": 25.435,
-   "N": 25.993,
-   "skew": -0.558,
+   "P": 38.68,
+   "N": 38.68,
+   "skew": -0.0,
    "vias_P": 0,
    "vias_N": 0
   }
  },
  "singles": {
-  "GND": 28.32,
-  "DDC_SCL": 28.76,
-  "DDC_SDA": 30.18,
-  "VBUS": 43.6,
-  "HPD": 30.28,
-  "ID_SCL": 4.25,
-  "ID_SDA": 3.35,
-  "3V3_MOD": 5.0
+  "GND": 35.62,
+  "DDC_SCL": 25.75,
+  "DDC_SDA": 25.72,
+  "VBUS": 28.21,
+  "HPD": 25.09,
+  "ID_SCL": 4.3,
+  "ID_SDA": 3.4,
+  "3V3_MOD": 5.05
+ },
+ "hand_fanout": {
+  "pairs": {
+   "D2": {
+    "fanout_P": 17.663,
+    "fanout_N": 18.219,
+    "lane_P": 20.017,
+    "lane_N": 19.461,
+    "skew_before": 1.61,
+    "bumps": 2,
+    "bump_h": 0.473,
+    "total_P": 37.68,
+    "total_N": 37.68,
+    "skew_P_minus_N": 0.0
+   },
+   "D1": {
+    "fanout_P": 15.603,
+    "fanout_N": 16.159,
+    "lane_P": 18.608,
+    "lane_N": 18.052,
+    "skew_before": 1.61,
+    "bumps": 2,
+    "bump_h": 0.473,
+    "total_P": 34.211,
+    "total_N": 34.211,
+    "skew_P_minus_N": 0.0
+   },
+   "D0": {
+    "fanout_P": 13.543,
+    "fanout_N": 14.099,
+    "lane_P": 17.198,
+    "lane_N": 16.642,
+    "skew_before": 1.61,
+    "bumps": 2,
+    "bump_h": 0.473,
+    "total_P": 30.741,
+    "total_N": 30.741,
+    "skew_P_minus_N": 0.0
+   },
+   "CK": {
+    "fanout_P": 11.483,
+    "fanout_N": 12.039,
+    "lane_P": 15.789,
+    "lane_N": 15.233,
+    "skew_before": 1.61,
+    "bumps": 1,
+    "bump_h": 0.875,
+    "total_P": 27.272,
+    "total_N": 27.272,
+    "skew_P_minus_N": 0.0
+   }
+  },
+  "notes": [],
+  "min_clearance": 0.08,
+  "closest": [
+   [
+    "DDC_SCL/DDC_SDA",
+    0.08
+   ],
+   [
+    "DDC_SDA/HPD",
+    0.08
+   ],
+   [
+    "GND/HPD",
+    0.1
+   ],
+   [
+    "GND/VBUS",
+    0.139
+   ],
+   [
+    "D2_N/D2_P",
+    0.15
+   ],
+   [
+    "D1_N/D1_P",
+    0.15
+   ],
+   [
+    "D0_N/D0_P",
+    0.15
+   ],
+   [
+    "CK_N/CK_P",
+    0.15
+   ]
+  ],
+  "fanout_lengths": {
+   "D2_P": 18.663,
+   "D2_N": 19.219,
+   "D1_P": 16.603,
+   "D1_N": 17.159,
+   "D0_P": 14.543,
+   "D0_N": 15.099,
+   "CK_P": 12.483,
+   "CK_N": 13.039,
+   "DDC_SCL": 10.498,
+   "DDC_SDA": 9.949,
+   "HPD": 8.401,
+   "VBUS": 7.15
+  },
+  "counts": {
+   "tracks": 134,
+   "vias": 6,
+   "signal_vias": 0
+  }
+ },
+ "check_total_vs_fanout": {
+  "D2": -0.0,
+  "D1": -0.0,
+  "D0": -0.0,
+  "CK": 0.0
  }
 }

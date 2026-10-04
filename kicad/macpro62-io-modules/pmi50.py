@@ -25,8 +25,12 @@ ROLES = {
  "USBC": {"USB2_A": "D_P", "USB2_B": "D_N", "LS_A1": "CC1", "LS_A2": "SBU1", "HS3_A": "SSRX2_P", "HS3_B": "SSRX2_N", "HS0_A": "SSTX1_N", "HS0_B": "SSTX1_P",
           "LS_B1": "CC2", "LS_B2": "SBU2", "HS2_A": "SSTX2_P", "HS2_B": "SSTX2_N", "HS1_A": "SSRX1_N", "HS1_B": "SSRX1_P"},
  "USBA": {"HS3_A": "SSRX_N", "HS3_B": "SSRX_P", "HS0_A": "SSTX_N", "HS0_B": "SSTX_P", "LS_B1": "D_P", "LS_B2": "D_N"},
- "HDMI": {"LS_A2": "DDC_SDA", "HS3_A": "CK_N", "HS3_B": "CK_P", "HS0_A": "D1_N", "HS0_B": "D1_P", "LS_B1": "HPD", "LS_B2": "DDC_SCL",
-          "HS2_A": "D0_N", "HS2_B": "D0_P", "HS1_A": "D2_N", "HS1_B": "D2_P"},
+ # HDMI rev 2026-10-04 ~10:45 ET (real HOAUC HYC79-HDMIA19-105 single-row land, tools/fanout_hdmi.py): all four TMDS pairs on row A so the fan-out is planar
+ # (pad order D2 D1 D0 CK top -> bottom = k18/17, 15/14, 12/11, 9/8, each pair GND-flanked by k7/10/13/16/19); DDC SCL / SDA / HPD on row B k8 / k9 / k11.
+ # USB2_A/B and LS_A1/A2 are plain lanes here (0.078 paddle lanes, GND-flanked, same as HSn); the PMI table above is unchanged.
+ # Superseded (placeholder two-row land): LS_A2 SDA, HS3 CK, HS0 D1, LS_B1 HPD, LS_B2 SCL, HS2 D0, HS1 D2.
+ "HDMI": {"USB2_A": "CK_N", "USB2_B": "CK_P", "LS_A1": "D0_N", "LS_A2": "D0_P", "HS3_A": "D1_N", "HS3_B": "D1_P", "HS0_A": "D2_N", "HS0_B": "D2_P",
+          "LS_B1": "DDC_SCL", "LS_B2": "DDC_SDA", "SPARE_B1": "HPD"},
 }
 # module net -> main-board net suffix / name (slot prefix p: "C1", "A1"; HDMI absolute)
 MB = {

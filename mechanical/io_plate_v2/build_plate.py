@@ -63,7 +63,10 @@ SCREW_MODE = sys.argv[sys.argv.index("--screw") + 1] if "--screw" in sys.argv el
 #   "pt" : M1.6 x 3 thread-forming-for-plastics pan/wafer Torx (Ø4 head or + washer) from the FRAME side into a blind Ø1.30 pilot; outer face unbroken
 # stock corner points from the 300 dpi outer-face flatbed scan 83f0b85e (4 rings: dark core Ø1.0-1.3, ring Ø2.3-2.8): pitch 45.1 x 135.3,
 # centred on the plate X (scan symmetric to +-0.5; a symmetric pattern is the same on either face, so the inner/outer-face question does not move it)
-SCREW_PITCH_X, SCREW_Y = 45.1, (149.95, 14.70)
+# rev 2026-10-04 ~10:30 ET (Aidan, test print): all 4 corner mounts moved +1.0 in Y = toward the plate's TOP edge (away from the audio jacks at Y ~19);
+# scan read was (149.95, 14.70)
+SCREW_SHIFT_Y = 1.0
+SCREW_PITCH_X, SCREW_Y = 45.1, (149.95 + SCREW_SHIFT_Y, 14.70 + SCREW_SHIFT_Y)
 SCREWS = [("SCR_T-", PL_C[0] - SCREW_PITCH_X / 2, SCREW_Y[0]), ("SCR_T+", PL_C[0] + SCREW_PITCH_X / 2, SCREW_Y[0]),
           ("SCR_B-", PL_C[0] - SCREW_PITCH_X / 2, SCREW_Y[1]), ("SCR_B+", PL_C[0] + SCREW_PITCH_X / 2, SCREW_Y[1])] if FIX == "screws" else []
 SCREW_D = 1.6; SCREW_CLR_D = 1.80; SCREW_PILOT_D = 1.30; SCREW_CSK_D = 3.25   # csk Ø at the surface (90 deg): dk 3.0 head sits 0.12 below the outer face
@@ -295,12 +298,15 @@ CENTRE_C3 = "--c3" in sys.argv                      # third centre point K11 / P
 _fh = {h["id"]: h for h in FJ["holes"]}
 def _mid(hid):
     f, m = _fh[hid], fr[hid]; return ((f["cx"] + m["cx"]) / 2, (f["cy"] + m["cy"]) / 2)
-CENTRE_SCREWS = [("SCR_C1", *_mid("HOLE_C1"), 2.6, "HOLE_C1", 4.0), ("SCR_C2", *_mid("HOLE_C2"), 4.2, "HOLE_C2", 6.0)] + \
+# rev 2026-10-04 ~10:30 ET (Aidan, test print): SCR_C1 REMOVED (stock alignment post we do not have; flex hole HOLE_C1 is left free) and the
+# SCR_C2 post shortened by C2_TRIM = 1.0 (gap to the frame front 1.17 -> 0.17, post 1.97 -> 0.97 below the inner face). Old C1: ("SCR_C1", HOLE_C1, OD 2.6, washer 4.0)
+C2_TRIM = 1.0
+CENTRE_SCREWS = [("SCR_C2", *_mid("HOLE_C2"), 4.2, "HOLE_C2", 6.0)] + \
                 ([("SCR_C3", *_mid("PIN_C3"), 2.6, "PIN_C3", 4.0)] if CENTRE_C3 else [])
 CENTRE_SCREWS = CENTRE_SCREWS if FIX == "screws" else []
 # all screws: (id, x, y, post OD, gap inner face -> frame front, frame hole id, washer Ø, role)
 ALL_SCREWS = [(sid, x, y, SPIGOT_OD, CORNER_GAP, None, 4.0, "secondary (corner)") for sid, x, y in SCREWS] + \
-             [(sid, x, y, od, CENTRE_GAP, fh, wd, "PRIMARY (centre)") for sid, x, y, od, fh, wd in CENTRE_SCREWS]
+             [(sid, x, y, od, CENTRE_GAP - (C2_TRIM if sid == "SCR_C2" else 0.0), fh, wd, "PRIMARY (centre)") for sid, x, y, od, fh, wd in CENTRE_SCREWS]
 def _screw_local(mode, od, gap):
     """post + hole in a local frame: z = 0 on the outer face, -z = radially inward. Returns (add, cut, tip depth)."""
     z_in = -SKIN; z_tip = z_in - gap - SPIGOT_L
@@ -692,7 +698,7 @@ if ETH2 == "open" and not TAG:
     from matplotlib.patches import PathPatch as _PP
     for pa in _glue_paths(): ax.add_patch(_PP(pa, fc="#80ff80", ec="#208020", lw=0.4, alpha=0.45))
     ax.set_xlim(20, 86); ax.set_ylim(-8, 162); ax.set_aspect("equal"); ax.grid(alpha=0.2)
-    ax.set_title("IO plate v2 A0 (1.4 wall, 2x M1.6 centre (primary) + 4x corner screws, no clips/rim), OUTER face (back view)\nred = M1.6 csk screw holes, yellow = light windows, green = OPTIONAL inner-face glue lands, violet = flat plug seats; USB-C/USB-A/HDMI holes along the port-module axes (%s)" % ("%.1f deg" % TILT_OVERRIDE_DEG if TILT_OVERRIDE_DEG else "normal to the plate"), fontsize=8)
+    ax.set_title("IO plate v2 A0 (1.4 wall, 1x M1.6 centre SCR_C2 (primary, C1 removed) + 4x corner screws (+1.0 Y, 2026-10-04), no clips/rim), OUTER face (back view)\nred = M1.6 csk screw holes, yellow = light windows, green = OPTIONAL inner-face glue lands, violet = flat plug seats; USB-C/USB-A/HDMI holes along the port-module axes (%s)" % ("%.1f deg" % TILT_OVERRIDE_DEG if TILT_OVERRIDE_DEG else "normal to the plate"), fontsize=8)
     plt.tight_layout(); plt.savefig(os.path.join(HERE, "io_plate_v2_A0_outer.png"), dpi=150); plt.close(fig)
     iso = plate.translate((-PL_C[0], -PL_C[1], 0)).rotate((0, 0, 0), (0, 0, 1), 90).rotate((0, 0, 0), (1, 0, 0), 180)
     cq.exporters.export(iso, os.path.join(HERE, "_iso.svg"), opt={"projectionDir": (0.25, -0.45, 1.0), "showHidden": False, "width": 1600, "height": 700,

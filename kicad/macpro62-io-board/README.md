@@ -1,3 +1,9 @@
+> **Rev 2026-10-04 ≈ 10:40 ET (real DF40C-50DS receptacle, new HDMI lane map; not pushed):**
+> - **JM1–JM11 = real Hirose DF40C-50DS-0.4V(51)** (684-4009-0 51, LCSC **C424646**, 4,973 in stock, $0.550 @1 / $0.389 @30 on 2026-10-04 09:44 ET) from the Hirose DF40 land drawing + JLCEDA/EasyEDA Official Library (https://lceda.cn/ , https://easyeda.com) data (`tools/easyeda/`): 50 × 0.20 copper 1.24 at ±1.27, solderable 0.70 at ±1.54 (inner part under resist), courtyard 12.9 × 4.4. Footprint `MP62_Hirose_DF40C-50DS-0.4V` (`tools/make_fps_modules.py`); the placeholder is deleted. Mates with the module DF40C-50DP-0.4V(51) C424645.
+> - **Placement:** the modules' flaps grew for the real plug / 6.5 paddle (`modules_geom.py`), so JM1–JM10 moved ±0.04 (C) / ±0.24 (A) and JM11 +0.535 in X; their ESD arrays and U60 / U61 follow. Nothing else moved (42 of 165 footprints).
+> - **HDMI lane map changed** (`../macpro62-io-modules/pmi50.py` ROLES["HDMI"]; PMI-50 table unchanged) for the real single-row HDMI land: JM11 pins 15/17 = TMDS_CK−/+, 21/23 = D0−/+, 27/29 = D1−/+, 33/35 = D2−/+, 16 = HDMI_SCL, 18 = HDMI_SDA, 22 = HDMI_HPD. The schematic re-wires itself from ROLES (checked on the netlist).
+> - **Checks:** DRC 0 violations / 0 unconnected / 0 footprint errors; ERC 0. Floorplan + 3D renders regenerated. MCIO 124P/74P footprints untouched (byte-identical; `make_fps.py` not run).
+
 > **Rev 2026-10-04 ≈ 09:40 ET (cost-review footprint fixes; not pushed):**
 > - **USB2 hubs U32–U35: CH334R → CH334F.** CH334R is QSOP-16 (LCSC C4154405). The old QFN-24 4 × 4 placeholder was really the CH334F footprint.
 >   - Swapped to **CH334F (C5187527, QFN-24 4 × 4 P0.5, EP 2.8)**. This keeps the 4 × 4 placements. U33 and U35 sit only 6 mm apart, too close for a 6.0-wide QSOP.
