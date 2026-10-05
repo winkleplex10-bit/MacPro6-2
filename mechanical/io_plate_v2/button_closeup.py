@@ -72,16 +72,19 @@ def draw_section(ax, p0, d, s_lo, s_hi, title):
     band([in_flex(x, y) for x, y in xy], zf - fl["psa_t"], zf - fl["psa_t"] - fl["flex_t"], "#e08000", "PSA + flex 821-2222 (0.17)")
     band([in_foam(x, y) for x, y in xy], zf - fl["psa_t"] - fl["flex_t"], zf - fl["psa_t"] - fl["flex_t"] - fl["foam_t"], "#ffe39a", "foam 1.0 (die-cut)")
     zfr = zf - fl["psa_t"] - fl["flex_t"] - fl["foam_t"]
+    _ck = BF["BTN_COLLAR"]; _isl = [math.hypot(x - bx, y - by) <= BTN["ring_d"] / 2 for x, y in xy]
+    band(_isl, zf - _ck["flex_depth"], zf - _ck["flex_depth"] - fl["flex_t"], "#c03000", "ASSUMED button island at the frame plane (depth %.2f; collar end %.2f clear)" % (_ck["flex_depth"], _ck["clr_to_flex"]))
     band([not in_frame_open(x, y) for x, y in xy], zfr, zfr - fl["frame_t"], "#9aa4b0", "metal I/O frame 1.0 (BIG_L opening = gap)")
     hp = CK["hdmi_clamp"]["post"]; dd = abs((hp[0] - p0[0]) * -d[1] + (hp[1] - p0[1]) * d[0])
     if dd < 1.9:
         sc = (hp[0] - p0[0]) * d[0] + (hp[1] - p0[1]) * d[1]; zb = F["params"]["d0"]["board_top_z"]; ht = CK["hdmi_clamp"]["head_top_above_board"]; w = 2 * math.sqrt(1.9 ** 2 - dd ** 2)
-        ax.add_patch(Rectangle((sc - w / 2, zb + ht - 1.6), w, 1.6, fc="#c0d0ff", ec="b", lw=0.6, label="HDMI clamp-post M2 head (main board)"))
+        hk = 1.2 if CK["hdmi_clamp"].get("head", "pan").startswith("csk") else 1.6; hb = ht - hk if hk == 1.2 else ht - 1.6
+        ax.add_patch(Rectangle((sc - w / 2, zb + hb), w, hk, fc="#c0d0ff", ec="b", lw=0.6, label="HDMI clamp-post M2 head (main board, %s)" % CK["hdmi_clamp"].get("head", "pan")[:3]))
     ax.set_xlim(s_lo, s_hi); ax.set_aspect("equal"); ax.grid(alpha=0.25); ax.set_xlabel("mm along the cut"); ax.set_ylabel("z (0 = outer-face crown)")
     ax.set_title(title, fontsize=8); ax.legend(fontsize=5.5, loc="lower center", ncol=2)
 fig = plt.figure(figsize=(16, 13))
 # ---- plan ----
-ax = fig.add_axes([0.03, 0.40, 0.46, 0.57])
+ax = fig.add_axes([0.03, 0.40, 0.46, 0.52])
 SCAN = "/tmp/scan_plate.png"
 if os.path.exists(SCAN):
     from PIL import Image
@@ -109,31 +112,40 @@ ax.add_patch(Circle((bx, by), BTN["dome_d"] / 2, fc="#ffd700", ec="k", lw=0.4, z
 for ex, ey, ed in ears: ax.add_patch(Circle((ex, ey), ed / 2, fc="w", ec="#c07000", lw=0.8, zorder=3))
 for l in FJ["leds"]:
     if math.hypot(l["cx"] - bx, l["cy"] - by) < 12: ax.add_patch(Rectangle((l["cx"] - l["w"] / 2, l["cy"] - l["h"] / 2), l["w"], l["h"], fc="#fff200", ec="k", lw=0.4, zorder=4))
-pk = BF["BTN_POCKET"]; ax.add_patch(Circle((pk["x"], pk["y"]), pk["w"] / 2, fc="#3070ff", ec="b", lw=1.0, alpha=0.25, zorder=2, label="pocket Ø%.1f x %.2f (wall %.2f)" % (pk["w"], pk["depth"], pk["wall"])))
-ky = BF["BTN_KEY"]; a = math.radians(float(ky["note"].split(" at ")[1].split(" deg")[0])); u = (math.cos(a), math.sin(a)); v = (-u[1], u[0])
-r_0, r_1 = [float(q) for q in ky["note"].split(" r ")[1].split(" at")[0].split("-")]
-ax.add_patch(Polygon([(bx + r * u[0] + s * ky["w"] / 2 * v[0], by + r * u[1] + s * ky["w"] / 2 * v[1]) for r, s in ((r_0, -1), (r_1, -1), (r_1, 1), (r_0, 1))], fc="#3070ff", ec="b", alpha=0.35, zorder=2, label="key notch %.1f wide" % ky["w"]))
+pk = BF["BTN_COLLAR"]; from matplotlib.patches import Wedge
+ax.add_patch(Wedge((pk["x"], pk["y"]), pk["od"] / 2, 0, 360, width=(pk["od"] - pk["id_"]) / 2, fc="#3070ff", ec="b", lw=1.0, alpha=0.45, zorder=2, label="RAISED collar OD %.1f / ID %.1f x %.2f high" % (pk["od"], pk["id_"], pk["height"])))
+ky = BF.get("BTN_KEY"); a = math.radians(ky["ang"]) if ky else 0.0; u = (math.cos(a), math.sin(a)); v = (-u[1], u[0])
+r_0, r_1 = ky["r"] if ky else (0, 0)
+if ky: ax.add_patch(Polygon([(bx + r * u[0] + s * ky["kw"] / 2 * v[0], by + r * u[1] + s * ky["kw"] / 2 * v[1]) for r, s in ((r_0, -1), (r_1, -1), (r_1, 1), (r_0, 1))], fc=("#3070ff" if ky["mode"] == "tab" else "w"), ec="b", alpha=0.6, zorder=2, label="key %s %.1f wide (collar height)" % (ky["mode"], ky["kw"])))
 for k in ("BTN_POST_1", "BTN_POST_2"):
     p = BF[k]; ax.add_patch(Circle((p["x"], p["y"]), p["w"] / 2, fc="#0030c0", ec="k", lw=0.5, zorder=5)); ax.add_patch(Circle((p["x"], p["y"]), p["core"][0] / 2, fc="w", ec="none", zorder=6))
-    ax.annotate("%s Ø%.1f x %.1f\ncore Ø%.1f" % (k, p["w"], p["length"], p["core"][0]), (p["x"], p["y"]), (p["x"] + (3 if p["x"] < bx else -1), p["y"] + (-5 if p["x"] < bx else 4)), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5), zorder=7)
-rb = BF["BTN_RIB"]; ax.add_patch(Rectangle((rb["x"] - rb["w"] / 2, rb["y"] - rb["h"] / 2), rb["w"], rb["h"], fc="#0030c0", ec="k", lw=0.5, zorder=5, label="ear posts / rib (dark blue)"))
+    if p.get("mode") == "boss": ax.add_patch(Circle((p["x"], p["y"]), p["screw"]["head_d"] / 2, fc="none", ec="r", lw=0.9, ls="--", zorder=6, label="M1.4 screw head Ø%.1f (carrier side)" % p["screw"]["head_d"] if k == "BTN_POST_1" else None))
+    ax.annotate(("%s BOSS Ø%.1f x %.2f\npilot Ø%.2f, %s x %.1f" % (k, p["w"], p["length"], p["core"][0], p["screw"]["size"], p["screw"]["length"])) if p.get("mode") == "boss" else ("%s Ø%.1f x %.1f\ncore Ø%.1f" % (k, p["w"], p["length"], p["core"][0])), (p["x"], p["y"]), (p["x"] + (3 if p["x"] < bx else -1), p["y"] + (-5 if p["x"] < bx else 4)), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5), zorder=7)
+rb = BF["BTN_RIB"]; ax.add_patch(Rectangle((rb["x"] - rb["w"] / 2, rb["y"] - rb["h"] / 2), rb["w"], rb["h"], fc="#0030c0", ec="k", lw=0.5, zorder=5, label="ear bosses / rib (dark blue)"))
 ax.annotate("BTN_RIB %.1f x %.1f x %.1f" % (rb["w"], rb["h"], rb["length"]), (rb["x"], rb["y"]), (rb["x"] + 1.0, rb["y"] - 4.5), fontsize=6.5, arrowprops=dict(arrowstyle="-", lw=0.5), zorder=7)
 ax.add_patch(Rectangle((LEG["leg_x"][0], LEG["leg_y"][0]), LEG["leg_x"][1] - LEG["leg_x"][0], LEG["leg_y"][1] - LEG["leg_y"][0], fc="none", ec="g", ls=":", lw=1.2, zorder=3, label="frame BIG_L opening (mirrored scan)"))
 ax.add_patch(Rectangle((LEG["top_x"][0], LEG["top_y"][0]), LEG["top_x"][1] - LEG["top_x"][0], LEG["top_y"][1] - LEG["top_y"][0], fc="none", ec="g", ls=":", lw=1.2, zorder=3))
-hp = CK["hdmi_clamp"]["post"]; ax.add_patch(Circle(hp, 1.9, fc="none", ec="c", lw=1.0, ls="-.", zorder=4, label="HDMI clamp-post M2 head Ø3.8 (board, top %.2f)" % CK["hdmi_clamp"]["head_top_above_board"]))
+hp = CK["hdmi_clamp"]["post"]; ax.add_patch(Circle(hp, 1.9, fc="none", ec="c", lw=1.0, ls="-.", zorder=4, label="H25 M2 %s head Ø3.8 (%.1f, %.1f) (dotted: old)" % (CK["hdmi_clamp"].get("head", "pan")[:3], hp[0], hp[1])))
+if "was" in CK["hdmi_clamp"]: ax.add_patch(Circle(CK["hdmi_clamp"]["was"], 1.9, fc="none", ec="c", lw=0.6, ls=":", zorder=4))
 for (s0, s1, lab) in (((ears[1][0], ears[1][1]), (ears[0][0], ears[0][1]), "A"), ((30.0, by), (56.0, by), "B")):
     dx_, dy_ = s1[0] - s0[0], s1[1] - s0[1]; L = math.hypot(dx_, dy_); e = 3.0
     ax.plot([s0[0] - e * dx_ / L, s1[0] + e * dx_ / L], [s0[1] - e * dy_ / L, s1[1] + e * dy_ / L], "r-.", lw=0.8, zorder=6); ax.text(s1[0] + e * dx_ / L, s1[1] + e * dy_ / L + 0.3, lab, color="r", fontsize=9, zorder=7)
 ax.set_xlim(26, 60); ax.set_ylim(94, 124); ax.set_aspect("equal"); ax.grid(alpha=0.25)
 ax.legend(fontsize=6, loc="lower right", framealpha=0.85)
-ax.set_title("Power-button area, plan (back view = from the board, X right), mm.  Underlay: outer-face scan 83f0b85e re-centred on the flex button (+%.2f, +%.2f)\n"
-             "pocket margins: AC %.2f / ETH2 %.2f; post-to-pocket web %.2f / %.2f; ear-hole clearance %.2f/side; rib in slot %.2f/%.2f; post 1 to HDMI-post head %.2f plan, %.2f vertical"
-             % (bx - 42.49, by - 107.06, CK["pocket"]["to_AC_opening"], CK["pocket"]["to_ETH2_opening"] or 0, CK["posts"][0]["web_to_pocket"], CK["posts"][1]["web_to_pocket"], CK["posts"][0]["radial_clr_in_ear_hole"],
-                CK["rib"]["slot_margin"][0], CK["rib"]["slot_margin"][1], CK["posts"][0]["hdmi_post_head_plan"], CK["posts"][0]["hdmi_post_head_vert"]), fontsize=7.5)
+ax.set_title("Power-button area, plan (back view = from the board, X right), mm.\nUnderlay: outer-face scan 83f0b85e re-centred on the flex button (+%.2f, +%.2f)\n"
+             "collar to AC %.2f / ETH2 %.2f / flex slot %.2f / rib %.2f;\ncollar end %.2f short of the frame plane; boss-to-collar web %.2f / %.2f (<0 = fused); button LEDs in the bore %.2f\n"
+             "ear screw heads: frame-opening margin %.2f / %.2f, to the HDMI clamp-post head %.2f plan / %.2f vertical (ear 1)\n"
+             "HDMI clamp post H25 (%.2f, %.2f), csk M2 flush (top %.2f): to ear-1 boss %.2f plan, carrier ring %.2f, ear-1 lug %.2f;\nclamp-plate edge to the ear-1 head %.2f plan; head %.2f under the frame bar (a pan head would hit it by %.2f)"
+             % (bx - 42.49, by - 107.06, CK["collar"]["to_AC_opening"], CK["collar"]["to_ETH2_opening"] or 0, CK["collar"]["flex"]["to_slot_edge_x50_83"], CK["collar"]["flex"]["to_rib"], CK["collar"]["end_to_frame_plane"],
+                CK["posts"][0]["web_to_collar"], CK["posts"][1]["web_to_collar"], CK["button_led_collar_bore_margin"],
+                CK["posts"][0].get("screw", {}).get("head_frame_open_margin", 0), CK["posts"][1].get("screw", {}).get("head_frame_open_margin", 0),
+                CK["posts"][0].get("screw", {}).get("head_to_hdmi_head_plan", 0), CK["posts"][0].get("screw", {}).get("head_to_hdmi_head_vert", 0), CK["hdmi_clamp"]["post"][0], CK["hdmi_clamp"]["post"][1], CK["hdmi_clamp"]["head_top_above_board"],
+                CK["hdmi_clamp"]["ear1_boss"]["plan"], CK["hdmi_clamp"]["carrier_ring"]["plan"], CK["hdmi_clamp"]["carrier_ear1_lug"]["plan"], CK["hdmi_clamp"]["clamp_plate_edge_to_ear1_head"]["plan"],
+                CK["hdmi_clamp"]["frame"]["head_to_frame_back_vert"], -CK["hdmi_clamp"]["frame"]["pan_head_would_be"]), fontsize=7.5)
 # ---- sections ----
 e2, e1 = (ears[1][0], ears[1][1]), (ears[0][0], ears[0][1]); dA = np.array([e1[0] - e2[0], e1[1] - e2[1]]); LA = np.linalg.norm(dA); dA = dA / LA
 c_ = ((e1[0] + e2[0]) / 2, (e1[1] + e2[1]) / 2)
-axA = fig.add_axes([0.52, 0.69, 0.47, 0.27]); draw_section(axA, c_, dA, -LA / 2 - 4, LA / 2 + 4, "Section A-A through both ear posts (BTN_EAR_2 left -> BTN_EAR_1 right); 0 = midpoint (%.2f, %.2f)" % c_)
+axA = fig.add_axes([0.52, 0.69, 0.47, 0.27]); draw_section(axA, c_, dA, -LA / 2 - 4, LA / 2 + 4, "Section A-A through both ear bosses (BTN_EAR_2 left -> BTN_EAR_1 right); 0 = midpoint (%.2f, %.2f)" % c_)
 axA.set_ylim(-4.6, 0.3)
 axB = fig.add_axes([0.52, 0.39, 0.47, 0.27]); draw_section(axB, (bx, by), (1.0, 0.0), -13, 13, "Section B-B along X at Y %.2f (button centre); 0 = X %.2f; rib at +%.2f" % (by, bx, rb["x"] - bx))
 axB.set_ylim(-4.6, 0.3)
@@ -148,5 +160,5 @@ pc = Poly3DCollection(Ts[keep], facecolors=cols, edgecolors="none"); ax3.add_col
 ax3.set_xlim(bx - 13, bx + 13); ax3.set_ylim(by - 11, by + 11); ax3.set_zlim(-6, 2); ax3.set_box_aspect((26, 22, 8))
 ax3.view_init(elev=-58, azim=-75); ax3.set_axis_off()
 ax3.set_title("Inner face around the button, seen from the board side (STL %s)" % os.path.basename(STL), fontsize=8)
-fig.suptitle("MP62 IO plate v2 A0 - power-button features (rev 2026-10-04): keyed pocket, 2 ear posts, locating rib.  Positions from the 821-2222-A flex trace; depths/heights ASSUMED - see M-IOPB1..7", fontsize=10)
+fig.suptitle(y=0.998, x=0.005, ha="left", t="MP62 IO plate v2 A0 power button (rev 2026-10-04 15:30 / 15:50 ET: HDMI clamp post moved): raised collar 15.0/12.4 x 0.8 + key tab, 2 ear BOSSES Ø3.0 (M1.4 x 2.5 through the ear holes), rib.  From the 821-2222-A flex trace; heights ASSUMED (M-IOPB1..7)", fontsize=8.5)
 fig.savefig(OUT, dpi=120); print("wrote", OUT)

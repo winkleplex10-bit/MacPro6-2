@@ -2088,12 +2088,12 @@
 "H25": {
 "side": "F",
 "xb": [
-48.18,
-53.47
+50.96,
+56.25
 ],
 "y": [
-108.35,
-113.65
+111.7,
+117.0
 ],
 "value": "port-module clamp post (HDMI): M2 SMT nut, clamp screw through plate + cradle post",
 "fp": "MP62_IO:MP62_Cradle_Nut_M2_SMT_PLACEHOLDER",

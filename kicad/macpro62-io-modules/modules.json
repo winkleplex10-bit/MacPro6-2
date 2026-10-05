@@ -197,8 +197,8 @@
     114.6
    ],
    [
-    50.82,
-    111.0
+    53.6,
+    114.35
    ]
   ]
  },
@@ -759,6 +759,134 @@
   {
    "check": "cradle ledge bearing width under the stiffener edge A3/A4 (tail/paddle 6.5 + 2 x 0.2)",
    "value": 0.95,
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,69.80) to C1 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    1.54,
+    2.77
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,69.80) to C2 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    1.18,
+    1.77
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,49.30) to C3 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    1.91,
+    3.27
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post A (53.19,49.30) to C3 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    1.91,
+    3.27
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,69.80) to C4 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    1.94,
+    3.11
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,69.80) to C5 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    1.62,
+    2.2
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,49.30) to C6 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    2.27,
+    3.58
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post A (53.19,49.30) to C6 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    2.27,
+    3.58
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,49.30) to A1 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.32,
+    0.85
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post A (53.19,49.30) to A1 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.32,
+    0.85
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post A (53.19,25.50) to A2 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.69,
+    1.19
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post C (53.19,49.30) to A3 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.41,
+    1.0
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post A (53.19,49.30) to A3 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.41,
+    1.0
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post A (53.19,25.50) to A4 stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.77,
+    1.33
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post HDMI (63.02,114.60) to HDMI stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.68,
+    2.06
+   ],
+   "ok": true
+  },
+  {
+   "check": "clamp post HDMI (53.60,114.35) to HDMI stiffener / collar plan clearance >= 0.3",
+   "value": [
+    0.43,
+    2.0
+   ],
    "ok": true
   },
   {

@@ -80,7 +80,7 @@ No all-SMD vertical USB-A 3.0 or HDMI receptacle is stocked at LCSC. Both use TH
 | Load | Value (spec) | Path |
 |---|---|---|
 | Insertion (push) | USB-C ≤ 20 N, USB-A 3.0 ≤ 35 N, HDMI ≤ 44 N | Receptacle body bears on the FPC (compression only) → PSA → FR4 stiffener → cradle ledges (2 × 0.85 mm × stiffener length; HDMI 2 × 1.15). About 1 MPa on PA12. |
-| Withdrawal (pull) | USB-C 8–20 N, USB-A ≥ 10 N, HDMI ≤ 39 N | Shell → bonded SUS304 sleeve → collar → clamp plate → 2 × M2 screws → blind SMT standoffs on the main board. The pads see no tension. |
+| Withdrawal (pull) | USB-C 8–20 N, USB-A ≥ 10 N, HDMI ≤ 39 N | Shell → bonded SUS304 sleeve → collar → clamp plate → 2 × M2 screws → blind SMT standoffs on the main board. The pads see no tension. Use **countersunk M2 (ISO 7046-1)** flush with the clamp-plate top; pan heads would hit the metal I/O frame (rev 2026-10-04 15:55 ET; HDMI post H25 now at (53.6, 114.35)). |
 | Side / levering | Abuse | Sleeve in the clamp-plate aperture (0.1 clearance) + stiffener in the cradle pocket walls (0.1 clearance). |
 | Main-board DF40 | 0 | The fold leaves slack. The DF40 carries only its own retention. |
 

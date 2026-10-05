@@ -1,3 +1,29 @@
+> **Rev 2026-10-04 ≈ 15:55 ET (HDMI clamp post H25 moved; not pushed):**
+> - **H25** (HDMI port-module clamp post on the −X side, M2 blind SMT standoff OD 4.0) moved **(50.82, 111.00) → (53.60, 114.35)** in plan, i.e. KiCad (90.185, 89.00) → **(87.405, 85.65)**. Source: `tools/modules_geom.py` `POSTS["HDMI"]` → `../macpro62-io-modules/modules.json` → `tools/build_pcb.py`. Position search: new `tools/hdmi_post_search.py` → `tools/hdmi_post_search.json`.
+> - **Why:** the I/O plate's power-button ear-1 M1.4 screw head and Ø3.0 boss, and the button carrier, overlapped the post's M2 head (0.41 / 0.61 / 1.37 in plan).
+>   - Aidan's suggested spot (52.3, 111.6) puts the Ø4.0 standoff 0.86 into the HDMI module stiffener's −X end, and still leaves only 0.08 to the ear-1 head in plan and −0.12 to the boss.
+>   - The nearest spot that clears everything by ≥ 0.3 is (53.50, 114.25). I used (53.60, 114.35) for about 0.1 extra against the ±0.15 trace tolerance.
+> - **Clearances at (53.60, 114.35), in plan:**
+>   | Item | Clearance |
+>   |---|---|
+>   | M2 head to the ear-1 M1.4 head | 0.83 |
+>   | M2 head to the ear-1 boss | 0.63 |
+>   | M2 head to the carrier ring | 2.59 |
+>   | M2 head to the carrier ear-1 lug (3.0-wide strap, assumed) | 0.63 |
+>   | Clamp-plate edge (head + 0.4 web) to the ear-1 head | 0.43 |
+>   | Standoff to the HDMI stiffener | 0.43 |
+>   | Standoff to the receptacle collar | 2.00 |
+>   | Standoff to JM11 | 5.9 |
+>   | Courtyard gap to JM11 / H24 / H45 | ≥ 4.1 |
+>   | Courtyard to the AC window | 2.57 (F rule 1.0) |
+> - **⚠ The clamp screw must now be COUNTERSUNK.** M2 ISO 7046-1 (dk 3.8, k 1.2), flush with the HDMI clamp-plate top (15.26 above the board).
+>   - At the new spot the head sits under the frame bar between the HDMI slot and the AC opening (frame back 15.83). A pan head (top 16.86) would hit the frame by 1.03; the csk head has 0.57 below it.
+>   - H24 (63.02, 114.6) already has the same frame-bar problem, and so do the C/A posts under the centre bar (the earlier "M2 head clearance 0.57" item). Use csk M2 on all clamp posts.
+>   - A 1.2-deep countersink in the 1.6 plate leaves a 0.4 land. Suggest a local 2.4-thick pad under each screw, with the cradle post 0.8 shorter.
+> - **Clamp plate HDMI:** both posts are now on the +Y side (Y 114.35 / 114.6). The lever from the post line to the receptacle centre is 7.53 (was 7.22, +4 %), so cantilever deflection rises by about 14 %. Add a rib along X across the collar.
+>   - Notch the plate's −X edge around the ear-1 head (X ≤ 51.0 at Y ≈ 113.5): the plate top is only 0.26 below that head.
+> - **Checks:** DRC **0 violations / 0 unconnected / 0 footprint errors** (`drc_report.txt`, `--severity-all`, 15:54 ET). modules_geom **130 / 130 OK** (114 before + 16 new post-to-stiffener/collar checks; modules unchanged). Only H25 moved (placement diff = H25). Schematic untouched, so ERC was not re-run. Floorplan and 3D renders regenerated. MCIO footprints untouched; `make_fps.py` not run.
+
 > **Rev 2026-10-04 ≈ 12:35 ET (clamp post H21 moved; not pushed):**
 > - **H21** (port-module clamp post C, upper, M2 SMT nut) moved **(53.19, 70.80) → (53.19, 69.80)** in plan, which is KiCad (87.815, 129.2) → (87.815, 130.2). Source: `tools/modules_geom.py` `POSTS["C"]` → `../macpro62-io-modules/modules.json` → `tools/build_pcb.py`.
 > - Why: the I/O plate's centre screw SCR_C1 (53.76, 75.47) needs a Ø5.0 hole in clamp plate C. The web to the Ø3.8 post is now **1.3** (was 0.3).

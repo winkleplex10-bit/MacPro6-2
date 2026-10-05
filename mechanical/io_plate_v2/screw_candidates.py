@@ -95,5 +95,5 @@ def section(a, tag, mode, sid):
     a.set_xlabel("X, mm"); a.set_ylabel("Z, mm (0 = outer crown, board top -19.4)")
 for j, (tag, mode, sid) in enumerate((("", "csk (default)", "SCR_C1"), ("_screwpt", "pt (_screwpt)", "SCR_C1"), ("", "csk (default)", "SCR_T+"))):
     section(fig.add_axes([0.665, 0.655 - j * 0.32, 0.33, 0.235]), tag, mode, sid)
-fig.suptitle(y=0.995, t="IO plate v2 A0 - stock screw points: centre SCR_C1 (PRIMARY; C2 = stock alignment post, not fitted) + 4 corner (secondary, +1.0 Y) - scan evidence vs design (rev 2026-10-04 ~11:15 ET)", fontsize=12)
+fig.suptitle(y=0.995, t="IO plate v2 A0 - stock screw points: centre SCR_C1 (PRIMARY; C2 = stock alignment post, not fitted) + 4 corner (secondary, -1.0 Y from the scan read) - scan evidence vs design (rev 2026-10-04 ~13:10 ET)", fontsize=12)
 fig.savefig("io_plate_v2_A0_screw_candidates.png", dpi=110); print("ok")

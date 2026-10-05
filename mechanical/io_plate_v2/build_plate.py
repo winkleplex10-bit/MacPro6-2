@@ -52,7 +52,13 @@ POCKET_GAP = 0.10                            # air gap above LEDs / carrier
 MIN_WALL = 0.6                               # outer spot-faces keep at least this wall
 
 # ---------------- outline, ports ----------------
-PL_C = (53.19, 77.07); PL_W, PL_H, PL_R = 51.9, 163.1, 11.5      # outline (fit of the stock plate scan)
+# rev 2026-10-04 ~15:30 ET (Aidan's 200 dpi flatbed scan of 3 prints + the stock part, scan_prints/): the stock outline is 0.75 +- 0.3 WIDER than the
+# prints (sharp edge to shadow-free edge, sub-scan axis = no perspective) and its corners are R 12.5-12.8 (prints read 0.3 below their model R 11.5),
+# so W 51.9 -> 52.7 (symmetric about the plate centre X; the scan hints at up to +0.4 more on +X, low confidence) and R 11.5 -> 12.8.
+# Length / Y ends match the stock within 0.2 (opening-registered) -> unchanged.
+PL_W0, PL_R0 = 51.9, 11.5                     # pre-15:30 outline (fit of the stock cover scan 83f0b85e)
+SHIELD_W_ADD = 0.8; PL_R_NEW = 12.8
+PL_C = (53.19, 77.07); PL_W, PL_H, PL_R = round(PL_W0 + SHIELD_W_ADD, 3), 163.1, PL_R_NEW      # outline
 RIM_H = 0.0; RIM_W = 0.0                     # rev ~14:20 ET: rim removed (was 3.0 x 1.2) - the edge is the 1.4 wall itself
 GLUED = True                                 # Aidan 13:37 ET: the plate is GLUED into the frame, not clipped -> no clips; glue lands instead
 # ---- screw fixing (rev 2026-10-02 ~16:05 ET, Aidan: replace the glue with screws at the stock corner points) ----
@@ -65,7 +71,9 @@ SCREW_MODE = sys.argv[sys.argv.index("--screw") + 1] if "--screw" in sys.argv el
 # centred on the plate X (scan symmetric to +-0.5; a symmetric pattern is the same on either face, so the inner/outer-face question does not move it)
 # rev 2026-10-04 ~10:30 ET (Aidan, test print): all 4 corner mounts moved +1.0 in Y = toward the plate's TOP edge (away from the audio jacks at Y ~19);
 # scan read was (149.95, 14.70)
-SCREW_SHIFT_Y = 1.0
+# rev 2026-10-04 ~13:05 ET (Aidan): that move was the WRONG way - corner mounts go 1.0 from the ORIGINAL positions in -Y (toward the audio-jack end),
+# i.e. 2.0 from the 10:30 positions: SCR_T-/+ (30.64/75.74, 148.95), SCR_B-/+ (30.64/75.74, 13.70)
+SCREW_SHIFT_Y = -1.0
 SCREW_PITCH_X, SCREW_Y = 45.1, (149.95 + SCREW_SHIFT_Y, 14.70 + SCREW_SHIFT_Y)
 SCREWS = [("SCR_T-", PL_C[0] - SCREW_PITCH_X / 2, SCREW_Y[0]), ("SCR_T+", PL_C[0] + SCREW_PITCH_X / 2, SCREW_Y[0]),
           ("SCR_B-", PL_C[0] - SCREW_PITCH_X / 2, SCREW_Y[1]), ("SCR_B+", PL_C[0] + SCREW_PITCH_X / 2, SCREW_Y[1])] if FIX == "screws" else []
@@ -90,7 +98,9 @@ OPEN.append(("ETH1", "RJ45", CUT["ETH1"]["cx"], CUT["ETH1"]["cy"], 13.0, 10.4, 0
 if ETH2 == "open": OPEN.append(("ETH2", "RJ45", CUT["ETH2"]["cx"], CUT["ETH2"]["cy"], 13.0, 10.7, 0.5))
 OPEN.append(("HDMI", "HDMI", CUT["HDMI"]["cx"], CUT["HDMI"]["cy"], 15.6, 5.7, 1.0))
 OPEN.append(("AC", "AC", 53.30, 130.15, 34.55, 24.65, 3.0))   # rev ~14:25 ET: centre from the outer-face flatbed scan 83f0b85e (was 52.08, 129.95 from the cover photo); size kept
-ROUND = [("AUD_H", 42.17, 19.42, 4.8), ("AUD_O", 63.41, 19.1, 4.8), ("PWR_BTN", BTN["cx"], BTN["cy"], 12.4)]   # audio = stock cover-scan holes MIRRORED about X_M 53.408 (2026-10-02 outer-face scan: 42.18,19.38 / 63.41,19.31)
+# rev ~15:30 ET (Aidan): audio-jack holes +0.5 (prints too tight; the stock hole reads Ø4.8 +- 0.3 on the scan, blurred - no reason to deviate)
+AUD_D = 5.3
+ROUND = [("AUD_H", 42.17, 19.42, AUD_D), ("AUD_O", 63.41, 19.1, AUD_D), ("PWR_BTN", BTN["cx"], BTN["cy"], 12.4)]   # audio = stock cover-scan holes MIRRORED about X_M 53.408 (2026-10-02 outer-face scan: 42.18,19.38 / 63.41,19.31)
 WINDOWS = [("W_HDMI", PADS["PAD_HDMI"]["cx"], PADS["PAD_HDMI"]["cy"], 7.0, 1.6, 0.6), ("W_ETH", PADS["PAD_ETH"]["cx"], PADS["PAD_ETH"]["cy"], 3.0, 5.0, 1.0),
            ("W_TB", PADS["PAD_TB"]["cx"], PADS["PAD_TB"]["cy"], 3.0, 5.0, 1.0), ("W_USB", PADS["PAD_USB"]["cx"], PADS["PAD_USB"]["cy"], 3.0, 6.0, 1.0),
            ("W_AUD_H", PADS["PAD_AUD_H"]["cx"], PADS["PAD_AUD_H"]["cy"], 4.0, 2.4, 0.8), ("W_AUD_O", PADS["PAD_AUD_O"]["cx"], PADS["PAD_AUD_O"]["cy"], 4.0, 2.4, 0.8)]
@@ -287,46 +297,91 @@ for pid, x, y, dd in (LOCATE_PINS if PINS_ON else []):
 for pid, x, y, dd in (EAR_PINS if PINS_ON else []):
     plate = plate.union(cq.Workplane("XY").workplane(offset=zi(x) + FLEX_POCKET + 0.01).center(x, y).circle(dd / 2).extrude(-(EAR_PIN_LEN + FLEX_POCKET)).faces("<Z").chamfer(0.2))
     report.append((pid, "PIN", x, y, dd, dd, "flex locating pin Ø%.1f x %.1f in the button-carrier ear hole Ø1.8" % (dd, EAR_PIN_LEN)))
-# ---- power-button area features (rev 2026-10-04 ~12:35 ET, Aidan: build the stock button mounts / plastic features into the plate) ----
+# ---- power-button area features (rev 2026-10-04 ~12:35 ET, Aidan: build the stock button mounts / plastic features into the plate;
+#      rev ~13:05 ET, Aidan: the ring round the button is a RAISED COLLAR on the inner face (aligns the button cap to the flex dome), not a recess) ----
 # Evidence: outer-face flatbed scan 83f0b85e (the plate is translucent enough that the inner-face features show; registration offset vs the flex
 # trace ~(-0.5, -1.0), so every position below is taken from the 821-2222-A flex trace = what the stock flex needs):
-#   * ring band around the Ø11.9 (scan) button hole out to Ø15.1 +-0.3, lighter = thinner wall -> inner-face counterbore, with an anti-rotation
-#     key notch at ~140 deg (back view, from +X) reaching r ~9.8;
+#   * ring band around the Ø11.9 (scan) button hole out to Ø15.1 +-0.3 = the collar (Aidan 12:58 ET: raised), with a lobe at ~140 deg (back view,
+#     from +X) reaching r ~9.8 = key tab on the collar;
 #   * a "crater" (ring Ø~2.5 around a dark Ø~1.1 core) at BOTH carrier-ear holes (BTN_EAR_1/2, Ø1.8) -> posts with a core through the ear holes;
 #   * a straight line at X ~51.2 (flex frame) along the 0.8-wide slot between the carrier ring and the flex body (X 50.83-51.63, Y 102.9-111.2) -> rib.
-# No other boss is visible, and no tall boss fits outside the flex (the flex covers the frame BIG_L leg opening; the AC opening is 1.7 above the
-# pocket), so the ear posts are the retainer mounts (heat-stake or M1.0 thread-forming into the Ø0.8 core). Inner-face depth/heights: ASSUMED [M-IOPB*].
+# No other boss is visible, and no tall boss fits outside the flex (the flex covers the frame BIG_L leg opening; the AC opening is 2.2 above the
+# collar), so the ear posts are the retainer mounts (heat-stake or M1.0 thread-forming into the Ø0.8 core). Heights: ASSUMED [M-IOPB*].
 BUTTON_FEATURES = "--no-button" not in sys.argv
-BTN_POCKET_D, BTN_POCKET_DEPTH = 15.0, 0.50        # keyed counterbore (button-cap flange seat), wall left 0.90 [M-IOPB1 / M-IOPB2]
-BTN_KEY_ANG, BTN_KEY_W, BTN_KEY_R0, BTN_KEY_R1 = 140.0, 2.6, 7.0, 9.8   # key notch: angle (back view), width, radial span [M-IOPB3]
-BTN_POST_D, BTN_POST_L = 1.6, 1.0                  # ear posts: Ø1.6 in the Ø1.8 ear holes (0.10/side), 1.0 below the inner face (frame front at 1.17) [M-IOPB4]
-BTN_POST_CORE_D, BTN_POST_CORE_DEPTH = 0.8, 1.9    # blind core from the post tip (stake core / M1.0 pilot); leaves 0.5 of skin at the outer face. 0 = solid
-BTN_RIB = dict(x=51.23, y0=103.3, y1=108.9, t=0.5, h=1.0)   # locating rib in the flex slot (0.15/side); Y end stops 0.25 short of the HDMI clamp-post M2 head (50.82, 111.0)
+BTN_FRAME_GAP = PSA_T + FLEX_T + FOAM_T + FLEX_POCKET   # 1.17: inner face -> frame front (same stack as the centre post)
+BTN_FLEX_DEPTH = BTN_FRAME_GAP - PSA_T - FLEX_T     # 1.00: plate-side face of the flex button island if it sits back at the frame plane [M-IOPB7]
+BTN_COLLAR_CLR = 0.20                               # air gap collar end -> flex island (no preload on the flex / dome)
+BTN_COLLAR_H = float(sys.argv[sys.argv.index("--collar-h") + 1]) if "--collar-h" in sys.argv else round(BTN_FLEX_DEPTH - BTN_COLLAR_CLR, 3)   # 0.80 [M-IOPB2]
+BTN_COLLAR_OD = 15.0                                # scan ring Ø15.1 +-0.3 [M-IOPB2]
+BTN_COLLAR_ID = 12.4                                # = the PWR_BTN opening: one straight bore 1.4 + 0.8 long guiding the cap (our Ø12.0 cap 0.20/side; stock cap
+                                                    # <= Ø11.9 from the scan); >= 12.38 keeps the 2 button LEDs inside the bore. Set to cap OD + 0.2 once measured [M-IOPB1]
+BTN_KEY_MODE = "tab"                                # "tab" (outward lug, = the scan lobe) | "gap" (keyway slot through the collar wall) | "none" [M-IOPB3]
+BTN_KEY_ANG, BTN_KEY_W, BTN_KEY_R0, BTN_KEY_R1 = 140.0, 2.6, 7.0, 9.8   # key: angle (back view), width, radial span (gap mode: r ID/2-0.1 .. OD/2+0.1)
+# rev ~15:30 ET (Aidan): the Ø1.6 posts lose their Ø0.8 core in print -> BOSSES the carrier ear lugs sit on, screwed through the Ø1.8 ear holes.
+BTN_EAR_MODE = "post" if "--ear-posts" in sys.argv else "boss"   # "boss" (default): Ø3.0 boss, top = flex island plane, M1.4 thread-former pilot | "post": old Ø1.6 pins
+BTN_BOSS_OD = 3.0                                  # >= 3 so the pilot survives printing (0.95 wall round a Ø1.1 pilot)
+BTN_BOSS_H = float(sys.argv[sys.argv.index("--boss-h") + 1]) if "--boss-h" in sys.argv else None   # default = BTN_FLEX_DEPTH (set below): boss top supports the flex/carrier ear at the island plane
+BTN_BOSS_PILOT_D = 1.1                             # M1.4 thread-forming for plastics (pilot 1.0-1.2)
+BTN_SCREW = dict(size="M1.4", length=2.5, head_d=2.6, head_k=0.9)   # pan/wafer head on the carrier lug (board side)
+BTN_CARRIER_T = 0.4                                # carrier lug thickness behind the flex [ASSUMED, M-IOPB6]
+BTN_PILOT_SKIN = 0.5                               # material left under the pilot at the outer face
+if BTN_EAR_MODE == "boss":
+    BTN_POST_D, BTN_POST_L = BTN_BOSS_OD, None     # length set to BTN_BOSS_H once BTN_FLEX_DEPTH is known
+    BTN_POST_CORE_D = BTN_BOSS_PILOT_D
+else:
+    BTN_POST_D, BTN_POST_L = 1.6, 1.0              # old ear posts: Ø1.6 in the Ø1.8 ear holes (0.10/side), 1.0 below the inner face [M-IOPB4]
+    BTN_POST_CORE_D = 0.8
+BTN_POST_CORE_DEPTH = None                         # pilot / core depth from the tip, set below (leaves BTN_PILOT_SKIN at the outer face)
+if BTN_EAR_MODE == "boss": BTN_POST_L = BTN_BOSS_H if BTN_BOSS_H is not None else round(BTN_FLEX_DEPTH, 3)   # 1.00
+BTN_POST_CORE_DEPTH = round(BTN_POST_L + SKIN - BTN_PILOT_SKIN, 3)                                          # 1.90
+BTN_RIB = dict(x=51.23, y0=103.3, y1=108.9, t=0.5, h=1.0)   # locating rib in the flex slot (0.15/side); Y end stopped 0.25 short of the old HDMI clamp-post head (50.82, 111.0); post moved to (53.6, 114.35) at 15:50 ET
 _BTN_EARS = [(h["id"], h["cx"], h["cy"], h["d"]) for h in FJ["holes"] if h["id"].startswith("BTN_EAR")]
 BTN_FEATS = []
 def _bplace(wp, x, y):   # radial placement (same as _place below)
     a = math.asin((x - PL_C[0]) / R0)
     return wp.rotate((0, 0, 0), (0, 1, 0), math.degrees(a)).translate((PL_C[0] + R0 * math.sin(a), y, -R0 + R0 * math.cos(a)))
+def _btn_key_fp(r0, r1):
+    return cq.Workplane("XY").workplane(offset=-20).center(BTN["cx"], BTN["cy"]).transformed(rotate=(0, 0, BTN_KEY_ANG)).center((r0 + r1) / 2, 0) \
+        .sketch().rect(r1 - r0, BTN_KEY_W).vertices().fillet(0.4).finalize().extrude(22)
 if BUTTON_FEATURES:
     _bx, _by = BTN["cx"], BTN["cy"]; _ka = math.radians(BTN_KEY_ANG)
-    _pk = cq.Workplane("XY").workplane(offset=-20).center(_bx, _by).circle(BTN_POCKET_D / 2).extrude(22)
-    _key = cq.Workplane("XY").workplane(offset=-20).center(_bx, _by).transformed(rotate=(0, 0, BTN_KEY_ANG)).center((BTN_KEY_R0 + BTN_KEY_R1) / 2, 0) \
-        .sketch().rect(BTN_KEY_R1 - BTN_KEY_R0, BTN_KEY_W).vertices().fillet(0.4).finalize().extrude(22)
-    plate = plate.cut(_pk.union(_key).intersect(cyl(R0 - SKIN + BTN_POCKET_DEPTH)))
-    _kx, _ky = _bx + (BTN_KEY_R0 + BTN_KEY_R1) / 2 * math.cos(_ka), _by + (BTN_KEY_R0 + BTN_KEY_R1) / 2 * math.sin(_ka)
-    BTN_FEATS.append(dict(id="BTN_POCKET", kind="BTN", x=_bx, y=_by, w=BTN_POCKET_D, h=BTN_POCKET_D, depth=BTN_POCKET_DEPTH, wall=round(SKIN - BTN_POCKET_DEPTH, 2),
-                          note="keyed counterbore Ø%.1f x %.2f on the inner face around the Ø%.1f button opening (button-cap flange seat / anti-rotation); scan ring Ø15.1+-0.3" % (BTN_POCKET_D, BTN_POCKET_DEPTH, [q for q in ROUND if q[0] == "PWR_BTN"][0][3]), conf="medium-low"))
-    BTN_FEATS.append(dict(id="BTN_KEY", kind="BTN", x=_kx, y=_ky, w=BTN_KEY_W, h=BTN_KEY_W, depth=BTN_POCKET_DEPTH,
-                          note="key notch %.1f wide, r %.1f-%.1f at %.0f deg (back view), same depth as the pocket" % (BTN_KEY_W, BTN_KEY_R0, BTN_KEY_R1, BTN_KEY_ANG), conf="medium-low"))
+    # collar = footprint (OD - ID [+ tab]) between the inner face (+0.05 overlap) and the inner face - H, concentric with the plate cylinder (constant height)
+    _fp = cq.Workplane("XY").workplane(offset=-20).center(_bx, _by).circle(BTN_COLLAR_OD / 2).extrude(22)
+    if BTN_KEY_MODE == "tab": _fp = _fp.union(_btn_key_fp(BTN_KEY_R0, BTN_KEY_R1))
+    _fp = _fp.cut(cq.Workplane("XY").workplane(offset=-20).center(_bx, _by).circle(BTN_COLLAR_ID / 2).extrude(22))
+    if BTN_KEY_MODE == "gap": _fp = _fp.cut(_btn_key_fp(BTN_COLLAR_ID / 2 - 0.1, BTN_COLLAR_OD / 2 + 0.1))
+    plate = plate.union(_fp.intersect(cyl(R0 - SKIN + 0.05)).cut(cyl(R0 - SKIN - BTN_COLLAR_H)))
+    _kr = (BTN_KEY_R0 + BTN_KEY_R1) / 2 if BTN_KEY_MODE == "tab" else (BTN_COLLAR_ID + BTN_COLLAR_OD) / 4
+    _kx, _ky = _bx + _kr * math.cos(_ka), _by + _kr * math.sin(_ka)
+    BTN_FEATS.append(dict(id="BTN_COLLAR", kind="BTN", x=_bx, y=_by, w=BTN_COLLAR_OD, h=BTN_COLLAR_OD, od=BTN_COLLAR_OD, id_=BTN_COLLAR_ID, height=BTN_COLLAR_H,
+                          wall=round((BTN_COLLAR_OD - BTN_COLLAR_ID) / 2, 2), flex_depth=round(BTN_FLEX_DEPTH, 3), clr_to_flex=round(BTN_FLEX_DEPTH - BTN_COLLAR_H, 3),
+                          clr_to_frame_plane=round(BTN_FRAME_GAP - BTN_COLLAR_H, 3),
+                          note="raised collar OD %.1f / ID %.1f x %.2f high (normal to the inner face) round the Ø%.1f button opening: cap guide bore %.2f long; %.2f short of the flex button island at %.2f (frame front %.2f)"
+                               % (BTN_COLLAR_OD, BTN_COLLAR_ID, BTN_COLLAR_H, [q for q in ROUND if q[0] == "PWR_BTN"][0][3], SKIN + BTN_COLLAR_H, BTN_FLEX_DEPTH - BTN_COLLAR_H, BTN_FLEX_DEPTH, BTN_FRAME_GAP),
+                          conf="raised: confirmed (Aidan); OD medium (scan +-0.3); ID / height assumed"))
+    if BTN_KEY_MODE != "none":
+        BTN_FEATS.append(dict(id="BTN_KEY", kind="BTN", x=_kx, y=_ky, w=BTN_KEY_W, h=BTN_KEY_W, mode=BTN_KEY_MODE, ang=BTN_KEY_ANG, kw=BTN_KEY_W,
+                              r=[BTN_KEY_R0, BTN_KEY_R1] if BTN_KEY_MODE == "tab" else [BTN_COLLAR_ID / 2, BTN_COLLAR_OD / 2], height=BTN_COLLAR_H,
+                              note=("key TAB on the collar %.1f wide, r %.1f-%.1f at %.0f deg (back view), collar height" if BTN_KEY_MODE == "tab" else "key GAP (keyway) %.1f wide through the collar wall, r %.1f-%.1f at %.0f deg")
+                                   % ((BTN_KEY_W, BTN_KEY_R0, BTN_KEY_R1, BTN_KEY_ANG) if BTN_KEY_MODE == "tab" else (BTN_KEY_W, BTN_COLLAR_ID / 2, BTN_COLLAR_OD / 2, BTN_KEY_ANG)),
+                              conf="medium-low (scan lobe only)"))
     for eid, ex_, ey_, ed in _BTN_EARS:
-        add = cq.Workplane("XY").workplane(offset=-SKIN + 0.3).circle(BTN_POST_D / 2).extrude(-(BTN_POST_L + 0.3)).faces("<Z").chamfer(0.2)
+        add = cq.Workplane("XY").workplane(offset=-SKIN + 0.3).circle(BTN_POST_D / 2).extrude(-(BTN_POST_L + 0.3)).faces("<Z").chamfer(0.2 if BTN_EAR_MODE == "post" else 0.25)
         plate = plate.union(_bplace(add, ex_, ey_))
         if BTN_POST_CORE_D > 0:
             core = cq.Workplane("XY").workplane(offset=-SKIN - BTN_POST_L - 0.1).circle(BTN_POST_CORE_D / 2).extrude(BTN_POST_CORE_DEPTH + 0.1)
+            if BTN_EAR_MODE == "boss":   # 0.15 x 45 deg lead-in on the pilot
+                core = core.union(cq.Workplane("XY").add(cq.Solid.makeCone(BTN_POST_CORE_D / 2 + 0.25, BTN_POST_CORE_D / 2, 0.25, cq.Vector(0, 0, -SKIN - BTN_POST_L - 0.1), cq.Vector(0, 0, 1))))
             plate = plate.cut(_bplace(core, ex_, ey_))
-        BTN_FEATS.append(dict(id="BTN_POST_" + eid[-1], kind="BTN", x=ex_, y=ey_, w=BTN_POST_D, h=BTN_POST_D, length=BTN_POST_L, core=[BTN_POST_CORE_D, BTN_POST_CORE_DEPTH],
-                              ear_hole_d=ed, radial_clr=round((ed - BTN_POST_D) / 2, 3),
-                              note="ear post Ø%.1f x %.1f (radial) through the carrier ear hole Ø%.1f; Ø%.1f x %.1f core = heat-stake core or M1.0 thread-forming pilot for the button retainer" % (BTN_POST_D, BTN_POST_L, ed, BTN_POST_CORE_D, BTN_POST_CORE_DEPTH), conf="position high / size medium"))
+        if BTN_EAR_MODE == "boss":
+            BTN_FEATS.append(dict(id="BTN_POST_" + eid[-1], kind="BTN", mode="boss", x=ex_, y=ey_, w=BTN_POST_D, h=BTN_POST_D, length=BTN_POST_L, core=[BTN_POST_CORE_D, BTN_POST_CORE_DEPTH],
+                                  ear_hole_d=ed, screw=BTN_SCREW, screw_clr_in_ear_hole=round((ed - 1.4) / 2, 3),
+                                  note="ear BOSS Ø%.1f x %.2f (radial; top = flex island plane) under the carrier ear lug; %s x %.1f thread-forming screw through the Ø%.1f ear hole into a Ø%.2f x %.2f pilot (%.1f skin left)"
+                                       % (BTN_POST_D, BTN_POST_L, BTN_SCREW["size"], BTN_SCREW["length"], ed, BTN_POST_CORE_D, BTN_POST_CORE_DEPTH, BTN_PILOT_SKIN), conf="position high (flex trace) / size medium / height assumed"))
+        else:
+            BTN_FEATS.append(dict(id="BTN_POST_" + eid[-1], kind="BTN", mode="post", x=ex_, y=ey_, w=BTN_POST_D, h=BTN_POST_D, length=BTN_POST_L, core=[BTN_POST_CORE_D, BTN_POST_CORE_DEPTH],
+                                  ear_hole_d=ed, radial_clr=round((ed - BTN_POST_D) / 2, 3),
+                                  note="ear post Ø%.1f x %.1f (radial) through the carrier ear hole Ø%.1f; Ø%.1f x %.1f core = heat-stake core or M1.0 thread-forming pilot for the button retainer" % (BTN_POST_D, BTN_POST_L, ed, BTN_POST_CORE_D, BTN_POST_CORE_DEPTH), conf="position high / size medium"))
     rb = BTN_RIB
     plate = plate.union(boxz(rb["x"], (rb["y0"] + rb["y1"]) / 2, rb["t"], rb["y1"] - rb["y0"], 0.2, zi(rb["x"]) + 0.3, zi(rb["x"]) - rb["h"]))
     BTN_FEATS.append(dict(id="BTN_RIB", kind="BTN", x=rb["x"], y=(rb["y0"] + rb["y1"]) / 2, w=rb["t"], h=rb["y1"] - rb["y0"], length=rb["h"],
@@ -572,7 +627,7 @@ for oid, kind, x, y, w, h, r in OPEN:
 for aid in ("AUD_H", "AUD_O"):
     c = CUT[aid]; o = [q for q in ROUND if q[0] == aid][0]; off = math.hypot(o[1] - c["cx"], o[2] - c["cy"])
     FLEX_CHECK.append(dict(port=aid, flex_cutout=dict(cx=c["cx"], cy=c["cy"], d=c["d"]), offset=[round(o[1] - c["cx"], 2), round(o[2] - c["cy"], 2)],
-                           through="Ø4.8 opening / jack nose (Ø6.0 assumed)", through_min_margin=round(c["d"] / 2 - 4.8 / 2 - off, 2), jack_nose_margin=round(c["d"] / 2 - 3.0 - off, 2), boss=None, inner_face="flush (no boss)"))
+                           through="Ø%.1f opening / jack nose (Ø6.0 assumed)" % AUD_D, through_min_margin=round(c["d"] / 2 - AUD_D / 2 - off, 2), jack_nose_margin=round(c["d"] / 2 - 3.0 - off, 2), boss=None, inner_face="flush (no boss)"))
 for hid, (pid, px_, py_, pd) in (("HOLE_C1", LOCATE_PINS[0]), ("PIN_C3", LOCATE_PINS[1])):
     hh = [q for q in FJ["holes"] if q["id"] == hid][0]
     FLEX_CHECK.append(dict(port=pid, flex_hole=hh, pin_d=pd, radial_margin=round(hh["d"] / 2 - pd / 2 - math.hypot(px_ - hh["cx"], py_ - hh["cy"]), 2)))
@@ -584,7 +639,7 @@ feats = [(o[0], o[2], o[3], o[4], o[5]) for o in OPEN] + [(q[0], q[1], q[2], q[3
         [(q[0], q[1], q[2], q[3] + 0.6, q[3] + 0.6) for q in LOCATE_PINS + EAR_PINS] + [("FRAME_SCREW_RELIEF", FRAME_SCREW[0], FRAME_SCREW[1], SCREW_POCKET_D, SCREW_POCKET_D)] + \
         [("CLIP", x, y, (CLIP_T + 2 * CLIP_HOOK) if o[0] == "x" else CLIP_W, CLIP_W if o[0] == "x" else CLIP_T + 2 * CLIP_HOOK) for x, y, o in CLIPS] + \
         [("RIM_NECK_NOTCH", (NECK[0] + NECK[2]) / 2, (NECK[1] + NECK[3]) / 2, NECK[2] - NECK[0], NECK[3] - NECK[1])] + \
-        [(f["id"], f["x"], f["y"], f["w"], f["h"]) for f in BTN_FEATS if f["id"] != "BTN_POCKET"]
+        [(f["id"], f["x"], f["y"], f["w"], f["h"]) for f in BTN_FEATS if f["id"] != "BTN_COLLAR"]
 for k, l in enumerate(FJ["leds"]):
     hits = [f[0] for f in feats if rect_hit(l, f[1], f[2], f[3], f[4], LED_CLR)]
     in_rim = (l["cx"] - l["w"] / 2 < PL_C[0] - PL_W / 2 + RIM_W + 0.3) or (l["cx"] + l["w"] / 2 > PL_C[0] + PL_W / 2 - RIM_W - 0.3)
@@ -609,31 +664,86 @@ if BUTTON_FEATURES:
         d2 = min(px - TOP_X[0], TOP_X[1] - px, py - TOP_Y[0], TOP_Y[1] - py)
         return round(max(d1, d2) - rad, 2)
     _ac = [o for o in OPEN if o[0] == "AC"][0]; _e2 = [o for o in OPEN if o[0] == "ETH2"]; _hd = [o for o in OPEN if o[0] == "HDMI"][0]
-    rp = BTN_POCKET_D / 2; _ka = math.radians(BTN_KEY_ANG)
-    _kc = [(_bx + BTN_KEY_R1 * math.cos(_ka) + sx_ * BTN_KEY_W / 2 * -math.sin(_ka), _by + BTN_KEY_R1 * math.sin(_ka) + sx_ * BTN_KEY_W / 2 * math.cos(_ka)) for sx_ in (-1, 1)]
-    head_r, head_h = 1.9, 1.6                                 # M2 pan head on the HDMI clamp plate (ISO 7045 dk 3.8, k 1.6) [assumed]
-    hp = [q for q in _MJ["posts"]["HDMI"] if q[0] < PL_C[0]][0]
+    rp = BTN_COLLAR_OD / 2; ri = BTN_COLLAR_ID / 2; _ka = math.radians(BTN_KEY_ANG)
+    _kR = BTN_KEY_R1 if BTN_KEY_MODE == "tab" else rp
+    _kc = [(_bx + _kR * math.cos(_ka) + sx_ * BTN_KEY_W / 2 * -math.sin(_ka), _by + _kR * math.sin(_ka) + sx_ * BTN_KEY_W / 2 * math.cos(_ka)) for sx_ in (-1, 1)]
+    # rev ~15:50 ET (Aidan): HDMI clamp post H25 moved (50.82, 111.0) -> (53.6, 114.35) (kicad/macpro62-io-board/tools/hdmi_post_search.py). Its head now sits under the
+    # frame bar between the HDMI slot and the AC opening, so the clamp screw is a COUNTERSUNK M2 (ISO 7046-1 dk 3.8, k 1.2) flush with the clamp-plate top; `--clamp-head pan` = old ISO 7045 pan head (k 1.6)
+    CLAMP_HEAD = sys.argv[sys.argv.index("--clamp-head") + 1] if "--clamp-head" in sys.argv else "csk"
+    head_r, head_h = 1.9, (1.6 if CLAMP_HEAD == "pan" else 0.0)   # height of the head above the clamp-plate top
+    hp = min(_MJ["posts"]["HDMI"], key=lambda q: math.hypot(q[0] - _bx, q[1] - _by))   # the HDMI clamp post nearest the button
     head_top = CLAMP_TOP + head_h
+    _hd_c = math.hypot(hp[0] - _bx, hp[1] - _by); _ux, _uy = (hp[0] - _bx) / _hd_c, (hp[1] - _by) / _hd_c
+    _x_near = _bx + min(rp, _hd_c) * _ux                      # collar point nearest the head
+    _xr = _bx - BTN["ring_d"] / 2                               # carrier ring -X edge
+    def _hdmi_clamp_check():   # rev ~15:50 ET: the moved HDMI clamp post vs ear 1 (M1.4 head + boss), the carrier (ring + ear-1 lug), the clamp-plate edge and the frame
+        e1 = [e for e in _BTN_EARS if e[0] == "BTN_EAR_1"][0]; d1 = math.hypot(hp[0] - e1[1], hp[1] - e1[2])
+        s_ = BTN_SCREW; m14_r = s_["head_d"] / 2; m14_low = d0(e1[1]) - BTN_POST_L - FLEX_T - BTN_CARRIER_T - s_["head_k"]
+        _uu = ((e1[1] - _bx) / math.hypot(e1[1] - _bx, e1[2] - _by), (e1[2] - _by) / math.hypot(e1[1] - _bx, e1[2] - _by)); _la = (_bx + (BTN["ring_d"] / 2 - 0.8) * _uu[0], _by + (BTN["ring_d"] / 2 - 0.8) * _uu[1])
+        _dx, _dy = e1[1] - _la[0], e1[2] - _la[1]; _t = max(0, min(1, ((hp[0] - _la[0]) * _dx + (hp[1] - _la[1]) * _dy) / (_dx * _dx + _dy * _dy)))
+        lug = math.hypot(hp[0] - _la[0] - _t * _dx, hp[1] - _la[1] - _t * _dy) - head_r - BTN_POST_D / 2
+        s1 = fr["SMALL_R1"]; _sx = 2 * _xm - s1["cx"] if X_MIRROR else s1["cx"]
+        slot = min(hp[0] - (_sx - s1["w"] / 2), (_sx + s1["w"] / 2) - hp[0], hp[1] - (s1["cy"] - s1["h"] / 2), (s1["cy"] + s1["h"] / 2) - hp[1])
+        fo = round(max(_in_frame_open(hp[0], hp[1], head_r), slot - head_r), 2)
+        fb = d0(hp[0]) - CENTRE_GAP - FRAME_T; carrier_low = d0(hp[0]) - BTN_FLEX_DEPTH - FLEX_T
+        return dict(post=list(hp), was=[50.82, 111.0], head=CLAMP_HEAD + (" M2 ISO 7046-1 dk 3.8 k 1.2, flush with the clamp-plate top" if CLAMP_HEAD == "csk" else " M2 ISO 7045 dk 3.8 k 1.6 on the clamp-plate top"),
+                    head_top_above_board=round(head_top, 2), clamp_plate_top=round(CLAMP_TOP, 2),
+                    ear1_m14_head=dict(plan=round(d1 - head_r - m14_r, 2), vert=round(m14_low - head_top, 2), m14_head_lowest_above_board=round(m14_low, 2)),
+                    ear1_boss=dict(plan=round(d1 - head_r - BTN_POST_D / 2, 2), vert=round(d0(e1[1]) - BTN_POST_L - head_top, 2)),
+                    clamp_plate_edge_to_ear1_head=dict(plan=round(d1 - head_r - 0.4 - m14_r, 2), vert=round(m14_low - CLAMP_TOP, 2), note="clamp-plate edge = head r + 0.4 web; keep the plate edge (notch) >= 0.3 from the ear-1 head"),
+                    carrier_ring=dict(plan=round(math.hypot(hp[0] - _bx, hp[1] - _by) - BTN["ring_d"] / 2 - head_r, 2), vert_if_island_at_frame_plane=round(carrier_low - BTN_CARRIER_T - head_top, 2)),
+                    carrier_ear1_lug=dict(plan=round(lug, 2), note="lug modelled as a 3.0-wide strap from the ring to the ear hole [assumed]"),
+                    frame=dict(head_in_opening_margin=fo, frame_back_above_board=round(fb, 2), head_to_frame_back_vert=round(fb - head_top, 2),
+                               pan_head_would_be=round(fb - (CLAMP_TOP + 1.6), 2), note="head over frame material (bar between the HDMI slot and the AC opening): needs head top <= frame back - 0.3 -> countersunk"),
+                    rib_plan=round(math.hypot(max(abs(hp[0] - BTN_RIB["x"]) - BTN_RIB["t"] / 2, 0), max(hp[1] - BTN_RIB["y1"], 0)) - head_r, 2),
+                    other_post=[q for q in _MJ["posts"]["HDMI"] if list(q) != list(hp)][0])
     BTN_CHECK = dict(
-        pocket=dict(d=BTN_POCKET_D, depth=BTN_POCKET_DEPTH, wall=round(SKIN - BTN_POCKET_DEPTH, 2),
+        collar=dict(od=BTN_COLLAR_OD, id=BTN_COLLAR_ID, height=BTN_COLLAR_H, wall=round(rp - ri, 2), key=BTN_KEY_MODE, guide_bore_len=round(SKIN + BTN_COLLAR_H, 2),
                     to_AC_opening=round(_rbox_d(_bx, _by, _ac[2], _ac[3], _ac[4], _ac[5], _ac[6]) - rp, 2),
                     to_ETH2_opening=round(_rbox_d(_bx, _by, _e2[0][2], _e2[0][3], _e2[0][4], _e2[0][5], _e2[0][6]) - rp, 2) if _e2 else None,
                     to_HDMI_opening=round(_rbox_d(_bx, _by, _hd[2], _hd[3], _hd[4], _hd[5], _hd[6]) - rp, 2),
                     key_corners_to_AC=round(min(_rbox_d(px_, py_, _ac[2], _ac[3], _ac[4], _ac[5], _ac[6]) for px_, py_ in _kc), 2),
                     key_corners_to_plate_edge=round(min(-_rbox_d(px_, py_, PL_C[0], PL_C[1], PL_W, PL_H, PL_R) for px_, py_ in _kc), 2),
-                    flex_ring_r=round(BTN["ring_d"] / 2, 2), note="pocket r %.2f is inside the flex ring r %.2f: the flex covers it (only the key notch reaches past the flex edge)" % (rp, BTN["ring_d"] / 2)),
-        posts=[dict(id="BTN_POST_" + eid[-1], x=ex_, y=ey_, radial_clr_in_ear_hole=round((ed - BTN_POST_D) / 2, 2), web_to_pocket=round(math.hypot(ex_ - _bx, ey_ - _by) - BTN_POST_D / 2 - rp, 2),
+                    key_tab_frame_open_margin=_in_frame_open(_bx + BTN_KEY_R1 * math.cos(_ka), _by + BTN_KEY_R1 * math.sin(_ka), 0) if BTN_KEY_MODE == "tab" else None,
+                    collar_frame_open_margin=round(min(_bx - rp - LEG_X[0], LEG_X[1] - _bx - rp, _by - rp - LEG_Y[0]), 2),
+                    end_to_frame_plane=round(BTN_FRAME_GAP - BTN_COLLAR_H, 2),
+                    flex=dict(ring_r=round(BTN["ring_d"] / 2, 2), od_inside_ring_by=round(BTN["ring_d"] / 2 - rp, 2),
+                              island_at_frame_plane=dict(flex_face_depth=round(BTN_FLEX_DEPTH, 2), gap_collar_end_to_flex=round(BTN_FLEX_DEPTH - BTN_COLLAR_H, 2)),
+                              flex_glued_flat=dict(flex_face_depth=PSA_T, lift_of_button_island=round(BTN_COLLAR_H - PSA_T, 2), note="if the flex is PSA-bonded flat right up to the button, the collar end lifts the button island by this much: leave the flex unbonded within ~3 mm of the collar"),
+                              to_slot_edge_x50_83=round(50.83 - (_bx + rp), 2), to_rib=round(BTN_RIB["x"] - BTN_RIB["t"] / 2 - (_bx + rp), 2)),
+                    hdmi_post_head=dict(plan_overlap=round(rp - (_hd_c - head_r), 2), collar_end_above_board=round(d0(_x_near) - BTN_COLLAR_H, 2), head_top=round(head_top, 2),
+                                        vertical_clr=round(d0(_x_near) - BTN_COLLAR_H - head_top, 2),
+                                        carrier_t_max_if_island_at_frame_plane=round(d0(_bx + (_hd_c - head_r) * _ux) - BTN_FLEX_DEPTH - FLEX_T - head_top, 2),
+                                        carrier_t_max_if_flex_flat=round(d0(_bx + (_hd_c - head_r) * _ux) - PSA_T - FLEX_T - head_top, 2)),
+                    carrier_minus_x_edge=dict(x=round(_xr, 2), over_frame_in_plan=round(LEG_X[0] - _xr, 2), note="the carrier ring's -X edge lies over frame material: with the island at the frame plane it would bear on the frame")),
+        posts=[dict(id="BTN_POST_" + eid[-1], mode=BTN_EAR_MODE, x=ex_, y=ey_, od=BTN_POST_D, height=BTN_POST_L,
+                    radial_clr_in_ear_hole=round((ed - BTN_POST_D) / 2, 2) if BTN_EAR_MODE == "post" else None,
+                    screw_clr_in_ear_hole=round((ed - 1.4) / 2, 2) if BTN_EAR_MODE == "boss" else None,
+                    web_to_collar=round(math.hypot(ex_ - _bx, ey_ - _by) - BTN_POST_D / 2 - rp, 2),
+                    fused_to_collar=math.hypot(ex_ - _bx, ey_ - _by) - BTN_POST_D / 2 < rp,
+                    pilot_wall=round((BTN_POST_D - BTN_POST_CORE_D) / 2, 2),
                     frame_open_margin=_in_frame_open(ex_, ey_, BTN_POST_D / 2), tip_to_frame_front=round(CENTRE_GAP - BTN_POST_L, 2),
                     tip_above_board=round(d0(ex_) - BTN_POST_L, 2),
-                    hdmi_post_head_plan=round(math.hypot(ex_ - hp[0], ey_ - hp[1]) - head_r - BTN_POST_D / 2, 2), hdmi_post_head_vert=round(d0(ex_) - BTN_POST_L - head_top, 2))
+                    hdmi_post_head_plan=round(math.hypot(ex_ - hp[0], ey_ - hp[1]) - head_r - BTN_POST_D / 2, 2), hdmi_post_head_vert=round(d0(ex_) - BTN_POST_L - head_top, 2),
+                    **(dict(screw=dict(size=BTN_SCREW["size"], length=BTN_SCREW["length"], head_d=BTN_SCREW["head_d"],
+                                       engagement=round(BTN_SCREW["length"] - FLEX_T - BTN_CARRIER_T, 2), pilot_depth=BTN_POST_CORE_DEPTH,
+                                       head_depth_from_inner_face=[round(BTN_POST_L + FLEX_T + BTN_CARRIER_T, 2), round(BTN_POST_L + FLEX_T + BTN_CARRIER_T + BTN_SCREW["head_k"], 2)],
+                                       frame_front_depth=round(CENTRE_GAP, 2), frame_back_depth=round(CENTRE_GAP + FRAME_T, 2),
+                                       head_frame_open_margin=_in_frame_open(ex_, ey_, BTN_SCREW["head_d"] / 2),
+                                       head_lowest_above_board=round(d0(ex_) - BTN_POST_L - FLEX_T - BTN_CARRIER_T - BTN_SCREW["head_k"], 2),
+                                       head_to_hdmi_head_plan=round(math.hypot(ex_ - hp[0], ey_ - hp[1]) - head_r - BTN_SCREW["head_d"] / 2, 2),
+                                       head_to_hdmi_head_vert=round(d0(ex_) - BTN_POST_L - FLEX_T - BTN_CARRIER_T - BTN_SCREW["head_k"] - head_top, 2),
+                                       carrier_t_assumed=BTN_CARRIER_T)) if BTN_EAR_MODE == "boss" else {}))
                for eid, ex_, ey_, ed in _BTN_EARS],
         rib=dict(slot_margin=[round(BTN_RIB["x"] - BTN_RIB["t"] / 2 - 50.83, 2), round(51.63 - BTN_RIB["x"] - BTN_RIB["t"] / 2, 2)], frame_open_margin=round(min(BTN_RIB["x"] - BTN_RIB["t"] / 2 - LEG_X[0], LEG_X[1] - BTN_RIB["x"] - BTN_RIB["t"] / 2, BTN_RIB["y0"] - LEG_Y[0], LEG_Y[1] - BTN_RIB["y1"]), 2),
                  hdmi_post_head_plan=round(math.hypot(max(abs(hp[0] - BTN_RIB["x"]) - BTN_RIB["t"] / 2, 0), max(hp[1] - BTN_RIB["y1"], 0)) - head_r, 2),
                  tip_to_frame_front=round(CENTRE_GAP - BTN_RIB["h"], 2), tip_above_board=round(d0(BTN_RIB["x"]) - BTN_RIB["h"], 2)),
         button_leds=[dict(cx=l["cx"], cy=l["cy"], far_corner_r=round(math.hypot(abs(l["cx"] - _bx) + l["w"] / 2, abs(l["cy"] - _by) + l["h"] / 2), 2)) for l in FJ["leds"] if math.hypot(l["cx"] - _bx, l["cy"] - _by) < rp],
-        hdmi_clamp=dict(post=hp, head_top_above_board=round(head_top, 2), clamp_plate_top=round(CLAMP_TOP, 2)),
+        other_leds_min_to_collar=round(min(_rbox_d(_bx, _by, l["cx"], l["cy"], l["w"], l["h"], 0.0) - rp for l in FJ["leds"] if math.hypot(l["cx"] - _bx, l["cy"] - _by) >= rp), 2),
+        hdmi_clamp=_hdmi_clamp_check(),
         frame_big_l=dict(leg_x=[round(v, 2) for v in LEG_X], leg_y=[round(v, 2) for v in LEG_Y], top_x=[round(v, 2) for v in TOP_X], top_y=[round(v, 2) for v in TOP_Y]))
     BTN_CHECK["button_led_opening_margin"] = round([q for q in ROUND if q[0] == "PWR_BTN"][0][3] / 2 - max(l["far_corner_r"] for l in BTN_CHECK["button_leds"]), 2) if BTN_CHECK["button_leds"] else None
+    BTN_CHECK["button_led_collar_bore_margin"] = round(ri - max(l["far_corner_r"] for l in BTN_CHECK["button_leds"]), 2) if BTN_CHECK["button_leds"] else None
     print("BTNCHECK", json.dumps(BTN_CHECK))
 # ---------------- trace DXF, foam DXF, check image (ETH2 open build only) ----------------
 def rr_pts(cx, cy, w, h, r, n=9):
@@ -680,7 +790,7 @@ if ETH2 == "open" and not TAG:
         else: msp.add_lwpolyline(rr_pts(c["cx"], c["cy"], c["w"] + 0.6, c["h"] + 0.6, c["r"] + 0.3), close=True, dxfattribs={"layer": "CUT_INNER"})
     for hh in FJ["holes"]:
         if not hh["id"].startswith("BTN_EAR"): msp.add_circle((hh["cx"], hh["cy"]), hh["d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
-        elif BUTTON_FEATURES: msp.add_circle((hh["cx"], hh["cy"]), BTN_POST_D / 2 + 0.3, dxfattribs={"layer": "CUT_INNER"})   # rev 2026-10-04: clear the plate ear posts
+        elif BUTTON_FEATURES: msp.add_circle((hh["cx"], hh["cy"]), (BTN_SCREW["head_d"] / 2 + 0.25) if BTN_EAR_MODE == "boss" else (BTN_POST_D / 2 + 0.3), dxfattribs={"layer": "CUT_INNER"})   # foam: clear the ear-screw heads (boss) / ear posts
     msp.add_circle((BTN["cx"], BTN["cy"]), BTN["ring_d"] / 2 + 0.5, dxfattribs={"layer": "CUT_INNER"})
     msp.add_text("MP62 IO flex foam / insulator A0 (back view, mm, scan-based outline): 1.0 PE/PORON foam with PSA (stock-like) OR 0.25 Formex GK-10; laser/die cut; VERIFY against the flex",
                  dxfattribs={"layer": "NOTES", "height": 1.6}).set_placement((20, -12))
@@ -710,7 +820,8 @@ if ETH2 == "open" and not TAG:
     for wid, x, y, w, h, r in WINDOWS: ax.add_patch(MRect((x - w / 2, y - h / 2), w, h, fc="#ffff80", ec="k", lw=0.6))
     for pid, x, y, dd in LOCATE_PINS + EAR_PINS: ax.add_patch(MCirc((x, y), dd / 2, fc="#4040ff", ec="k", lw=0.4))
     for f in BTN_FEATS:
-        if f["id"] == "BTN_POCKET": ax.add_patch(MCirc((f["x"], f["y"]), f["w"] / 2, fc="none", ec="#0060c0", lw=0.7, ls="--"))
+        if f["id"] == "BTN_COLLAR":
+            ax.add_patch(MCirc((f["x"], f["y"]), f["od"] / 2, fc="none", ec="#0030c0", lw=0.8)); ax.add_patch(MCirc((f["x"], f["y"]), f["id_"] / 2, fc="none", ec="#0030c0", lw=0.6))
         elif f["id"].startswith("BTN_POST"): ax.add_patch(MCirc((f["x"], f["y"]), f["w"] / 2, fc="#4040ff", ec="k", lw=0.4))
         elif f["id"] == "BTN_RIB": ax.add_patch(MRect((f["x"] - f["w"] / 2, f["y"] - f["h"] / 2), f["w"], f["h"], fc="#4040ff", ec="k", lw=0.4))
     for x, y, o in CLIPS: ax.plot(x, y, "b^", ms=6)
@@ -756,15 +867,16 @@ if ETH2 == "open" and not TAG:
             msp.add_circle((fx(x), y), od / 2, dxfattribs={"layer": "SCREW_BOSSES"})
             msp.add_text("%s M1.6 %s" % (sid, "csk 90 Ø%.2f / Ø%.2f thru" % (SCREW_CSK_D, SCREW_CLR_D) if SCREW_MODE == "csk" else "pilot Ø%.2f blind" % SCREW_PILOT_D), dxfattribs={"layer": "NOTES", "height": 0.8}).set_placement((fx(x) - 3, y + 2.2))
         for f in BTN_FEATS:
-            if f["id"] == "BTN_POCKET": msp.add_circle((fx(f["x"]), f["y"]), f["w"] / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
+            if f["id"] == "BTN_COLLAR":
+                for _d in (f["od"], f["id_"]): msp.add_circle((fx(f["x"]), f["y"]), _d / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
             elif f["id"] == "BTN_KEY":
                 _a = math.radians(BTN_KEY_ANG); _u = (math.cos(_a), math.sin(_a)); _v = (-_u[1], _u[0])
-                _pts = [(BTN["cx"] + r_ * _u[0] + s_ * BTN_KEY_W / 2 * _v[0], BTN["cy"] + r_ * _u[1] + s_ * BTN_KEY_W / 2 * _v[1]) for r_, s_ in ((BTN_KEY_R0, -1), (BTN_KEY_R1, -1), (BTN_KEY_R1, 1), (BTN_KEY_R0, 1))]
+                _pts = [(BTN["cx"] + r_ * _u[0] + s_ * BTN_KEY_W / 2 * _v[0], BTN["cy"] + r_ * _u[1] + s_ * BTN_KEY_W / 2 * _v[1]) for r_, s_ in ((f["r"][0], -1), (f["r"][1], -1), (f["r"][1], 1), (f["r"][0], 1))]
                 msp.add_lwpolyline([(fx(a_), b_) for a_, b_ in _pts], close=True, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
             elif f["id"].startswith("BTN_POST"):
                 msp.add_circle((fx(f["x"]), f["y"]), f["w"] / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"}); msp.add_circle((fx(f["x"]), f["y"]), BTN_POST_CORE_D / 2, dxfattribs={"layer": "BUTTON_INNER_FEATURES"})
             else: rrect(f["x"], f["y"], f["w"], f["h"], 0.2, "BUTTON_INNER_FEATURES")
-        if BTN_FEATS: msp.add_text("BUTTON_INNER_FEATURES (inner face): pocket Ø%.1f x %.2f deep + key, 2 ear posts Ø%.1f x %.1f (core Ø%.1f), rib %.1f x %.1f x %.1f" % (BTN_POCKET_D, BTN_POCKET_DEPTH, BTN_POST_D, BTN_POST_L, BTN_POST_CORE_D, BTN_RIB["t"], BTN_RIB["y1"] - BTN_RIB["y0"], BTN_RIB["h"]), dxfattribs={"layer": "NOTES", "height": 0.9}).set_placement((fx(PL_C[0]) - 30, -19))
+        if BTN_FEATS: msp.add_text("BUTTON_INNER_FEATURES (inner face): RAISED collar OD %.1f / ID %.1f x %.2f high + key %s, 2 ear %ss Ø%.1f x %.2f (pilot/core Ø%.2f%s), rib %.1f x %.1f x %.1f" % (BTN_COLLAR_OD, BTN_COLLAR_ID, BTN_COLLAR_H, BTN_KEY_MODE, BTN_EAR_MODE, BTN_POST_D, BTN_POST_L, BTN_POST_CORE_D, (" for " + BTN_SCREW["size"] + " x %.1f thread-forming" % BTN_SCREW["length"]) if BTN_EAR_MODE == "boss" else "", BTN_RIB["t"], BTN_RIB["y1"] - BTN_RIB["y0"], BTN_RIB["h"]), dxfattribs={"layer": "NOTES", "height": 0.9}).set_placement((fx(PL_C[0]) - 30, -19))
         msp.add_text("GLUE_LANDS_OPTIONAL = fallback only (default fixing: 4x M1.6 screws, layer SCREWS)", dxfattribs={"layer": "NOTES", "height": 1.2}).set_placement((fx(PL_C[0]) - 30, -16))
         msp.add_text("MP62 IO plate v2 A0 - %s - mm - Y up = MEG/base end" % view, dxfattribs={"layer": "NOTES", "height": 2}).set_placement((fx(PL_C[0]) - 30, -12))
         doc.saveas(os.path.join(HERE, "io_plate_v2_A0_openings_%s.dxf" % view))

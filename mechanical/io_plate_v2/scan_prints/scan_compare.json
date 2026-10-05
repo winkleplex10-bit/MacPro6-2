@@ -1,0 +1,417 @@
+{
+ "P1_top": {
+  "screws_model_y": {
+   "T-": 151.0,
+   "T+": 151.0,
+   "B-": 15.58,
+   "B+": 15.48
+  },
+  "screw_pitch_x": {
+   "top": 45.4,
+   "bottom": 45.1
+  },
+  "openings": {
+   "C1": {
+    "dy": -0.1,
+    "h_scan": 4.6,
+    "w_scan_shadowed": 8.0
+   },
+   "C2": {
+    "dy": -0.03,
+    "h_scan": 4.6,
+    "w_scan_shadowed": 8.0
+   },
+   "C3": {
+    "dy": -0.12,
+    "h_scan": 4.6,
+    "w_scan_shadowed": 7.6
+   },
+   "C4": {
+    "dy": 0.0,
+    "h_scan": 4.6,
+    "w_scan_shadowed": 8.0
+   },
+   "C5": {
+    "dy": 0.07,
+    "h_scan": 4.6,
+    "w_scan_shadowed": 8.3
+   },
+   "C6": {
+    "dy": 0.01,
+    "h_scan": 4.6,
+    "w_scan_shadowed": 7.7
+   },
+   "A1": {
+    "dy": 0.02,
+    "h_scan": 6.4,
+    "w_scan_shadowed": 13.0
+   },
+   "A2": {
+    "dy": 0.07,
+    "h_scan": 6.5,
+    "w_scan_shadowed": 12.9
+   },
+   "A3": {
+    "dy": 0.05,
+    "h_scan": 6.4,
+    "w_scan_shadowed": 13.2
+   },
+   "A4": {
+    "dy": 0.02,
+    "h_scan": 6.4,
+    "w_scan_shadowed": 13.1
+   },
+   "ETH1": {
+    "dy": 0.04,
+    "h_scan": 10.8,
+    "w_scan_shadowed": 11.9
+   },
+   "ETH2": {
+    "dy": 0.1,
+    "h_scan": 11.1,
+    "w_scan_shadowed": 11.8
+   },
+   "HDMI": {
+    "dy": -0.07,
+    "h_scan": 6.3,
+    "w_scan_shadowed": 14.3
+   },
+   "AC": {
+    "dy": 0.01,
+    "h_scan": 25.0,
+    "w_scan_shadowed": 33.2
+   },
+   "AUD_H": {
+    "dy": -0.05,
+    "h_scan": 5.0,
+    "w_scan_shadowed": 3.6
+   },
+   "AUD_O": {
+    "dy": -0.02,
+    "h_scan": 4.9,
+    "w_scan_shadowed": 3.6
+   }
+  }
+ },
+ "P2": {
+  "screws_model_y": {
+   "T-": 151.04,
+   "T+": 151.04,
+   "B-": 15.27,
+   "B+": 15.27
+  },
+  "screw_pitch_x": {
+   "top": 44.9,
+   "bottom": 44.7
+  },
+  "openings": {
+   "C1": {
+    "dy": -0.34,
+    "h_scan": 4.3,
+    "w_scan_shadowed": 5.6
+   },
+   "C2": {
+    "dy": -0.4,
+    "h_scan": 4.3,
+    "w_scan_shadowed": 3.8
+   },
+   "C3": {
+    "dy": -0.42,
+    "h_scan": 4.2,
+    "w_scan_shadowed": 3.5
+   },
+   "C4": {
+    "dy": 0.01,
+    "h_scan": 4.4,
+    "w_scan_shadowed": 8.3
+   },
+   "C5": {
+    "dy": 0.06,
+    "h_scan": 4.5,
+    "w_scan_shadowed": 8.3
+   },
+   "C6": {
+    "dy": -0.01,
+    "h_scan": 4.5,
+    "w_scan_shadowed": 8.5
+   },
+   "A1": {
+    "dy": -0.01,
+    "h_scan": 6.6,
+    "w_scan_shadowed": 12.7
+   },
+   "A2": {
+    "dy": 0.01,
+    "h_scan": 6.5,
+    "w_scan_shadowed": 12.8
+   },
+   "A3": {
+    "dy": 0.41,
+    "h_scan": 6.4,
+    "w_scan_shadowed": 13.3
+   },
+   "A4": {
+    "dy": 0.0,
+    "h_scan": 6.4,
+    "w_scan_shadowed": 13.3
+   },
+   "ETH1": {
+    "dy": 0.02,
+    "h_scan": 10.8,
+    "w_scan_shadowed": 11.9
+   },
+   "ETH2": {
+    "dy": 0.06,
+    "h_scan": 11.2,
+    "w_scan_shadowed": 11.6
+   },
+   "HDMI": {
+    "dy": -0.13,
+    "h_scan": 6.2,
+    "w_scan_shadowed": 14.4
+   },
+   "AC": {
+    "dy": 0.02,
+    "h_scan": 24.9,
+    "w_scan_shadowed": 33.3
+   },
+   "AUD_H": {
+    "dy": -0.07,
+    "h_scan": 4.9,
+    "w_scan_shadowed": 3.5
+   },
+   "AUD_O": {
+    "dy": 0.04,
+    "h_scan": 4.9,
+    "w_scan_shadowed": 3.7
+   }
+  }
+ },
+ "P3": {
+  "screws_model_y": {
+   "T-": 150.21,
+   "T+": 149.91,
+   "B-": 14.2,
+   "B+": 14.41
+  },
+  "screw_pitch_x": {
+   "top": 44.9,
+   "bottom": 44.7
+  },
+  "openings": {
+   "C1": {
+    "dy": -0.39,
+    "h_scan": 4.2,
+    "w_scan_shadowed": 5.3
+   },
+   "C2": {
+    "dy": 0.03,
+    "h_scan": 4.4,
+    "w_scan_shadowed": 7.1
+   },
+   "C3": {
+    "dy": -0.26,
+    "h_scan": 4.4,
+    "w_scan_shadowed": 7.2
+   },
+   "C4": {
+    "dy": -0.05,
+    "h_scan": 4.5,
+    "w_scan_shadowed": 7.9
+   },
+   "C5": {
+    "dy": 0.15,
+    "h_scan": 4.5,
+    "w_scan_shadowed": 8.1
+   },
+   "C6": {
+    "dy": 0.01,
+    "h_scan": 4.5,
+    "w_scan_shadowed": 8.2
+   },
+   "A1": {
+    "dy": 0.11,
+    "h_scan": 6.5,
+    "w_scan_shadowed": 12.8
+   },
+   "A2": {
+    "dy": 0.08,
+    "h_scan": 6.5,
+    "w_scan_shadowed": 6.2
+   },
+   "A3": {
+    "dy": -0.01,
+    "h_scan": 6.6,
+    "w_scan_shadowed": 13.3
+   },
+   "A4": {
+    "dy": 0.08,
+    "h_scan": 6.4,
+    "w_scan_shadowed": 13.3
+   },
+   "ETH1": {
+    "dy": -0.02,
+    "h_scan": 10.8,
+    "w_scan_shadowed": 11.9
+   },
+   "ETH2": {
+    "dy": 0.1,
+    "h_scan": 11.1,
+    "w_scan_shadowed": 11.8
+   },
+   "HDMI": {
+    "dy": -0.03,
+    "h_scan": 6.2,
+    "w_scan_shadowed": 14.4
+   },
+   "AC": {
+    "dy": -0.02,
+    "h_scan": 25.0,
+    "w_scan_shadowed": 33.4
+   },
+   "AUD_H": {
+    "dy": -0.01,
+    "h_scan": 4.9,
+    "w_scan_shadowed": 3.5
+   },
+   "AUD_O": {
+    "dy": -0.07,
+    "h_scan": 5.1,
+    "w_scan_shadowed": 3.6
+   }
+  }
+ },
+ "STOCK": {
+  "screws_model_y": {
+   "T-": 148.84,
+   "T+": 149.09,
+   "B-": 13.51,
+   "B+": 13.41
+  },
+  "screw_pitch_x": {
+   "top": 45.5,
+   "bottom": 45.3
+  },
+  "openings": {
+   "C1": {
+    "dy": -0.01,
+    "h_scan": 5.3,
+    "w_scan_shadowed": 6.9
+   },
+   "C2": {
+    "dy": 0.05,
+    "h_scan": 5.2,
+    "w_scan_shadowed": 6.8
+   },
+   "C3": {
+    "dy": 0.07,
+    "h_scan": 5.2,
+    "w_scan_shadowed": 6.8
+   },
+   "C4": {
+    "dy": -0.04,
+    "h_scan": 5.2,
+    "w_scan_shadowed": 6.5
+   },
+   "C5": {
+    "dy": 0.03,
+    "h_scan": 5.1,
+    "w_scan_shadowed": 6.4
+   },
+   "C6": {
+    "dy": 0.03,
+    "h_scan": 5.2,
+    "w_scan_shadowed": 6.4
+   },
+   "A1": {
+    "dy": -0.05,
+    "h_scan": 5.4,
+    "w_scan_shadowed": 11.6
+   },
+   "A2": {
+    "dy": -0.01,
+    "h_scan": 5.4,
+    "w_scan_shadowed": 11.5
+   },
+   "A3": {
+    "dy": -0.07,
+    "h_scan": 5.4,
+    "w_scan_shadowed": 11.1
+   },
+   "A4": {
+    "dy": -0.04,
+    "h_scan": 5.4,
+    "w_scan_shadowed": 11.0
+   },
+   "ETH1": {
+    "dy": 0.09,
+    "h_scan": 10.0,
+    "w_scan_shadowed": 10.9
+   },
+   "ETH2": {
+    "dy": -0.06,
+    "h_scan": 9.9,
+    "w_scan_shadowed": 11.5
+   },
+   "HDMI": {
+    "dy": 0.21,
+    "h_scan": 5.3,
+    "w_scan_shadowed": 13.0
+   },
+   "AC": {
+    "dy": -0.19,
+    "h_scan": 23.6,
+    "w_scan_shadowed": 32.7
+   },
+   "AUD_H": {
+    "dy": -0.99,
+    "h_scan": 8.8,
+    "w_scan_shadowed": 7.4
+   },
+   "AUD_O": {
+    "dy": 0.05,
+    "h_scan": 4.7,
+    "w_scan_shadowed": 3.0
+   }
+  }
+ },
+ "outline": {
+  "width": {
+   "prints": 52.4,
+   "prints_spread": 0.15,
+   "stock": 53.15,
+   "stock_spread": 0.1,
+   "model_prints": 51.9,
+   "delta_stock_minus_prints": 0.75,
+   "delta_unc": 0.3,
+   "note": "sub-scan (vertical) axis: no perspective; sharp edge to the shadow-free edge (prints: end of the printed-line texture, stock: dark edge line)"
+  },
+  "corner_r": {
+   "prints": [
+    10.28,
+    10.72,
+    11.57,
+    10.78,
+    11.42,
+    12.16
+   ],
+   "stock": [
+    12.83,
+    12.49
+   ],
+   "model_prints": 11.5,
+   "note": "top-edge (shadow-free) corners only; prints read 0.3 below their model R on average"
+  },
+  "ends_model_y": {
+   "note": "opening-registered; prints AC end 158.59-158.73 / audio end -4.57..-4.73, stock 158.46 / -4.78 (model 158.62 / -4.48): length matches within 0.2"
+  }
+ },
+ "decision": {
+  "corner_screw_shift_total": -1.0,
+  "extra_shift": 0.0,
+  "note": "stock rings at Y 148.84 / 149.09 (AC end) and 13.51 / 13.41 (audio end) in model coordinates; prints P1/P2 = the +1.0 build (150.95/15.70), P3 = the original (149.95/14.70); print bottom-ring reads sit 0.2-0.4 below their model -> stock bottom 13.5-13.8: the current -1.0 (148.95 / 13.70) matches the stock within 0.2 (top) / 0.3 (bottom)",
+  "shield_w_add": 0.8,
+  "corner_r": 12.8,
+  "aud_d": 5.3
+ }
+}

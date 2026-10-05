@@ -47,8 +47,12 @@ TYPES = {
 def stack_t(T): return T["fpc_t"] + PSA_T + STIF_T
 H13 = (53.38, 58.38, 2.65)                      # I/O-frame centre standoff (courtyard r)
 SPK = dict(x=(8.3, 31.5), y=(36.5, 97.0))       # stock speaker (F side), stadium
-POSTS = {"C": [(53.19, 69.8), (53.19, 49.3)], "A": [(53.19, 49.3), (53.19, 25.5)], "HDMI": [(63.02, 114.6), (50.82, 111.0)]}   # rev ~14:25 ET: HDMI moved to the +X column (stock order, scan 83f0b85e) -> posts mirrored about the HDMI axis swap (were 43.8 / 56.0)   # clamp-screw posts (M2 SMT nut in the main board)
+POSTS = {"C": [(53.19, 69.8), (53.19, 49.3)], "A": [(53.19, 49.3), (53.19, 25.5)], "HDMI": [(63.02, 114.6), (53.6, 114.35)]}   # rev ~14:25 ET: HDMI moved to the +X column (stock order, scan 83f0b85e) -> posts mirrored about the HDMI axis swap (were 43.8 / 56.0)   # clamp-screw posts (M2 SMT nut in the main board)
 POST_R = 2.2
+# rev 2026-10-04 ~15:50 ET (Aidan): clamp post HDMI -X (H25) (50.82, 111.0) -> (53.6, 114.35) (tools/hdmi_post_search.py: nearest spot (53.5, 114.25) to the asked (52.3, 111.6) + ~0.1 for the +-0.15 trace tolerance,
+#   that clears the I/O-plate power-button ear-1 M1.4 head / Ø3.0 boss / carrier ring + ear lug by >= 0.3 in plan; the asked spot hits the HDMI stiffener end by 0.86).
+#   Its M2 head now sits under the frame bar between the HDMI slot and the AC opening (like H24): COUNTERSUNK M2 (ISO 7046, top flush with the clamp plate) required.
+POST_BODY_R = 2.0                               # SMT standoff OD 4.0 (H25 footprint) / printed post Ø3.8 / M2 head Ø3.8 (plan check vs the module stiffener and receptacle collar)
 # rev 2026-10-04 ~12:35 ET (Aidan): clamp post C upper (H21) 70.8 -> 69.8 so its Ø3.8 post clears the plate SCR_C1 Ø5.0 clamp-plate hole at (53.76, 75.47): web 0.3 -> 1.3
 def spk_halfw(y):   # stadium half-width at Y
     r = (SPK["x"][1] - SPK["x"][0]) / 2; c = (SPK["x"][0] + SPK["x"][1]) / 2
@@ -196,6 +200,13 @@ for a_, b_ in (("C1", "C2"), ("C2", "C3"), ("C4", "C5"), ("C5", "C6"), ("A1", "A
     t = TYPES[by[a_]["kind"]]; pitch = abs(by[a_]["y"] - by[b_]["y"]); g = round(pitch - 2 * t["sy"], 2)
     CHK.append(dict(check="stiffener Y gap %s/%s (cradle wall %.1f + 2 x 0.1)" % (a_, b_, WALL), value=g, ok=g >= WALL + 0.2))
     lw = round(t["sy"] - (t["tw"] / 2 + LEDGE_CLR), 2); CHK.append(dict(check="cradle ledge bearing width under the stiffener edge %s/%s (tail/paddle %.1f + 2 x %.1f)" % (a_, b_, t["tw"], LEDGE_CLR), value=lw, ok=lw >= 0.8))
+for o in OUT:   # rev 15:50 ET: every clamp post (Ø3.8 cradle post) vs every module's stiffener and receptacle collar in plan (>= 0.3)
+    t = TYPES[o["kind"]]; sx = o["stiffener_plan_x"]; cx = o["seat_plan_x"]; cw = t["shell"][0] / 2 + SLEEVE_T + COLLAR_W; ch = t["shell"][1] / 2 + SLEEVE_T + COLLAR_W
+    for g_, pl in POSTS.items():
+        for (px_, py_) in pl:
+            ds = math.hypot(max(sx[0] - px_, 0, px_ - sx[1]), max(o["y"] - t["sy"] - py_, 0, py_ - o["y"] - t["sy"])) - POST_BODY_R
+            dc = math.hypot(max(cx - cw - px_, 0, px_ - cx - cw), max(o["y"] - ch - py_, 0, py_ - o["y"] - ch)) - POST_BODY_R
+            if min(ds, dc) < 3.0: CHK.append(dict(check="clamp post %s (%.2f,%.2f) to %s stiffener / collar plan clearance >= 0.3" % (g_, px_, py_, o["slot"]), value=[round(ds, 2), round(dc, 2)], ok=min(ds, dc) >= 0.3))
 for a_, b_ in (("C1", "C4"), ("A1", "A3")):
     g = round(by[b_]["stiffener_plan_x"][0] - by[a_]["stiffener_plan_x"][1], 2); CHK.append(dict(check="H/O stiffener inboard gap %s/%s" % (a_, b_), value=g, ok=g >= 1.0))
     g = round(by[b_]["paddle_x"][0] - by[a_]["paddle_x"][1], 2); CHK.append(dict(check="H/O header-paddle gap %s/%s" % (a_, b_), value=g, ok=g >= 0.8))

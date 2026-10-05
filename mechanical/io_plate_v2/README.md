@@ -1,14 +1,101 @@
+> **Update 2026-10-04 ≈ 15:55 ET: ear-1 clash fixed on the board side (Aidan; not pushed).** The main-board HDMI clamp post **H25 moved (50.82, 111.0) → (53.60, 114.35)**; see the IOB README and `kicad/macpro62-io-board/tools/hdmi_post_search.py`. `build_plate.py` checks now pick the HDMI post nearest the button and assume a **countersunk M2** (`--clamp-head pan` for the old pan head). Every variant, preview, DXF and check was regenerated; plate geometry is unchanged.
+>   | `button.check.hdmi_clamp` | csk M2 (default, top 15.26) | pan M2 (top 16.86, for reference) |
+>   |---|---|---|
+>   | ear-1 M1.4 head: plan / vertical | **0.83** / 0.26 | 0.83 / −1.34 |
+>   | ear-1 Ø3.0 boss: plan / vertical | **0.63** / 1.68 | 0.63 / 0.08 |
+>   | carrier ring: plan / vertical (island at the frame plane) | **2.59** / 1.22 | 2.59 / −0.38 |
+>   | carrier ear-1 lug (assumed 3.0-wide) | 0.63 | 0.63 |
+>   | clamp-plate edge (head + 0.4) to the ear-1 head | 0.43 plan / 0.26 vertical | same |
+>   | frame (head over the bar between the HDMI slot and the AC opening; frame back 15.83) | **0.57 below** | **−1.03 (clash)** |
+>   | rib / collar | 3.95 / 2.88 in plan | same |
+>   - The carrier vs HDMI head item (−0.06, 13:10 ET) and the ear-1 head clash (15:30 ET) are **resolved**. The ear-2 head over the traced frame leg (−1.01) is **still open**.
+>   - Wall check unchanged: general 1.343–1.382, exceptions ≥ 0.404.
+
+> **Update 2026-10-04 ≈ 15:30 ET: prints-vs-stock scan, wider shield, larger corner radius, Ø5.3 audio, ear BOSSES (Aidan; not pushed).** `build_plate.py`; every variant, preview, DXF and check was regenerated; new comparison overlay `io_plate_v2_A0_scan_compare.png`.
+> - **Scan and method** (`scan_prints/`): 200 dpi flatbed, 3 printed plates (P1 top, P2, P3) and the stock plate, all inner face down, with a cm ruler. Ruler scale 7.891 px/mm horizontal / 7.875 vertical. Each plate is warped into back-view model coordinates and **registered on its own port openings**: Y scale + offset (rms 0.05–0.10 mm, 12–16 openings), X mean shift.
+>   - The lamp shadow lies along model X (+1.2–1.8 mm on one side of every edge), so X widths come from the sharp edge and the shadow-free edge only. Y measurements are shadow-free.
+>   - **None of the 3 prints is the current (−1.0) version.** P1 and P2 have the corner screws at the +1.0 (10:30 ET) positions; P3 has them at the original positions.
+> - **Changes:**
+>   | # | Change | Value used | Measured from the scan | Confidence |
+>   |---|---|---|---|---|
+>   | 1 | Corner screws toward the audio end | **0 additional; total stays `SCREW_SHIFT_Y` = −1.0** (SCR_T± Y 148.95, SCR_B± Y 13.70) | Stock rings (model Y): 148.84 / 149.09 at the AC end, 13.51 / 13.41 at the audio end. Prints read P1 151.0 / 15.5, P2 151.0 / 15.3, P3 ≈ 150.0 / 14.3, i.e. the prints are **+2.0 (P1/P2) and +1.0 (P3) toward the AC end** vs stock. After the print-read bias (bottom rings read 0.2–0.4 low), the stock is 148.9 / 13.5–13.8, so the current −1.0 matches within 0.2 (top) / 0.3 (bottom). X pitch: stock 45.35, prints 45.0 (model 45.1), within the read error, unchanged | medium-high |
+>   | 2 | Shield width | **PL_W 51.9 → 52.7 (+0.8)**, symmetric about X 53.19 (`SHIELD_W_ADD`) | Stock 53.1–53.2 vs prints 52.4 ± 0.15 (printed from 51.9): stock − prints = **+0.75 ± 0.3**. A hint of up to +0.4 more on +X only is not applied | medium |
+>   | 2 | Corner fillets | **PL_R 11.5 → 12.8** (`PL_R_NEW`) | Shadow-free top corners: stock 12.83 / 12.49; prints 10.3–12.2 (mean 11.2, from R 11.5) | medium |
+>   | 3 | Audio holes | **AUD_D 4.8 → 5.3 (+0.5)** | Stock hole Ø4.8 ± 0.3 (blurred, in Y), prints 4.9–5.1. The scan neither supports nor contradicts a different value, so Aidan's +0.5 is used | medium-low |
+>   | 4 | Power-button ear features | **Bosses** (`BTN_EAR_MODE = "boss"`; `--ear-posts` restores the posts): **Ø3.0 × 1.0** (`BTN_BOSS_OD/H`, `--boss-h`), 0.25 chamfer, **pilot Ø1.1 × 1.9** with a lead-in, 0.5 skin at the outer face. The carrier sits on the bosses; **M1.4 × 2.5 thread-formers** (head Ø2.6 × 0.9, carrier 0.4 assumed) go through the Ø1.8 ear holes (0.2/side). Thread engagement 1.98, pilot wall 0.95. Ø3.0 cannot pass the Ø1.8 holes, hence bosses | geometry high; boss height / carrier t **assumed** |
+>   | — | Length / ends | unchanged | Stock 163.24 vs prints 163.3; ends within 0.2 of the model | high |
+> - **Ear-boss clearances** (`button.check.posts[].screw`):
+>   | Item | Boss 1 (49.65, 113.53) | Boss 2 (36.23, 103.03) |
+>   |---|---|---|
+>   | Boss to collar | fused (web −0.44) | fused (−0.52) |
+>   | Boss to frame opening (plan) / tip to frame front | 0.45 / 0.17 | **−1.21** (over frame material) / 0.17 |
+>   | Boss to HDMI clamp-post M2 head (50.82, 111.0) | 0.61 overlap in plan, 0.08 vertical | — |
+>   | **M1.4 head** (depth 1.52–2.42 behind the inner face) | **⚠ vs the HDMI clamp-post head: 0.41 overlap in plan, −1.34 vertical → CLASH** | **⚠ lands on the frame BIG_L leg: margin −1.01, frame at depth 1.17–2.17 → CLASH** |
+>   - **Fix options** ((a) done 15:55 ET: H25 → (53.60, 114.35), countersunk M2; ear 1 clears by 0.83 / boss 0.63, see above)**:** (a) move the HDMI clamp post radially to about **(52.3, 111.6)** (≥ 9.9 from the button centre, ≥ 3.35 from ear 1): a board change, suggested, not made; (b) heat-stake or glue the carrier instead of the ear-1 screw; (c) for ear 2, check the frame-trace BIG_L leg edge (X 35.94). The stock carrier's −X edge also traces 0.7 over the frame, which suggests the trace is about 1 mm off there. Measure on a print before relying on screw 2.
+>   - Still open from 13:10 ET (carrier part resolved 15:55 ET): the carrier has −0.06 room over the HDMI clamp-post head if the button island sits at the frame plane. SCR_B− overlaps J31 by 1.34 and SCR_T− overlaps BT1 by 0.39 in plan only (≥ 7.5 vertical).
+> - **Re-checked after the change:**
+>   - Corner-screw edge margins (csk outer / inner): top 1.65 / 1.87, bottom 2.18 / 2.40; all `ok_plate`.
+>   - Audio Ø5.3: flex through-margin 0.39 (AUD_H) / 1.02 (AUD_O); jack-nose margin 0.04 / 0.67.
+>   - Collar to AC 2.21; key-tab corners to the plate edge 7.84.
+>   - `check_thickness`: general wall 1.343–1.382 on all 4 variants, exceptions ≥ 0.404 (countersinks). No LED conflicts.
+> - **Other openings vs stock** (opening-registered; positions agree within ±0.1 except HDMI +0.21 and AC −0.19 in Y). **No change made: all differences are by design or below the read error.**
+>   | Opening | Stock (scan) | Model | Note |
+>   |---|---|---|---|
+>   | C1–C6 | Thunderbolt/mDP openings ≈ 6.5 × 5.2 visible | USB-C 9.6 × 4.0 R1.8 | intentional (USB-C ports) |
+>   | A1–A4 | ≈ 11.0–11.6 × 5.4 visible | 14.0 × 6.0 | intentional (plug overmoulds) |
+>   | HDMI | ≈ 13.0 × 5.3 | 15.6 × 5.7 | intentional (flex cut-out / shell); stock centre +0.21 in Y |
+>   | ETH1/ETH2 | Y extent 10.0 / 9.9 (the prints read +0.4 over their model sizes, so the stock is ≈ 9.6) | 13.0 × 10.4 / 10.7 | model ≈ 0.8–1.1 taller than stock; intentional plug/latch clearance, positions within 0.1 |
+>   | AC | Y extent ≈ 23.6 | 24.65 | possibly ≈ 1 mm larger than stock; left as is (stock window shape) |
+> - **⚠ Findings to confirm (not changed):**
+>   1. **The stock button cap/collar centre is at ≈ (43.08, 107.1), about 1.0 lower in Y than the model / flex-trace button (108.11).** The stock ear features are also about 1 mm low: (50.4, 112.6) / (36.7, 101.8) vs the model (49.65, 113.53) / (36.23, 103.03). Scan 83f0b85e showed the same offset (+1.05 re-centre). Not moved, because the plate must line up with the flex dome, which was traced at 108.11. Check on a print with the flex fitted (M-IOPB8).
+>   2. **The stock collar reads OD ≈ 13.5 / ID ≈ 12.0** in this inner-face view (model OD 15.0 / ID 12.4); medium-low confidence. An OD 13.5 collar would separate the bosses from the collar (M-IOPB2).
+
+> **Update 2026-10-04 ≈ 13:10 ET: power-button ring is a RAISED COLLAR, and the corner screws are moved the other way (Aidan; not pushed).** `build_plate.py`; every variant, preview, DXF and check was regenerated.
+> 1. **Collar replaces the 0.5 recess** (Aidan 12:58 ET: the ring is a raised collar on the inner face that lines the button cap up with the flex dome). The pocket cut is gone, so the **full 1.4 wall is back** under the former recess (probed 1.39–1.40 just outside the collar, 2.2 through it).
+>    | Feature | Size | Confidence |
+>    |---|---|---|
+>    | `BTN_COLLAR` raised annulus around the Ø12.4 opening, constant height normal to the curved inner face | **OD 15.0 / ID 12.4 / H 0.80** (wall 1.3). The ID equals the opening, so the cap gets one straight guide bore 1.4 + 0.8 = 2.2 long | raised: confirmed (Aidan). OD medium (scan ring Ø15.1 ± 0.3). ID **assumed** (= opening; the stock cap/carrier OD is not measured). Height **assumed** |
+>    | `BTN_KEY` | **tab** on the collar, same height, 2.6 wide, r 7.0–9.8, at 140° (back view). `BTN_KEY_MODE = "gap"` turns it into a keyway slot through the collar wall; `"none"` removes it | medium-low (scan notch only) |
+>    | ~~ear posts~~ **(superseded 15:30 ET: Ø3.0 bosses + M1.4 screws, see above)**, rib | unchanged: Ø1.6 × 1.0 (core Ø0.8), 0.5 × 5.6 × 1.0 | as before |
+>    - **Height parameter:** `BTN_COLLAR_H` = `BTN_FLEX_DEPTH` − `BTN_COLLAR_CLR` = 1.00 − 0.20 = **0.80**; override with `--collar-h X`. The frame is 1.17 behind the inner face (`BTN_FRAME_GAP`). The collar end stops **0.37 short of the frame plane**. If the button island sits back at the frame plane (Aidan's model, plate-side face assumed at depth 1.00), there is **0.20** between the collar end and the flex, so the dome is not loaded.
+>    - **Caution, if the flex is PSA-bonded flat instead:** the collar end would lift the button island by 0.75. Leave the flex unbonded within about 3 mm of the collar, or set `--collar-h` lower.
+> 2. **Corner screws moved −1.0 in Y from the ORIGINAL scan positions**, i.e. toward the audio-jack end. That is 2.0 from the 10:30 positions, so the 10:30 move is reverted and overshot by 1.0. `SCREW_SHIFT_Y` = −1.0, pitch unchanged:
+>    SCR_T− (30.64, **148.95**), SCR_T+ (75.74, **148.95**), SCR_B− (30.64, **13.70**), SCR_B+ (75.74, **13.70**).
+> - **Collar clearances** (`button.check.collar` in `io_plate_v2_A0_features.json`):
+>   | To | Clearance |
+>   |---|---|
+>   | AC / ETH2 / HDMI openings | 2.21 / 3.67 / 5.53 (key-tab corners to AC 3.04, to the plate edge 7.44) |
+>   | button LEDs (inside the bore) | 0.01 (LED far corner r 6.19 vs bore r 6.20; the cap is the light pipe). Other LEDs ≥ 4.83 from the collar |
+>   | flex | collar OD 0.29 inside the carrier ring (r 7.79), so it bears on the carrier ring, not the flex body. Collar to the flex-slot edge (X 50.83) 0.31, to the rib 0.46 |
+>   | ear posts **(superseded 15:30 ET)** | post-to-collar web 0.26 / 0.18; 0.10/side in the Ø1.8 ear holes; tips 0.17 short of the frame front |
+>   | frame | collar (−0.42) and tab (−0.43) lie over frame material at −X in plan, but end 0.37 short of the frame plane |
+>   | HDMI clamp-post M2 head (50.82, 111.0), top 16.86 above the board (Ø3.8 pan head, k 1.6 assumed) | collar: 1.08 overlap in plan, **0.30 vertical**. BTN_POST_1: 0.09 plan / 0.08 vertical. Rib: 0.21 in plan |
+> - **⚠ Finding: the button carrier vs the HDMI clamp-post head.** If the button island sits at the frame plane, the carrier behind it has **−0.06** of room over that M2 head (it clashes). If the flex is flat, it has 0.89. The carrier's −X edge (X 35.24) also lies 0.7 over frame material. Possible fixes: move the HDMI clamp post off the carrier footprint, use a low/wafer head (k ≤ 1.0), or confirm the stack via M-IOPB6/7.
+> - **Ear posts (superseded 15:30 ET):** if the island is at depth 1.0, the 1.0 posts only just reach the flex face. Lengthening them is limited because BTN_POST_2 overlaps the frame leg edge by 0.51 in plan.
+> - **Corner screws re-checked** (csk default; `pt` in brackets; minimums: edge ≥ 0.6, flex ≥ 0.1, neck ≥ 0.3, opening ≥ 1.0):
+>   | Screw | Outer csk-edge / inner edge | Flex | Nearest opening | Light pad / LED | Frame-trace corner hole offset (was) | Board parts in plan (fastener r 2.0 below the frame, lowest 12.69 above the board; pt 13.18) |
+>   |---|---|---|---|---|---|---|
+>   | SCR_T− | 1.57 / 1.80 (pt 1.80) | 33.5 | AC 8.03 | 35.6 | 2.87 (3.09) | **BT1 −0.39** (was +1.61); coin cell 3.25 |
+>   | SCR_T+ | 1.57 / 1.80 (pt 1.80) | 31.9 | AC 7.88 | 32.7 | 1.95 (3.14) | L41 1.15 |
+>   | SCR_B− | 1.77 / 2.00 (pt 2.00) | 4.17 | AUD_H 8.85 | 6.84 | 0.64 (1.52) | **J31 −1.34** (was +0.66); J28 0.82; flex neck 12.6 |
+>   | SCR_B+ | 1.78 / 2.00 (pt 2.00) | 3.63 | W_AUD_O 8.72 | 6.48 | 1.43 (2.92) | J28 5.39 |
+>   - All 4 screws are `ok_plate` in both modes. The top countersinks moved away from the corner arc (0.92 → 1.57). The bottom pair's edge margin is set by the side edge (X) and is unchanged. Their distance to the bottom edge in Y is still 18.2.
+>   - Countersink wall: `check_thickness` exceptions are unchanged at ≥ 0.367 (csk) / 0.434 (pt). The general wall is 1.341–1.466 on all 4 variants.
+>   - All 4 screws are now closer to the 100 dpi frame-trace corner holes. That is consistent with Aidan's correction, but the spigot Ø2.8 only enters a Ø3.16–3.50 hole within 0.18–0.35 of its centre, so M-IOS1 is still needed.
+>   - **Flag (below the plan ≥ 0 rule):** SCR_B− overlaps the **J31** courtyard by 1.34 and SCR_T− overlaps the **BT1** courtyard by 0.39, in plan only. The washer and nut sit 12.69 above the board, J31 is about 2.0 tall and BT1 about 4–5, so there is ≥ 7.5 vertical clearance and no physical clash is expected. The flex tail into J31 also leaves the plate 12.6 away. Confirm the J31 flex-tail route and the BT1 cell-swap access on the print.
+> - **Measure:** M-IOPB1 (cap/carrier OD, which sets the collar ID), M-IOPB2 (collar height/Ø), M-IOPB3 (key tab or gap), M-IOPB6/7 (carrier thickness, flex stack at the button), and M-IOS1.
+
 > **Update 2026-10-04 ≈ 12:35 ET: power-button features built into the plate, and clamp post H21 moved (Aidan; not pushed).** `build_plate.py` (`BUTTON_FEATURES`, on by default; `--no-button` turns it off), new `button_closeup.py`. Every variant, preview, DXF and check was regenerated.
 > - **Evidence.** In the outer-face scan 83f0b85e the plate is translucent enough to show the inner-face features. Around the Ø11.9 button hole (scan) there is a lighter ring out to Ø15.1 ± 0.3 (thinner wall, so a counterbore) with a key notch at about 140° (back view). There is a "crater" (ring Ø≈2.5 with a dark Ø≈1.1 core) at **both** carrier-ear holes. There is also a straight line along the 0.8 slot between the carrier ring and the flex body. The flex scan (06ea8deb) shows the carrier: a black ring Ø15.57 with 2 diagonal ear lugs (Ø1.8 holes) and a small key tab, with the dome and 2 LEDs on the scanned (board-facing) side. The scan is registered about (−0.5, −1.0) off the flex trace, so **every position is taken from the flex trace**. There is no inside-face scan; the phone splat scan cannot resolve heights (README in `io_cover_scan`).
 > - **Added (inner face, at the flex button (43.02, 108.11)):**
 >   | Feature | Size | Confidence |
 >   |---|---|---|
->   | `BTN_POCKET` keyed counterbore around the Ø12.4 opening (button-cap flange seat, anti-rotation) | Ø15.0 × 0.50 deep, wall left 0.90 | position high; Ø medium; depth **assumed** |
+>   | ~~`BTN_POCKET` keyed counterbore~~ **(superseded 13:10 ET: raised collar, see above)** around the Ø12.4 opening (button-cap flange seat, anti-rotation) | Ø15.0 × 0.50 deep, wall left 0.90 | position high; Ø medium; depth **assumed** |
 >   | `BTN_KEY` key notch, same depth | 2.6 wide, r 7.0–9.8, at 140° (back view) | medium-low (scan only) |
->   | `BTN_POST_1/2` ear posts through the carrier ear holes; double as the retainer mounts (heat-stake, or an M1.0 thread-forming screw in the core) | Ø1.6 × 1.0 (radial), 0.10/side in the Ø1.8 holes; core Ø0.8 × 1.9 (0.5 skin left at the outer face; `BTN_POST_CORE_D = 0` makes them solid) | position high (flex trace ±0.15 + scan); length/core medium-low |
+>   | ~~`BTN_POST_1/2` ear posts~~ **(superseded 15:30 ET: Ø3.0 bosses)** through the carrier ear holes; double as the retainer mounts (heat-stake, or an M1.0 thread-forming screw in the core) | Ø1.6 × 1.0 (radial), 0.10/side in the Ø1.8 holes; core Ø0.8 × 1.9 (0.5 skin left at the outer face; `BTN_POST_CORE_D = 0` makes them solid) | position high (flex trace ±0.15 + scan); length/core medium-low |
 >   | `BTN_RIB` locating rib in the 0.8 flex slot | 0.5 × 5.6 × 1.0, X 51.23, Y 103.3–108.9 (0.15/side in the slot) | medium-low |
 >   | Light / LED | No separate light pipe in the plate. The 2 button LEDs sit inside the Ø12.4 opening footprint (far corner r 6.19, margin 0.01), so the clear cap is the light pipe. | LED positions high |
-> - **No tall screw bosses.** None fits outside the flex: the flex covers the frame BIG_L leg opening, the AC opening is 2.2 above the pocket, and the frame sits 1.17 behind the inner face everywhere else. So the ear posts are the retainer mounts.
+> - **(Superseded 15:30 ET: the ear features are now Ø3.0 bosses under the carrier.)** **No tall screw bosses.** None fits outside the flex: the flex covers the frame BIG_L leg opening, the AC opening is 2.2 above the pocket, and the frame sits 1.17 behind the inner face everywhere else. So the ear posts are the retainer mounts.
 > - **Checks** (`button` in `io_plate_v2_A0_features.json`):
 >   - pocket to the AC / ETH2 / HDMI openings: 2.21 / 3.67 / 5.53; key corners to AC 3.04, to the plate edge 7.44;
 >   - post web to the pocket 0.26 / 0.18;
@@ -16,7 +103,7 @@
 >   - BTN_POST_1 to the main-board HDMI clamp-post M2 head (50.82, 111.0): **0.09 in plan, 0.08 vertical** (pan head k 1.6 assumed, top 16.86). Tight but clear. The rib stops 0.21 short of that head;
 >   - no LED conflicts.
 > - **Wall check:** general 1.341–1.466 (STL faceting, unchanged elsewhere). Local exceptions: pocket floor 0.90 and 0.50 over the post cores. Existing exceptions unchanged: countersinks ≥ 0.37 and seats/bosses up to 2.39.
-> - **Foam DXF:** now has Ø2.2 holes at the two ear posts.
+> - **Foam DXF:** now has Ø2.2 holes at the two ear posts **(15:30 ET: Ø3.1)**.
 > - **New DXF layer:** `BUTTON_INNER_FEATURES` (back and front view).
 > - **Close-up:** `io_plate_v2_A0_button_closeup.png` (plan with scan underlay + sections A-A through both posts and B-B along X + 3D inner face).
 > - **H21 moved:** main-board clamp post C upper H21 (53.19, 70.80) → **(53.19, 69.80)** in `kicad/macpro62-io-board/tools/modules_geom.py` (`POSTS`), so `modules.json`, the PCB and this plate follow. Distance to SCR_C1 is now 5.70, so the web between the clamp-plate Ø5.0 hole and the Ø3.8 post is **0.3 → 1.3**, and `clamp_post_margin` is 0.80 → 1.80. modules_geom 114/114 checks OK. Main-board DRC: 0 violations, 0 unconnected; schematic untouched.
@@ -30,7 +117,7 @@
 >   7. What backs the dome (retainer/bracket under the ears? frame tab?), its thickness, and the plate-inner-face-to-frame gap at the button (1.17 assumed).
 
 > **Update 2026-10-04 ≈ 10:35 / 11:15 ET (Aidan's test print; not pushed).** Applied in `build_plate.py` (`SCREW_SHIFT_Y`, `CENTRE_TRIM`); every variant, preview, DXF and check regenerated.
-> 1. **All 4 corner mounts +1.0 in Y**, i.e. toward the plate's **top** edge (the end away from the audio jacks at Y ≈ 19). Pitch unchanged (45.1 × 135.25):
+> 1. ~~**All 4 corner mounts +1.0 in Y**~~ **(superseded 13:10 ET: wrong direction; now −1.0 from the scan positions, see above)**, i.e. toward the plate's **top** edge (the end away from the audio jacks at Y ≈ 19). Pitch unchanged (45.1 × 135.25):
 >    SCR_T− (30.64, **150.95**), SCR_T+ (75.74, **150.95**), SCR_B− (30.64, **15.70**), SCR_B+ (75.74, **15.70**).
 >    - Outer edge margin of the top Ø3.25 countersinks 1.29 → **0.92** (rule ≥ 0.6; inner 1.14). Bottom row unchanged at 1.77 / 1.78.
 >    - SCR_B− now clears J31 in plan (−0.34 → **+0.66**); SCR_T− to BT1 0.61 → 1.61. All `ok_plate`.
@@ -263,22 +350,24 @@ Coordinates are in the stock back-view frame: X to the right seen from behind, Y
 | `io_plate_v2_A0_preview.png` | Outer face plus inner isometric |
 | `io_plate_v2_A0_section.png` | Sections through the USB-C, USB-A and RJ45 rows: plate, flex, foam, frame, board top, connectors on risers |
 | `io_plate_v2_A0_outer.png`, `io_plate_v2_A0_iso_inner.png` | Extra previews |
-| `io_plate_v2_A0_button_closeup.png` (`button_closeup.py`) | Power-button area (rev 2026-10-04): plan with the scan underlay, flex trace, frame opening and HDMI clamp post; sections A-A (both ear posts) and B-B (along X); 3D inner face |
+| `io_plate_v2_A0_button_closeup.png` (`button_closeup.py`) | Power-button area (rev 2026-10-04 ≈ 15:30 ET): plan with the scan underlay, flex trace, raised collar + key tab, ear bosses with the M1.4 head circles, frame opening and HDMI clamp post; sections A-A (both ear bosses) and B-B (along X) with the assumed button-island line; 3D inner face |
 | `flex_821-2222_trace.dxf` / `.json` | Scan-based, idealised trace of the plate-facing side: outline, cut-outs, holes, pads, silver frames, 19 LEDs, button, tail + contacts, `IGNORED_BLACK_TAB`, reference layers. ±0.15; VERIFY by caliper |
 | `flex_821-2222_scan_vs_photo_deltas.md` | Deltas against the 09:06 photo trace |
 | `flex_821-2222_check.png` | Flex against openings, shells, frame slots, LEDs, pins and clips, with margins and required heights |
-| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut: flex outline minus cut-outs + 0.3, holes + 0.5, button ring + 0.5, ear-post holes Ø2.2 (2026-10-04) |
+| `io_flex_foam_insulator_A0.dxf` | Foam / Formex die-cut: flex outline minus cut-outs + 0.3, holes + 0.5, button ring + 0.5, ear holes Ø3.1 for the M1.4 heads (boss mode, 15:30 ET; Ø2.2 with `--ear-posts`) |
+| `io_plate_v2_A0_scan_compare.png` (`scan_prints/overlay_model_on_scan.py`) | Current model (new outline solid, old dashed; openings, Ø5.3 audio, collar, bosses, corner screws + older-build markers) overlaid on Aidan's 2026-10-04 scan of the 3 prints and the stock plate, each registered on its openings; stock zooms of the corners, button and audio |
+| `scan_prints/` | Scan (`prints_vs_stock_scan.jpg`, 200 dpi), measurement scripts (`measure_scan.py`, `warp.py`, `blobs2.py`, `corners_fit.py`, `width2.py`, `overlay_model_on_scan.py`) and results (`registration.json`, `scan_compare.json`, `outline_fit.json`, `corner_radius_fit.json`, `blobs_openings.json`) |
 
 ## Geometry (mm)
 
-- **Outline:** 51.9 × 163.1, R 11.5 at (53.19, 77.07).
+- **Outline:** 52.7 × 163.1, R 12.8 at (53.19, 77.07) (rev 15:30 ET; was 51.9 × 163.1 R 11.5).
 - **Body:** constant 1.2 wall. Outer R 82.03, inner face concentric. Rim 1.2 × 3.0, notched at X 76.0–81.5 / Y 27.7–47.6 for the flex neck.
 - **Openings:** straight through, no lands.
   - USB-C 9.6 × 4.0 R 1.8 at X 43.09 / 63.69, Y 75.76 / 65.84 / 55.97.
   - USB-A 14.0 × 6.0 at X 43.12 / 63.76, Y 42.64 / 32.54.
   - ETH1 13.0 × 10.4 at (63.67, 91.60); ETH2 13.0 × 10.7 at (43.15, 91.41).
   - HDMI 15.6 × 5.7 at (42.96, 107.07). AC stock window.
-  - Audio Ø4.8 at the stock positions. Button Ø12.4 at (63.79, 108.11).
+  - Audio Ø5.3 (rev 15:30 ET; was Ø4.8) at the stock positions. Button Ø12.4 at (63.79, 108.11).
 - **Flex seat:**
   - Glue pocket 0.2 deep (outline + 0.2).
   - 19 LED pockets and a Ø16.17 button-carrier pocket, 0.70 above the flex face (wall 0.35; `LED_H`, `BTN_CARRIER_H` TO MEASURE).

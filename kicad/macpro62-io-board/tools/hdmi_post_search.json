@@ -1,0 +1,306 @@
+{
+ "target": [
+  52.3,
+  111.6
+ ],
+ "old": [
+  50.82,
+  111.0
+ ],
+ "other_hdmi_post": [
+  63.02,
+  114.6
+ ],
+ "criteria": "plan clearance >= 0.3 to the ear-1 M1.4 head (r 1.3), ear-1 boss (r 1.5), carrier ring (r 7.785) and ear lug (half-width 1.5) from the M2 head (r 1.9); clamp-plate edge (r 2.3) >= 0.3 from the ear-1 head; cradle post (r 2.0) >= 0.3 from the HDMI stiffener / collar / JM; H25 courtyard clear of all F courtyards",
+ "old_margins": {
+  "ear1_m14_head": -0.413,
+  "ear1_boss": -0.613,
+  "ear1_head_vs_clamp_plate_edge": -0.813,
+  "carrier_ring": -1.37,
+  "carrier_ear1_lug": -0.702,
+  "hdmi_stiffener": 0.522,
+  "hdmi_collar": 2.023,
+  "hdmi_jm": 7.008,
+  "other_post": 7.43,
+  "board_courtyard_gap": [
+   [
+    1.215,
+    "J30"
+   ],
+   [
+    1.302,
+    "H45"
+   ],
+   [
+    2.255,
+    "SW1"
+   ]
+  ],
+  "head_in_frame_opening": -0.073
+ },
+ "target_margins": {
+  "ear1_m14_head": 0.076,
+  "ear1_boss": -0.124,
+  "ear1_head_vs_clamp_plate_edge": -0.324,
+  "carrier_ring": 0.226,
+  "carrier_ear1_lug": -0.124,
+  "hdmi_stiffener": -0.958,
+  "hdmi_collar": 0.73,
+  "hdmi_jm": 5.72,
+  "other_post": 5.842,
+  "board_courtyard_gap": [
+   [
+    1.615,
+    "H45"
+   ],
+   [
+    1.815,
+    "J30"
+   ],
+   [
+    3.735,
+    "SW1"
+   ]
+  ],
+  "head_in_frame_opening": -1.553
+ },
+ "best": {
+  "x": 53.5,
+  "y": 114.25,
+  "dist_from_target": 2.91,
+  "margins": {
+   "ear1_m14_head": 0.714,
+   "ear1_boss": 0.514,
+   "ear1_head_vs_clamp_plate_edge": 0.314,
+   "carrier_ring": 2.458,
+   "carrier_ear1_lug": 0.514,
+   "hdmi_stiffener": 0.331,
+   "hdmi_collar": 1.933,
+   "hdmi_jm": 5.922,
+   "other_post": 4.236,
+   "board_courtyard_gap": [
+    [
+     4.164,
+     "JM11"
+    ],
+    [
+     4.235,
+     "H24"
+    ],
+    [
+     4.265,
+     "H45"
+    ]
+   ],
+   "head_in_frame_opening": -2.753
+  }
+ },
+ "frame": {
+  "leg": [
+   35.94,
+   52.65,
+   85.3,
+   115.48
+  ],
+  "top": [
+   36.73,
+   73.94,
+   115.48,
+   144.01
+  ],
+  "hdmi_slot": [
+   55.75,
+   74.03,
+   102.62,
+   111.6
+  ]
+ },
+ "stiffener": [
+  53.342,
+  72.451,
+  102.219,
+  111.919
+ ],
+ "collar": [
+  54.817,
+  71.217,
+  103.594,
+  110.544
+ ],
+ "rounded_candidates": {
+  "53.50,114.25": {
+   "ok": true,
+   "margins": {
+    "ear1_m14_head": 0.714,
+    "ear1_boss": 0.514,
+    "ear1_head_vs_clamp_plate_edge": 0.314,
+    "carrier_ring": 2.458,
+    "carrier_ear1_lug": 0.514,
+    "hdmi_stiffener": 0.331,
+    "hdmi_collar": 1.933,
+    "hdmi_jm": 5.922,
+    "other_post": 4.236,
+    "board_courtyard_gap": [
+     [
+      4.164,
+      "JM11"
+     ],
+     [
+      4.235,
+      "H24"
+     ],
+     [
+      4.265,
+      "H45"
+     ]
+    ],
+    "head_in_frame_opening": -2.753
+   }
+  },
+  "53.50,114.30": {
+   "ok": true,
+   "margins": {
+    "ear1_m14_head": 0.723,
+    "ear1_boss": 0.523,
+    "ear1_head_vs_clamp_plate_edge": 0.323,
+    "carrier_ring": 2.483,
+    "carrier_ear1_lug": 0.523,
+    "hdmi_stiffener": 0.381,
+    "hdmi_collar": 1.98,
+    "hdmi_jm": 5.953,
+    "other_post": 4.235,
+    "board_courtyard_gap": [
+     [
+      4.192,
+      "JM11"
+     ],
+     [
+      4.235,
+      "H24"
+     ],
+     [
+      4.315,
+      "H45"
+     ]
+    ],
+    "head_in_frame_opening": -2.753
+   }
+  },
+  "53.55,114.25": {
+   "ok": true,
+   "margins": {
+    "ear1_m14_head": 0.763,
+    "ear1_boss": 0.563,
+    "ear1_head_vs_clamp_plate_edge": 0.363,
+    "carrier_ring": 2.501,
+    "carrier_ear1_lug": 0.563,
+    "hdmi_stiffener": 0.331,
+    "hdmi_collar": 1.917,
+    "hdmi_jm": 5.883,
+    "other_post": 4.186,
+    "board_courtyard_gap": [
+     [
+      4.123,
+      "JM11"
+     ],
+     [
+      4.185,
+      "H24"
+     ],
+     [
+      4.265,
+      "H45"
+     ]
+    ],
+    "head_in_frame_opening": -2.803
+   }
+  },
+  "53.55,114.30": {
+   "ok": true,
+   "margins": {
+    "ear1_m14_head": 0.772,
+    "ear1_boss": 0.572,
+    "ear1_head_vs_clamp_plate_edge": 0.372,
+    "carrier_ring": 2.527,
+    "carrier_ear1_lug": 0.572,
+    "hdmi_stiffener": 0.381,
+    "hdmi_collar": 1.964,
+    "hdmi_jm": 5.915,
+    "other_post": 4.185,
+    "board_courtyard_gap": [
+     [
+      4.151,
+      "JM11"
+     ],
+     [
+      4.185,
+      "H24"
+     ],
+     [
+      4.315,
+      "H45"
+     ]
+    ],
+    "head_in_frame_opening": -2.803
+   }
+  },
+  "53.60,114.25": {
+   "ok": true,
+   "margins": {
+    "ear1_m14_head": 0.812,
+    "ear1_boss": 0.612,
+    "ear1_head_vs_clamp_plate_edge": 0.412,
+    "carrier_ring": 2.544,
+    "carrier_ear1_lug": 0.612,
+    "hdmi_stiffener": 0.331,
+    "hdmi_collar": 1.901,
+    "hdmi_jm": 5.844,
+    "other_post": 4.136,
+    "board_courtyard_gap": [
+     [
+      4.081,
+      "JM11"
+     ],
+     [
+      4.135,
+      "H24"
+     ],
+     [
+      4.265,
+      "H45"
+     ]
+    ],
+    "head_in_frame_opening": -2.853
+   }
+  },
+  "53.60,114.30": {
+   "ok": true,
+   "margins": {
+    "ear1_m14_head": 0.821,
+    "ear1_boss": 0.621,
+    "ear1_head_vs_clamp_plate_edge": 0.421,
+    "carrier_ring": 2.57,
+    "carrier_ear1_lug": 0.621,
+    "hdmi_stiffener": 0.381,
+    "hdmi_collar": 1.948,
+    "hdmi_jm": 5.876,
+    "other_post": 4.135,
+    "board_courtyard_gap": [
+     [
+      4.11,
+      "JM11"
+     ],
+     [
+      4.135,
+      "H24"
+     ],
+     [
+      4.315,
+      "H45"
+     ]
+    ],
+    "head_in_frame_opening": -2.853
+   }
+  }
+ }
+}

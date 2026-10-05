@@ -22,12 +22,12 @@ def view(ax, elev, azim, title):
     ax.view_init(elev=elev, azim=azim); ax.set_axis_off(); ax.set_title(title, fontsize=8); ax.set_box_aspect((mx[0] - mn[0], mx[1] - mn[1], mx[2] - mn[2] + 4), zoom=1.25)
     ax.set_proj_type("ortho")
 fig = plt.figure(figsize=(8, 10)); ax = fig.add_subplot(111, projection="3d")
-view(ax, -55, -75, "IO plate v2 A0%s - INNER face (1x M1.6 centre post SCR_C1 PRIMARY (C2 removed) + 4x corner bosses, glue optional; button area: keyed pocket + 2 ear posts + rib; no clips/rim; 1.4 wall except port seats, bosses, button features)" % tag)
+view(ax, -55, -75, "IO plate v2 A0%s - INNER face (1x M1.6 centre post SCR_C1 PRIMARY (C2 removed) + 4x corner bosses, glue optional; button area: RAISED collar + key tab + 2 ear bosses (M1.4) + rib; corner screws -1.0 Y; W 52.7 R12.8; no clips/rim; 1.4 wall except port seats, bosses, button features)" % tag)
 fig.tight_layout(); out_iso = os.path.join(HERE, "io_plate_v2_A0%s_iso_inner.png" % tag); fig.savefig(out_iso, dpi=120); plt.close(fig)
 if tag == "":
     ims = [os.path.join(HERE, f) for f in ("flex_821-2222_check.png", "io_plate_v2_A0_outer.png", "io_plate_v2_A0_iso_inner.png", "io_plate_v2_A0_thickness.png", "io_plate_v2_A0_button_closeup.png")]
     fig, axs = plt.subplots(1, len(ims), figsize=(34, 13))
     for a_, f in zip(axs, ims): a_.imshow(plt.imread(f)); a_.set_axis_off(); a_.set_title(os.path.basename(f), fontsize=9)
-    fig.suptitle("IO plate v2 A0 (rev 2026-10-04 ~12:35 ET): power-button features (keyed pocket Ø15.0 x 0.5, 2 ear posts Ø1.6 x 1.0, locating rib) + 1x M1.6 centre screw SCR_C1 on a 0.97 post (PRIMARY; SCR_C2 removed) + 4x M1.6 corner screws (+1.0 Y); glue optional, HDMI +X / button -X, 1.4 wall elsewhere", fontsize=12)
+    fig.suptitle("IO plate v2 A0 (rev 2026-10-04 ~15:30 ET): outline 52.7 x 163.1 R12.8, audio Ø5.3; power-button features (RAISED collar OD 15.0 / ID 12.4 x 0.8 + key tab, corner screws at Y 148.95 / 13.70, 2 ear BOSSES Ø3.0 x 1.0 for M1.4, locating rib) + 1x M1.6 centre screw SCR_C1 on a 0.97 post (PRIMARY; SCR_C2 removed) + 4x M1.6 corner screws (-1.0 Y); glue optional, HDMI +X / button -X, 1.4 wall elsewhere", fontsize=12)
     fig.tight_layout(); fig.savefig(os.path.join(HERE, "io_plate_v2_A0_preview.png"), dpi=90)
 print("ok", out_iso)
