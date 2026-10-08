@@ -825,43 +825,8 @@ This is better than the riser design (one connector instead of two DF40s plus a 
 
 ### 4.7.11 Changelog 2026-10-02 ≈ 16:10 / 16:25 ET: plate screwed to the frame — 2× M1.6 centre screws (primary) + 4× M1.6 corner screws (secondary); glue = optional fallback
 
-> **Update 2026-10-04 ≈ 15:55 ET: HDMI clamp post H25 moved to clear the button ear 1 (Aidan; not pushed).** `tools/modules_geom.py` `POSTS["HDMI"]` → `modules.json` → `build_pcb.py` + `postprocess.py`; new `tools/hdmi_post_search.py`. Details are in the IOB README.
-> - **H25: (50.82, 111.00) → (53.60, 114.35)** in plan, i.e. KiCad (87.405, 85.65). The asked spot (52.3, 111.6) hits the HDMI stiffener end (−0.86) and the ear-1 boss (−0.12). The nearest spot clearing everything by ≥ 0.3 is (53.50, 114.25); I added +0.1 for tolerance.
-> - **Clearances in plan:** to the ear-1 M1.4 head 0.83, ear-1 boss 0.63, carrier ring 2.59, carrier ear lug 0.63, clamp-plate edge to the ear-1 head 0.43; standoff to the HDMI stiffener 0.43, collar 2.00, JM11 5.9; courtyards ≥ 4.1; AC window 2.57.
-> - **⚠ Countersunk M2 (ISO 7046-1) clamp screws are now required.** The H25 head sits under the frame bar (frame back 15.83): a pan head would hit it by 1.03, while the csk head (top 15.26) has 0.57. H24 and the C/A posts have the same issue, so use csk on all clamp posts (closes the old "M2 head clearance 0.57" item). Use a local 2.4 pad under each countersink.
-> - **Clamp plate HDMI:** both posts are now on +Y; lever 7.53 (was 7.22). Add a rib and notch the −X edge around the ear-1 head.
-> - **Checks:** DRC 0 / 0 / 0 (15:54 ET); modules_geom 130 / 130 OK (16 new post checks); only H25 moved; renders and floorplan regenerated. Plate checks re-run: the ear-1 head clash and the carrier-over-head item are resolved; the ear-2 head over the traced frame leg (−1.01) is still open.
-
-> **Update 2026-10-04 ≈ 15:30 ET: prints-vs-stock scan; shield 52.7 wide, R 12.8; audio Ø5.3; ear BOSSES + M1.4 (Aidan; not pushed).** `mechanical/io_plate_v2/build_plate.py`; all variants, previews, DXFs, the close-up and checks were regenerated. New: `io_plate_v2_A0_scan_compare.png` and `scan_prints/`. Details, tables and the openings list are in the `io_plate_v2` README.
-> - **Scan:** 3 prints + the stock plate at 200 dpi, each registered on its openings (Y rms 0.05–0.10). None of the prints is the current version: P1/P2 = the +1.0 build, P3 = the original.
-> - **Corner screws:** stock rings at model Y 148.84 / 149.09 and 13.51 / 13.41, so the prints were +2.0 (P1/P2) / +1.0 (P3) toward the AC end. The current **−1.0 total matches the stock** (±0.2 / ±0.3): **no additional move**. Medium-high confidence.
-> - **Outline:** stock 0.75 ± 0.3 wider than the prints → **PL_W 51.9 → 52.7** (symmetric). Corner **R 11.5 → 12.8** (stock 12.5–12.8). Medium.
-> - **Audio:** **Ø4.8 → Ø5.3** (stock reads 4.8 ± 0.3; Aidan's +0.5). Flex through-margin 0.39 / 1.02. Medium-low.
-> - **Ear bosses:** Ø3.0 × 1.0, pilot Ø1.1 × 1.9, M1.4 × 2.5 thread-formers through the Ø1.8 carrier ear holes; fused to the collar. **⚠ The M1.4 head at ear 1 clashes with the HDMI clamp-post M2 head (0.41 plan, −1.34 vertical); the head at ear 2 lands on the traced frame leg (−1.01).** Suggested: move the HDMI clamp post to about (52.3, 111.6) (done 15:55 ET at (53.60, 114.35), see above), or stake/glue ear 1; verify the frame leg edge for ear 2.
-> - **Findings, not changed:** the stock button/collar centre is about 1.0 lower in Y (≈ 107.1) than the flex-trace button (108.11), and so are the stock ears (M-IOPB8). The stock collar reads OD ≈ 13.5 / ID ≈ 12.0 vs the model 15.0 / 12.4 (M-IOPB2). Other openings differ from stock only by design (USB-C, USB-A, HDMI and ETH openings larger; AC Y ≈ 1 mm larger than stock).
-> - Wall check: general 1.343–1.382, exceptions ≥ 0.404.
-
-> **Update 2026-10-04 ≈ 13:10 ET: button ring = RAISED COLLAR; corner screws moved the other way (Aidan; not pushed).** `mechanical/io_plate_v2/build_plate.py`; all variants, previews, DXFs, the close-up and checks were regenerated. Details and tables are in the `io_plate_v2` README.
-> - **Collar replaces the 0.5 recess:** **OD 15.0 / ID 12.4 / H 0.80** (`BTN_COLLAR_H` = 1.00 assumed island depth − 0.20 clearance; `--collar-h` overrides), with a key **tab** 2.6 wide, r 7.0–9.8, at 140° (`BTN_KEY_MODE` tab/gap/none). The 1.4 wall is restored.
->   - Confidence: raised is confirmed; OD medium (scan ±0.3); ID, height and key are assumed / medium-low.
->   - Clearances: AC 2.21, ETH2 3.67; collar end 0.37 short of the frame plane and 0.20 from a frame-plane button island; ear-post webs 0.26 / 0.18; flex slot 0.31; button LEDs 0.01 inside the bore; HDMI clamp-post M2 head 0.30 below the collar end.
->   - ⚠ With the island at the frame plane, the button carrier has **−0.06** of room over the HDMI clamp-post M2 head (50.82, 111.0). Move that post, use a low head, or settle it via M-IOPB6/7.
-> - **Corner screws −1.0 in Y from the original scan positions** (toward the audio jacks; 2.0 from 10:30): SCR_T± (30.64 / 75.74, **148.95**), SCR_B± (30.64 / 75.74, **13.70**).
->   - Csk edge margins: 1.57 top (was 0.92), 1.77 / 1.78 bottom (unchanged). All `ok_plate`.
->   - Plan-only overlaps with the hardware below the frame (12.69 above the board): **SCR_B− / J31 −1.34**, **SCR_T− / BT1 −0.39**. There is ≥ 7.5 vertical clearance, so no clash is expected; verify on the print.
-
-> **Update 2026-10-04 ≈ 12:35 ET: power-button features in the plate, and H21 moved (Aidan; not pushed).** `build_plate.py` `BUTTON_FEATURES` (default on), `button_closeup.py` → `io_plate_v2_A0_button_closeup.png`. All variants, previews, DXFs and checks were regenerated; details are in the `io_plate_v2` README.
-> - **Inner face at the flex button (43.02, 108.11).** (The counterbore below is superseded 13:10 ET by the raised collar.) Positions come from the 821-2222-A trace. The outer-face scan 83f0b85e shows the features through the plate.
->   - Keyed counterbore **Ø15.0 × 0.50** (wall 0.90) around the Ø12.4 opening, with a key notch 2.6 wide, r 7.0–9.8, at 140°.
->   - **2 ear posts Ø1.6 × 1.0** through the carrier ear holes Ø1.8 (0.10/side), with a core Ø0.8 × 1.9 for a heat-stake or M1.0 thread-forming screw. These are the retainer mounts; no taller boss fits outside the flex.
->   - **Locating rib 0.5 × 5.6 × 1.0** in the 0.8 flex slot at X 51.23.
->   - No plate light pipe: the 2 button LEDs sit inside the Ø12.4 opening and the clear cap carries the light.
->   - Confidence: positions high; depth, heights and the key are medium-low (scan only). Measure M-IOPB1–7.
-> - **Margins:** pocket to AC 2.21; post tips 0.17 short of the frame front; BTN_POST_1 to the HDMI clamp-post M2 head **0.09 in plan / 0.08 vertical** (tight). Wall 1.4 elsewhere.
-> - **H21** (clamp post C upper) moved **(53.19, 70.80) → (53.19, 69.80)** (`tools/modules_geom.py` `POSTS` → `modules.json` → `build_pcb.py`). Web between the C1 Ø5.0 clamp-plate hole and the post is now **1.3** (was 0.3). modules_geom 114/114 OK; main-board **DRC 0 / 0 unconnected**; schematic untouched (ERC not re-run).
-
 > **Update 2026-10-04 ≈ 10:35 / 11:15 ET (Aidan's test print).** `mechanical/io_plate_v2/build_plate.py` (`SCREW_SHIFT_Y`, `CENTRE_TRIM`), all variants / previews / DXFs regenerated:
-> - ~~**Corner screws +1.0 in Y**~~ (superseded 13:10 ET: −1.0 instead) (toward the top edge, away from the audio jacks): SCR_T± (30.64 / 75.74, **150.95**), SCR_B± (30.64 / 75.74, **15.70**). Top countersink edge margin 1.29 → 0.92 (≥ 0.6 OK); SCR_B− now clears J31 (+0.66). Boss height unchanged.
+> - **Corner screws +1.0 in Y** (toward the top edge, away from the audio jacks): SCR_T± (30.64 / 75.74, **150.95**), SCR_B± (30.64 / 75.74, **15.70**). Top countersink edge margin 1.29 → 0.92 (≥ 0.6 OK); SCR_B− now clears J31 (+0.66). Boss height unchanged.
 > - **Centre screws (corrected ≈ 11:15 ET, Aidan: the ≈ 10:35 build removed the wrong post):** **SCR_C2** (lower, 53.45, 58.27) is **removed**; it is the stock alignment post we don't have. The C2 notes (Ø7.0 clamp-plate hole, H13 standoff conflict) no longer apply.
 >   **SCR_C1** (upper, 53.76, 75.47) is the only centre screw: M1.6, post Ø2.6 into frame hole C1 Ø3.17 (0.15 radial), washer Ø4. Its **post is 1.0 shorter**: 1.97 → **0.97** below the inner face, wall 2.37.
 >   **Open at C1:** the fastener ends 14.73 above the board (pt 15.23) vs clamp plate C top 15.26, so clamp plate C needs a **Ø5.0 hole at SCR_C1**. The C clamp-post M2 screw (H21) at **(53.19, 70.80)** is 4.70 away, which leaves ≈ 0.3 of web. Move H21 to Y ≤ 69.8 or slot the hole.
@@ -1107,7 +1072,7 @@ Nearest F-side board parts: BT1 coin holder 2.6 in XY (SCR_T−), J31 flex ZIF 1
 - ~~DF40 and HDMI land patterns are still placeholders. The HDMI shell ring is 0.20.~~ Done ≈ 10:40 ET (below).
 - ~~MOD-A SS skew is open.~~ Done ≈ 10:40 ET (below).
 - EasyEDA pad data was checked against the drawings, not against parts.
-- Board items still open from earlier: clamp-plate C holes Ø5.0 / Ø7.0, the H13 standoff vs SCR_C2, M2 head clearance 0.57. (15:55 ET: resolved by countersunk M2 clamp screws on all posts.)
+- Board items still open from earlier: clamp-plate C holes Ø5.0 / Ø7.0, the H13 standoff vs SCR_C2, M2 head clearance 0.57.
 
 **Update 2026-10-04 ≈ 10:40 ET (Aidan approved: MOD-A hand fan-out, real HDMI + DF40 land patterns; not pushed).**
 
@@ -1514,14 +1479,6 @@ Z790 Flex-I/O map [Sourced: Intel 700-series PCH datasheet vol. 1, 743835, "Desk
 | **M-IOA2** | iMac card in the fan-assembly adapter: do the 4 stock antenna leads reach its U.FL row; which lead is BT; trimmed-section clearance. |
 | **M-IOB2** | T8 fan-cable bracket: outline, thickness, standoff height and thread, ground contact; confirm the B keep-out X 38.06–62.92 / Y 0–10.5. |
 | **M-IOK1** | Plate clip positions by caliper from the cover edge (the phone scan cannot resolve them). |
-| **M-IOPB1** | Stock button: hole Ø on both plate faces; cap / carrier OD that the collar ID must locate on, flange OD/thickness, key tab (plate model: opening = collar ID Ø12.4, guide bore 2.2 long; scan hole Ø11.9). |
-| **M-IOPB2** | The Ø≈15 raised collar around the button on the inner face (raised confirmed by Aidan 12:58 ET): exact OD/ID and height (model OD 15.0 / ID 12.4 / H 0.80, `--collar-h`); the 15:30 ET scan of the stock inner face reads OD ≈ 13.5 / ID ≈ 12.0, and the gap from its end to the flex/dome. |
-| **M-IOPB3** | Collar key: tab or gap (model: tab, `BTN_KEY_MODE`), angle (140° back view), width (2.6), radial extent (r 7.0–9.8). |
-| **M-IOPB4** | Ear features at BTN_EAR_1/2: boss OD, bore, height above the inner face, screw size/length and head clearance. Model (15:30 ET): Ø3.0 × 1.0 bosses under the carrier, pilot Ø1.1 × 1.9, M1.4 × 2.5 thread-formers (head Ø2.6 × 0.9) through the Ø1.8 ear holes. The ear-1 head clash is fixed by moving H25 (15:55 ET); the ear-2 head still sits over the traced frame leg. |
-| **M-IOPB8** | Button position: the stock cap/collar and ears scan about 1.0 lower in Y (≈ 107.1) than the flex-trace button (108.11). Check the dome-to-collar alignment on a print with the flex fitted before moving the button features. |
-| **M-IOPB5** | Rib along the 0.8 flex slot between the carrier ring and the flex body: present? Thickness, length, height, X (model 0.5 × 5.6 × 1.0 at X 51.23). |
-| **M-IOPB6** | Button carrier thickness at the ring and the ear lugs, and which flex face carries the carrier, the dome and the LEDs. |
-| **M-IOPB7** | What backs the dome (retainer under the ears, frame tab?), its thickness, and the plate-to-frame gap at the button (1.17 assumed). Supersedes M-IOW3 for the plate. |
 | M-IOR1 | RJ45 ZJLQ-RJ45-SMD-PCB125-8P8C height (≤ 13.0) and latch orientation; V24P05S pin map. |
 | M-IOR2 | Riser underside gaps after assembly (DF40 C-fold space 4.4–6.5; pogo working height 5.9–7.1). |
 | M-IOB1 | I/O-wall flex J31: count, pitch, contact side, button pair, GND, I²C, LED supply (§9.5). |

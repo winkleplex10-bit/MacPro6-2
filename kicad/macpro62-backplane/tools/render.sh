@@ -1,3 +1,3 @@
-#!/bin/sh
-# Render floorplan: usage tools/render.sh backplane.kicad_pcb floorplan
-cd "$(dirname "$0")/.." && kicad-cli pcb export svg --layers Edge.Cuts,F.Fab,F.CrtYd,Dwgs.User,Cmts.User,F.SilkS --page-size-mode 2 --exclude-drawing-sheet -o "$2.svg" "$1" >/dev/null && rsvg-convert -b white -w 2400 "$2.svg" -o "$2.png" && echo rendered "$2.png"
+#!/bin/bash
+# render.sh board.kicad_pcb out.png layers [width]
+kicad-cli pcb export svg --layers "$3" --mode-single --page-size-mode 2 --exclude-drawing-sheet -o /tmp/_r.svg "$1" >/dev/null 2>&1 && rsvg-convert -b white -w ${4:-2400} /tmp/_r.svg -o "$2"

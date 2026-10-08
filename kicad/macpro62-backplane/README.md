@@ -1,4 +1,17 @@
-# MacPro6,2 backplane (BP) - KiCad 9 project, rev A floorplan
+# MacPro6,2 backplane (BP) - KiCad 9 project, rev A1 (routed, 4 layers)
+
+## Rev A1 (2026-10-04, routed on 4 layers)
+
+- **Stackup:** 4L JLC04161H-7628, 1.6 mm, ENIG (was 6L JLC06161H-2116). L1 `L1_SIG_RX` (host RX, microstrip 85 Ω, 83.1 Ω calc), L2 `L2_GND`, L3 `L3_SIG_TX_PWR` (host TX stripline 86.4 Ω + `L3_3V3_SB` plane), L4 `L4_GND_BRK` (GND + low-speed breakout). Through vias 0.45 / 0.25 only. Impedance: `docs/impedance_A1.json`; loss budget: `docs/loss_budget_A1.md`. Gen5 redrivers removed (Gen4 loss 9.5–16.8 dB of 28 dB).
+- **Status:** `backplane.kicad_pcb` **DRC 0 violations, 0 unconnected, 0 schematic-parity issues** (`drc_report.txt`); **ERC 0 errors / 0 warnings** (`erc_report.txt`). JLC outputs in `jlc/` (16 Gerber/drill files, 44 BOM lines, 140 placed parts, all on F; 152 footprints incl. 9 DNP).
+- **High-speed pairs:** all 40 FP/FS PCIe pairs (x16 + x4, TX and RX) + FP/FS REFCLK: intra-pair skew 0.000 mm, 2 vias per net (J1 escape + one layer change). **SATA0_RX** (J7 41/43 → J1): coupled 85 Ω pair, L1 → L3, 29.45 / 29.45 mm, 2/2 vias. **SATA0_TX** (J7 47/49 → J1 A73/A74): coupled pair, L1 stubs → L3 → L1, 27.70 / 27.70 mm, 2/2 vias. **USB2_SPARE** (J1 B79/B80 → J6 13/14): coupled 90 Ω pair, 57.04 / 57.04 mm, 4/4 vias (was 15/12). USB2 (net-by-net routed, skew incl. 1.6 mm per via): USB2_FACEP 78.6/78.3 mm, skew 0.34 mm, 2/2 vias; USB2_FACES 118.0/114.8 mm, skew 0.00 (4/6 vias); USB2_MCU 28.7/28.3 mm, skew −2.7 mm (3/5 vias, could not reach ≤ 1.5 mm).
+- **Flow (tools/):** `build_bp.py` → `bp_hs.py` (HS patterns) → `bp_tune.py` (skew → 0; `TUNE_RE`) → Freerouting (low-speed) → `bp_fix.py route` (grid A* clean-up; footprint/board keep-outs dilated `KOD`, NPTH clearance `NPTHC`, SATA/USB2_SPARE protected via `HSX`; `drcfix` mode removes DRC-violating copper) → `bp_pair.py` (coupled-pair centre-line A* router, `PAIR=RX|TX|USB2_SPARE`) and `bp_hand.py` (hand-route spec with clearance check) → `bp_post.sh` / `bp_finish.py` (pours, GND fan-out, DRC) → `bp_clean2.py` (in-process dangling clean-up, refills first) / `bp_island.py` (GND island stitch vias) / `bp_fill.py` → `jlc_out.py`. Skew report `bp_skew.py`, zone report `bp_zreport.py`. Step log: `PROGRESS_A1.md`.
+- **Needs Aidan's approval before ordering:** ICD 3.1 FS-lane reversal; INA226 replacing INA228; J7 M.2 DNP (and so the BIOS/OpenCore boot location); R27 → R33; RP2350B GPIO re-assignment (**firmware pin-map update needed**, `tools/gpio_map.json`); the U1 / Y1 / U2 moves.
+- Cost: `/workspace/macpro62-cost-estimate.md` §6a (BP q1 $285–450 → $145–230, q5 $450–750 → $260–395).
+- Previews: `docs/preview_A1_L1.png` (L1), `docs/preview_A1_L3.png` (L3) (also in `work/`).
+
+## History (floorplan revisions)
+
 
 Topology: **HUB** (Aidan, 2026-10-01). The CPU board plugs into J1 (Amphenol Mini Cool Edge 224, ME1022410103011, vertical SMT) and the BP routes PCIe x16 to J9 (MCIO 124, Face P) and x4 to J10 (MCIO 124, Face S).
 

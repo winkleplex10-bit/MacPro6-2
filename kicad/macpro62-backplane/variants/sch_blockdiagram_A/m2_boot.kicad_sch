@@ -1,0 +1,174 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "26db448f-efb9-45cb-b5de-47d0941bcd85")
+	(paper "A4")
+	(title_block
+		(title "MP62 backplane: OpenCore boot M.2 (SATA)")
+		(date "2026-10-02")
+		(rev "A-bd2")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_M2_BOOT"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_M2_BOOT"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_M2_BOOT_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -11.43)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_M2_BOOT_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "SATA0_TX_P" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "SATA0_TX_N" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "SATA0_RX_P" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "SATA0_RX_N" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "3V3_BP" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "SATA0_TX_P"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "d149d2ef-dff4-4df3-9c34-915153c2c073")
+	)
+	(hierarchical_label "SATA0_TX_N"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "57e78f88-b98a-4334-a80e-a723a4d5c16d")
+	)
+	(hierarchical_label "SATA0_RX_P"
+		(shape output)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e4736f2f-4201-4322-a3bc-0752acebc14e")
+	)
+	(hierarchical_label "SATA0_RX_N"
+		(shape output)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f4d1dbfb-d425-4417-ab26-2e17ea7d02e2")
+	)
+	(hierarchical_label "3V3_BP"
+		(shape input)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b1d75e5c-e894-4617-a9f5-973af3ab964f")
+	)
+	(symbol
+		(lib_id "MP62:STUB_M2_BOOT")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "89fcdd0a-852f-4833-9100-62972e82f5b9")
+		(property "Reference" "#BLK7"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_M2_BOOT"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "965932cb-dba7-4c2a-ab3e-bab1f30dbb18")
+		)
+		(pin "2"
+			(uuid "ffe5c5e6-c713-4ccb-8cbf-2f79c79a097e")
+		)
+		(pin "3"
+			(uuid "a5bbc9aa-63b0-4490-8760-edc3aff7b293")
+		)
+		(pin "4"
+			(uuid "893d4e1d-9cec-49b1-a3ed-2abffe698190")
+		)
+		(pin "5"
+			(uuid "42d701b1-486f-4ae3-a99c-3800c0f13cab")
+		)
+		(instances
+			(project "backplane"
+				(path "/6a1c2d3e-0000-4000-8000-000000000062/4e56bd17-1930-41d7-8649-f8eb15eaa659"
+					(reference "#BLK7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "14bb922c-0c5b-47ce-aaac-bcbb0f592802")
+	)
+	(text "- J7 M.2 M-key socket wired SATA-only (accepts B+M SATA 2242/2230 cards); dedicated OpenCore device"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "56410eab-8c7a-4967-84e9-8e62e857113c")
+	)
+	(text "- Set as the default UEFI boot entry (LauncherOption=Full); removable-path fallback on the same ESP"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "ba4a2698-6fe6-49ab-8040-93ca6b797de5")
+	)
+	(text "- SATA0 from the CB Z790 PCH via J1 (SATA-capable HSIO not shared with the M.2 RP9-12 lanes, TBD on the CB)"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "ba6c4a74-8fed-4d72-9112-6a3e4f3af20e")
+	)
+)

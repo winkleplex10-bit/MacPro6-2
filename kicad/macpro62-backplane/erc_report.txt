@@ -1,19 +1,5 @@
-ERC report (2026-10-04T09:10:56-0400, Encoding UTF8)
+ERC report (2026-10-04T21:49:33-0400, Encoding UTF8)
 
 ***** Sheet /
-
-***** Sheet /Power input, standby rails, safety gate/
-
-***** Sheet /Management MCU (RP2350A)/
-
-***** Sheet /Face P (primary) AUX link/
-
-***** Sheet /Face S (secondary) AUX link/
-
-***** Sheet /CPU board link (J1 CPU-LINK card edge)/
-
-***** Sheet /I/O board low-speed link/
-
-***** Sheet /OpenCore boot M.2 (SATA)/
 
  ** ERC messages: 0  Errors 0  Warnings 0
