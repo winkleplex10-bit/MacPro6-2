@@ -1,0 +1,318 @@
+(footprint "VSSOP-8_3x3mm_P0.65mm"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "VSSOP, 8 Pin (https://www.jedec.org/standards-documents/docs/mo-187-f), generated with kicad-footprint-generator ipc_gullwing_generator.py")
+	(tags "VSSOP SO JEDEC-MO-187-AA TI-DGK0008A")
+	(property "Reference" "REF**"
+		(at 0 -2.45 0)
+		(layer "F.Fab")
+		(uuid "bdcb44c3-0ac3-4bd1-b0e1-1a5d6862ec28")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "TMP1075DGKR @0x48 (THERM_ALERT#)"
+		(at 0 2.45 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "27f6a528-acd5-4686-af2f-26bf355a5fc8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "01d27609-1a2d-44dd-8cac-44787603804a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9d2ecc35-6035-431e-9612-8d86dcf7340a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC" "C2864807"
+		(at 0 0 270)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "06182d21-097d-431e-83f9-110afe7cc02d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+			(justify mirror)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -3.18 -1.48)
+		(end -1.75 -1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "d051562e-b950-4c24-83ba-88b4bdc7c5bf")
+	)
+	(fp_line
+		(start -3.18 1.48)
+		(end -3.18 -1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8cfd46ef-38f2-4df2-9cc1-13d3c7190519")
+	)
+	(fp_line
+		(start -1.75 -1.75)
+		(end 1.75 -1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "44984494-5b58-4249-999b-5c1e99996270")
+	)
+	(fp_line
+		(start -1.75 -1.48)
+		(end -1.75 -1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "4c8b3474-bae0-44e7-b744-a9e323c3d3bb")
+	)
+	(fp_line
+		(start -1.75 1.48)
+		(end -3.18 1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e88fc7a9-f3bc-400a-993a-ea2bbd0764e9")
+	)
+	(fp_line
+		(start -1.75 1.75)
+		(end -1.75 1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "0df89da1-800c-4709-b25f-3e94d38d62dd")
+	)
+	(fp_line
+		(start 1.75 -1.75)
+		(end 1.75 -1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5dc06a9b-51e0-489a-97ab-6c890109c96f")
+	)
+	(fp_line
+		(start 1.75 -1.48)
+		(end 3.18 -1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f25a0c38-86b3-4fb7-8edf-2cf598f81aa6")
+	)
+	(fp_line
+		(start 1.75 1.48)
+		(end 1.75 1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "96e03d7b-490d-428b-8e7d-6eb603f91c40")
+	)
+	(fp_line
+		(start 1.75 1.75)
+		(end -1.75 1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "b75442a0-4815-4c57-81f5-774f89010fd0")
+	)
+	(fp_line
+		(start 3.18 -1.48)
+		(end 3.18 1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "731f2141-b2e0-45c2-a054-77b301a45fc3")
+	)
+	(fp_line
+		(start 3.18 1.48)
+		(end 1.75 1.48)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1fe4e60f-02cb-4042-8d10-6b1e97937f01")
+	)
+	(fp_line
+		(start -1.5 -0.75)
+		(end -0.75 -1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "dedfbc96-e9d9-4669-9aa0-62a418a60108")
+	)
+	(fp_line
+		(start -1.5 1.5)
+		(end -1.5 -0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "1a57e29d-ab68-4d38-b4e1-2cd6820d1b8f")
+	)
+	(fp_line
+		(start -0.75 -1.5)
+		(end 1.5 -1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "93a8c21e-f14b-4f87-942f-7859f3a40f5c")
+	)
+	(fp_line
+		(start 1.5 -1.5)
+		(end 1.5 1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "31c4f5bf-4262-4d92-88b5-6f45f523c37a")
+	)
+	(fp_line
+		(start 1.5 1.5)
+		(end -1.5 1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "51991976-858a-4f54-8ff2-499bdd306343")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "cd1ab4e4-5c0e-4ad1-a020-9fa4038fcd31")
+		(effects
+			(font
+				(size 0.75 0.75)
+				(thickness 0.11)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -2.1125 -0.975)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "15d1b330-ff90-4327-b670-616a5b503710")
+	)
+	(pad "2" smd roundrect
+		(at -2.1125 -0.325)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "1a1b15dd-406f-4f19-9af8-200bbee22828")
+	)
+	(pad "3" smd roundrect
+		(at -2.1125 0.325)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "ae09e195-5c77-4437-8e1f-60a9b46d8b79")
+	)
+	(pad "4" smd roundrect
+		(at -2.1125 0.975)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "85328c48-4be6-46ad-a108-1eca1d0890f5")
+	)
+	(pad "5" smd roundrect
+		(at 2.1125 0.975)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "c6506229-a206-4b7d-8b16-cfcde207ddfe")
+	)
+	(pad "6" smd roundrect
+		(at 2.1125 0.325)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "7d1858d9-243b-435a-9ed4-2c7d7dd65b89")
+	)
+	(pad "7" smd roundrect
+		(at 2.1125 -0.325)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "166cda50-33d7-4347-b3fd-5841472d93ef")
+	)
+	(pad "8" smd roundrect
+		(at 2.1125 -0.975)
+		(size 1.625 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "f001b78b-f44d-4ba8-a139-e0921ed5d984")
+	)
+	(embedded_fonts no)
+	(model "${KICAD9_3DMODEL_DIR}/Package_SO.3dshapes/VSSOP-8_3x3mm_P0.65mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

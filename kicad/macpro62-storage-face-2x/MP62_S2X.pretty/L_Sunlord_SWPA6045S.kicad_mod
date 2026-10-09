@@ -1,0 +1,144 @@
+(footprint "L_Sunlord_SWPA6045S"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Sunlord SWPA6045S 6x6x4.5 power inductor (SWPA6045S6R8MT, LCSC C57254), EasyEDA land pattern")
+	(property "Reference" "REF**"
+		(at 0 -4 0)
+		(layer "F.Fab")
+		(uuid "167265c5-a5b3-4f05-8349-0914085608d8")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "6.8uH 4.3A SWPA6045S6R8MT"
+		(at 0 4 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "925035d7-d877-408b-bc84-dd1c8fe24c62")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e01d3169-ee69-4910-ac6f-7c9210162382")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "47706f2d-eea1-473c-ac8b-fc9597807c91")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC Part" "C78804"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "fcdaa50d-7f12-4917-981d-c69d0ccc0bea")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC" "C57254"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ed464191-bf7d-457d-999b-c4d5f2f6938b")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+			(justify mirror)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -4.099999 -3.3)
+		(end 4.099999 -3.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "7b118304-b5e6-449e-b089-36a0bc8a384a")
+	)
+	(fp_line
+		(start -4.099999 3.3)
+		(end -4.099999 -3.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "f7f2338f-dad4-4dc8-b42a-f1016f1c4624")
+	)
+	(fp_line
+		(start 4.099999 -3.3)
+		(end 4.099999 3.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "6b402baf-d056-4b15-8bd2-55b03dc516da")
+	)
+	(fp_line
+		(start 4.099999 3.3)
+		(end -4.099999 3.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "ff730ae7-eddb-449c-9635-0ab14bf82531")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "62d6a26d-1684-445e-81cc-719dd90788bc")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -2.6 0 180)
+		(size 2.474 5.02)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "a011fa6c-e083-40ac-92ef-24998530c01b")
+	)
+	(pad "2" smd rect
+		(at 2.6 0 180)
+		(size 2.474 5.02)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "b8ff35ce-8c33-40ad-a334-d27fb58e7248")
+	)
+	(embedded_fonts no)
+)

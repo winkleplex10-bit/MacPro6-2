@@ -1,0 +1,49 @@
+{
+ "old_group": "Storage face board (SM-1, Face S)",
+ "group": "Storage face board (S2X 2-drive switchless, Face S)",
+ "board_row": "",
+ "items": [
+  [
+   "",
+   "PCB fab: 4L JLC04161H-7628, 104.0 x 166.1 mm (bbox 172.7 cm2), 1.6 mm, ENIG, impedance 85 ohm (PCIe + REFCLK, L1/L4 0.26/0.13), 2,048 vias 0.45/0.25",
+   30,
+   55,
+   30,
+   55,
+   "pcb",
+   "Scaled from the BP A1 4L line by area (172.7/149 cm2); 5 pcs, q1 = q5 (same order) [Estimate]"
+  ],
+  [
+   "",
+   "PCBA fees: Economic, single-sided (all 81 placed parts on B), 36 BOM lines (9 extended with feeder fee, 6 preferred), ~484 SMT joints; MCIO124 (0 LCSC stock) via global sourcing / consign",
+   25,
+   45,
+   30,
+   55,
+   "pcb",
+   "JLC Economic: setup $8.18, stencil $1.53, $1.53 per extended part, $0.0017/joint (fee table 2026-09-09) + MCIO sourcing handling [Estimate]"
+  ],
+  [
+   "",
+   "Components (~$26-35/board): MCIO124 RA C4867471 $9.58 (0 stock), INA238 C2868250 $8.32, TPS259470 eFuse C3662799 $1.28, 2 x LOTES APCI0107 C841661 $0.45, 2 x TPS54331 C9865 $0.33, 2 x TMP1075 $0.42, GH15 $0.84, 2 x SMTSO standoffs, M24C64, ~60 passives; no PCIe switch",
+   55,
+   80,
+   135,
+   185,
+   "pcb",
+   "JLC parts API 2026-10-08 (qty-1 prices, sum $26.36/board); x2 (q1) / x5 (q5) + attrition and MCIO sourcing [Estimate]"
+  ],
+  [
+   "",
+   "2 x M.2 2280 thermal gap pads per board (~20 x 70 mm, ~3 mm) for the B-side THERMAL_PAD areas (bought separately, optional)",
+   8,
+   20,
+   20,
+   50,
+   "none",
+   "[Estimate] generic silicone gap pad; replaces the SM-1 ASM2824 gap pad line"
+  ]
+ ],
+ "log_title": "6b. Storage face: 2-drive switchless S2X replaces SM-1 in the first build (done 2026-10-08)",
+ "log_md": "The 4-drive ASM2824 board (SM-1) is **parked** (Aidan, 2026-10-04 22:12 / 2026-10-08); the first build now uses `kicad/macpro62-storage-face-2x` (S2X rev A0: 2 x M.2 2280 straight from J1 lanes 0-3 / 4-7, no switch). Routed 2026-10-08: DRC 0 / 0 unconnected / parity 0, ERC 0. Per-order change, q1 (2 boards) / q5 (5 boards):\n\n| # | Change | SM-1 | S2X | Saving q1 / q5 | Status |\n|---|---|---|---|---|---|\n| 1 | Stackup 6L JLC06161H-2116 \u2192 **4L JLC04161H-7628** | fab $60\u201390 | $30\u201355 | $30\u201335 / $30\u201335 | done, DRC 0 |\n| 2 | PCBA double-sided Standard with BGA X-ray \u2192 **Economic, single-sided** (all parts on B) | $175\u2013230 / $200\u2013265 | $25\u201345 / $30\u201355 | $150\u2013185 / $170\u2013210 | done; Economic must accept the MCIO124 (global-sourced / consigned) |\n| 3 | No ASM2824 switch, no gap pad for it; TPS259470 eFuse (replaces LM74700 + FET + TPS259824); 2 x TPS54331 bucks; INA238 (INA228 C2887910 has 0 stock) | $95\u2013200 / $235\u2013470 | $55\u201380 / $135\u2013185 | $40\u2013120 / $100\u2013285 | done |\n| 4 | Gap pads: 1 x ASM2824 pad \u2192 2 x M.2 2280 pads (optional) | $5\u201315 / $15\u201340 | $8\u201320 / $20\u201350 | \u2212$3\u20135 / \u2212$5\u201310 | optional |\n\nS2X board: **q1 $335\u2013535 \u2192 $118\u2013200**; **q5 $510\u2013865 \u2192 $215\u2013345**.\nCost option (needs approval): INA238 \u2192 INA226 C49851 ($0.76) saves \u2248 $7.5/board (\u2248 $15 q1 / $38 q5); firmware register map differs.\nHost-side changes for slot B (CPU PEG 2 x 8 bifurcation, REFCLK1/PERST1# on the BP) are listed in `kicad/macpro62-storage-face-2x/docs/ICD_CHANGES.md`; with BP rev A only slot A works."
+}

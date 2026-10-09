@@ -1,0 +1,6 @@
+(version 1)
+# S2X: keep pours >= ~3w away from the 85R pairs (impedance solved as edge-coupled microstrip, no coplanar ground)
+(rule "hs_pour_clearance"
+  (constraint clearance (min 0.4))
+  (condition "A.hasNetclass('PCIE_85R') && B.Type == 'Zone'"))
+# exposed thermal copper: mask openings intentionally over GND pours

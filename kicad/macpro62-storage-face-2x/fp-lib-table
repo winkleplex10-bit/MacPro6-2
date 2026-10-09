@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "MP62_S2X")(type "KiCad")(uri "${KIPRJMOD}/MP62_S2X.pretty")(options "")(descr "MP62 S2X footprints"))
+)
