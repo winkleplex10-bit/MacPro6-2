@@ -1,0 +1,8 @@
+{"stackup": "JLC06161H-2116 6L 1.6 mm (jlcpcb.com/impedance, fetched 2026-10-08): F.Cu | 2116+2313 0.2234 er4.137 | In1 GND | core 0.30 er4.6 | In2 sig | 7628x2 0.4168 er4.4 | In3 sig | core 0.30 | In4 GND | 2313+2116 0.2234 | B.Cu",
+ "solver": "tools/zsolve.py (2-D FD Laplace), h 0.005",
+ "cases": [
+  {"case": "F.Cu / B.Cu PCIe 85R microstrip (ref In1 / In4)", "w": 0.26, "gap": 0.125, "zdiff": 85.5, "eeff": 3.1, "note": "existing L1 RX + B.Cu pairs keep their geometry"},
+  {"case": "F.Cu USB2/SATA 90R", "w": 0.24, "gap": 0.15, "zdiff": 92.6},
+  {"case": "In2 existing TX pairs (ref In1 0.30, In3 0.4168)", "w": 0.21, "gap": 0.127, "zdiff_range": [88.7, 89.7], "note": "88.7 with In3 GND pour above, 89.7 without; +4..6 % vs 85, inside +-10 %; geometry kept (0 skew, no re-route)"},
+  {"case": "In2 / In3 new pairs 85R", "w": 0.24, "gap": 0.127, "zdiff_range": [84.5, 85.7]}
+ ]}

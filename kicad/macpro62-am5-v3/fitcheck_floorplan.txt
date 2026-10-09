@@ -1,0 +1,64 @@
+outline symmetric-difference above shoulder: 0.000 mm2
+  ASSUMED land group DDR5 CH-A (assumed)                    board x 60.6..77.4  y 82.2..92.0  [Inference, AMD land map NDA]
+  ASSUMED land group DDR5 CH-B (assumed)                    board x 79.4..96.2  y 82.2..92.0  [Inference, AMD land map NDA]
+  ASSUMED land group PCIe GFX x16 (assumed)                 board x 76.4..96.2  y 54.5..64.2  [Inference, AMD land map NDA]
+  ASSUMED land group PCIe GPP x4 + x4 + PROM21 x4 (assumed) board x 60.6..75.4  y 54.5..64.2  [Inference, AMD land map NDA]
+  ASSUMED land group USB4/USB/DP (assumed)                  board x 60.6..71.4  y 65.8..80.8  [Inference, AMD land map NDA]
+  ASSUMED land group SVI3 / FCH / SPI / misc (assumed)      board x 85.4..96.2  y 65.8..80.8  [Inference, AMD land map NDA]
+U1    F x   55.1.. 101.7 y   50.0..  96.5 in-board  UNDER PLATE PLACEHOLDER-NDA        U1 Socket AM5 LGA1718 PLACEHOLDER (PE17181 / AZIFS055)
+H1    F x   38.2..  48.3 y   41.0..  51.0 in-board  UNDER PLATE FIXED (measured)       CORE D5 69.5x55 FIXED
+H2    F x  107.7.. 117.8 y   41.0..  51.0 in-board  UNDER PLATE FIXED (measured)       CORE D5 69.5x55 FIXED
+H3    F x   38.2..  48.3 y   96.0.. 106.0 in-board  UNDER PLATE FIXED (measured)       CORE D5 69.5x55 FIXED
+H4    F x  107.7.. 117.8 y   96.0.. 106.0 in-board  UNDER PLATE FIXED (measured)       CORE D5 69.5x55 FIXED
+H5    F x   47.5..  53.4 y   49.3..  55.2 in-board  UNDER PLATE REUSED (LGA1700 pattern) FRAME SEAT M3 -> PEM in backplate
+H6    F x  103.5.. 109.4 y   49.3..  55.2 in-board  UNDER PLATE REUSED (LGA1700 pattern) FRAME SEAT M3 -> PEM in backplate
+H7    F x   47.5..  53.4 y   91.3..  97.2 in-board  UNDER PLATE REUSED (LGA1700 pattern) FRAME SEAT M3 -> PEM in backplate
+H8    F x  103.5.. 109.4 y   91.3..  97.2 in-board  UNDER PLATE REUSED (LGA1700 pattern) FRAME SEAT M3 -> PEM in backplate
+Q1    F x    8.4..  13.9 y   39.2..  44.8 in-board              SOURCED-DIMS           PS VDDCR 1 SiC654
+L1    F x   18.9..  30.1 y   38.3..  45.7 in-board  UNDER PLATE SOURCED-DIMS           L VDDCR 1 FP4-150-R
+Q2    F x    8.4..  13.9 y   48.2..  53.8 in-board              SOURCED-DIMS           PS VDDCR 2 SiC654
+L2    F x   18.9..  30.1 y   47.3..  54.7 in-board  UNDER PLATE SOURCED-DIMS           L VDDCR 2 FP4-150-R
+Q3    F x    8.4..  13.9 y   57.2..  62.8 in-board              SOURCED-DIMS           PS VDDCR 3 SiC654
+L3    F x   18.9..  30.1 y   56.3..  63.7 in-board  UNDER PLATE SOURCED-DIMS           L VDDCR 3 FP4-150-R
+Q4    F x    8.4..  13.9 y   66.2..  71.8 in-board              SOURCED-DIMS           PS VDDCR 4 SiC654
+L4    F x   18.9..  30.1 y   65.3..  72.7 in-board  UNDER PLATE SOURCED-DIMS           L VDDCR 4 FP4-150-R
+Q5    F x    8.4..  13.9 y   75.2..  80.8 in-board              SOURCED-DIMS           PS VDDCR 5 SiC654
+L5    F x   18.9..  30.1 y   74.3..  81.7 in-board  UNDER PLATE SOURCED-DIMS           L VDDCR 5 FP4-150-R
+Q6    F x    8.4..  13.9 y   84.2..  89.8 in-board              SOURCED-DIMS           PS SOC 1 SiC654
+L6    F x   18.9..  30.1 y   83.3..  90.7 in-board  UNDER PLATE SOURCED-DIMS           L SOC 1 FP4-150-R
+Q7    F x    8.4..  13.9 y   93.2..  98.8 in-board              SOURCED-DIMS           PS SOC 2 SiC654
+L7    F x   18.9..  30.1 y   92.3..  99.7 in-board  UNDER PLATE SOURCED-DIMS           L SOC 2 FP4-150-R
+Q8    F x    8.4..  13.9 y  102.2.. 107.8 in-board              SOURCED-DIMS           PS MISC SiC654
+L8    F x   18.9..  30.1 y  101.3.. 108.7 in-board  UNDER PLATE SOURCED-DIMS           L MISC FP4-150-R
+CIN1  F x    2.7..   8.3 y   35.7.. 111.3 in-board              AREA                   12V in caps (8 phases)
+COUT1 F x   30.7..  36.3 y   35.7.. 111.3 in-board  UNDER PLATE AREA                   VDDCR/SOC/MISC out caps
+U3    F x    9.7..  18.3 y  112.7.. 121.3 in-board  UNDER PLATE AREA                   U3 SVI3 3-rail ctrl RAA229139 (alt MP2857)
+U4    F x  119.7.. 148.3 y   33.7..  56.3 in-board  UNDER PLATE AREA                   CPU S5/aux rails (1.8/3.3/MISC_S5)
+U5    F x  119.7.. 148.3 y   58.7..  73.3 in-board  UNDER PLATE AREA                   CPU seq/straps/SVI3 pull-ups
+U6    F x  119.7.. 148.3 y   76.7..  95.3 in-board  UNDER PLATE AREA                   PROM21 rails
+U7    F x  119.7.. 134.3 y   99.7.. 108.3 in-board  UNDER PLATE AREA                   5V VIN_BULK 4x UDIMM
+U8    F x   54.7..  69.3 y  105.7.. 114.3 in-board  UNDER PLATE AREA                   VDDIO_MEM_S3 1.1V
+U2    F x  100.0.. 120.0 y  123.0.. 143.0 in-board  UNDER PLATE PLACEHOLDER-NDA        U2 PROM21 218-0891025 PLACEHOLDER
+Y1    F x   83.7..  94.3 y  136.7.. 143.3 in-board  UNDER PLATE AREA                   Y1/Y2 48M + 32k (FCH)
+U9    F x   58.7..  73.3 y  133.7.. 146.3 in-board  UNDER PLATE AREA                   U9 EC RP2350
+U10   F x   76.7..  87.3 y  122.7.. 131.3 in-board  UNDER PLATE AREA                   U10 FCH SPI 32MB (Dasharo)
+J4    F x   61.7..  72.3 y  122.7.. 129.3 in-board  UNDER PLATE AREA                   J4 SPI TPM (opt.)
+J5    F x   59.7..  72.3 y  151.2.. 156.8 in-board  UNDER PLATE AREA                   J5 debug UART/SWD/POST
+U11   F x   28.7..  43.3 y  139.7.. 152.3 in-board  UNDER PLATE AREA                   U11 eFuse 12V IN (whole CB)
+U15   F x   45.7..  56.3 y  142.7.. 149.3 in-board  UNDER PLATE AREA                   U15 INA228 + RS1 0.5 mOhm (12V in, I2C0 0x45)
+U16   F x   82.7..  97.3 y  147.7.. 160.3 in-board  UNDER PLATE AREA                   U16 VL822-Q7 USB 10G hub (J3 A1-A4)
+U17   F x  121.7.. 130.3 y  146.7.. 153.3 in-board  UNDER PLATE AREA                   U17 PROM21 SPI flash
+LUG1  F x   23.6..  32.3 y  156.5.. 163.1 in-board  UNDER PLATE PLACEHOLDER            LUG1 GND?
+LUG2  F x   36.4..  45.1 y  156.5.. 163.1 in-board  UNDER PLATE PLACEHOLDER            LUG2 12V?
+J1    F x   38.0.. 118.0 y    1.5..  13.0 in-board              SOURCED (Amphenol AIC card drawing) J1 CPU-LINK 224 fingers (AM5 map: docs/cpulink_224_pinout_am5.csv)
+CAC1  F x   44.7.. 115.3 y   14.7..  23.3 in-board  UNDER PLATE AREA                   PCIe AC caps (GFX x16 + GPP x4)
+J6    B x   12.3..  19.3 y   24.3.. 166.9 in-board              SOURCED-DIMS (UMAX C-90414) J6 CH-A DIMM1 near DDR5 UDIMM
+J7    B x    3.0..  10.0 y   24.3.. 166.9 in-board              SOURCED-DIMS (UMAX C-90414) J7 CH-A DIMM2 far DDR5 UDIMM
+J9    B x  137.0.. 144.1 y   24.3.. 166.9 in-board              SOURCED-DIMS (UMAX C-90414) J9 CH-B DIMM1 near DDR5 UDIMM
+J10   B x  146.3.. 153.4 y   24.3.. 166.9 in-board              SOURCED-DIMS (UMAX C-90414) J10 CH-B DIMM2 far DDR5 UDIMM
+J8    B x   37.5.. 126.0 y   13.3..  36.3 in-board              PLACEHOLDER            J8 M.2 2280 boot (PROM21 Gen4 x4, v3)
+J3    B x   55.7.. 100.3 y  153.7.. 166.3 in-board              AREA (part = LGA1700 CB J3) J3 IOB-HS MCIO 124 RA (AM5 host map docs/mp62-cb-j3_mcio124_host-end_am5.csv)
+BT1   B x   58.7..  81.3 y  119.7.. 136.3 in-board              AREA                   BT1 CR2032 DNP (VBAT_RTC from the IOB via J3 B26)
+CB1   B x   19.7..  36.3 y   39.7..  70.3 in-board              AREA                   12V bulk L
+CB2   B x  120.2.. 136.8 y   39.7..  70.3 in-board              AREA                   12V bulk R
+U14   B x   40.7..  51.3 y  114.7.. 125.3 in-board              AREA                   U14 ALC897 DNP (FCH AZ)

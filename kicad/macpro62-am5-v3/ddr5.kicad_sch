@@ -1,0 +1,195 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "e07f4dc4-fdfa-4ed9-8e0d-9e4314013709")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: DDR5 2DPC: 4 x UDIMM vertical (back)")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_DDR5"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_DDR5"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_DDR5_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -13.97)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_DDR5_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "DDR5_CHA" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "DDR5_CHB" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "5V_VIN_BULK" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "3V3_S5" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "SMB0_SCL" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "SMB0_SDA" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "DDR5_CHA"
+		(shape bidirectional)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "bff6df84-f51f-477d-905c-ab8eb389965b")
+	)
+	(hierarchical_label "DDR5_CHB"
+		(shape bidirectional)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "61aac436-db7d-4c0b-beca-1646b3347dff")
+	)
+	(hierarchical_label "5V_VIN_BULK"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "81f002df-4c04-4312-ac64-d543d3f4a8de")
+	)
+	(hierarchical_label "3V3_S5"
+		(shape input)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "730f5fa1-3fb3-4bb2-9b9a-1abfec79583b")
+	)
+	(hierarchical_label "SMB0_SCL"
+		(shape bidirectional)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "fa955452-5a4d-4e84-a446-96989add5703")
+	)
+	(hierarchical_label "SMB0_SDA"
+		(shape bidirectional)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "d24a05b1-e279-4e43-bcad-f330b7ed99a2")
+	)
+	(symbol
+		(lib_id "MP62:STUB_DDR5")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "af5cdcbb-30cb-4ecc-8002-5a4654918b76")
+		(property "Reference" "#BLK3"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_DDR5"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "ca48da0e-29c0-4139-8d63-62ef63a0984d")
+		)
+		(pin "2"
+			(uuid "4b6599ef-863a-4e6e-90e5-75f607f516de")
+		)
+		(pin "3"
+			(uuid "a3a9f254-83ea-4b47-ac06-01eabbb79d93")
+		)
+		(pin "4"
+			(uuid "c9872261-8efa-4e6d-b2f6-9de7d38f4524")
+		)
+		(pin "5"
+			(uuid "ac37caa3-cb69-4c6d-acd4-60fe9cd538bf")
+		)
+		(pin "6"
+			(uuid "5ae943c4-c018-4531-9777-e8ff526baf42")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/f7c9f9bd-02b7-4e66-862d-a8613c54c836"
+					(reference "#BLK3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "dbb01df0-0312-47de-a086-f1e92e0a6ecb")
+	)
+	(text "- J6/J7 (CH-A near/far) and J9/J10 (CH-B near/far): UMAX 90414 short-latch DDR5 UDIMM, same positions as the LGA1700 CB"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "a4bf1bda-762c-4e33-9fbc-4dbd9b89dbad")
+	)
+	(text "- AM5 7000/9000: 2DPC 1R = DDR5-3600 (2R lower), 1DPC = DDR5-5200 (7000) / 5600 (9000) (AMD spec); daisy chain, populate far first"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "74c7c3bc-d6d9-4c06-970f-6a9a061dc8a5")
+	)
+	(text "- Module PMIC from 5V_VIN_BULK (U7); SPD hub on SMBus0 (FCH), 3V3_S5 for SPD/HSA"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "b5b9a62b-d352-446f-94d3-4246aeb0754f")
+	)
+	(text "- DDR5 40 ohm SE / 80 ohm diff stripline on L3/L8"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "0eeff1e9-8690-4186-a178-9ae416a70fa9")
+	)
+)

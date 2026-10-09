@@ -1,0 +1,14 @@
+CPU-LINK (I-1) AM5 delta: 224 contacts, physical + signal names unchanged
+  REMAP                            60
+  REMAP (8000G: unused)            32
+  REMAP (closes U-12 on AM5)       4
+  REMAP (name)                     9
+  REMAP (source)                   3
+  SAME                             115
+  SAME pin, NEW semantics          1
+
+IOB-HS1 J3 (I-2) AM5 delta: 124 contacts, physical + signal names + IOB end unchanged
+  REMAP                            61
+  REMAP (NEW hub)                  16
+  REMAP (sink)                     1
+  SAME                             46

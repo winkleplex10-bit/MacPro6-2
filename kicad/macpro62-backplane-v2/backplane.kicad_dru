@@ -1,0 +1,8 @@
+(version 1)
+# BP A1: keep GND pours >= 3w away from the coupled 85R / 90R pairs (impedance solved without coplanar ground)
+(rule "hs_pour_clearance"
+  (constraint clearance (min 0.5))
+  (condition "A.hasNetclass('PCIE_85R') && B.Type == 'Zone'"))
+(rule "usb_pour_clearance"
+  (constraint clearance (min 0.4))
+  (condition "A.hasNetclass('USB2_SATA_90R') && B.Type == 'Zone'"))

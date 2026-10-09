@@ -1,0 +1,225 @@
+pin,bay,signal,cb_net (LGA1700/Z790 CB),dir_cb_view
+A1,1,CC_PRSNT1#,GND (short finger on the CB card edge),-
+B1,1,GND,GND,-
+A2,1,FP_PET15_P,"CPU PEG TX lane 15 (x16 -> Face P), AC caps on the CB",out
+B2,1,FP_PER15_P,CPU PEG RX lane 15,in
+A3,1,FP_PET15_N,"CPU PEG TX lane 15 (x16 -> Face P), AC caps on the CB",out
+B3,1,FP_PER15_N,CPU PEG RX lane 15,in
+A4,1,GND,GND,-
+B4,1,GND,GND,-
+A5,1,FP_PET14_P,"CPU PEG TX lane 14 (x16 -> Face P), AC caps on the CB",out
+B5,1,FP_PER14_P,CPU PEG RX lane 14,in
+A6,1,FP_PET14_N,"CPU PEG TX lane 14 (x16 -> Face P), AC caps on the CB",out
+B6,1,FP_PER14_N,CPU PEG RX lane 14,in
+A7,1,GND,GND,-
+B7,1,GND,GND,-
+A8,1,FP_PET13_P,"CPU PEG TX lane 13 (x16 -> Face P), AC caps on the CB",out
+B8,1,FP_PER13_P,CPU PEG RX lane 13,in
+A9,1,FP_PET13_N,"CPU PEG TX lane 13 (x16 -> Face P), AC caps on the CB",out
+B9,1,FP_PER13_N,CPU PEG RX lane 13,in
+A10,1,GND,GND,-
+B10,1,GND,GND,-
+A11,1,FP_PET12_P,"CPU PEG TX lane 12 (x16 -> Face P), AC caps on the CB",out
+B11,1,FP_PER12_P,CPU PEG RX lane 12,in
+A12,1,FP_PET12_N,"CPU PEG TX lane 12 (x16 -> Face P), AC caps on the CB",out
+B12,1,FP_PER12_N,CPU PEG RX lane 12,in
+A13,1,GND,GND,-
+B13,1,GND,GND,-
+A14,1,FP_PET11_P,"CPU PEG TX lane 11 (x16 -> Face P), AC caps on the CB",out
+B14,1,FP_PER11_P,CPU PEG RX lane 11,in
+A15,1,FP_PET11_N,"CPU PEG TX lane 11 (x16 -> Face P), AC caps on the CB",out
+B15,1,FP_PER11_N,CPU PEG RX lane 11,in
+A16,1,GND,GND,-
+B16,1,GND,GND,-
+A17,1,FP_PET10_P,"CPU PEG TX lane 10 (x16 -> Face P), AC caps on the CB",out
+B17,1,FP_PER10_P,CPU PEG RX lane 10,in
+A18,1,FP_PET10_N,"CPU PEG TX lane 10 (x16 -> Face P), AC caps on the CB",out
+B18,1,FP_PER10_N,CPU PEG RX lane 10,in
+A19,1,GND,GND,-
+B19,1,GND,GND,-
+A20,1,FP_PET9_P,"CPU PEG TX lane 9 (x16 -> Face P), AC caps on the CB",out
+B20,1,FP_PER9_P,CPU PEG RX lane 9,in
+A21,1,FP_PET9_N,"CPU PEG TX lane 9 (x16 -> Face P), AC caps on the CB",out
+B21,1,FP_PER9_N,CPU PEG RX lane 9,in
+A22,1,GND,GND,-
+B22,1,GND,GND,-
+A23,1,FP_PET8_P,"CPU PEG TX lane 8 (x16 -> Face P), AC caps on the CB",out
+B23,1,FP_PER8_P,CPU PEG RX lane 8,in
+A24,1,FP_PET8_N,"CPU PEG TX lane 8 (x16 -> Face P), AC caps on the CB",out
+B24,1,FP_PER8_N,CPU PEG RX lane 8,in
+A25,1,GND,GND,-
+B25,1,GND,GND,-
+A26,1,FP_PET7_P,"CPU PEG TX lane 7 (x16 -> Face P), AC caps on the CB",out
+B26,1,FP_PER7_P,CPU PEG RX lane 7,in
+A27,1,FP_PET7_N,"CPU PEG TX lane 7 (x16 -> Face P), AC caps on the CB",out
+B27,1,FP_PER7_N,CPU PEG RX lane 7,in
+A28,1,GND,GND,-
+B28,1,GND,GND,-
+A29,2,GND,GND,-
+B29,2,GND,GND,-
+A30,2,FP_PET6_P,"CPU PEG TX lane 6 (x16 -> Face P), AC caps on the CB",out
+B30,2,FP_PER6_P,CPU PEG RX lane 6,in
+A31,2,FP_PET6_N,"CPU PEG TX lane 6 (x16 -> Face P), AC caps on the CB",out
+B31,2,FP_PER6_N,CPU PEG RX lane 6,in
+A32,2,GND,GND,-
+B32,2,GND,GND,-
+A33,2,FP_PET5_P,"CPU PEG TX lane 5 (x16 -> Face P), AC caps on the CB",out
+B33,2,FP_PER5_P,CPU PEG RX lane 5,in
+A34,2,FP_PET5_N,"CPU PEG TX lane 5 (x16 -> Face P), AC caps on the CB",out
+B34,2,FP_PER5_N,CPU PEG RX lane 5,in
+A35,2,GND,GND,-
+B35,2,GND,GND,-
+A36,2,FP_PET4_P,"CPU PEG TX lane 4 (x16 -> Face P), AC caps on the CB",out
+B36,2,FP_PER4_P,CPU PEG RX lane 4,in
+A37,2,FP_PET4_N,"CPU PEG TX lane 4 (x16 -> Face P), AC caps on the CB",out
+B37,2,FP_PER4_N,CPU PEG RX lane 4,in
+A38,2,GND,GND,-
+B38,2,GND,GND,-
+A39,2,FP_PET3_P,"CPU PEG TX lane 3 (x16 -> Face P), AC caps on the CB",out
+B39,2,FP_PER3_P,CPU PEG RX lane 3,in
+A40,2,FP_PET3_N,"CPU PEG TX lane 3 (x16 -> Face P), AC caps on the CB",out
+B40,2,FP_PER3_N,CPU PEG RX lane 3,in
+A41,2,GND,GND,-
+B41,2,GND,GND,-
+A42,2,FP_PET2_P,"CPU PEG TX lane 2 (x16 -> Face P), AC caps on the CB",out
+B42,2,FP_PER2_P,CPU PEG RX lane 2,in
+A43,2,FP_PET2_N,"CPU PEG TX lane 2 (x16 -> Face P), AC caps on the CB",out
+B43,2,FP_PER2_N,CPU PEG RX lane 2,in
+A44,2,GND,GND,-
+B44,2,GND,GND,-
+A45,2,FP_PET1_P,"CPU PEG TX lane 1 (x16 -> Face P), AC caps on the CB",out
+B45,2,FP_PER1_P,CPU PEG RX lane 1,in
+A46,2,FP_PET1_N,"CPU PEG TX lane 1 (x16 -> Face P), AC caps on the CB",out
+B46,2,FP_PER1_N,CPU PEG RX lane 1,in
+A47,2,GND,GND,-
+B47,2,GND,GND,-
+A48,2,FP_PET0_P,"CPU PEG TX lane 0 (x16 -> Face P), AC caps on the CB",out
+B48,2,FP_PER0_P,CPU PEG RX lane 0,in
+A49,2,FP_PET0_N,"CPU PEG TX lane 0 (x16 -> Face P), AC caps on the CB",out
+B49,2,FP_PER0_N,CPU PEG RX lane 0,in
+A50,2,GND,GND,-
+B50,2,GND,GND,-
+A51,2,FP_REFCLK_P,PCH CLKOUT for CPU PEG (SRCn TBD; SRC11/SRC12 are taken by the IOB i226 links),out
+B51,2,USB2_FACEP_P,PCH USB2 port -> Face P AUX 13/14,bi
+A52,2,FP_REFCLK_N,PCH CLKOUT for CPU PEG (SRCn TBD; SRC11/SRC12 are taken by the IOB i226 links),out
+B52,2,USB2_FACEP_N,PCH USB2 port -> Face P AUX 13/14,bi
+A53,2,GND,GND,-
+B53,2,GND,GND,-
+A54,2,RSVD_REFCLK2_P,"reserved, NC on the CB",-
+B54,2,RSVD_HS_B1_P,"reserved, NC on the CB",-
+A55,2,RSVD_REFCLK2_N,"reserved, NC on the CB",-
+B55,2,RSVD_HS_B1_N,"reserved, NC on the CB",-
+A56,2,GND,GND,-
+B56,2,GND,GND,-
+A57,3,GND,GND,-
+B57,3,GND,GND,-
+A58,3,FS_PET0_P,"CPU PCIe x4 TX lane 0 (-> Face S), AC caps on the CB",out
+B58,3,FS_PER0_P,CPU PCIe x4 RX lane 0,in
+A59,3,FS_PET0_N,"CPU PCIe x4 TX lane 0 (-> Face S), AC caps on the CB",out
+B59,3,FS_PER0_N,CPU PCIe x4 RX lane 0,in
+A60,3,GND,GND,-
+B60,3,GND,GND,-
+A61,3,FS_PET1_P,"CPU PCIe x4 TX lane 1 (-> Face S), AC caps on the CB",out
+B61,3,FS_PER1_P,CPU PCIe x4 RX lane 1,in
+A62,3,FS_PET1_N,"CPU PCIe x4 TX lane 1 (-> Face S), AC caps on the CB",out
+B62,3,FS_PER1_N,CPU PCIe x4 RX lane 1,in
+A63,3,GND,GND,-
+B63,3,GND,GND,-
+A64,3,FS_PET2_P,"CPU PCIe x4 TX lane 2 (-> Face S), AC caps on the CB",out
+B64,3,FS_PER2_P,CPU PCIe x4 RX lane 2,in
+A65,3,FS_PET2_N,"CPU PCIe x4 TX lane 2 (-> Face S), AC caps on the CB",out
+B65,3,FS_PER2_N,CPU PCIe x4 RX lane 2,in
+A66,3,GND,GND,-
+B66,3,GND,GND,-
+A67,3,FS_PET3_P,"CPU PCIe x4 TX lane 3 (-> Face S), AC caps on the CB",out
+B67,3,FS_PER3_P,CPU PCIe x4 RX lane 3,in
+A68,3,FS_PET3_N,"CPU PCIe x4 TX lane 3 (-> Face S), AC caps on the CB",out
+B68,3,FS_PER3_N,CPU PCIe x4 RX lane 3,in
+A69,3,GND,GND,-
+B69,3,GND,GND,-
+A70,3,FS_REFCLK_P,PCH CLKOUT for the CPU x4 port (SRCn TBD),out
+B70,3,SATA0_RX_P,PCH SATA0 RX,in
+A71,3,FS_REFCLK_N,PCH CLKOUT for the CPU x4 port (SRCn TBD),out
+B71,3,SATA0_RX_N,PCH SATA0 RX,in
+A72,3,GND,GND,-
+B72,3,GND,GND,-
+A73,3,SATA0_TX_P,"PCH SATA0 TX (SATA-capable HSIO not used by M.2 RP9-12; lane TBD), AC caps on the CB",out
+B73,3,USB2_MCU_P,"PCH USB2 port (BP MCU, number TBD)",bi
+A74,3,SATA0_TX_N,"PCH SATA0 TX (SATA-capable HSIO not used by M.2 RP9-12; lane TBD), AC caps on the CB",out
+B74,3,USB2_MCU_N,"PCH USB2 port (BP MCU, number TBD)",bi
+A75,3,GND,GND,-
+B75,3,GND,GND,-
+A76,3,RSVD_HS_A1_P,"reserved, NC on the CB",-
+B76,3,USB2_FACES_P,PCH USB2 port -> Face S AUX 13/14,bi
+A77,3,RSVD_HS_A1_N,"reserved, NC on the CB",-
+B77,3,USB2_FACES_N,PCH USB2 port -> Face S AUX 13/14,bi
+A78,3,GND,GND,-
+B78,3,GND,GND,-
+A79,3,RSVD_HS_A2_P,"reserved, NC on the CB",-
+B79,3,USB2_SPARE_P,PCH USB2 port -> BP J6 13/14 -> IOB USB2_LINK (hub H2: USB-A A1-A4 + Bluetooth),bi
+A80,3,RSVD_HS_A2_N,"reserved, NC on the CB",-
+B80,3,USB2_SPARE_N,PCH USB2 port -> BP J6 13/14 -> IOB USB2_LINK (hub H2: USB-A A1-A4 + Bluetooth),bi
+A81,3,GND,GND,-
+B81,3,GND,GND,-
+A82,3,GND,GND,-
+B82,3,RSVD_HS_B2_P,"reserved, NC on the CB",-
+A83,3,GND,GND,-
+B83,3,RSVD_HS_B2_N,"reserved, NC on the CB",-
+A84,3,GND,GND,-
+B84,3,GND,GND,-
+A85,4,GND,GND,-
+B85,4,GND,GND,-
+A86,4,PWRBTN#,EC GPIO in -> EC drives PCH PWRBTN# (BP MCU relays IOB PWRBTN_IN_N),"in, OD, BP pull-up 3V3_SB"
+B86,4,SMB_CLK,PCH SMBus (DIMM SPD/PMIC/TS bus): 0R DNP isolation on the CB by default (avoid multi-master on the DIMM bus) [Proposal],"bi, OD"
+A87,4,RSTBTN#,EC GPIO in -> PCH SYS_RESET#,"in, OD"
+B87,4,SMB_DAT,"PCH SMBus, as SMB_CLK","bi, OD"
+A88,4,GND,GND,-
+B88,4,GND,GND,-
+A89,4,SUS_S3#,"PCH SLP_S3# (buffered, 3V3_SB)",out
+B89,4,SMB_ALERT#,PCH SMBALERT# (DNP with SMB_*),"bi, OD"
+A90,4,SUS_S4_S5#,PCH SLP_S4# (buffered; SLP_S5# not exported),out
+B90,4,I2C0_CLK,CB ID EEPROM 0x57 + EC I2C target (3V3_SB domain); BP MCU is controller,"bi, OD"
+A91,4,GND,GND,-
+B91,4,GND,GND,-
+A92,4,RSMRST_OUT#,copy of EC-driven PCH RSMRST#,out
+B92,4,I2C0_DAT,as I2C0_CLK,"bi, OD"
+A93,4,VIN_PWR_OK,EC GPIO in: BP 12 V main good (PSU PWR_OK AND interlock),in
+B93,4,UART0_TX,EC UART TX (EC <-> BP MCU),out
+A94,4,GND,GND,-
+B94,4,GND,GND,-
+A95,4,PLTRST#,PCH PLTRST# (buffered); BP makes PERST#_FP/FS = PLTRST# AND FACE_x_RDY,out
+B95,4,UART0_RX,EC UART RX,in
+A96,4,THERMTRIP#,"CPU/PCH THERMTRIP# (OD, wired-OR on the CB)","out, OD"
+B96,4,FAN_PWMOUT,EC PWM out = fan demand (BP MCU writes the IOB EMC2101),out
+A97,4,GND,GND,-
+B97,4,GND,GND,-
+A98,4,CARRIER_HOT#,EC GPIO in -> CPU PROCHOT# (OD),"in, OD"
+B98,4,FAN_TACHIN,EC capture in: tach regenerated by the BP MCU,in
+A99,4,WAKE0#,PCH WAKE# (faces' WAKE# ORed on the BP),"in, OD"
+B99,4,GPIO2,EC GPIO spare,bi
+A100,4,GND,GND,-
+B100,4,GND,GND,-
+A101,4,BIOS_SEL,EC GPIO in (optional dual-image select),in
+B101,4,GPIO3,EC GPIO spare,bi
+A102,4,GPIO0,EC GPIO spare,bi
+B102,4,RSVD_LS2,"reserved, NC on the CB",-
+A103,4,GND,GND,-
+B103,4,GND,GND,-
+A104,4,GPIO1,EC GPIO spare,bi
+B104,4,RSVD_LS3,"reserved, NC on the CB",-
+A105,4,PWR_ALERT#,"CB 12 V power alert (ICD rev 2, live power target): wired-OR of CB INA228 U15 ALERT (0x45 on I2C0) and U11 eFuse FLT#; BP 10k pull-up to 3V3_SB, BP MCU IRQ","out, OD"
+B105,4,RSVD_LS4,"reserved, NC on the CB",-
+A106,4,GND,GND,-
+B106,4,GND,GND,-
+A107,4,5V_SBY,"CB standby input (PCH DSW/primary wells via bucks, EC, RTC)","in, power"
+B107,4,3V3_SB,"CB 3V3_SB input (EC, ID EEPROM)","in, power"
+A108,4,5V_SBY,"CB standby input (PCH DSW/primary wells via bucks, EC, RTC)","in, power"
+B108,4,3V3_SB,"CB 3V3_SB input (EC, ID EEPROM)","in, power"
+A109,4,GND,GND,-
+B109,4,GND,GND,-
+A110,4,5V_SBY,"CB standby input (PCH DSW/primary wells via bucks, EC, RTC)","in, power"
+B110,4,5V_SBY,"CB standby input (PCH DSW/primary wells via bucks, EC, RTC)","in, power"
+A111,4,5V_SBY,"CB standby input (PCH DSW/primary wells via bucks, EC, RTC)","in, power"
+B111,4,5V_SBY,"CB standby input (PCH DSW/primary wells via bucks, EC, RTC)","in, power"
+A112,4,CC_PRSNT2#,GND (short finger on the CB card edge),-
+B112,4,GND,GND,-

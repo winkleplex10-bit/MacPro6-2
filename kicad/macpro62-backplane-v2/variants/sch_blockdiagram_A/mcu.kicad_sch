@@ -1,0 +1,831 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "ea1472f4-0610-44fd-9e29-37dbbce7dbdc")
+	(paper "A4")
+	(title_block
+		(title "MP62 backplane: Management MCU (RP2350A)")
+		(date "2026-10-02")
+		(rev "A-bd2")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_MCU"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_MCU"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_MCU_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -115.57)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_MCU_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "3V3_SB" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "USB_MCU_DP" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "USB_MCU_DN" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "PS_ON_REQ" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "PSU_PWR_OK" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "INTERLOCK_OK" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -15.24 0)
+					(length 2.54)
+					(name "THERM_LATCH" (effects (font (size 1.0 1.0))))
+					(number "7" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -17.78 0)
+					(length 2.54)
+					(name "BENCH_UNLOCK" (effects (font (size 1.0 1.0))))
+					(number "8" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -20.32 0)
+					(length 2.54)
+					(name "PWRBTN_IN_N" (effects (font (size 1.0 1.0))))
+					(number "9" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -22.86 0)
+					(length 2.54)
+					(name "I2C_SYS_SCL" (effects (font (size 1.0 1.0))))
+					(number "10" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -25.40 0)
+					(length 2.54)
+					(name "I2C_SYS_SDA" (effects (font (size 1.0 1.0))))
+					(number "11" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -27.94 0)
+					(length 2.54)
+					(name "MOD_PWRBTN_N" (effects (font (size 1.0 1.0))))
+					(number "12" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -30.48 0)
+					(length 2.54)
+					(name "MOD_SUS_S3_N" (effects (font (size 1.0 1.0))))
+					(number "13" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -33.02 0)
+					(length 2.54)
+					(name "MOD_SUS_S5_N" (effects (font (size 1.0 1.0))))
+					(number "14" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -35.56 0)
+					(length 2.54)
+					(name "MOD_RSMRST_N" (effects (font (size 1.0 1.0))))
+					(number "15" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -38.10 0)
+					(length 2.54)
+					(name "MOD_VIN_PWR_OK" (effects (font (size 1.0 1.0))))
+					(number "16" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -40.64 0)
+					(length 2.54)
+					(name "MOD_PLTRST_N" (effects (font (size 1.0 1.0))))
+					(number "17" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -43.18 0)
+					(length 2.54)
+					(name "MOD_CARRIER_HOT_N" (effects (font (size 1.0 1.0))))
+					(number "18" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -45.72 0)
+					(length 2.54)
+					(name "MOD_FAN_PWMOUT" (effects (font (size 1.0 1.0))))
+					(number "19" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -48.26 0)
+					(length 2.54)
+					(name "MOD_FAN_TACHIN" (effects (font (size 1.0 1.0))))
+					(number "20" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -50.80 0)
+					(length 2.54)
+					(name "MOD_PWR_ALERT_N" (effects (font (size 1.0 1.0))))
+					(number "21" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -53.34 0)
+					(length 2.54)
+					(name "PWR_ALERT_BP_N" (effects (font (size 1.0 1.0))))
+					(number "22" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -55.88 0)
+					(length 2.54)
+					(name "MOD_SMB_SCL" (effects (font (size 1.0 1.0))))
+					(number "23" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -58.42 0)
+					(length 2.54)
+					(name "MOD_SMB_SDA" (effects (font (size 1.0 1.0))))
+					(number "24" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -60.96 0)
+					(length 2.54)
+					(name "MOD_I2C0_SCL" (effects (font (size 1.0 1.0))))
+					(number "25" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -63.50 0)
+					(length 2.54)
+					(name "MOD_I2C0_SDA" (effects (font (size 1.0 1.0))))
+					(number "26" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -66.04 0)
+					(length 2.54)
+					(name "IOB_INT_N" (effects (font (size 1.0 1.0))))
+					(number "27" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -68.58 0)
+					(length 2.54)
+					(name "IOB_PRSNT_N" (effects (font (size 1.0 1.0))))
+					(number "28" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -71.12 0)
+					(length 2.54)
+					(name "FACE_P_MOD_LED_N" (effects (font (size 1.0 1.0))))
+					(number "29" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -73.66 0)
+					(length 2.54)
+					(name "FACE_S_MOD_LED_N" (effects (font (size 1.0 1.0))))
+					(number "30" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -76.20 0)
+					(length 2.54)
+					(name "FACE_P_PWR_EN" (effects (font (size 1.0 1.0))))
+					(number "31" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -78.74 0)
+					(length 2.54)
+					(name "FACE_P_PWR_GOOD" (effects (font (size 1.0 1.0))))
+					(number "32" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -81.28 0)
+					(length 2.54)
+					(name "FACE_P_RDY" (effects (font (size 1.0 1.0))))
+					(number "33" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -83.82 0)
+					(length 2.54)
+					(name "FACE_P_PRSNT_N" (effects (font (size 1.0 1.0))))
+					(number "34" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -86.36 0)
+					(length 2.54)
+					(name "FACE_P_THERM_ALERT_N" (effects (font (size 1.0 1.0))))
+					(number "35" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -88.90 0)
+					(length 2.54)
+					(name "FACE_P_SMB_SCL" (effects (font (size 1.0 1.0))))
+					(number "36" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -91.44 0)
+					(length 2.54)
+					(name "FACE_P_SMB_SDA" (effects (font (size 1.0 1.0))))
+					(number "37" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -93.98 0)
+					(length 2.54)
+					(name "FACE_P_SMB_ALERT_N" (effects (font (size 1.0 1.0))))
+					(number "38" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -96.52 0)
+					(length 2.54)
+					(name "FACE_S_PWR_EN" (effects (font (size 1.0 1.0))))
+					(number "39" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -99.06 0)
+					(length 2.54)
+					(name "FACE_S_PWR_GOOD" (effects (font (size 1.0 1.0))))
+					(number "40" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -101.60 0)
+					(length 2.54)
+					(name "FACE_S_RDY" (effects (font (size 1.0 1.0))))
+					(number "41" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -104.14 0)
+					(length 2.54)
+					(name "FACE_S_PRSNT_N" (effects (font (size 1.0 1.0))))
+					(number "42" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -106.68 0)
+					(length 2.54)
+					(name "FACE_S_THERM_ALERT_N" (effects (font (size 1.0 1.0))))
+					(number "43" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -109.22 0)
+					(length 2.54)
+					(name "FACE_S_SMB_SCL" (effects (font (size 1.0 1.0))))
+					(number "44" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -111.76 0)
+					(length 2.54)
+					(name "FACE_S_SMB_SDA" (effects (font (size 1.0 1.0))))
+					(number "45" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -114.30 0)
+					(length 2.54)
+					(name "FACE_S_SMB_ALERT_N" (effects (font (size 1.0 1.0))))
+					(number "46" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "3V3_SB"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "0b82ff5f-9656-4ca9-946a-91a10d4a2f4c")
+	)
+	(hierarchical_label "USB_MCU_DP"
+		(shape bidirectional)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "c5a281f4-598a-4f33-a900-fc2dfe03855f")
+	)
+	(hierarchical_label "USB_MCU_DN"
+		(shape bidirectional)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "a84837e6-d80d-4c8e-915d-50c443690674")
+	)
+	(hierarchical_label "PS_ON_REQ"
+		(shape output)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "fdae48ec-531e-4156-8534-4e2b48764cb0")
+	)
+	(hierarchical_label "PSU_PWR_OK"
+		(shape input)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "a5c56d20-7858-4e7d-acd6-8090acf21c7a")
+	)
+	(hierarchical_label "INTERLOCK_OK"
+		(shape input)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "07d5b9da-9c52-4854-b870-6e5d2004b1d5")
+	)
+	(hierarchical_label "THERM_LATCH"
+		(shape input)
+		(at 38.1 45.72 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e324c8da-25c9-489b-a9cc-708d6221446f")
+	)
+	(hierarchical_label "BENCH_UNLOCK"
+		(shape output)
+		(at 38.1 48.26 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "23c9561e-0539-4a41-bb57-7816143e8ba5")
+	)
+	(hierarchical_label "PWRBTN_IN_N"
+		(shape input)
+		(at 38.1 50.80 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "7bf61bb1-b514-4d6e-835a-ba994fe31d92")
+	)
+	(hierarchical_label "I2C_SYS_SCL"
+		(shape bidirectional)
+		(at 38.1 53.34 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "4f579be1-7a78-44a6-8eb2-581528265a96")
+	)
+	(hierarchical_label "I2C_SYS_SDA"
+		(shape bidirectional)
+		(at 38.1 55.88 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "8593fedc-e174-4190-87a2-34388b522bfa")
+	)
+	(hierarchical_label "MOD_PWRBTN_N"
+		(shape output)
+		(at 38.1 58.42 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "88d31d30-cd80-47a8-aab2-65d8e108d389")
+	)
+	(hierarchical_label "MOD_SUS_S3_N"
+		(shape input)
+		(at 38.1 60.96 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e51b54ab-8372-448c-809d-708a73d15379")
+	)
+	(hierarchical_label "MOD_SUS_S5_N"
+		(shape input)
+		(at 38.1 63.50 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "4507c686-4f33-4dee-8da4-cc59a066ebae")
+	)
+	(hierarchical_label "MOD_RSMRST_N"
+		(shape input)
+		(at 38.1 66.04 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "a090acaa-61f4-4dc0-b719-1373ae407409")
+	)
+	(hierarchical_label "MOD_VIN_PWR_OK"
+		(shape output)
+		(at 38.1 68.58 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "13bc365f-f3a8-460c-b1ad-79454e6b5955")
+	)
+	(hierarchical_label "MOD_PLTRST_N"
+		(shape input)
+		(at 38.1 71.12 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "16297d72-7c44-45f8-9ae3-5b5308fbc4fe")
+	)
+	(hierarchical_label "MOD_CARRIER_HOT_N"
+		(shape output)
+		(at 38.1 73.66 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "943945ab-ad17-4aae-a548-e5afb82e564d")
+	)
+	(hierarchical_label "MOD_FAN_PWMOUT"
+		(shape input)
+		(at 38.1 76.20 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "18522d98-6f09-44d2-9520-e6cbf7e44370")
+	)
+	(hierarchical_label "MOD_FAN_TACHIN"
+		(shape output)
+		(at 38.1 78.74 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "79d5d19a-4c1d-48d0-b783-b12a31de1fee")
+	)
+	(hierarchical_label "MOD_PWR_ALERT_N"
+		(shape input)
+		(at 38.1 81.28 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "cbe1586d-6306-42a6-af7c-2b1d00ec306c")
+	)
+	(hierarchical_label "PWR_ALERT_BP_N"
+		(shape input)
+		(at 38.1 83.82 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "eea868b2-6c0e-4258-9694-3106b8f48985")
+	)
+	(hierarchical_label "MOD_SMB_SCL"
+		(shape bidirectional)
+		(at 38.1 86.36 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "79447b96-c825-440c-9a3b-f1093af44ef4")
+	)
+	(hierarchical_label "MOD_SMB_SDA"
+		(shape bidirectional)
+		(at 38.1 88.90 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "835540ea-b376-49ee-ad8e-309ae5d6eb15")
+	)
+	(hierarchical_label "MOD_I2C0_SCL"
+		(shape bidirectional)
+		(at 38.1 91.44 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "2c3307a6-da46-4e86-9df5-1445e7c0d09a")
+	)
+	(hierarchical_label "MOD_I2C0_SDA"
+		(shape bidirectional)
+		(at 38.1 93.98 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "9d4b3cc6-fc67-4376-b493-e562372ac030")
+	)
+	(hierarchical_label "IOB_INT_N"
+		(shape input)
+		(at 38.1 96.52 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "5e20548b-bc93-4509-b87a-748f8a4d326d")
+	)
+	(hierarchical_label "IOB_PRSNT_N"
+		(shape input)
+		(at 38.1 99.06 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f1b80337-851a-472e-ba5d-d5140fa5518a")
+	)
+	(hierarchical_label "FACE_P_MOD_LED_N"
+		(shape input)
+		(at 38.1 101.60 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "a6d77dfa-b4e1-426a-afa5-f10bfe684fb6")
+	)
+	(hierarchical_label "FACE_S_MOD_LED_N"
+		(shape input)
+		(at 38.1 104.14 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "cbfefc1d-1f6d-4558-863f-cdcc87921759")
+	)
+	(hierarchical_label "FACE_P_PWR_EN"
+		(shape output)
+		(at 38.1 106.68 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "7cc2f590-19c1-4dd5-ab3e-39724ddba6b5")
+	)
+	(hierarchical_label "FACE_P_PWR_GOOD"
+		(shape input)
+		(at 38.1 109.22 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e3cb6fd1-3b16-4322-82b2-1d65e0a127e3")
+	)
+	(hierarchical_label "FACE_P_RDY"
+		(shape output)
+		(at 38.1 111.76 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "8e0ff663-0a29-43aa-908f-db3505bcc368")
+	)
+	(hierarchical_label "FACE_P_PRSNT_N"
+		(shape input)
+		(at 38.1 114.30 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e5f278f1-56c3-4357-ba9f-a1588c456888")
+	)
+	(hierarchical_label "FACE_P_THERM_ALERT_N"
+		(shape bidirectional)
+		(at 38.1 116.84 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "304acd3e-1ba0-429b-a6c0-79adb01a73d1")
+	)
+	(hierarchical_label "FACE_P_SMB_SCL"
+		(shape bidirectional)
+		(at 38.1 119.38 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "d5bcc402-388f-48bc-8178-62a0428888ff")
+	)
+	(hierarchical_label "FACE_P_SMB_SDA"
+		(shape bidirectional)
+		(at 38.1 121.92 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "ccaa7a5d-486a-4839-b123-7a5cca66fd06")
+	)
+	(hierarchical_label "FACE_P_SMB_ALERT_N"
+		(shape input)
+		(at 38.1 124.46 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "33b089b8-0af1-4629-8272-b8a53cdfd492")
+	)
+	(hierarchical_label "FACE_S_PWR_EN"
+		(shape output)
+		(at 38.1 127.00 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "04cc813e-16b2-469c-a4d7-36937349fa87")
+	)
+	(hierarchical_label "FACE_S_PWR_GOOD"
+		(shape input)
+		(at 38.1 129.54 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "0ea6fd03-cafe-429e-a2ed-c2ecf87c30d5")
+	)
+	(hierarchical_label "FACE_S_RDY"
+		(shape output)
+		(at 38.1 132.08 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "d1484476-c6ef-4b43-a226-6acf32fd169f")
+	)
+	(hierarchical_label "FACE_S_PRSNT_N"
+		(shape input)
+		(at 38.1 134.62 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "5846277a-5529-4dd1-a097-629312040afe")
+	)
+	(hierarchical_label "FACE_S_THERM_ALERT_N"
+		(shape bidirectional)
+		(at 38.1 137.16 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "db7b76d6-bb55-412c-bc6d-12716a2c3170")
+	)
+	(hierarchical_label "FACE_S_SMB_SCL"
+		(shape bidirectional)
+		(at 38.1 139.70 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3d8917c5-8821-45fd-8867-f359fe3c7f3f")
+	)
+	(hierarchical_label "FACE_S_SMB_SDA"
+		(shape bidirectional)
+		(at 38.1 142.24 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "05b7ba65-522b-4e16-a3e4-973a2b7511ce")
+	)
+	(hierarchical_label "FACE_S_SMB_ALERT_N"
+		(shape input)
+		(at 38.1 144.78 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "b71d3fce-a94a-4512-96ed-12796b08d3ae")
+	)
+	(symbol
+		(lib_id "MP62:STUB_MCU")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "965ee32a-44c4-4421-8cd3-071c50ba4b4f")
+		(property "Reference" "#BLK2"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_MCU"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "ff8c289a-3b51-4db1-a61e-3d566bc20e1d")
+		)
+		(pin "2"
+			(uuid "4dcace67-a8b0-4950-96ee-44673e60b16d")
+		)
+		(pin "3"
+			(uuid "dfed6512-08e8-478b-a107-89444985a362")
+		)
+		(pin "4"
+			(uuid "2cd4d3bf-1b8f-47c1-9b1d-4e01b7452e46")
+		)
+		(pin "5"
+			(uuid "027a366e-409d-4d04-979c-f61d3564a226")
+		)
+		(pin "6"
+			(uuid "743c6578-bfad-4006-bd27-064dc5fe5cba")
+		)
+		(pin "7"
+			(uuid "c0f263a7-fece-4767-a65e-373553e6dd49")
+		)
+		(pin "8"
+			(uuid "fce598be-aa7e-499b-a055-7fbc306fc0cc")
+		)
+		(pin "9"
+			(uuid "70a470f6-defd-4354-b7cd-0cc4bae8b78e")
+		)
+		(pin "10"
+			(uuid "2754b54f-c5e1-4ac2-8370-cb2a56ac0e54")
+		)
+		(pin "11"
+			(uuid "67b16283-7bfd-44ee-874c-a6e0cb196356")
+		)
+		(pin "12"
+			(uuid "4321110f-812b-438b-b21e-5911add1ffcd")
+		)
+		(pin "13"
+			(uuid "fc65de01-84ba-460f-a1bf-e194b8113fca")
+		)
+		(pin "14"
+			(uuid "b5ced46c-5bdd-452d-8a2b-0e742809915a")
+		)
+		(pin "15"
+			(uuid "3000cdce-2fea-4a6a-82ea-9e673f0bc5ad")
+		)
+		(pin "16"
+			(uuid "d214e3e8-c9d4-4caa-86ee-e2a20e2e438b")
+		)
+		(pin "17"
+			(uuid "72d92292-3c24-4854-a236-cad0a1337a2e")
+		)
+		(pin "18"
+			(uuid "3718a9d4-0cf3-4d96-9f79-02f7a336ac42")
+		)
+		(pin "19"
+			(uuid "c2dd3458-7c1b-4f54-a53e-078ff1540418")
+		)
+		(pin "20"
+			(uuid "577e06db-2b5c-4c3e-b157-db853e2569a4")
+		)
+		(pin "21"
+			(uuid "09c1e6b2-97c0-4d08-885f-853f5b83eb19")
+		)
+		(pin "22"
+			(uuid "d0c77867-bce8-4146-874b-3a63ad8ec55d")
+		)
+		(pin "23"
+			(uuid "08773479-c66a-4f1c-9695-99b9316bc2f0")
+		)
+		(pin "24"
+			(uuid "002161c6-ede6-4436-87d5-e94ee5f642a5")
+		)
+		(pin "25"
+			(uuid "5e00b1f5-7e1d-4e23-ae4c-3d7a00456c2a")
+		)
+		(pin "26"
+			(uuid "6c26d2e1-0ffd-4cac-83d1-1d7932187ae8")
+		)
+		(pin "27"
+			(uuid "eccc1e60-0c68-4004-ae00-6ebeeb248a2d")
+		)
+		(pin "28"
+			(uuid "b826c686-b594-4482-91c9-fb5a9322d757")
+		)
+		(pin "29"
+			(uuid "14aa408d-ed5c-4956-9923-cba93b640106")
+		)
+		(pin "30"
+			(uuid "389f3f7f-0e0f-48eb-8b59-30f27b857318")
+		)
+		(pin "31"
+			(uuid "4088eca4-eb77-4db0-be9d-e27c6a3be15e")
+		)
+		(pin "32"
+			(uuid "e4b87179-20e3-4171-a5dc-39b300e7859a")
+		)
+		(pin "33"
+			(uuid "46ed2784-d4b7-42d5-91c0-484dda1c655c")
+		)
+		(pin "34"
+			(uuid "44a8a74d-ce87-4459-9fcf-783651300b7c")
+		)
+		(pin "35"
+			(uuid "f5fc5892-a662-4743-baa9-171126b55d02")
+		)
+		(pin "36"
+			(uuid "d14cb987-9245-4668-9587-d6da4d56791b")
+		)
+		(pin "37"
+			(uuid "4ea76bf4-a462-4c4c-9ae3-d21e3f4e813e")
+		)
+		(pin "38"
+			(uuid "f5672d2b-eff7-408f-888f-7d01049ff1c9")
+		)
+		(pin "39"
+			(uuid "13d9f40f-9a0b-48e6-a271-80025f008a57")
+		)
+		(pin "40"
+			(uuid "bedd52cd-cc49-4658-98ec-f94c50caaf45")
+		)
+		(pin "41"
+			(uuid "3df277e8-9b20-4373-bab2-97b652284334")
+		)
+		(pin "42"
+			(uuid "a0b6c0b5-c0c5-4044-ba16-ee1594bb92b9")
+		)
+		(pin "43"
+			(uuid "6f0de1ec-f97b-4d6e-aa57-46eab4bb17f6")
+		)
+		(pin "44"
+			(uuid "25e41f8f-6c64-43ff-9fc3-b2dd49d084c1")
+		)
+		(pin "45"
+			(uuid "2b96c624-48f2-41ea-9ea5-000a4b36562a")
+		)
+		(pin "46"
+			(uuid "dd99cd5e-417f-48fc-8954-147794fcdd31")
+		)
+		(instances
+			(project "backplane"
+				(path "/6a1c2d3e-0000-4000-8000-000000000062/f438f003-2154-42c2-869f-bdabceeaef13"
+					(reference "#BLK2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "9f107cc9-468c-44b9-b535-0c6fe39d1567")
+	)
+	(text "- U1 RP2350A (LCSC C42411118) + U2 16 MB QSPI flash + 12 MHz crystal; SWD (J8), BOOTSEL (SW1)"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "04ee9b7e-b0df-45b3-8efa-f6edeb030aa2")
+	)
+	(text "- USB FS composite device to the host (HID sensors + vendor HID) via CPU-LINK USB2"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "1c009a4e-6397-42fe-82cd-efe141238b2f")
+	)
+	(text "- Power sequencing (S5/S0 only in rev A), face power policy; LIVE POWER TARGET (arch spec 5.5 / ICD 13.2): 445 W ceiling, 10 Hz loop"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "ac4b31b6-fa83-4aba-9dfd-eaa73cb90b66")
+	)
+	(text "- LPT telemetry: INA228 BP 0x40 + IOB 0x41 (I2C_SYS), CB 0x45 (MOD_I2C0), faces 0x40 (FACE_x_SMB); alerts: PWR_ALERT_BP_N, MOD_PWR_ALERT_N, IOB_INT_N, FACE_x_SMB_ALERT_N"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "f1cf8af3-0f81-48df-8b9c-995a8dfeb3af")
+	)
+	(text "- LPT actuators: EC (UART0: PL1/PL2/PL4, ratio cap) + MOD_CARRIER_HOT_N (PROCHOT#), FACE_x_THERM_ALERT_N (fast cap), face power-target register, PD pool via I2C_PD"
+		(exclude_from_sim no)
+		(at 76.20 50.80 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "43b5c258-fd5f-4239-818c-efe977e03a32")
+	)
+	(text "- Fan: reads the CB demand (MOD_FAN_PWMOUT) and drives the IOB EMC2101 (0x4C on I2C_PD behind TCA9517); reloads LUT + TCRIT at every S0 entry (fail-safe)"
+		(exclude_from_sim no)
+		(at 76.20 54.61 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "cc135902-9bd3-42e8-95f0-f5526b5b3d30")
+	)
+	(text "- Owns FACE_P/FACE_S SMBus segments (ID EEPROM 0x50, temp sensor 0x48)"
+		(exclude_from_sim no)
+		(at 76.20 58.42 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "ab173e25-bdc7-4366-86b9-d69fca921857")
+	)
+	(text "- I2C_SYS: INA 0x40, TMP1075 U3 0x48 / U4 0x49, BP EEPROM 0x50; IOB: LIS2DH12 0x18, EMC2101 0x4C, EEPROM 0x51, TLC59116 0x60"
+		(exclude_from_sim no)
+		(at 76.20 62.23 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "a78dd5de-378a-494d-8382-6bae58ac89a1")
+	)
+	(text "- MOD_I2C0 (CPU-LINK B90/B92) = CB ID EEPROM 0x57; MOD_SMB = PCH SMBus (DIMM SPD) -> BP leaves it isolated (DNP) by default"
+		(exclude_from_sim no)
+		(at 76.20 66.04 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "13a13f6e-2a00-4000-8a44-b95613e8e935")
+	)
+	(text "- GPIO count is tight on RP2350A: I2C GPIO expander or RP2350B if needed (TBD)"
+		(exclude_from_sim no)
+		(at 76.20 69.85 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "b8beaf9f-ccb4-46dc-b510-b2badea2b94a")
+	)
+)

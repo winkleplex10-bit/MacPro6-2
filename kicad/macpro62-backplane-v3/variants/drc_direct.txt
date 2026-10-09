@@ -1,0 +1,10 @@
+** Drc report for backplane_direct.kicad_pcb **
+** Created on 2026-10-01T13:02:20-0400 **
+
+** Found 0 DRC violations **
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MP62_BP")(type "KiCad")(uri "${KIPRJMOD}/MP62_BP.kicad_sym")(options "")(descr "MP62 backplane A1 symbols"))
+)

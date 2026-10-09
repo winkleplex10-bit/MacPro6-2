@@ -1,0 +1,153 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "2a8776d7-aa53-4692-81ba-86c6ded59d9d")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: Boot M.2 J8 (PROM21 Gen4 x4, v3)")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_M2_BOOT"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_M2_BOOT"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_M2_BOOT_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -8.89)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_M2_BOOT_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "PCIE_PROM21_M2_X4" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "PROM21_CLK_M2" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "PCIE_RST_L" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "3V3_S0" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "PCIE_PROM21_M2_X4"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "47257b79-5919-49e8-9a5c-ac6b66e56c4c")
+	)
+	(hierarchical_label "PROM21_CLK_M2"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "c5b25d64-6293-448c-8e3b-3ef52bfd2e58")
+	)
+	(hierarchical_label "PCIE_RST_L"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "70ffdd82-1f22-49d0-ba37-8527d559d6ea")
+	)
+	(hierarchical_label "3V3_S0"
+		(shape input)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "8e47d156-a0da-4c99-b1c6-09467a890f56")
+	)
+	(symbol
+		(lib_id "MP62:STUB_M2_BOOT")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "e2b4e6cb-a5f4-463f-b095-bc58ef1aab1c")
+		(property "Reference" "#BLK10"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_M2_BOOT"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "ba0bcd4d-12a9-476d-bdbb-51cf46ce4744")
+		)
+		(pin "2"
+			(uuid "2d9d2b3c-6058-4003-bf3f-e3ce4c394358")
+		)
+		(pin "3"
+			(uuid "00393908-38fd-420f-b624-11ba5b758a91")
+		)
+		(pin "4"
+			(uuid "b1c1520f-5565-47e5-9197-bea35f922ff0")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/6fff8f1c-0759-40c8-8405-5bef64882e2f"
+					(reference "#BLK10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "0edcbe08-93c1-42f2-885c-609dbdd8b85d")
+	)
+	(text "- J8 M.2 2280 M-key (back, same position); v3: source = PROM21 free Gen4 x4 downstream port (CPU GPP#2 now feeds Face S slot B)"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "e6789aca-09b2-4926-b4f5-4b7c9bf9cf06")
+	)
+	(text "- REFCLK = PROM21 downstream refclk; PERST# = PROM21 PERST / PCIE_RST_L; 3V3_S0 ~2.5 A"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "d15bc8b7-53b3-4678-b758-63a1fac8e937")
+	)
+)

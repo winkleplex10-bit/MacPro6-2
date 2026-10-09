@@ -1,0 +1,13 @@
+(footprint "MP62_CB_CoreMountHole_D5.0_Pad9"
+  (version 20241229)
+  (generator "mp62_am5_make_placeholders")
+  (layer "F.Cu")
+  (descr "Stock MacPro6,2 CPU-board heatsink/thermal-core hole D5.0, plated GND ring 9.0. Fixed position (69.5 x 55).")
+  (tags "MP62 AM5 PLACEHOLDER")
+  (property "Reference" "REF**" (at 0 -6 0) (layer "F.SilkS") (effects (font (size 1.0 1.0) (thickness 0.15))))
+  (property "Value" "MP62_CB_CoreMountHole_D5.0_Pad9" (at 0 7.4 0) (layer "F.Fab") (effects (font (size 0.8 0.8) (thickness 0.12))))
+  (pad "1" thru_hole circle (at 0.000 0.000) (size 9.000 9.000) (drill 5.000) (layers "*.Cu" "*.Mask"))
+  (fp_circle (center 0.000 0.000) (end 4.200 0.000) (stroke (width 0.1) (type solid)) (fill no) (layer "F.Fab"))
+  (fp_circle (center 0.000 0.000) (end 5.000 0.000) (stroke (width 0.05) (type solid)) (fill no) (layer "F.CrtYd"))
+  (fp_text user "CORE MOUNT D5 (stock 69.5 x 55) - FIXED" (at 0.000 6.200 0) (layer "F.Fab") (effects (font (size 0.7 0.7) (thickness 0.105))))
+)

@@ -1,0 +1,9 @@
+J1   rmax= 55.6 (limit 58)  hole-dist= 45.7 (min 6)  OK  MCIO 124 IN from CPU board (x16 Face P lanes)
+J1B  rmax= 42.3 (limit 58)  hole-dist= 34.6 (min 6)  OK  MCIO IN from CPU board (x4 Face S + sideband) - 74P would be ~16 mm shorter
+J3   rmax= 55.0 (limit 58)  hole-dist=  8.7 (min 6)  OK  MCIO 124 OUT to Face P
+J4   rmax= 55.0 (limit 58)  hole-dist=  8.7 (min 6)  OK  MCIO 124/74 OUT to Face S
+J2   rmax= 57.6 (limit 58)  hole-dist= 32.2 (min 6)  OK  PSU-IN
+J7   rmax= 27.7 (limit 58)  hole-dist= 23.8 (min 6)  OK  OpenCore M.2
+U1   rmax= 21.1 (limit 58)  hole-dist= 46.7 (min 6)  OK  RP2350A
+PS1  rmax= 53.1 (limit 58)  hole-dist=  9.8 (min 6)  OK  Standby power
+PS2  rmax= 52.2 (limit 58)  hole-dist=  9.9 (min 6)  OK  Main power

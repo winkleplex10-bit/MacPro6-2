@@ -1,0 +1,22 @@
+BP lane length estimate (J1 pad -> redriver area -> MCIO pad), octilinear x 1.15, mm
+Face P lane  0:  63.9 mm
+Face P lane  1:  63.1 mm
+Face P lane  2:  63.5 mm
+Face P lane  3:  64.3 mm
+Face P lane  4:  71.6 mm
+Face P lane  5:  71.9 mm
+Face P lane  6:  72.3 mm
+Face P lane  7:  73.3 mm
+Face P lane  8:  70.7 mm
+Face P lane  9:  73.8 mm
+Face P lane 10:  76.9 mm
+Face P lane 11:  79.9 mm
+Face P lane 12:  83.2 mm
+Face P lane 13:  86.8 mm
+Face P lane 14:  91.1 mm
+Face P lane 15:  95.3 mm
+Face S lane  0:  70.5 mm
+Face S lane  1:  71.5 mm
+Face S lane  2:  73.4 mm
+Face S lane  3:  75.2 mm
+Face P: min 63.1 / max 95.3 / mean 75.1 mm;  Face S: min 70.5 / max 75.2 mm

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "MP62_AM5_Placeholders")(type "KiCad")(uri "${KIPRJMOD}/MP62_AM5_Placeholders.pretty")(options "")(descr "MacPro6,2 AM5 CPU board placeholder footprints (U1/U2 pads SYNTHETIC - AMD NDA; others as the LGA1700 library)"))
+)

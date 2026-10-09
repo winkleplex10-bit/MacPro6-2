@@ -1,0 +1,33 @@
+ICD O-10 / BP fp6 MCIO fit check (tools/fitcheck_o10.py)
+OK   J9 Face P landing = module J_PCIE X 47.0 (zero jog)        BP s +5.00 -> module X 47.00, jog 0.00 mm (rot -45)
+OK   J9 cable path at M1 15.0 (bend R_c 3.6 fits)               plug rear n 44.98, dn 14.67, dz 13.25 -> free 26.4 mm, mating face <-> mating face 52.8 mm
+OK   J9 cable path at M1 23.5 (bend R_c 3.6 fits)               plug rear n 44.98, dn 14.67, dz 21.75 -> free 34.9 mm, mating face <-> mating face 61.3 mm
+OK   J9 BP plug inboard of the face board (no clash with the card) plug n 31.78-44.98, latch z 10.0; board n 55.0-56.6 from z 15
+OK   J9 ribbon under the board bottom edge                      ribbon top z 4.5 vs edge z 15 (23.5) -> 10.4 mm (18.9)
+OK   J9 ribbon corridor (n >= plug rear, s +5.0 +/- 19.3) free of parts hits []; nearest part J3 2.91 mm
+NOTE J9 ribbon bend vs BP rim / base ring (M1b)                 bend outer face n 61.1, r <= 65.8 at z 1.5-8.2, beyond the BP rim (61.0): base ring / fillet clearance TO MEASURE (M1b)
+NOTE J9 ribbon over stock hole S5                               S-hole S5 (18.5, 50.7) 0.0 mm from / under the ribbon (z >= 1.5): keep the BP surface flat there (no screw head) - CR-BP-1 purpose TO CHECK
+OK   J10 Face S landing = module J_PCIE X 47.0 (zero jog)       BP s +5.00 -> module X 47.00, jog 0.00 mm (rot 45)
+OK   J10 cable path at M1 15.0 (bend R_c 3.6 fits)              plug rear n 41.49, dn 18.16, dz 13.25 -> free 29.9 mm, mating face <-> mating face 56.3 mm
+OK   J10 cable path at M1 23.5 (bend R_c 3.6 fits)              plug rear n 41.49, dn 18.16, dz 21.75 -> free 38.4 mm, mating face <-> mating face 64.8 mm
+OK   J10 BP plug inboard of the face board (no clash with the card) plug n 28.29-41.49, latch z 10.0; board n 55.0-56.6 from z 15
+OK   J10 ribbon under the board bottom edge                     ribbon top z 4.5 vs edge z 15 (23.5) -> 10.4 mm (18.9)
+OK   J10 ribbon corridor (n >= plug rear, s +5.0 +/- 19.3) free of parts hits []; nearest part J4 6.45 mm
+NOTE J10 ribbon bend vs BP rim / base ring (M1b)                bend outer face n 61.1, r <= 65.8 at z 1.5-8.2, beyond the BP rim (61.0): base ring / fillet clearance TO MEASURE (M1b)
+OK   J1 (CPU-LINK) >= 1.0 mm from J9 / J10 courtyards           J9 11.88 mm, J10 2.33 mm
+OK   J9 <-> J10 courtyard gap (apex)                            4.28 mm
+OK   BP floorplan fit check (rim 58 / gold hole 6 / S-hole 3, all parts) 27 parts in fitcheck_floorplan.txt
+OK   Cable lengths equal-ish (one part number)                  J9 52.8 / J10 56.3 mm mating face <-> mating face at M1 15 (61.3 / 64.8 at 23.5): order 55 mm nominal, +/-2
+OK   face-template J1 at X 47.0, mating face Y 14.5             X 47.000, peg line Y 20.525, side B
+OK   face-template J1 courtyard clear on the outer side (B)     nearest J2 0.31 mm
+OK   face-template J2 at X 82.5, mating face Y 14.5             X 82.500, peg line Y 20.525, side B
+OK   face-template J2 courtyard clear on the outer side (B)     nearest J1 0.31 mm
+OK   template J_PCIE <-> J_DISP narrow plug bodies              X 68.15 / 69.45 -> gap 1.30 mm (flanged 124P would overlap by 1.45)
+OK   storage-face J1 at X 47.0, mating face Y 14.5              X 47.000, peg line Y 20.525, side B
+OK   storage-face J1 courtyard clear on the outer side (B)      nearest MH080 0.34 mm
+OK   J_PCIE outer envelope h(x) (plug body at the ends, latch at centre) h(25.9) 18.0 / h(68.2) 20.8 vs body 7.86; h at latch 21.6 vs 10.0
+OK   J_DISP outer envelope h(x) (plug body at the ends, latch at centre) h(69.5) 20.5 / h(95.5) 9.5 vs body 6.86; h at latch 14.9 vs 9.0
+OK   Module plug inside the board outline (plug rear above the bottom edge) plug rear Y 1.3
+OK   J_PCIE keep-out clear of J_AUX keep-out                    J_AUX X 7.5-20.0, J_PCIE X 25.4-68.6
+OK   SM-1 M.2 cards clear of J1 (card bottom Y 28.5 vs body top Y 24.57) 3.93 mm
+ALL OK

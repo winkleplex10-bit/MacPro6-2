@@ -1,0 +1,10 @@
+** Drc report for macpro62_am5.kicad_pcb **
+** Created on 2026-10-08T20:37:01-0400 **
+
+** Found 0 DRC violations **
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

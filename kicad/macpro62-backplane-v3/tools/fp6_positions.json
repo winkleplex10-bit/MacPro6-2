@@ -1,0 +1,234 @@
+{
+ "SW2": {
+  "x": 30.0,
+  "y": -40.0,
+  "rot": 0.0,
+  "fp": "SW_Push_1P1T_XKB_TS-1187A",
+  "lib": "Button_Switch_SMD",
+  "side": "F"
+ },
+ "J9": {
+  "x": 14.6795,
+  "y": 21.7506,
+  "rot": -45.0,
+  "fp": "MP62_MCIO_124P_RA_SFF-TA-1016",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "H2": {
+  "x": 49.0,
+  "y": 0.0,
+  "rot": 0.0,
+  "fp": "MountingHole_4mm_Pad",
+  "lib": "MountingHole",
+  "side": "F"
+ },
+ "U11": {
+  "x": 8.95,
+  "y": -3.5,
+  "rot": 0.0,
+  "fp": "MP62_AREA_Redriver_DS320PR810_12x8_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "Y1": {
+  "x": -2.6,
+  "y": 6.0,
+  "rot": 0.0,
+  "fp": "Crystal_SMD_3225-4Pin_3.2x2.5mm",
+  "lib": "Crystal",
+  "side": "F"
+ },
+ "U2": {
+  "x": -9.0,
+  "y": 6.0,
+  "rot": 0.0,
+  "fp": "WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4.3mm",
+  "lib": "Package_SON",
+  "side": "F"
+ },
+ "U12": {
+  "x": 8.95,
+  "y": 6.0,
+  "rot": 0.0,
+  "fp": "MP62_AREA_Redriver_DS320PR810_12x8_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "D4": {
+  "x": 37.5,
+  "y": -42.0,
+  "rot": 0.0,
+  "fp": "LED_0603_1608Metric",
+  "lib": "LED_SMD",
+  "side": "F"
+ },
+ "J7": {
+  "x": -22.25,
+  "y": -30.0,
+  "rot": 0.0,
+  "fp": "MP62_M2_2242_MKey_SATA_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "J1": {
+  "x": 0.0,
+  "y": -12.6,
+  "rot": 180.0,
+  "fp": "MP62_CPULINK_MiniCoolEdge_224P_Vertical_SMT_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "H1": {
+  "x": -49.0,
+  "y": 0.0,
+  "rot": 0.0,
+  "fp": "MountingHole_4mm_Pad",
+  "lib": "MountingHole",
+  "side": "F"
+ },
+ "D3": {
+  "x": 37.5,
+  "y": -39.0,
+  "rot": 0.0,
+  "fp": "LED_0603_1608Metric",
+  "lib": "LED_SMD",
+  "side": "F"
+ },
+ "J3": {
+  "x": 42.5,
+  "y": 13.5,
+  "rot": 45.0,
+  "fp": "JST_GH_BM15B-GHS-TBT_1x15-1MP_P1.25mm_Vertical",
+  "lib": "Connector_JST",
+  "side": "F"
+ },
+ "SW1": {
+  "x": 30.5,
+  "y": -34.0,
+  "rot": 0.0,
+  "fp": "SW_Push_1P1T_XKB_TS-1187A",
+  "lib": "Button_Switch_SMD",
+  "side": "F"
+ },
+ "U3": {
+  "x": -7.5,
+  "y": 49.0,
+  "rot": 0.0,
+  "fp": "VSSOP-8_3x3mm_P0.65mm",
+  "lib": "Package_SO",
+  "side": "F"
+ },
+ "U14": {
+  "x": -16.85,
+  "y": -3.5,
+  "rot": 0.0,
+  "fp": "MP62_AREA_Redriver_DS320PR810_12x8_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "J2": {
+  "x": -17.5,
+  "y": -46.08,
+  "rot": 0.0,
+  "fp": "Molex_Micro-Fit_3.0_43045-0812_2x04_P3.00mm_Vertical",
+  "lib": "Connector_Molex",
+  "side": "F"
+ },
+ "U4": {
+  "x": -30.0,
+  "y": -38.0,
+  "rot": 0.0,
+  "fp": "VSSOP-8_3x3mm_P0.65mm",
+  "lib": "Package_SO",
+  "side": "F"
+ },
+ "U10": {
+  "x": -3.95,
+  "y": -3.5,
+  "rot": 0.0,
+  "fp": "MP62_AREA_Redriver_DS320PR810_12x8_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "U13": {
+  "x": 21.85,
+  "y": -3.5,
+  "rot": 0.0,
+  "fp": "MP62_AREA_Redriver_DS320PR810_12x8_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "U1": {
+  "x": 0.0,
+  "y": 15.3,
+  "rot": 0.0,
+  "fp": "QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+  "lib": "Package_DFN_QFN",
+  "side": "F"
+ },
+ "PS1": {
+  "x": -37.3,
+  "y": -24.5,
+  "rot": 0.0,
+  "fp": "MP62_AREA_StandbyPower_22x12_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "J6": {
+  "x": 11.4,
+  "y": -48.8,
+  "rot": 180.0,
+  "fp": "JST_GH_BM15B-GHS-TBT_1x15-1MP_P1.25mm_Vertical",
+  "lib": "Connector_JST",
+  "side": "F"
+ },
+ "J4": {
+  "x": -2.5,
+  "y": 43.5,
+  "rot": 45.0,
+  "fp": "JST_GH_BM15B-GHS-TBT_1x15-1MP_P1.25mm_Vertical",
+  "lib": "Connector_JST",
+  "side": "F"
+ },
+ "D1": {
+  "x": 37.5,
+  "y": -33.0,
+  "rot": 0.0,
+  "fp": "LED_0603_1608Metric",
+  "lib": "LED_SMD",
+  "side": "F"
+ },
+ "D2": {
+  "x": 37.5,
+  "y": -36.0,
+  "rot": 0.0,
+  "fp": "LED_0603_1608Metric",
+  "lib": "LED_SMD",
+  "side": "F"
+ },
+ "J8": {
+  "x": -40.0,
+  "y": -34.0,
+  "rot": 0.0,
+  "fp": "JST_SH_BM04B-SRSS-TB_1x04-1MP_P1.00mm_Vertical",
+  "lib": "Connector_JST",
+  "side": "F"
+ },
+ "J10": {
+  "x": -19.2757,
+  "y": 12.2047,
+  "rot": 45.0,
+  "fp": "MP62_MCIO_124P_RA_SFF-TA-1016",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ },
+ "PS2": {
+  "x": 38.0,
+  "y": -24.5,
+  "rot": 0.0,
+  "fp": "MP62_AREA_MainPower_20x12_PLACEHOLDER",
+  "lib": "MP62_Placeholders",
+  "side": "F"
+ }
+}

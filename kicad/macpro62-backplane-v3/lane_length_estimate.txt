@@ -1,0 +1,22 @@
+BP lane length estimate fp6, faces 45/135 deg (J1 at y=-12.6 -> redriver area -> RA MCIO pad), octilinear x 1.15, mm
+Face P lane  0:  52.6 mm
+Face P lane  1:  53.4 mm
+Face P lane  2:  55.3 mm
+Face P lane  3:  56.9 mm
+Face P lane  4:  37.6 mm
+Face P lane  5:  39.9 mm
+Face P lane  6:  42.6 mm
+Face P lane  7:  46.5 mm
+Face P lane  8:  46.7 mm
+Face P lane  9:  49.0 mm
+Face P lane 10:  51.3 mm
+Face P lane 11:  55.6 mm
+Face P lane 12:  58.1 mm
+Face P lane 13:  63.6 mm
+Face P lane 14:  68.5 mm
+Face P lane 15:  74.0 mm
+Face S lane  0:  34.3 mm
+Face S lane  1:  31.1 mm
+Face S lane  2:  29.9 mm
+Face S lane  3:  31.1 mm
+Face P: min 37.6 / max 74.0 / mean 53.2 mm;  Face S: min 29.9 / max 34.3 mm

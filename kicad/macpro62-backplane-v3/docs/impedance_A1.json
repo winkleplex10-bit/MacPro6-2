@@ -1,0 +1,30 @@
+[
+ {
+  "case": "L1 PCIe RX 85R",
+  "w": 0.26,
+  "gap": 0.125,
+  "zdiff": 83.1,
+  "eeff": 3.26
+ },
+ {
+  "case": "L3 PCIe TX 85R",
+  "w": 0.21,
+  "gap": 0.127,
+  "zdiff": 86.4,
+  "eeff": 4.47
+ },
+ {
+  "case": "L4 RX0/breakout 85R",
+  "w": 0.26,
+  "gap": 0.125,
+  "zdiff": 83.1,
+  "eeff": 3.26
+ },
+ {
+  "case": "L1 USB2/SATA 90R",
+  "w": 0.24,
+  "gap": 0.15,
+  "zdiff": 90.0,
+  "eeff": 3.24
+ }
+]

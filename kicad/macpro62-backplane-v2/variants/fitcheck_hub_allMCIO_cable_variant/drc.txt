@@ -1,0 +1,25 @@
+** Drc report for hub_fitcheck.kicad_pcb **
+** Created on 2026-10-01T12:08:50-0400 **
+
+** Found 5 DRC violations **
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(168.5221 mm, 51.0336 mm): Polygon of J3 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(150.0000 mm, 121.0000 mm): Reference field of J1B
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(128.8500 mm, 124.5000 mm): Rectangle of J1B on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(110.3279 mm, 87.6664 mm): Polygon of J4 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(128.8500 mm, 139.5000 mm): Rectangle of J1 on F.Silkscreen
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

@@ -1,0 +1,150 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "52000609-447c-4373-9b14-f304399591f8")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: USB 10G hub (U16 VL822-Q7)")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_USB_HUB"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_USB_HUB"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_USB_HUB_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -6.35)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_USB_HUB_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "USB10G_P21_4" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "USB10G_HUB_DS1_4" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "3V3_S0" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "USB10G_P21_4"
+		(shape input)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "3028adcb-c37c-4cad-81cf-fb6ba6085703")
+	)
+	(hierarchical_label "USB10G_HUB_DS1_4"
+		(shape output)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "9ca229df-2784-4c78-89af-d85097ef18e3")
+	)
+	(hierarchical_label "3V3_S0"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "942c20e4-942b-4746-8a50-428294d60ee5")
+	)
+	(symbol
+		(lib_id "MP62:STUB_USB_HUB")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "11dbe01e-30be-45ff-a2d6-53203a9dcded")
+		(property "Reference" "#BLK5"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_USB_HUB"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "6b927712-2d44-4222-a398-54544b046163")
+		)
+		(pin "2"
+			(uuid "e197b8fb-0de5-4ed6-9399-c877f187ef79")
+		)
+		(pin "3"
+			(uuid "c4b60a05-07e9-464e-b6d7-1a0575f2ec7b")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/691ee5ed-04d0-497b-a355-b0721897658f"
+					(reference "#BLK5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "e7582212-985c-412b-b8df-a2005a0d8832")
+	)
+	(text "- U16 VIA Labs VL822-Q7 USB 3.2 Gen2 1:4 hub, QFN-76 9x9 (LCSC C42419379); alt Genesys GL3590"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "215b7d54-b23d-4c5c-af50-141dfea8f4e7")
+	)
+	(text "- Upstream = PROM21 10G #4; downstream 1-4 = J3 USB3_A1..A4 (the IOB redriver side unchanged); A1-A4 share 10 Gb/s"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "a42a3ee6-f6e0-4325-a1be-65535918741e")
+	)
+	(text "- Needed because 7000/9000 (CPU USB 10G ports) + PROM21 (6 x 10G) < 10 ports the IOB needs (C1-C6 + A1-A4)"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "3b198bb9-570b-4145-b6b9-afd02e92e3d7")
+	)
+	(text "- Own SPI flash + 25 MHz crystal; bypass option with Ryzen 7000/9000 (4 native 10G) TBD"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "cdffa66d-dfc6-458f-81cd-e290a6c5f1bf")
+	)
+)

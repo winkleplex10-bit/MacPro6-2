@@ -1,0 +1,85 @@
+(footprint "MP62_M2_Standoff_SMT_M2_Pad5.0"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "SMT M2 threaded standoff for M.2 card retention (YIYUAN SMTSO-M2 class, e.g. SMTSOM225BTR C5301773 is 2.5 mm tall; height must equal the socket card-bottom height, ~3.5 mm for H4.2 - VERIFY). Round SMD pad D5.0 (blind standoff, no hole).")
+	(tags "M.2 standoff SMT M2")
+	(property "Reference" "REF**"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "f9800978-4043-44d1-98b6-2eb90445b463")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "M.2 2242 standoff pad (DNP option)"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a96576cd-f7f7-496d-ab2f-8e79042374f8")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4445e5cb-8d57-4a35-856a-582df7339f2a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c2d279a2-d812-4b15-9a2a-de5918cb7a13")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd exclude_from_pos_files exclude_from_bom dnp)
+	(fp_circle
+		(center 0 0)
+		(end 2.75 0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "b61c83cd-26a2-4829-bf6a-f770e110266f")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 2.5 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "03d67a9a-16b2-4af9-8707-b116c38d765a")
+	)
+	(pad "1" smd circle
+		(at 0 0)
+		(size 5 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "2b3268d8-4f9a-448b-acd0-0e21d2d13245")
+	)
+	(embedded_fonts no)
+)

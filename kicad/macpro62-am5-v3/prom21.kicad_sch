@@ -1,0 +1,432 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "733c76df-2642-4373-a96d-250172297350")
+	(paper "A4")
+	(title_block
+		(title "MP62 AM5 CPU board: PROM21 chipset (218-0891025 preferred)")
+		(date "2026-10-04")
+		(rev "A-am5-bd0")
+		(comment 1 "Block stub: hierarchical labels + one non-BOM stub symbol (#BLKn, passive pins) so ERC sees the nets; circuit TBD")
+	)
+	(lib_symbols
+		(symbol "MP62:STUB_PROM21"
+			(pin_names (offset 1.016))
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board no)
+			(property "Reference" "#BLK"
+				(at 2.54 2.54 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Value" "STUB_PROM21"
+				(at 2.54 3.81 0)
+				(effects (font (size 1.27 1.27)) (justify left))
+			)
+			(property "Footprint" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Datasheet" ""
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(property "Description" "Non-BOM block stub: one passive pin per hierarchical label (ERC anchor)"
+				(at 2.54 0.00 0)
+				(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+			)
+			(symbol "STUB_PROM21_0_1"
+				(rectangle (start 2.54 1.27) (end 25.4 -52.07)
+					(stroke (width 0.254) (type default))
+					(fill (type background))
+				)
+			)
+			(symbol "STUB_PROM21_1_1"
+				(pin passive line
+					(at 0 0.00 0)
+					(length 2.54)
+					(name "PCIE_PROM21_X4" (effects (font (size 1.0 1.0))))
+					(number "1" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 2.54)
+					(name "GPP_CLK_PROM21" (effects (font (size 1.0 1.0))))
+					(number "2" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 2.54)
+					(name "PCIE_RST_L" (effects (font (size 1.0 1.0))))
+					(number "3" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 2.54)
+					(name "PROM21_RAILS" (effects (font (size 1.0 1.0))))
+					(number "4" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 2.54)
+					(name "PCIE_PROM21_M2_X4" (effects (font (size 1.0 1.0))))
+					(number "5" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -12.70 0)
+					(length 2.54)
+					(name "PROM21_CLK_M2" (effects (font (size 1.0 1.0))))
+					(number "6" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -15.24 0)
+					(length 2.54)
+					(name "USB10G_P21_0_3" (effects (font (size 1.0 1.0))))
+					(number "7" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -17.78 0)
+					(length 2.54)
+					(name "USB10G_P21_4" (effects (font (size 1.0 1.0))))
+					(number "8" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -20.32 0)
+					(length 2.54)
+					(name "USB2_P21_MCU" (effects (font (size 1.0 1.0))))
+					(number "9" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -22.86 0)
+					(length 2.54)
+					(name "USB2_P21_FACEP" (effects (font (size 1.0 1.0))))
+					(number "10" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -25.40 0)
+					(length 2.54)
+					(name "USB2_P21_FACES" (effects (font (size 1.0 1.0))))
+					(number "11" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -27.94 0)
+					(length 2.54)
+					(name "USB2_HS1" (effects (font (size 1.0 1.0))))
+					(number "12" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -30.48 0)
+					(length 2.54)
+					(name "PCIE_I226_X1" (effects (font (size 1.0 1.0))))
+					(number "13" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -33.02 0)
+					(length 2.54)
+					(name "PCIE_I226B_X1" (effects (font (size 1.0 1.0))))
+					(number "14" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -35.56 0)
+					(length 2.54)
+					(name "I226_REFCLK" (effects (font (size 1.0 1.0))))
+					(number "15" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -38.10 0)
+					(length 2.54)
+					(name "I226B_REFCLK" (effects (font (size 1.0 1.0))))
+					(number "16" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -40.64 0)
+					(length 2.54)
+					(name "I226_CLKREQ_L" (effects (font (size 1.0 1.0))))
+					(number "17" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -43.18 0)
+					(length 2.54)
+					(name "I226B_CLKREQ_L" (effects (font (size 1.0 1.0))))
+					(number "18" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -45.72 0)
+					(length 2.54)
+					(name "I226_PERST_L" (effects (font (size 1.0 1.0))))
+					(number "19" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -48.26 0)
+					(length 2.54)
+					(name "SATA0" (effects (font (size 1.0 1.0))))
+					(number "20" (effects (font (size 1.0 1.0))))
+				)
+				(pin passive line
+					(at 0 -50.80 0)
+					(length 2.54)
+					(name "USB_OC_L" (effects (font (size 1.0 1.0))))
+					(number "21" (effects (font (size 1.0 1.0))))
+				)
+			)
+		)
+	)
+	(hierarchical_label "PCIE_PROM21_X4"
+		(shape bidirectional)
+		(at 38.1 30.48 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "d9e1cdad-b6b7-4541-bc7c-5a95df1df0af")
+	)
+	(hierarchical_label "GPP_CLK_PROM21"
+		(shape input)
+		(at 38.1 33.02 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "ebbd5481-d62e-439e-bb8b-09e4d925b78a")
+	)
+	(hierarchical_label "PCIE_RST_L"
+		(shape input)
+		(at 38.1 35.56 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "80bbc9be-c4f2-439b-b042-326d074289a9")
+	)
+	(hierarchical_label "PROM21_RAILS"
+		(shape input)
+		(at 38.1 38.10 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "6f63d064-8fe8-4224-be8b-791e1ed49e1b")
+	)
+	(hierarchical_label "PCIE_PROM21_M2_X4"
+		(shape output)
+		(at 38.1 40.64 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "8433bf6a-2ccd-4d7e-b5ed-8a079381bf56")
+	)
+	(hierarchical_label "PROM21_CLK_M2"
+		(shape output)
+		(at 38.1 43.18 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "e1233ca4-dc5b-439c-a113-d649d47d5483")
+	)
+	(hierarchical_label "USB10G_P21_0_3"
+		(shape output)
+		(at 38.1 45.72 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "9159cef2-bfd7-4671-8781-0da05b42ae29")
+	)
+	(hierarchical_label "USB10G_P21_4"
+		(shape output)
+		(at 38.1 48.26 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "5f1b790d-5a68-457d-9285-33cbd9f4e206")
+	)
+	(hierarchical_label "USB2_P21_MCU"
+		(shape bidirectional)
+		(at 38.1 50.80 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "9fc4be3b-689f-4b5b-b4b9-13712cbe1ac2")
+	)
+	(hierarchical_label "USB2_P21_FACEP"
+		(shape bidirectional)
+		(at 38.1 53.34 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "76ee7c31-f146-4580-bc85-60110183cbd0")
+	)
+	(hierarchical_label "USB2_P21_FACES"
+		(shape bidirectional)
+		(at 38.1 55.88 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "7221247a-b7bf-4d80-b25c-cfafecd43910")
+	)
+	(hierarchical_label "USB2_HS1"
+		(shape bidirectional)
+		(at 38.1 58.42 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "af7c52da-5ad7-4f35-aa0e-4ab655c035cf")
+	)
+	(hierarchical_label "PCIE_I226_X1"
+		(shape output)
+		(at 38.1 60.96 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "f505ce4b-7e55-4a8c-885d-b76b881169f6")
+	)
+	(hierarchical_label "PCIE_I226B_X1"
+		(shape output)
+		(at 38.1 63.50 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "90f41141-f03b-45eb-967f-83f63edc0643")
+	)
+	(hierarchical_label "I226_REFCLK"
+		(shape output)
+		(at 38.1 66.04 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "1d8dcd17-f97f-44e0-a9b7-5e0dd725df36")
+	)
+	(hierarchical_label "I226B_REFCLK"
+		(shape output)
+		(at 38.1 68.58 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "67631755-49e2-48d6-91a2-f692e9eafe97")
+	)
+	(hierarchical_label "I226_CLKREQ_L"
+		(shape bidirectional)
+		(at 38.1 71.12 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "aa93c08a-d331-4132-bd65-55fe0e0fa69a")
+	)
+	(hierarchical_label "I226B_CLKREQ_L"
+		(shape bidirectional)
+		(at 38.1 73.66 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "c2ae0115-cb6c-459e-890b-b9105a2f3589")
+	)
+	(hierarchical_label "I226_PERST_L"
+		(shape output)
+		(at 38.1 76.20 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "50513898-726b-43d9-b57d-8a702bdf3961")
+	)
+	(hierarchical_label "SATA0"
+		(shape bidirectional)
+		(at 38.1 78.74 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "32c5d477-7d74-405e-8ea3-4567e78a563f")
+	)
+	(hierarchical_label "USB_OC_L"
+		(shape input)
+		(at 38.1 81.28 180)
+		(effects (font (size 1.27 1.27)) (justify right))
+		(uuid "71bace30-53f1-4b7e-a80a-a8e1c1813840")
+	)
+	(symbol
+		(lib_id "MP62:STUB_PROM21")
+		(at 38.1 30.48 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "99f285e8-8cf5-4099-959f-bab9c19fc82f")
+		(property "Reference" "#BLK4"
+			(at 40.64 27.94 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(property "Value" "STUB_PROM21"
+			(at 40.64 26.67 0)
+			(effects (font (size 1.27 1.27)) (justify left) (hide yes))
+		)
+		(pin "1"
+			(uuid "3968fd30-085e-471b-9fcc-c5f19d255f32")
+		)
+		(pin "2"
+			(uuid "988db6a6-9b91-4a3a-8d14-7e19924b241d")
+		)
+		(pin "3"
+			(uuid "509e678b-3038-48e6-badc-6ddee4bf031c")
+		)
+		(pin "4"
+			(uuid "e5804809-ff2b-416d-8bf0-34b93757e5b7")
+		)
+		(pin "5"
+			(uuid "31b9ef22-0ba8-4cda-a6cb-b1e40386417d")
+		)
+		(pin "6"
+			(uuid "920d979a-be7c-4a91-9fcc-01deb08be35f")
+		)
+		(pin "7"
+			(uuid "a73b2f07-3b37-4cf3-b739-6a53f39cb19e")
+		)
+		(pin "8"
+			(uuid "22b7cc6d-0f7e-4d59-b72d-995c323af939")
+		)
+		(pin "9"
+			(uuid "e2acb07e-b0b6-4d68-b5c3-9e90103fc93d")
+		)
+		(pin "10"
+			(uuid "7b6005d8-f8a9-442a-bbf8-59f4220a40b5")
+		)
+		(pin "11"
+			(uuid "f0b92678-b3e6-40ca-990e-e9b606128f81")
+		)
+		(pin "12"
+			(uuid "273b3df3-4f35-4cc7-9fe5-5c1f52cc8887")
+		)
+		(pin "13"
+			(uuid "6d7411af-8eee-45d0-bbb0-5d3d57e7e977")
+		)
+		(pin "14"
+			(uuid "6fdc92be-1073-40db-bb01-0707f7376def")
+		)
+		(pin "15"
+			(uuid "14d9cb5c-eb4e-4f8c-8f9f-fad9ff96a9f1")
+		)
+		(pin "16"
+			(uuid "9701fe7b-03e4-43d9-8ab5-8421be439602")
+		)
+		(pin "17"
+			(uuid "4d7ecfb4-9962-4648-9233-0db99d055ccf")
+		)
+		(pin "18"
+			(uuid "67936635-1b60-4f25-900f-03e631d5432a")
+		)
+		(pin "19"
+			(uuid "fa94f368-f4a8-40d7-8bc5-c8d2a2b1915d")
+		)
+		(pin "20"
+			(uuid "35999e1a-c8f3-4055-8138-10e71b02724a")
+		)
+		(pin "21"
+			(uuid "f5297e52-91e4-4f20-87cf-ca0a137c62ca")
+		)
+		(instances
+			(project "macpro62_am5"
+				(path "/6a1c2d3e-0000-4000-8000-0000000a0005/9690ba14-447b-44fc-98d6-f983dab5c45c"
+					(reference "#BLK4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "BLOCK STUB (rev A block diagram). Contents planned:"
+		(exclude_from_sim no)
+		(at 76.20 30.48 0)
+		(effects (font (size 1.5 1.5)) (justify left bottom))
+		(uuid "a03f0054-b978-4fe4-b5e3-45bee72e7c93")
+	)
+	(text "- U2 AMD Promontory 21 (B650/B850-class, single chip), FCBGA 19 x 19, ~7 W; 218-0891025 preferred over 218-0891018 (cost study sec. 10)"
+		(exclude_from_sim no)
+		(at 76.20 35.56 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "f21a0cbc-f812-4fdd-9eed-f6ef50dbabbc")
+	)
+	(text "- Uplink PCIe 4.0 x4 from the CPU; downstream: 10G USB x6 + 20G x1 class, USB2, SATA x4 class, PCIe 4.0/3.0 x1..x4 (B850 table)"
+		(exclude_from_sim no)
+		(at 76.20 39.37 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "f9df4e1d-c935-4ea2-877d-6ac380a286e7")
+	)
+	(text "- Uses: 10G #0-3 -> J3 C3-C6, 10G #4 -> U16 VL822 hub (A1-A4), 10G #5 + 20G spare; USB2 -> J1 MCU/FACEP/FACES + J3 HS1"
+		(exclude_from_sim no)
+		(at 76.20 43.18 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "2007f659-f7fb-4b38-9941-ec4245fc8cfb")
+	)
+	(text "- PCIe x1 -> IOB i226 #1, x1 -> IOB ASM1182e (i226 #2 + AirPort); v3: free Gen4 x4 -> J8 M.2 boot; SATA0 -> J1 (BP OpenCore M.2)"
+		(exclude_from_sim no)
+		(at 76.20 46.99 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "7962c512-52e7-46a8-b4ef-b01ee96149c6")
+	)
+	(text "- Own SPI flash U17 (image from a retail board BIOS [Unverified]); REFCLK/PERST/CLKREQ for its downstream ports [Unverified]"
+		(exclude_from_sim no)
+		(at 76.20 50.80 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "fd5ae06a-0604-45d6-a37a-ea331f62eab7")
+	)
+	(text "- Ballout, rails and strapping are AMD NDA -> open item"
+		(exclude_from_sim no)
+		(at 76.20 54.61 0)
+		(effects (font (size 1.27 1.27)) (justify left bottom))
+		(uuid "5b378f7e-33d5-4dfe-b98f-c5d351a6a758")
+	)
+)

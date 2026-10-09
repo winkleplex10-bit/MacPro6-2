@@ -1,0 +1,13 @@
+import sys, re; sys.path.insert(0, "../tools")
+import bp_fix as F, pcbnew
+src, dst, first, protect = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+F.HS = re.compile(F.HS.pattern + "|" + protect)
+b = pcbnew.LoadBoard(src); g = F.Grid(b)
+F.RIP = True; F.RIPPED.clear()
+a, ok = F.route_net(g, first); rp = dict(F.RIPPED); print(first, ok, len(a), "ripped", rp)
+F.RIP = False; fails = []
+for n in rp:
+    a, ok2 = F.route_net(g, n); print(" reroute", n, ok2, len(a))
+    if not ok2: fails.append(n)
+print("fails", fails)
+pcbnew.SaveBoard(dst, b); print("saved", dst, "ok" if ok and not fails else "FAIL")

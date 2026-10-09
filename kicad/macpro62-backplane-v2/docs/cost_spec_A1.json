@@ -1,0 +1,39 @@
+{
+ "old_group": "Backplane / base board (BP, HUB fp5)",
+ "group": "Backplane / base board (BP, HUB fp5)",
+ "board_row": "| Backplane (HUB fp5) | `macpro62-backplane/backplane.kicad_pcb` | 122.1 mm round (117 cm² real) | 149 cm² | **4L**, 1.6 mm, JLC04161H-7628, ENIG | PCIe 85 Ω (L1 83.1 / L3 86.4 Ω), USB2/SATA 90 Ω | 0.15 / 0.10 signal, vias 0.45 / 0.25 | F only | 152 footprints (140 JLC-placed, 9 DNP), 44 BOM lines | **Rev A1: routed 4L, DRC 0 / 0 unconnected / parity 0, ERC 0** (2026-10-04) |",
+ "items": [
+  [
+   "",
+   "PCB fab: 4L JLC04161H-7628, 122.1 mm round (bbox 149 cm2), 1.6 mm, ENIG, impedance 85/90 ohm (rev A1, was 6L JLC06161H-2116)",
+   25,
+   45,
+   25,
+   45,
+   "pcb",
+   "JLC 4L ~$91/m2 batch + impedance/ENIG adders, 5 pcs (q1 = q5, same order) [Estimate]"
+  ],
+  [
+   "",
+   "PCBA fees: Economic, single-sided (all parts on F), 44 BOM lines (~16 extended), ~830 SMT joints; Mini Cool Edge 224 + 2 x MCIO124 SMT, Micro-Fit THT hand-solder",
+   45,
+   70,
+   60,
+   90,
+   "pcb",
+   "JLC Economic: setup $8.18, stencil $1.53, $1.53 per extended part, $0.0017/joint (fee table 2026-09-09)"
+  ],
+  [
+   "",
+   "Components (~$35-52/board): Amphenol ME1022410103011 Mini Cool Edge 224 (brokers $6.14-10.08), 2 x MCIO124 RA (0 LCSC stock), RP2350B, W25Q128, INA226 C49851 $0.76 (was INA228 $6.24-6.38, 0 stock), 2 x TMP1075, 3 x GH15, Micro-Fit, 2 x TPS563201 bucks, ~100 passives; M.2 2242 socket DNP",
+   75,
+   115,
+   175,
+   260,
+   "pcb",
+   "LCSC 2026-10-04; brokers for ME1022410103011; x2 (q1) / x5 (q5) + attrition [Estimate]"
+  ]
+ ],
+ "log_title": "6a. Backplane rev A1 cost-down (done 2026-10-04)",
+ "log_md": "Rev A1 of `macpro62-backplane` (routed 2026-10-04). The BP lines in §3 now use these values. Per-order savings, q1 (2 boards) / q5 (5 boards):\n\n| # | Change | Old | New | Saving q1 / q5 | Status |\n|---|---|---|---|---|---|\n| 1 | Stackup 6L JLC06161H-2116 → **4L JLC04161H-7628** (1.6 mm, ENIG; L1 RX / L2 GND / L3 TX + 3V3_SB plane / L4 GND+breakout; impedance L1 83.1 Ω, L3 86.4 Ω, USB 90 Ω) | fab $50–80 | $25–45 | $25–35 / $25–35 | done, DRC 0 |\n| 2 | PCBA Standard → **Economic**, single-sided (all SMT on F; Micro-Fit THT) | $145–190 / $185–245 | $45–70 / $60–90 | ≈ $100–120 / $125–155 | done; confirm Economic accepts the Mini Cool Edge 224 + MCIO (pre-order parts, 0 LCSC stock) |\n| 3 | INA228 (C2887910, $6.24–6.38, 0 stock) → **INA226** (C49851, $0.76, 38,645 stock) | | | ≈ $11 / $27 | **needs Aidan's approval** |\n| 4 | M.2 2242 socket J7 + its switch/caps (Q3, Q4, R9, R10, C17, C18) **DNP** (footprints kept) | | | ≈ $3–5 / $6–12 (parts + 1–2 extended feeders) | **needs approval** (BIOS/OpenCore boot location) |\n| 5 | USB FS series R 27 Ω (extended) → **33 Ω basic** (R33 line merged) | | | $1.53 / $1.53 (feeder fee) | **needs approval** |\n| 6 | Power-block placeholders → 2 × TPS563201 buck + merged 3V3_SB rail; RP2350B MCU (cheapest MCU with enough GPIO) | | | in the component line | done |\n| 7 | Gen5 redrivers (5 × DS320PR810) **removed from the A1 layout** (loss budget: Gen4 9.5–16.8 dB of 28 dB) | option ≈ $95–115/board | $0 | not in the baseline (avoided option) | done |\n\nBP total: **q1 $285–450 → $145–230** (−$140–220); **q5 $450–750 → $260–395** (−$190–355); per machine (q5) $90–150 → $52–79.\nIf the board ever has to go back to 6 layers: + $25–35 per order (fab only; Economic PCBA still applies). Not needed: rev A1 routes on 4 layers with DRC 0 / 0 unconnected.\n\nRP2350B GPIO re-assignment in rev A1 (pin swaps for routability) **needs a firmware pin-map update** before bring-up; flagged for Aidan's approval with the INA226, J7 DNP, BIOS/OpenCore location, R27→R33 and U1/Y1/U2 moves."
+}

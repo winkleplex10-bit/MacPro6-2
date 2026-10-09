@@ -1,0 +1,125 @@
+cb_contact,iob_hs1_contact,signal,dir,notes_lga1700,cb_source_am5 (DRAFT),delta_vs_ICD
+A1,B1,GND,,,,SAME
+B1,A1,GND,,,,SAME
+A2,B2,USB3_C1_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-C C1 (PCH USB3 port 1),CPU native USB 3.2 Gen2 port 0 RX (USB-C C1),REMAP
+B2,A2,USB3_C1_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-C C1 (PCH USB3 port 1),CPU native USB 3.2 Gen2 port 0 TX (USB-C C1),REMAP
+A3,B3,USB3_C1_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-C C1 (PCH USB3 port 1),CPU native USB 3.2 Gen2 port 0 RX (USB-C C1),REMAP
+B3,A3,USB3_C1_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-C C1 (PCH USB3 port 1),CPU native USB 3.2 Gen2 port 0 TX (USB-C C1),REMAP
+A4,B4,GND,,,,SAME
+B4,A4,GND,,,,SAME
+A5,B5,USB3_C2_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C2 (port 2),CPU native USB 3.2 Gen2 port 1 RX (USB-C C2),REMAP
+B5,A5,USB3_C2_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C2 (port 2),CPU native USB 3.2 Gen2 port 1 TX (USB-C C2),REMAP
+A6,B6,USB3_C2_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C2 (port 2),CPU native USB 3.2 Gen2 port 1 RX (USB-C C2),REMAP
+B6,A6,USB3_C2_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C2 (port 2),CPU native USB 3.2 Gen2 port 1 TX (USB-C C2),REMAP
+A7,B7,GND,,,,SAME
+B7,A7,GND,,,,SAME
+A8,B8,I226_CLKREQ#,IOB->CB,i226 CLKREQ# (OD),PROM21 downstream CLKREQ# for the i226 #1 port,REMAP
+B8,A8,HPD_B,IOB->CB,"DDI-B hot-plug (3.3 V, from PD #3 port A HPD GPIO)",APU DP0 HPD input (3.3 V from IOB PD #3; level/5V-tolerance TBD),REMAP
+A9,B9,I226_WAKE#,IOB->CB,"PE_WAKE# of i226 #1 and #2, wired-OR (OD) (v0.2)",FCH WAKE_L (wired-OR; no WoL in rev A),REMAP
+B9,A9,HPD_C,IOB->CB,DDI-C hot-plug (PD #3 port B),APU DP1 HPD input,REMAP
+A10,B10,GND,,,,SAME
+B10,A10,GND,,,,SAME
+A11,B11,I226_REFCLK+,CB->IOB,PCH CLKOUT_PCIE pair for the i226,PROM21 downstream REFCLK out [Unverified: PROM21 refclk outputs],REMAP
+B11,A11,I226_PERST#,CB->IOB,"PLTRST-derived PERST#, shared by i226 #1 and #2 (v0.2)",PROM21 downstream PERST# (or FCH PCIE_RST_L buffer),REMAP
+A12,B12,I226_REFCLK-,CB->IOB,,PROM21 downstream REFCLK out,REMAP
+B12,A12,IOB_HS_PRSNT0#,IOB->CB,IOB ties to GND (cable present),IOB ties to GND (cable present),SAME
+A13,B13,GND,,,,SAME
+B13,A13,GND,,,,SAME
+A14,B14,USB3_C3_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C3 (port 3),PROM21 USB 3.2 Gen2 port 0 RX (USB-C C3),REMAP
+B14,A14,USB3_C3_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C3 (port 3),PROM21 USB 3.2 Gen2 port 0 TX (USB-C C3),REMAP
+A15,B15,USB3_C3_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C3 (port 3),PROM21 USB 3.2 Gen2 port 0 RX (USB-C C3),REMAP
+B15,A15,USB3_C3_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C3 (port 3),PROM21 USB 3.2 Gen2 port 0 TX (USB-C C3),REMAP
+A16,B16,GND,,,,SAME
+B16,A16,GND,,,,SAME
+A17,B17,USB3_C4_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C4 (port 4),PROM21 USB 3.2 Gen2 port 1 RX (USB-C C4),REMAP
+B17,A17,USB3_C4_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C4 (port 4),PROM21 USB 3.2 Gen2 port 1 TX (USB-C C4),REMAP
+A18,B18,USB3_C4_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C4 (port 4),PROM21 USB 3.2 Gen2 port 1 RX (USB-C C4),REMAP
+B18,A18,USB3_C4_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C4 (port 4),PROM21 USB 3.2 Gen2 port 1 TX (USB-C C4),REMAP
+A19,B19,GND,,,,SAME
+B19,A19,GND,,,,SAME
+A20,B20,USB3_C5_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C5 (port 5),PROM21 USB 3.2 Gen2 port 2 RX (USB-C C5),REMAP
+B20,A20,USB3_C5_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C5 (port 5),PROM21 USB 3.2 Gen2 port 2 TX (USB-C C5),REMAP
+A21,B21,USB3_C5_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C5 (port 5),PROM21 USB 3.2 Gen2 port 2 RX (USB-C C5),REMAP
+B21,A21,USB3_C5_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C5 (port 5),PROM21 USB 3.2 Gen2 port 2 TX (USB-C C5),REMAP
+A22,B22,GND,,,,SAME
+B22,A22,GND,,,,SAME
+A23,B23,USB3_C6_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / C6 (port 6),PROM21 USB 3.2 Gen2 port 3 RX (USB-C C6),REMAP
+B23,A23,USB3_C6_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / C6 (port 6),PROM21 USB 3.2 Gen2 port 3 TX (USB-C C6),REMAP
+A24,B24,USB3_C6_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / C6 (port 6),PROM21 USB 3.2 Gen2 port 3 RX (USB-C C6),REMAP
+B24,A24,USB3_C6_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / C6 (port 6),PROM21 USB 3.2 Gen2 port 3 TX (USB-C C6),REMAP
+A25,B25,GND,,,,SAME
+B25,A25,GND,,,,SAME
+A26,B26,I226B_REFCLK+,CB->IOB,PCH CLKOUT_PCIE_SRC11 [Proposal] for i226 #2 (HCSL),PROM21 downstream REFCLK out #2,REMAP
+B26,A26,VBAT_RTC,IOB->CB,coin cell (IOB BT1) via 1k + BAT54 on the IOB; CB does the RTC diode-OR with 3V3_DSW + RC,IOB coin cell -> CB diode-OR with 3V3_S5 -> CPU (FCH) VBAT/RTC well; CB BT1 DNP,REMAP (sink)
+A27,B27,I226B_REFCLK-,CB->IOB,,PROM21 downstream REFCLK out #2,REMAP
+B27,A27,USB_OC#,IOB->CB,wire-OR of the 4 USB-A switch FLT# (to PCH OC0#),PROM21 USB_OC0_L (pull-up on the CB),REMAP
+A28,B28,GND,,,,SAME
+B28,A28,GND,,,,SAME
+A29,B29,USB2_HS1_DP,bi,"PCH USB2 port -> IOB hub H1 (uses the REFCLK1 pair, 85-100 ohm, OK for USB2)",PROM21 USB2 port -> IOB hub H1a,REMAP
+B29,A29,I226B_CLKREQ#,IOB->CB,i226 #2 CLKREQ# -> SRCCLKREQ11# (OD),PROM21 downstream CLKREQ# for the ASM1182e port,REMAP
+A30,B30,USB2_HS1_DN,bi,,PROM21 USB2 port -> IOB hub H1a,REMAP
+B30,A30,IOB_HS_PRSNT1#,IOB->CB,IOB ties to GND,IOB ties to GND,SAME
+A31,B31,GND,,,,SAME
+B31,A31,GND,,,,SAME
+A32,B32,USB3_A1_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-A A1 (port 7),U16 VL822-Q7 hub downstream port 1 RX (USB-A A1); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B32,A32,USB3_A1_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-A A1 (port 7),U16 VL822-Q7 hub downstream port 1 TX (USB-A A1); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A33,B33,USB3_A1_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / USB-A A1 (port 7),U16 VL822-Q7 hub downstream port 1 RX (USB-A A1); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B33,A33,USB3_A1_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / USB-A A1 (port 7),U16 VL822-Q7 hub downstream port 1 TX (USB-A A1); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A34,B34,GND,,,,SAME
+B34,A34,GND,,,,SAME
+A35,B35,USB3_A2_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / A2 (port 8),U16 VL822-Q7 hub downstream port 2 RX (USB-A A2); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B35,A35,USB3_A2_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / A2 (port 8),U16 VL822-Q7 hub downstream port 2 TX (USB-A A2); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A36,B36,USB3_A2_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / A2 (port 8),U16 VL822-Q7 hub downstream port 2 RX (USB-A A2); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B36,A36,USB3_A2_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / A2 (port 8),U16 VL822-Q7 hub downstream port 2 TX (USB-A A2); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A37,B37,GND,,,,SAME
+B37,A37,GND,,,,SAME
+A38,B38,GND,,,,SAME
+B38,A38,GND,,,,SAME
+A39,B39,USB3_A3_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / A3 (port 9),U16 VL822-Q7 hub downstream port 3 RX (USB-A A3); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B39,A39,USB3_A3_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / A3 (port 9),U16 VL822-Q7 hub downstream port 3 TX (USB-A A3); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A40,B40,USB3_A3_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / A3 (port 9),U16 VL822-Q7 hub downstream port 3 RX (USB-A A3); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B40,A40,USB3_A3_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / A3 (port 9),U16 VL822-Q7 hub downstream port 3 TX (USB-A A3); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A41,B41,GND,,,,SAME
+B41,A41,GND,,,,SAME
+A42,B42,USB3_A4_SSRX_P,IOB->CB,device->host RX (AC caps on IOB redriver side) / A4 (port 10),U16 VL822-Q7 hub downstream port 4 RX (USB-A A4); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B42,A42,USB3_A4_SSTX_P,CB->IOB,PCH USB3 TX (AC caps on CB) / A4 (port 10),U16 VL822-Q7 hub downstream port 4 TX (USB-A A4); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A43,B43,USB3_A4_SSRX_N,IOB->CB,device->host RX (AC caps on IOB redriver side) / A4 (port 10),U16 VL822-Q7 hub downstream port 4 RX (USB-A A4); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+B43,A43,USB3_A4_SSTX_N,CB->IOB,PCH USB3 TX (AC caps on CB) / A4 (port 10),U16 VL822-Q7 hub downstream port 4 TX (USB-A A4); hub upstream = PROM21 USB 10G port 4; A1-A4 share 10 Gb/s,REMAP (NEW hub)
+A44,B44,GND,,,,SAME
+B44,A44,GND,,,,SAME
+A45,B45,PCIE_I226_RX_P,IOB->CB,"i226 TX (AC caps on IOB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)",PROM21 PCIe Gen4 x1 (downstream lane TBD) RX -> IOB i226 #1,REMAP
+B45,A45,PCIE_I226_TX_P,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)",PROM21 PCIe Gen4 x1 (downstream lane TBD) TX -> IOB i226 #1,REMAP
+A46,B46,PCIE_I226_RX_N,IOB->CB,"i226 TX (AC caps on IOB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)",PROM21 PCIe Gen4 x1 (downstream lane TBD) RX -> IOB i226 #1,REMAP
+B46,A46,PCIE_I226_TX_N,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V PCIe x1 (PCH lane, PCH RP3 / HSIO 12, PCIe 3.0, CLKOUT_SRC12)",PROM21 PCIe Gen4 x1 (downstream lane TBD) TX -> IOB i226 #1,REMAP
+A47,B47,GND,,,,SAME
+B47,A47,GND,,,,SAME
+A48,B48,DDIB_ML1_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML1 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B48,A48,DDIB_ML0_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML0 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A49,B49,DDIB_ML1_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML1 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B49,A49,DDIB_ML0_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML0 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A50,B50,GND,,,,SAME
+B50,A50,GND,,,,SAME
+A51,B51,DDIB_ML3_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML3 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B51,A51,DDIB_ML2_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML2 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A52,B52,DDIB_ML3_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML3 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B52,A52,DDIB_ML2_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) ML2 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A53,B53,GND,,,,SAME
+B53,A53,GND,,,,SAME
+A54,B54,DDIC_ML1_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP1 (2 of 4 lanes) ML1 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B54,A54,DDIC_ML0_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP1 (2 of 4 lanes) ML0 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A55,B55,DDIC_ML1_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP1 (2 of 4 lanes) ML1 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B55,A55,DDIC_ML0_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP1 (2 of 4 lanes) ML0 (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A56,B56,GND,,,,SAME
+B56,A56,GND,,,,SAME
+A57,B57,PCIE_I226B_RX_P,IOB->CB,"i226 #2 TX (AC caps on IOB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)",PROM21 PCIe Gen4 x1 (downstream lane TBD) RX -> IOB ASM1182e (i226 #2 + AirPort),REMAP
+B57,A57,PCIE_I226B_TX_P,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)",PROM21 PCIe Gen4 x1 (downstream lane TBD) TX -> IOB ASM1182e (i226 #2 + AirPort),REMAP
+A58,B58,PCIE_I226B_RX_N,IOB->CB,"i226 #2 TX (AC caps on IOB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)",PROM21 PCIe Gen4 x1 (downstream lane TBD) RX -> IOB ASM1182e (i226 #2 + AirPort),REMAP
+B58,A58,PCIE_I226B_TX_N,CB->IOB,"PCH PCIe TX (AC caps on CB) / i226-V #2 PCIe x1: PCH RP4 / HSIO 13 (PCIe 3.0) - replaces DDI-C ML2/ML3 (v0.2, D-IO2)",PROM21 PCIe Gen4 x1 (downstream lane TBD) TX -> IOB ASM1182e (i226 #2 + AirPort),REMAP
+A59,B59,GND,,,,SAME
+B59,A59,GND,,,,SAME
+A60,B60,DDIC_AUX_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP1 (2 of 4 lanes) AUX (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B60,A60,DDIB_AUX_P,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) AUX (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A61,B61,DDIC_AUX_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP1 (2 of 4 lanes) AUX (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+B61,A61,DDIB_AUX_N,CB->IOB,"iGPU DDI (AC caps on CB, 75-200 nF)",APU display DP0 (4-lane) AUX (AC caps on the CB); AM5 display pin names under NDA [Unverified],REMAP
+A62,B62,GND,,,,SAME
+B62,A62,GND,,,,SAME
